@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.0.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd"
+	default-lazy-init="true">
+
+	<!-- 安全管理器 -->
+	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+		<property name="realm" ref="shiroDBRealm" />
+		<property name="cacheManager" ref="cacheManager" />
+	</bean>
+	<bean id="cacheManager" class="org.apache.shiro.cache.MemoryConstrainedCacheManager" />
+
+	<!-- shiro过滤器 -->
+	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+		<property name="securityManager" ref="securityManager" />
+		<property name="loginUrl" value="/login.action" />
+		<property name="successUrl" value="/welcome.action" />
+		<property name="unauthorizedUrl" value="/login.action" />
+		<property name="filterChainDefinitions">
+			<value>
+				/app/auditapplist.action = perms["app:auditAppList"]
+				/app/Initialapp.action = perms["app:firstCheck"]
+				/app/firstreject.action = perms["app:firstCheck"]
+				/app/recheck.action = perms["app:secondCheck"]
+				/app/recheckreject.action = perms["app:secondCheck"]
+				/app/deleteapp.action = perms["app:delete"]
+				/app/updateappdeploystatus.action = perms["app:publish"]
+				/app/getAppList.action = perms["app:appList"]
+				/app/getAppLog.action = perms["app:appLog"]
+				/app/getDisplayList.action = perms["app:publishAppList"]
+				/app/cancelAppDeploy.action = perms["app:cancelAppDeploy"]
+				/app/toUpdate.action = perms["app:updateAppDeploy"]
+
+				/app/check.action = perms["app:check"]
+				/app/logCheck.action = perms["app:logCheck"]
+				/app/identityCheck.action = perms["app:identityCheck"]
+				/app/maintenanceLogCheck.action = perms["app:maintenanceLogCheck"]
+				/app/getAppUserLogList.action = perms["app:getAppUserLogList"]
+				
+				/scene/list.action = perms["scene:list"]
+				/scene/detail.action = perms["scene:detail"]
+				
+				/cmsSolution/class/list.action = perms["cmsSolution:list"]
+				/cmsSolution/class/add.action = perms["cmsSolution:add"]
+				/cmsSolution/class/delete.action = perms["cmsSolution:delete"]
+				/cmsSolution/class/update.action = perms["cmsSolution:update"]
+				
+				/productApp/class/list.action = perms["productApp:list"]
+				/productApp/class/add.action = perms["productApp:add"]
+				/productApp/class/delete.action = perms["productApp:delete"]
+				/productApp/class/update.action = perms["productApp:update"]
+
+				/productApp/sub/list.action = perms["productPublish:list"]
+				/productApp/sub/toAdd.action = perms["productPublish:add"]
+				/productApp/sub/detail.action = perms["productPublish:list"]
+				/productApp/sub/toEdit.action = perms["productPublish:edit"]
+				/productApp/sub/delete.action = perms["productPublish:delete"]
+				/upload/cms/productDetail/*.html = perms["productPublish:list"]
+				/productApp/sub/modifyPublishType.action = perms["productPublishType:edit"]
+
+				/cmsSolution/sub/list.action = perms["systemPublish:list"]
+				/cmsSolution/sub/toAdd.action = perms["systemPublish:add"]
+				/cmsSolution/sub/detail.action = perms["systemPublish:list"]
+				/cmsSolution/sub/delete.action = perms["systemPublish:delete"]
+				/cmsSolution/sub/toEdit.action = perms["systemPublish:update"]
+				/cmsSolution/sub/modifyPublishType.action = perms["systemPublishType:update"]
+				/upload/cms/systemDetail/*.html = perms["systemPublish:list"]
+				
+				/product/class/toadd.action = perms["productClass:add"]
+				/product/class/add.action = perms["productClass:add"]
+				/product/class/delete.action = perms["productClass:delete"]
+				/product/class/toupdate.action = perms["productClass:edit"]
+				/product/class/update.action = perms["productClass:edit"]
+				/product/class/list.action = perms["productClass:list"]
+				/product/management/toadd.action = perms["product:add"]
+				/product/management/add.action = perms["product:add"]
+				/product/management/delete.action = perms["product:delete"]
+				/product/management/toupdate.action = perms["product:edit"]
+				/product/management/update.action = perms["product:edit"]
+				/product/management/list.action = perms["product:list"]
+				/product/management/check.action = perms["product:list"]
+				/product/serialnumber/create.action = perms["sn:generate"]
+				/product/serialnumber/downLoadSN.action = perms["sn:download"]
+				/product/serialnumber/list.action = perms["sn:list"]
+				/account/toAddAccount.action = perms["account:add"]
+				/account/add.action = perms["account:add"]
+				/account/delete.action = perms["account:delete"]
+				/account/toEditAccount.action = perms["account:edit"]
+				/account/edit.action = perms["account:edit"]
+				/account/list.action = perms["account:list"]
+				/account/toViewAccount.action = perms["account:list"]
+				/account/role/add.action = perms["role:add"]
+				/account/role/delete.action = perms["role:delete"]
+				/account/role/edit.action = perms["role:edit"]
+				/account/role/list.action = perms["role:list"]
+				/account/role/get.action = perms["role:list"]
+
+                /mps/list.action = perms["mpCustomer:list"]
+                /mps/detail.action = perms["mpCustomer:list"]
+                /mps/grantedLs.action  = perms["mpCustomer:grantedList"]
+                /mps/disabled.action  = perms["mpCustomer:disabled"]
+                /mps/rules.action= perms["mpRule:list"]
+                /mps/opls.action= perms["mpOps:list"]
+
+				/user/**.action = perms["user:list"]
+				
+				/customer/**.action = perms["customer:list"]
+				/project/**.action = perms["project:list"]
+
+
+				/** = authc
+			</value>
+		</property>
+	</bean>
+	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />
+
+	<!-- 验证数据类 -->
+	<bean id="shiroDBRealm" class="com.loiot.baqi.security.shiro.ShiroDBRealm" />
+
+</beans>

@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Customer">
+	<resultMap type="Customer" id="CustomerMap">
+		<id  column="customer_id" property="customerId"/>
+		<result column="name" property="customerName"/>
+		<result column="contacts" property="contacts"/>
+		<result column="tel" property="customerTel"/>
+		<result column="address" property="address"/>
+		<result column="email" property="customerEmail"/>
+		<result column="remarks" property="remarks"/>
+		<result column="is_delete" property="isDelete"/>
+		<result column="ca_name" property="caName"/>
+		<result column="create_time" property="createTime"/>
+		<result column="project_type" property="projectType"/>
+		<association property="customerAccount" javaType="com.timeloit.pojo.CustomerAccount">
+			<id column="ca_ca_id" property="caId"/>
+			<result column="ca_customer_id" property="customerId"/>
+			<result column="ca_name" property="caName"/>
+			<result column="ca_password" property="caPassword"/>
+			<result column="ca_password_txt" property="passwordTxt"/>
+			<result column="ca_is_main" property="isMain"/>
+			<result column="ca_role_id" property="customerRoleId"/>
+		</association> 
+		<association property="project" javaType="com.timeloit.pojo.Project">
+			<id column="p_project_id" property="projectId"/>
+			<result column="p_name" property="name" />
+			<result column="p_code" property="code"	/>
+			<result column="p_leader" property="leader" />
+			<result column="p_project_desc" property="projectDesc" />
+			<result column="p_create_time" property="createTime" />
+		</association>
+		<association property="projectRest" javaType="com.timeloit.pojo.ProjectRest">
+			<id column="pr_pr_id" property="prId"/>
+			<result column="pr_customer_id" property="customerId" />
+			<result column="pr_merchant_type" property="merchantType" />
+			<result column="pr_scene_product_id" property="sceneProductId" />
+			<result column="pr_node_product_id" property="nodeProductId" />
+			<result column="pr_user_id" property="userId" />
+			<result column="pr_pwd" property="pwd" />
+			<result column="u_login_name" property="userName" />
+		</association>
+	</resultMap>
+	
+	<!-- 查询客户信息 -->
+	<select id="queryCustomInfo" resultMap="CustomerMap">
+		SELECT
+			c.*,
+			ca.ca_id as ca_ca_id,
+			ca.customer_id as ca_customer_id,
+			ca.name AS ca_name,
+			ca.password AS ca_password,
+			ca.password_txt AS ca_password_txt,
+			ca.is_main AS ca_is_main,
+			ca.role_id as ca_role_id,
+			p.project_id as p_project_id,
+			p.name p_name,
+			p.code p_code,
+			p.leader p_leader,
+			p.project_desc p_project_desc,
+			p.create_time p_create_time,
+			pr.pr_id as pr_pr_id,
+			pr.customer_id as pr_customer_id,
+			pr.merchant_type as pr_merchant_type,
+			pr.scene_product_id as pr_scene_product_id,
+			pr.node_product_id as pr_node_product_id,
+			pr.user_id as pr_user_id,
+			pr.pwd as pr_pwd,
+			u.login_name as u_login_name
+			
+		FROM
+			customer c
+		LEFT JOIN customer_account ca ON c.customer_id = ca.customer_id
+		LEFT JOIN project p on c.project_id=p.project_id
+		LEFT JOIN project_rest pr on c.customer_id=pr.customer_id
+		LEFT JOIN user u on pr.user_id=u.user_id 
+		 	<where>
+					AND ca.is_main = 1
+				<if test="customerId!=null"> AND c.customer_id=#{customerId}</if>
+				<if test="name!=null"> AND c.name LIKE '%${name}%' </if>
+			</where>
+			order by c.customer_id desc
+			<if test="skipResults!=null">
+				limit #{skipResults},#{maxResults}
+			</if>
+	</select>
+	
+	
+	<!-- 查询客户信息 -->
+	<select id="getCustomerListCount" resultType="int">
+		SELECT
+			 count(1)
+		FROM
+			customer c
+		LEFT JOIN customer_account ca ON c.customer_id = ca.customer_id
+		 	<where>
+					 ca.is_main = 1
+				<if test="customerId!=null"> AND c.customer_id=#{customerId}</if>
+				<if test="name!=null"> AND c.name LIKE '%${name}%' </if>
+			</where>
+			
+	</select>
+	
+	<!-- 添加客户信息-->
+	<insert id="addCustomerInfo"  flushCache="true"
+		useGeneratedKeys="true" keyProperty="customerId">
+		insert into customer
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="customerName != null">
+				name,
+			</if>
+			<if test="contacts != null">
+				contacts,
+			</if>
+			<if test="customerTel != null">
+				tel,
+			</if>
+			<if test="address != null">
+				address,
+			</if>
+			<if test="customerEmail != null">
+				email,
+			</if>
+			<if test="remarks != null">
+				remarks,
+			</if>
+			<if test="projectId != null">
+				project_id
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="customerName != null">
+				#{customerName},
+			</if>
+			<if test="contacts != null">
+				#{contacts},
+			</if>
+			<if test="customerTel != null">
+				#{customerTel},
+			</if>
+			<if test="address != null">
+				#{address},
+			</if>
+			<if test="customerEmail != null">
+				#{customerEmail},
+			</if>
+			<if test="remarks != null">
+				#{remarks},
+			</if>
+			<if test="projectId != null">
+				#{projectId}
+			</if>
+		</trim>
+	</insert>
+	
+	
+	<!-- 添加客户帐号 -->
+	<insert id="addCustomerAccountInfo"  flushCache="true"
+		useGeneratedKeys="true" keyProperty="caId">
+		insert into customer_account
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="customerId != null">
+				customer_id,
+			</if>
+			<if test="caName != null">
+				name,
+			</if>
+			<if test="caPassword != null">
+				password,
+			</if>
+			<if test="passwordTxt != null">
+				password_txt,
+			</if>
+			<if test="isMain != null">
+				is_main,
+			</if>
+			<if test="customerRoleId != null">
+				role_id,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="customerId != null">
+				#{customerId},
+			</if>
+			<if test="caName != null">
+				#{caName},
+			</if>
+			<if test="caPassword != null">
+				#{caPassword},
+			</if>
+			<if test="passwordTxt != null">
+				#{passwordTxt},
+			</if>
+			<if test="isMain != null">
+				#{isMain},
+			</if>
+			<if test="customerRoleId != null">
+				#{customerRoleId},
+			</if>
+		</trim>
+		
+		<selectKey resultType="long" keyProperty="caId" order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+	
+	<!-- 更新客户信息 -->
+	<update id="updateCustomerInfo">
+		update customer
+		<trim prefix="set" suffixOverrides=",">
+				<if test="customerName!=null">name=#{customerName},</if>
+				<if test="contacts!=null">contacts=#{contacts},</if>
+				<if test="customerTel!=null">tel=#{customerTel},</if>
+				<if test="address!=null">address=#{address},</if>
+				<if test="customerEmail!=null">email=#{customerEmail},</if>
+				<if test="remarks!=null">remarks=#{remarks},</if>
+				<if test="isDelete!=null">is_delete=#{isDelete},</if>
+				<if test="projectId!=null">project_id=#{projectId},</if>
+		</trim>
+		where customer_id = #{customerId}
+	</update>
+	
+    <!-- 检测客户名称是否有效 -->
+	<select id="checkCustomNameExist" resultType="int">
+			SELECT
+				count(1)
+			FROM
+				customer c
+			<where>
+				is_delete=0
+				<if test="name!=null"> AND c.name =#{name} </if>
+				<if test="customerId!=null"> AND c.customer_id !=#{customerId} </if>
+			</where>
+			
+	</select>
+	
+	<!-- 检测客户帐号是否存在 -->
+	<select id="checkAccountExist" resultType="int">
+			SELECT
+				count(1)
+			FROM
+				customer_account ca
+			WHERE
+			ca.name=#{caName}
+	</select>
+	
+	<!-- 批量删除客户 -->
+	<update id="deleteCustomerInfo">
+		update customer set is_delete=1 
+		where customer_id in
+		<foreach collection="array" item="customerId"  open="(" separator="," close=")">
+			#{customerId}
+        </foreach>
+	</update>
+	
+</mapper>
+

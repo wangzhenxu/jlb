@@ -1,0 +1,195 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="CmsSolution">
+
+	<resultMap type="CmsSolution" id="cmsSolutionMap">
+		<id column="cs_id" property="csId" />
+		<result column="csc_id" property="cscId" />
+		<result column="name" property="name" />
+		<result column="desc" property="desc" />
+		<result column="arch" property="arch" />
+		<result column="func" property="func" />
+		<result column="create_time" property="createTime" />
+		<result column="account_id" property="accountId" />
+		<result column="csc_name" property="cscName" />
+		<result column="user_name" property="userName" />
+		<result column="publish_type" property="publishType" />
+		<result column="static_url" property="staticUrl" />
+		<result column="access_url" property="accessUrl" />
+		
+	</resultMap>
+	
+	<resultMap type="CmsSolution" id="cmsSolutionOne">
+		<id column="cs_id" property="csId" />
+		<result column="csc_id" property="cscId" />
+		<result column="name" property="name" />
+		<result column="desc" property="desc" />
+		<result column="arch" property="arch" />
+		<result column="func" property="func" />
+		<result column="create_time" property="createTime" />
+		<result column="account_id" property="accountId" />
+		<result column="csc_name" property="cscName" />
+		<result column="publish_type" property="publishType" />
+		<result column="static_url" property="staticUrl" />
+		<result column="csc_name" property="cscName" />
+		<result column="access_url" property="accessUrl" />
+		<result column="csc_staticUrl" property="cscStaticUrl" />
+		<collection property="relationList" ofType="CmsSolutionProductMap">
+		    <id column="cspm_id" property="cspmId"/>
+		    <result column="csp_cs_id" property="csId" />
+		    <result column="pa_id" property="paId" />
+		    <result column="pa_name" property="paName" />
+		    <result column="small_pic" property="smallPic" />
+		    <result column="pa_static_url" property="staticUrl" />
+		</collection>
+	</resultMap>
+	<!-- 查询系统信息 -->
+	<select  id="getSolution_List" resultMap="cmsSolutionMap" >
+			SELECT
+			cs.*, csc.NAME AS csc_name,
+			a.username AS user_name
+		FROM
+			cms_solution cs
+		LEFT JOIN cms_solution_cat csc ON cs.csc_id = csc.csc_id
+		LEFT JOIN account a ON cs.account_id = a.account_id
+        <where>
+		     <if test="name !=NULL and name!=''">
+        		AND cs.name like '%${name}%'
+		    </if>
+		    <if test="cscId !=NULL">
+        	    AND	cs.csc_id=#{cscId}
+		    </if>
+	   	</where>
+	   	ORDER BY cs.cs_id desc 
+	   	limit #{skipResults},#{maxResults}
+	</select>
+	
+	<!-- 查询一个系统信息 -->
+	<select  id="getSolution_One" resultMap="cmsSolutionOne" >
+		SELECT
+			cs.*, 
+			csc.`name` AS csc_name,
+			csc.static_url AS csc_staticUrl,
+			csp.cspm_id,
+			csp.cs_id AS csp_cs_id,
+			csp.pa_id,
+			csp.pa_name,
+      		pa.small_pic,
+      		pa.static_url as pa_static_url
+		FROM
+			cms_solution cs
+		LEFT JOIN cms_solution_cat csc ON cs.csc_id = csc.csc_id
+		LEFT JOIN cms_solution_product_map csp ON cs.cs_id = csp.cs_id
+		LEFT JOIN product_app pa ON pa.pa_id = csp.pa_id
+		WHERE
+			cs.cs_id = #{csId}
+	</select>
+	
+	
+	<!--查询所有系统信息 -->
+	<select  id="getSolution_AllList" resultMap="cmsSolutionMap">
+			SELECT 
+			 	*
+			FROM cms_solution
+	</select>
+	
+	<!-- 查询系统信息总数 -->
+	<select id="getSolutionListCount"  resultType="Integer">
+		SELECT count(*) FROM cms_solution cs
+        <where>
+		     <if test="name !=NULL and name!=''">
+        		AND cs.name like '%${name}%'
+		    </if>
+		    <if test="cscId !=NULL">
+        	    AND	cs.csc_id=#{cscId}
+		    </if>
+	   	</where>
+	</select>
+	
+	<!-- 添加系统-->
+	<insert id="addSolution"  >
+	    INSERT INTO cms_solution 
+		    (
+					csc_id,
+					name,
+					`desc`,
+					arch,
+					func,
+					create_time,
+					account_id,
+					publish_type,
+					static_url,
+					access_url
+			)
+		VALUES
+		   (
+				#{cscId},#{name},#{desc},#{arch},#{func},now(),#{accountId},#{publishType},#{staticUrl},#{accessUrl}
+		   );
+		    <selectKey resultType="java.lang.Long" order="AFTER" keyProperty="csId">  
+         		 SELECT LAST_INSERT_ID()   
+			 </selectKey> 
+	</insert>
+	
+	<!-- 是否可以添加-->
+	<select  id="isAddSolution"  resultType="Integer">
+		SELECT COUNT(*) FROM cms_solution
+		WHERE 
+		name=#{name}
+		<if test="csId != null"> AND cs_id not in(#{csId})</if>
+	</select>
+	
+	<!--修改系统信息 -->
+	<update id="updateSolution">
+	   		UPDATE cms_solution 
+	   			<trim prefix="set" suffixOverrides=",">
+					<if test="cscId != null">csc_id= #{cscId},</if>
+				    <if test="name != null">name= #{name},</if>
+					<if test="desc != null">`desc`= #{desc},</if>
+					<if test="arch != null">arch= #{arch},</if>
+					<if test="func != null">func= #{func},</if>
+					<if test="publishType != null">publish_type=#{publishType},</if>
+					<if test="staticUrl != null">static_url=#{staticUrl},</if>
+					<if test="accessUrl != null">access_url=#{accessUrl},</if>
+				</trim>
+				<where>
+					<if test="csId != null">
+	 					and cs_id = #{csId}
+					</if>
+				</where>
+	</update>
+	
+	<!-- 是否可以删除-->
+	<select  id="isDeleteSolution"  resultType="Integer">
+		SELECT COUNT(*) FROM cms_solution_product_map 
+		WHERE 
+		cs_id=#{csId} AND pa_id=#{paId}
+	</select>
+	
+	<!--删除系统信息 -->
+	<delete id="deleteSolution" >
+	    DELETE FROM cms_solution WHERE cs_id=#{csId}
+	</delete>
+	
+	<!--删除系统与产品关系 -->
+	<delete id="deleteSolutionProductRelation" >
+	    DELETE FROM cms_solution_product_map WHERE cs_id=#{csId}
+	</delete>
+	
+	<!-- 添加应用与产品关系-->
+	<insert id="addSolutionProductRelation"  >
+	    INSERT INTO cms_solution_product_map 
+		    (
+					cs_id,pa_id,pa_name
+			)
+		VALUES
+		   (
+				#{csId},#{paId},#{paName}
+		   )
+	</insert>
+	
+	
+	
+	
+</mapper>

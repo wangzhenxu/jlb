@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="CustomerAccount">
+
+<resultMap type="CustomerAccount" id="simpleCustomerAccountMap">
+		<id  column="ca_id" property="caId"/>
+		<result column="customer_id" property="customerId"/>
+		<result column="name" property="caName"/>
+		<result column="password" property="caPassword"/>
+		<result column="is_main" property="isMain"/>
+		<result column="is_delete" property="isDelete"/>
+	</resultMap>
+	
+		
+	<!-- 批量删除客户账号 -->
+	<delete id="deleteCustomerAccount">
+		delete from customer_account 
+		where customer_id in
+		<foreach collection="array" item="customerId"  open="(" separator="," close=")">
+			#{customerId}
+        </foreach>
+	</delete>
+	
+	<!-- 更新客户账号信息 -->
+	<update id="updateAccount">
+		update customer_account
+		<trim prefix="set" suffixOverrides=",">
+				<if test="caName!=null">name=#{caName},</if>
+				<if test="caPassword!=null and caPassword!=''">password=#{caPassword},</if>
+				<if test="passwordTxt!=null and passwordTxt!=''">password_txt=#{passwordTxt},</if>
+				<if test="customerRoleId!=null">role_id=#{customerRoleId},</if>
+		</trim>
+		where ca_id = #{caId}
+	</update>
+	
+	
+	<!-- 根据caId来查询customer_account -->
+	<select id="getCustomerAccount" resultMap="simpleCustomerAccountMap">
+		select * from customer_account
+		<where>
+			<if test="roleId!=null"> AND role_id=#{roleId}</if>
+		</where>
+	</select>
+	
+</mapper>
+

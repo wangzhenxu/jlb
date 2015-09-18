@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+
+	<!-- 属性定义 -->
+	<properties>
+		<property name="dialect" value="mysql" />
+	</properties>
+
+	<!-- 配置缓存 -->
+	<settings>
+		<setting name="cacheEnabled" value="false" />
+		<setting name="lazyLoadingEnabled" value="false" />
+		<setting name="multipleResultSetsEnabled" value="false" />
+	</settings>
+
+	<!-- 别名 -->
+	<typeAliases>
+		<typeAlias type="com.timeloit.pojo.Role" alias="Role" />
+		<typeAlias type="com.timeloit.pojo.Account" alias="Account" />
+		<typeAlias type="com.timeloit.pojo.Permission" alias="Permission" />
+		<typeAlias type="com.timeloit.pojo.Node" alias="Node" />
+		<typeAlias type="com.timeloit.pojo.NodeAttribute" alias="NodeAttribute" />
+		<typeAlias type="com.timeloit.pojo.NodeTrigger" alias="NodeTrigger" />
+		<typeAlias type="com.timeloit.pojo.NodeCondition" alias="NodeCondition" />
+		<typeAlias type="com.timeloit.pojo.NodeCommand" alias="NodeCommand" />
+		<typeAlias type="com.timeloit.pojo.NodeCommandGroup" alias="NodeCommandGroup" />
+		<typeAlias type="com.timeloit.pojo.NodeActionAlert" alias="NodeActionAlert" />
+		<typeAlias type="com.timeloit.pojo.User" alias="User" />
+		<typeAlias type="com.timeloit.pojo.UserKey" alias="UserKey" />
+		<typeAlias type="com.timeloit.pojo.Scene" alias="Scene" />
+	    <typeAlias type="com.timeloit.pojo.Product" alias="Product" />
+	    <typeAlias type="com.timeloit.pojo.Tag" alias="Tag" />
+	    <typeAlias type="com.loiot.baqi.model.NodePo" alias="NodePo"/>
+	    <typeAlias type="com.timeloit.pojo.ProductAppCat" alias="ProductAppCat" />
+	    <typeAlias type="com.timeloit.pojo.CmsSolutionCat" alias="CmsSolutionCat" />
+	    <typeAlias type="com.timeloit.pojo.CmsSolution" alias="CmsSolution" />
+	    <typeAlias type="com.timeloit.pojo.CmsSolutionProductMap" alias="CmsSolutionProductMap" />
+	    <typeAlias type="com.timeloit.pojo.ProductApp" alias="ProductApp" />
+	    <typeAlias type="com.timeloit.pojo.Customer" alias="Customer" />
+	    <typeAlias type="com.timeloit.pojo.CustomerAccount" alias="CustomerAccount" />
+
+        <typeAlias type="com.timeloit.pojo.MpCustomer"   alias="MpCustomer" />
+        <typeAlias type="com.timeloit.pojo.MpCustomer" alias="MpCustomer"/>
+        <typeAlias type="com.timeloit.pojo.MpOpenid" alias="MpOpenid"/>
+        <typeAlias type="com.timeloit.pojo.MpPdtRule" alias="MpPdtRule"/>
+        <typeAlias type="com.timeloit.pojo.MpPdtRuleKw" alias="MpPdtRuleKw"/>
+        <typeAlias type="com.timeloit.pojo.MpPdtRuleAttr" alias="MpPdtRuleAttr"/>
+        <typeAlias type="com.timeloit.pojo.MpPdtRuleCmd" alias="MpPdtRuleCmd"/>
+
+        <typeAlias type="com.timeloit.pojo.MpNodeRule" alias="MpNodeRule"/>
+        <typeAlias type="com.timeloit.pojo.MpNodeRuleKw" alias="MpNodeRuleKw"/>
+        <typeAlias type="com.timeloit.pojo.MpNodeRuleAttr" alias="MpNodeRuleAttr"/>
+        <typeAlias type="com.timeloit.pojo.MpNodeRuleCmd" alias="MpNodeRuleCmd"/>
+
+        <typeAlias type="com.timeloit.pojo.MpRuleKw" alias="MpRuleKw"/>
+        <typeAlias type="com.timeloit.pojo.MpNewsMap" alias="MpNewsMap"/>
+
+        <typeAlias type="com.timeloit.pojo.MpRule" alias="MpRule"/>
+        <typeAlias type="com.timeloit.pojo.MpImage" alias="MpImage"/>
+        <typeAlias type="com.timeloit.pojo.MpNews" alias="MpNews"/>
+        <typeAlias type="com.timeloit.pojo.MpMsg" alias="MpMsg"/>
+        <typeAlias type="com.timeloit.pojo.MpText" alias="MpText"/>
+        <typeAlias type="com.loiot.baqi.model.MpPicNews" alias="MpPicNews"/>
+        <typeAlias type="com.timeloit.pojo.CustomerRole" alias="CustomerRole" />
+		<typeAlias type="com.timeloit.pojo.CustomerPermission" alias="CustomerPermission" />
+		<typeAlias type="com.timeloit.pojo.CustomerRoleDistribution" alias="CustomerRoleDistribution" />
+		
+		<typeAlias type="com.loiot.baqi.pojo.ZpHrInfo" alias="ZpHrInfo" />
+		<typeAlias type="com.loiot.baqi.pojo.ZpEmalTemplate" alias="ZpEmalTemplate" />
+		
+		
+	</typeAliases>
+	
+	<!-- 配置分页拦截器 -->
+	<plugins>
+		<plugin interceptor="com.loiot.baqi.mybatis.PaginationInterceptor" />
+	</plugins>
+	
+</configuration>

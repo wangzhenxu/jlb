@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ProjectRest">
+	<insert id="saveProjectRest" parameterType="com.timeloit.pojo.ProjectRest">
+		insert into project_rest
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="customerId != null">
+		 		customer_id,
+			</if>
+			<if test="merchantType != null">
+		 		merchant_type,
+			</if>
+			<if test="sceneProductId != null">
+		 		scene_product_id,
+			</if>
+			<if test="nodeProductId != null">
+		 		node_product_id,
+			</if>
+			<if test="userId != null">
+		 		user_id,
+			</if>
+			<if test="pwd != null">
+		 		pwd
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="customerId != null">
+		 		#{customerId},
+			</if>
+			<if test="merchantType != null">
+		 		#{merchantType},
+			</if>
+			<if test="sceneProductId != null">
+		 		#{sceneProductId},
+			</if>
+			<if test="nodeProductId != null">
+		 		#{nodeProductId},
+			</if>
+			<if test="userId != null">
+		 		#{userId},
+			</if>
+			<if test="pwd != null">
+		 		#{pwd}
+			</if>
+		</trim>
+		<selectKey resultType="long" keyProperty="prId" order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+	
+	<!-- 批量删除客户的项目信息 -->
+	<delete id="deleteProjectRest">
+		delete from project_rest 
+		where customer_id in
+		<foreach collection="array" item="customerId"  open="(" separator="," close=")">
+			#{customerId}
+        </foreach>
+	</delete>
+	
+	<!-- 更新信息 -->
+	<update id="updateProjectRest">
+		update project_rest
+		<trim prefix="set" suffixOverrides=",">
+				<if test="merchantType!=null">merchant_type=#{merchantType},</if>
+				<if test="sceneProductId!=null">scene_product_id=#{sceneProductId},</if>
+				<if test="nodeProductId!=null">node_product_id=#{nodeProductId},</if>
+		</trim>
+		where pr_id = #{prId}
+	</update>
+</mapper>

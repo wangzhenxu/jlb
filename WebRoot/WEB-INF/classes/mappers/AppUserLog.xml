@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="AppUserLog">
+
+	<!-- 查询用户操作应用记录次数-->
+	<select id="getAppUserLogList"  resultType="HashMap" parameterType="HashMap">
+		select DATE_FORMAT(operation_time,"%Y-%m<if test="groupType == 1">-%d</if>") operationDate, COUNT(*) count
+		from app_user_log
+		where operation_type=#{appUserLogType} 
+		and app_id=#{appId} 
+		and operation_time between #{startTime} and #{endTime}
+		group by operationDate
+		order by operationDate
+	</select>
+</mapper>

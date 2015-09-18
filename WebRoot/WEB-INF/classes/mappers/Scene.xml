@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Scene">
+
+	<resultMap type="Scene" id="scene">
+		<result column="scene_id" property="sceneId" />
+		<result column="user_id" property="userId" />
+		<result column="user_login_name" property="userLoginName" />
+		<result column="id" property="id" />
+		<result column="title" property="title" />
+		<result column="location_name" property="locationName" />
+		<result column="longitude" property="longitude" />
+		<result column="latitude" property="latitude" />
+		<result column="elevation" property="elevation" />
+		<result column="description" property="description" />
+		<result column="contact_email" property="contactEmail" />
+		<result column="is_public" property="isPublic" />
+		<result column="website" property="website" />
+		<result column="is_delete" property="isDelete" />
+		<result column="product_type" property="productType" />
+		<result column="sn_value" property="snValue" />
+		<result column="create_time" property="createTime" />
+		
+		<result column="scene_type" property="sceneType" />
+	</resultMap>
+
+	<!-- 场景详情pojo,包括属性，节点，产品信息 -->
+	<resultMap type="com.loiot.baqi.model.ScenePo" id="ScenePo">
+		<result column="s_scene_id" property="sceneId" />
+		<result column="s_sn_value" property="snValue" />
+		<result column="s_scene_type" property="sceneType" />
+		<result column="s_title" property="title" />
+		<result column="s_user_login_name" property="userLoginName" />
+		<result column="s_create_time" property="createTime" />
+		<result column="s_description" property="description" />
+
+		<!-- 场景产品对象 -->
+		<association property="product" resultMap="productMap" /> 
+
+		<!-- 场景标签 -->
+		<collection ofType="Tag" property="tags">
+			<id column="t_tag_id" property="tagId" />
+			<result column="t_tag_word" property="tagWord" />
+		</collection>
+		<!-- 节点集合 -->
+		<collection ofType="NodePo" property="nodes">
+			<result column="n_node_id" property="nodeId" />
+			<result column="n_sn_value" property="snValue" />
+			<result column="n_name" property="name" />
+			<result column="n_description" property="description" />
+			
+			<!-- 节点产品对象 -->
+			<association property="product" resultMap="productMap2" />
+			<!-- 标签集合 -->
+			<collection ofType="Tag" property="tags">
+				<id column="t2_tag_id" property="tagId" />
+				<result column="t2_tag_word" property="tagWord" />
+			</collection>
+			
+			<!-- 属性集合 -->
+			<collection ofType="NodeAttribute" property="attrs">
+				<result column="na_na_id" property="naId" />
+				<result column="na_node_id" property="nodeId" />
+				<result column="na_attr_key" property="attrKey" />
+				<result column="na_title" property="title" />
+				<result column="na_is_show" property="isShow" />
+				<result column="na_unit" property="unit" />
+				<result column="na_is_chief" property="isChief" />
+				<result column="na_symbol" property="symbol" />
+			</collection>
+		</collection>
+	</resultMap>
+
+	<!-- 产品映射类 -->
+	<resultMap type="Product" id="productMap">
+		<id column="p_product_id" property="productId" />
+		<result column="p_name" property="name" />
+		<result column="p_product_type" property="productType" />
+	</resultMap>
+	
+	<!-- 节点产品映射类 -->
+	<resultMap type="Product" id="productMap2">
+		<id column="p2_product_id" property="productId" />
+		<result column="p2_name" property="name" />
+		<result column="p2_product_type" property="productType" />
+	</resultMap>
+
+	<!-- 获取场景下所有节点详情 -->
+	<select id="getScenePo" resultMap="ScenePo">
+		SELECT
+		s.scene_id as s_scene_id,
+		s.sn_value as s_sn_value,
+		s.scene_type as s_scene_type,
+		s.title as s_title,
+		s.user_login_name as s_user_login_name,
+		s.create_time as s_create_time,
+		s.description as s_description,
+
+		t.tag_id AS t_tag_id,
+		t.tag_word AS t_tag_word,
+
+		n.node_id AS n_node_id,
+		n.sn_value AS n_sn_value,
+		n.name AS n_name,
+		n.description AS n_description,
+
+		t2.tag_id AS t2_tag_id,
+		t2.tag_word AS t2_tag_word,
+		
+		p.product_id AS p_product_id,
+		p.name AS p_name,
+		p.product_type AS p_product_type,
+		
+		p2.product_id AS p2_product_id,
+		p2.name AS p2_name,
+		p2.product_type AS p2_product_type,
+		
+		na.na_id AS na_na_id,
+		na.node_id AS na_node_id,
+		na.attr_key AS na_attr_key,
+		na.title AS na_title,
+		na.is_show AS na_is_show,
+		na.unit AS na_unit,
+		na.is_chief AS na_is_chief,
+		na.symbol AS na_symbol
+		
+		FROM
+		scene s 
+		LEFT JOIN product p ON s.product_id=p.product_id AND p.is_deleted=0
+		LEFT JOIN node n ON s.scene_id = n.scene_id AND n.is_delete=0
+		LEFT JOIN node_attribute na ON na.node_id=n.node_id
+		LEFT JOIN product p2 ON n.product_id=p2.product_id AND p2.is_deleted=0
+		LEFT JOIN scene_tag_map stm ON s.scene_id = stm.scene_id 
+		LEFT JOIN tag t ON t.tag_id = stm.tag_id 
+		LEFT JOIN node_tag_map ntm ON ntm.node_id = n.node_id
+		LEFT JOIN tag t2 ON t2.tag_id = ntm.tag_id
+		<where>
+			s.sn_value=#{snValue}
+				and s.scene_type =1 and s.is_delete=0
+		</where>
+	</select>
+
+
+	<!-- 根据设备序列号查询正在激活状态的场景 -->
+	<select id="getSceneBySn" resultMap="scene">
+		select * from scene where
+		sn_value=#{sid} and is_delete=0
+	</select>
+
+	<!-- 查询场景数量 -->
+	<select id="getSceneListCount" resultType="int">
+		select count(1)
+		<include refid="getSceneListSQL" />
+	</select>
+
+	<!-- 查询场景列表 -->
+	<select id="getSceneList" resultMap="scene">
+		select *
+		<include refid="getSceneListSQL" />
+		order by s.scene_id desc
+		limit #{skipResults},#{maxResults}
+	</select>
+
+	<!-- getSceneListSQL -->
+	<sql id="getSceneListSQL">
+		from
+		scene s
+		<where>
+			s.is_delete=0
+			<if test="sSn != null and sSn!=''">
+				and s.sn_value = #{sSn}
+			</if>
+			<if test="sName != null and sName!=''">
+				and s.title like '%${sName}%'
+			</if>
+		</where>
+	</sql>
+
+</mapper>

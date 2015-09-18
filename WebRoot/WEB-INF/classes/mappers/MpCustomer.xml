@@ -1,0 +1,399 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="MpCustomer">
+
+    <resultMap id="getMpList" type="MpCustomer">
+        <id column="mc_id" property="mcId"></id>
+        <result column="name" property="name"/>
+        <result column="url" property="url"/>
+        <result column="token" property="token"/>
+        <result column="xml_username" property="xmlUsername"/>
+        <result column="create_time" property="createTime"/>
+        <result column="app_secret" property="appSecret"/>
+        <result column="app_id" property="appId"/>
+        <result column="disabled" property="disabled"/>
+        <collection property="mpOpenids" ofType="MpOpenid">
+            <id column="mo_id" property="moId"/>
+              <!--不能添加mc_id，会导致总是生成一个只有mcId，其他属性为null的mpopenid-->
+            <result column="is_follow" property="isFollow"/>
+            <result column="follow_time" property="followTime"/>
+            <result column="is_granted" property="isGranted"/>
+            <result column="openid" property="openid"/>
+            <result column="granted_time" property="grantedTime"/>
+        </collection>
+    </resultMap>
+
+    <resultMap id="getMpCustomers" type="MpCustomer">
+        <id column="mc_id" property="mcId"></id>
+        <result column="name" property="name"/>
+        <result column="url" property="url"/>
+        <result column="token" property="token"/>
+        <result column="xml_username" property="xmlUsername"/>
+        <result column="create_time" property="createTime"/>
+        <result column="app_secret" property="appSecret"/>
+        <result column="app_id" property="appId"/>
+        <result column="disabled" property="disabled"/>
+    </resultMap>
+
+
+    <resultMap id="getGrandedListRes" type="MpOpenid">
+        <result column="moId"  property="moId"/>
+        <result  column="mcId" property="mcId"/>
+        <result column="isFollow" property="isFollow"/>
+        <result column="isGranted" property="isGranted"/>
+        <result column="openid" property="openid"/>
+        <result column="grantedTime" property="grantedTime"/>
+        <association property="user" column="userId" javaType="com.timeloit.pojo.User">
+            <result column="userId" property="userId"/>
+            <result column="loginName" property="loginName"/>
+            <result column="realName" property="realName"/>
+        </association>
+    </resultMap>
+
+
+
+    <resultMap id="getGrandedList" type="MpOpenid">
+        <result column="moId"  property="moId"/>
+        <result  column="mcId" property="mcId"/>
+        <result column="isFollow" property="isFollow"/>
+        <result column="isGranted" property="isGranted"/>
+        <result column="openid" property="openid"/>
+        <result column="grantedTime" property="grantedTime"/>
+        <association property="user" column="userId" javaType="com.timeloit.pojo.User">
+            <result column="userId" property="userId"/>
+            <result column="loginName" property="loginName"/>
+            <result column="realName" property="realName"/>
+        </association>
+    </resultMap>
+
+    <resultMap id="MpCustomerGroup" type="com.loiot.baqi.model.MpCustomerGroup">
+        <id column="customerId"  property="customerId"/>
+        <result column="name" property="customerName"/>
+        <!--<association property="customer"  javaType="com.timeloit.pojo.Customer">-->
+            <!--<id column="customerId"  property="customerId"/>-->
+            <!--<result column="name" property="customerName"/>-->
+        <!--</association>-->
+        <collection property="mpCustomerList"   ofType="com.timeloit.pojo.MpCustomer">
+            <result column="mcId"  property="mcId"/>
+            <result column="mpName" property="name"/>
+        </collection>
+    </resultMap>
+
+    <!--获取客户 下面公众帐号的列表-->
+    <select id="getMpCustomerGroup"  resultMap="MpCustomerGroup">
+          SELECT
+	customer.`name` AS `name`,
+	mp_customer.mc_id AS mcId,
+	mp_customer.`name` AS mpName,
+	customer.customer_id AS customerId
+    FROM
+     mp_customer
+    LEFT OUTER JOIN  customer  ON mp_customer.customer_id = customer.customer_id
+     WHERE
+	CASE WHEN (mp_customer.customer_id IS NOT NULL) AND mp_customer.customer_id>0  THEN customer.is_delete = 0 ELSE 1=1 END
+    </select>
+
+    <select id="getCustomers" resultType="com.timeloit.pojo.Customer">
+        SELECT
+	    customer_id as customerId,
+	    `name` as customerName
+      FROM
+	     customer
+      WHERE
+	customer.is_delete = 0
+    </select>
+
+
+    <select id="getMpCustomer" resultType="com.timeloit.pojo.MpCustomer">
+      SELECT
+       customer_id AS customerId,mc_id AS mcId,name,url,token
+      FROM  mp_customer  WHERE
+       mp_customer.url=#{url}
+     </select>
+
+    <!-- 新增微信公众帐号账号 -->
+	<insert id="addMpCustomer" parameterType="MpCustomer">
+		insert into
+        mp_customer(customer_id,name,url,token,create_time)
+		values(#{customerId},#{name},#{url},#{token},#{createTime})
+
+		<selectKey resultType="long" keyProperty="mcId" order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+
+    <!-- 更新 app_id app_secret -->
+    <update id="updateApp" parameterType="map" >
+		update mp_customer set
+	    app_id=#{appId},app_secret=#{appSecret} where mc_id=#{mcId}
+	</update>
+
+    <!-- 更新token -->
+    <update id="updateToken" parameterType="map" >
+		update mp_customer set    	token=#{token}
+		 where mc_id=#{mcId}
+	</update>
+	
+	 <!-- 更新disabled -->
+    <update id="updateDisabled"  parameterType="map">
+		update mp_customer set
+		disabled=#{disabled} where mc_id=#{mcId}
+	</update>
+
+    <!-- 删除微信公众帐号 -->
+	<delete id="deleteMp">
+		delete from mp_customer where
+	     mc_id=#{mcId}
+	</delete>
+	
+<!--    批量删除 公众帐号-->
+    <delete id="deleteMps" parameterType="java.lang.Long">
+		delete from mp_customer where
+	     mc_id in
+        <foreach item="mcId" collection="list" open="(" separator="," close=")" >
+	     #{mcId}
+        </foreach>
+	</delete>
+
+<!--
+    查询公众帐号的信息-->
+    <select id="getMp"  resultMap="getMpList">
+              SELECT
+        mp_customer.mc_id as mc_id,
+        mp_openid.mo_id as mo_id,
+        mp_openid.is_follow as is_follow,
+        mp_customer.name as name,
+        mp_openid.is_granted as is_granted,
+        mp_customer.url as url,
+        mp_customer.token as token,
+        mp_customer.xml_username as xml_username,
+        mp_customer.create_time as create_time,
+        mp_customer.app_secret as app_secret,
+        mp_customer.app_id  as app_id,
+        mp_customer.disabled as disabled,
+        mp_openid.follow_time as follow_time,
+        mp_openid.openid as openid,
+        mp_openid.granted_time   as granted_time
+        FROM   mp_customer   Left Join mp_openid ON mp_openid.mc_id = mp_customer.mc_id
+        where mp_customer.mc_id=#{mcId}
+
+    </select>
+
+
+
+      <!--   查询 授权记录-->
+    <select id="getGrantedUserList"   resultMap="getGrandedListRes">
+
+        SELECT
+        mp_openid.is_follow AS isFollow,
+        mp_openid.mo_id AS moId,
+        mp_openid.user_id AS userId,
+        mp_openid.mc_id AS mcId,
+        mp_openid.follow_time AS followTime,
+        mp_openid.is_granted AS isGranted,
+        mp_openid.openid AS openid,
+        mp_openid.granted_time AS grantedTime,
+        user.login_name AS loginName,
+        user.real_name AS realName
+        FROM
+        mp_openid
+        INNER JOIN user ON mp_openid.user_id = user.user_id
+        <where>
+            <if test="mcId!=NULL">
+                mp_openid.mc_id=#{mcId}
+            </if>
+            <if test="loginName!=NULL">
+                and user.login_name  like '%${loginName}%'
+            </if>
+            <if test="isGranted!=NULL">
+                and   mp_openid.is_granted=#{isGranted}
+            </if>
+        </where>
+        order by   mp_openid.granted_time  desc
+        limit #{skipResults},#{maxResults}
+    </select>
+
+
+    <!--   查询 授权记录 总数-->
+    <select id="getGrantedUserListCount" resultType="java.lang.Integer">
+
+        SELECT
+          count(*)
+        FROM
+        mp_openid
+        INNER JOIN user ON mp_openid.user_id = user.user_id
+        <where>
+            <if test="mcId!=NULL">
+                mp_openid.mc_id=#{mcId}
+            </if>
+            <if test="loginName!=NULL">
+                and user.login_name  like '${loginName}'
+            </if>
+        </where>
+         <choose>
+            <when test="isGranted!=NULL">
+                  and   mp_openid.is_granted=#{isGranted}
+             </when>
+            <otherwise>
+                and   mp_openid.is_granted>0
+            </otherwise>
+        </choose>
+        order by   mp_openid.granted_time  desc
+
+    </select>
+
+
+
+
+    <!--  判断 公众帐号名称是否存在-->
+    <select id="isMpExist" resultType="long">
+        select mc_id from mp_customer where name=#{name}
+    </select>
+
+
+    <!--  获取公众帐号列表-->
+    <select id="getMpsName"   resultType="MpCustomer">
+       SELECT
+            mp_customer.customer_id as customerId,mp_customer.mc_id as mcId, mp_customer.name as name FROM mp_customer
+            where  mp_customer.customer_id=#{customerId}
+    </select>
+
+    <!--  获取所有客户公众帐号列表-->
+    <select id="getAllMpsName"   resultType="MpCustomer">
+       SELECT
+            mp_customer.customer_id as customerId,mp_customer.mc_id as mcId, mp_customer.name as name FROM mp_customer
+
+    </select>
+
+
+  <!--  获取 客户下公众帐号的 数目-->
+    <select id="getMpCount" resultType="int" parameterType="map">
+       select  count(mc_id) from mp_customer
+        <where>
+              1=1
+            <if test="customerId != null">
+              and  customer_id=#{customerId}
+
+            </if>
+            <if test="createTime!=null">
+                AND   DATE(create_time) ='${createTime}'
+            </if>
+
+        </where>
+
+    </select>
+
+
+    <!-- 查询 公众帐号分页列表 -->
+    <select id="getMpListPage" resultMap="getMpList">
+
+         SELECT
+	mc.mc_id AS mc_id,
+	mp_openid.mo_id AS mo_id,
+	mp_openid.is_follow AS is_follow,
+	mc. NAME AS NAME,
+	mp_openid.is_granted AS is_granted,
+	mc.url AS url,
+	mc.token AS token,
+	mc.xml_username AS xml_username,
+	mc.create_time AS create_time,
+	mc.app_secret AS app_secret,
+	mc.app_id AS app_id,
+	mc.disabled AS disabled,
+	mp_openid.follow_time AS follow_time,
+	mp_openid.is_follow AS is_follow,
+	mp_openid.is_granted AS granted,
+	mp_openid.openid AS openid,
+	mp_openid.granted_time AS granted_time
+FROM
+	(
+		SELECT
+			customer_id,
+			mc_id,
+			`name`,
+			url,
+			token,
+			create_time,
+			app_id,
+			app_secret,
+			disabled,
+			xml_username
+		FROM
+			mp_customer
+		 <where>
+
+            <if test="customerId != null">
+                  customer_id=#{customerId} 
+
+            </if>
+            <if test="createTime!=null">
+               AND   DATE(create_time) ='${createTime}'
+            </if>
+           
+        </where>
+	    order by  mc_id desc
+		  limit #{skipResults},#{maxResults}
+	) mc
+    LEFT JOIN mp_openid ON mp_openid.mc_id = mc.mc_id
+     <where>
+        ISNULL(mp_openid.is_follow)
+		OR mp_openid.is_follow = 1
+		 <if test="isGranted!=null">
+                AND  mp_openid.is_granted =#{isGranted}
+         </if>
+     </where>
+	 
+    </select>
+
+
+    <select id="getMCNameCount" parameterType="string" resultType="int">
+         select   count(mc_id) from mp_customer where   name=#{name}
+    </select>
+
+
+    <!-- getMpListSQL -->
+    <sql id="getMpListSQL">
+        SELECT
+        mp_customer.mc_id as mc_id,
+        mp_openid.mo_id as mo_id,
+        mp_openid.is_follow as is_follow,
+        mp_customer.name as name,
+        mp_openid.is_granted as is_granted,
+        mp_customer.url as url,
+        mp_customer.token as token,
+        mp_customer.xml_username as xml_username,
+        mp_customer.create_time as create_time,
+        mp_customer.app_secret as app_secret,
+        mp_customer.app_id  as app_id,
+        mp_customer.disabled as disabled,
+        mp_openid.follow_time as follow_time,
+        mp_openid.is_follow as is_follow,
+        mp_openid.is_granted as granted,
+        mp_openid.openid as openid,
+        mp_openid.granted_time   as granted_time
+        FROM   mp_customer   Left Join mp_openid ON mp_openid.mc_id = mp_customer.mc_id
+        <where>
+            <if test="customerId != null">
+                  mp_customer.customer_id=#{customerId}  and    ( ISNULL( mp_openid.is_follow ) or  mp_openid.is_follow =1)
+
+            </if>
+            <if test="createTime!=null">
+               AND   DATE(mp_customer.create_time) ='${createTime}'
+            </if>
+            <if test="isGranted!=null">
+                AND  mp_openid.is_granted =#{isGranted}
+            </if>
+        </where>
+
+    </sql>
+
+    <delete id="delMpOpenidByMcIdList" parameterType="list">
+        delete from  mp_openid where  mc_id in
+        <foreach collection="list" item="mcId"  open="(" separator="," close=")">
+            #{mcId}
+        </foreach>
+    </delete>
+
+</mapper>

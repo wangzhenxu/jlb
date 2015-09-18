@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="CmsSolutionCat">
+	<resultMap type="CmsSolutionCat" id="productClazz">
+		<result column="csc_id" property="cscId" />
+		<result column="name" property="name" />
+		<result column="create_time" property="createTime" />
+		<result column="account_id" property="accountId" />
+		<result column="static_url" property="staticUrl" />
+	</resultMap>
+	
+	<resultMap type="CmsSolutionCat" id="productClazzSecondMap">
+		<id column="csc_id" property="cscId" />
+		<result column="name" property="name" />
+		<result column="create_time" property="createTime" />
+		<result column="account_id" property="accountId" />
+		<result column="static_url" property="staticUrl" />
+		<collection property="cmsSolutionList" ofType="CmsSolution">
+		   <id column="cs_id" property="csId" />
+			<result column="cs_name" property="name" />
+			<result column="cs_static_url" property="staticUrl" />
+		</collection>
+		
+	</resultMap>
+	<!-- 查询产品分类信息 -->
+	<select  id="getProduct_Clazz_List" resultMap="productClazz" >
+		SELECT * FROM cms_solution_cat
+        <where>
+            <if test="classname !=NULL">
+        	name like '%${classname}%'
+		    </if>
+	   	</where>
+	   	ORDER BY csc_id desc 
+	   	limit #{skipResults},#{maxResults}
+	</select>
+	
+	<!-- 查询产品分类信息(级联) -->
+	<select  id="getProduct_ClazzSocend_List" resultMap="productClazzSecondMap" >
+		SELECT  csc.csc_id,
+		        csc.name,
+		        csc.static_url,
+				cs.cs_id,
+				cs.`name` AS cs_name,
+        		cs.static_url AS cs_static_url
+ 		FROM cms_solution_cat csc
+      	LEFT JOIN cms_solution cs ON csc.csc_id = cs.csc_id AND cs.publish_type = 1
+	   	ORDER BY csc.csc_id ASC , cs.cs_id ASC 
+	</select>
+	
+	
+	<!--查询所有产品分类信息 -->
+	<select  id="getProduct_Clazz_AllList" resultMap="productClazz">
+	SELECT 	csc_id, 
+	NAME
+	FROM 
+	cms_solution_cat
+	</select>
+	
+	<!-- 查询产品分类总数 -->
+	<select id="getProductClassListCount"  resultType="Integer">
+	 SELECT COUNT(*)
+ 	  FROM cms_solution_cat 
+	  <where>
+	    <if test="classname !=NULL">
+        name like '%${classname}%'
+	   </if>
+	  </where>
+	</select>
+	
+	<!-- 增加产品分类信息 -->
+	<insert id="addProduct_Clazz"  >
+	    INSERT INTO cms_solution_cat  (name,create_time,account_id)  VALUES (#{name},now(),#{accountId});
+	</insert>
+	
+	<!-- 是否可以添加-->
+	<select  id="isAddClass"  resultType="Integer">
+		SELECT COUNT(*) FROM cms_solution_cat 
+		WHERE 
+		name=#{name}
+	</select>
+	
+	<!-- 是否可以删除-->
+	<select  id="isDeleteClass"  resultType="Integer">
+		SELECT COUNT(*) FROM cms_solution 
+		WHERE 
+		csc_id=#{cscId}
+	</select>
+	
+	<!--删除产品分类信息 -->
+	<delete id="deleteProduct_Clazz" >
+	    DELETE FROM cms_solution_cat WHERE csc_id=#{cscId}
+	</delete>
+	
+	<!--修改产品分类信息 -->
+	<update id="updateProduct_Clazz">
+	   UPDATE cms_solution_cat SET NAME=#{name} WHERE csc_id=#{cscId}
+	</update>
+</mapper>

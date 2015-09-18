@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="RestStore">
+	<resultMap type="com.timeloit.pojo.rest.RestStore" id="RestStoreMap">
+		<id column="rs_id" property="rsId" />
+		<result column="ca_id" property="caId" />
+		<result column="rs_ca_id" property="rsCaId" />
+		<result column="code" property="code" />
+		<result column="name" property="name" />
+		<result column="start_hour" property="startHour"/>
+		<result column="address" property="address"/>
+		<result column="tel" property="tel"/>
+		<result column="contacts" property="contacts"/>
+		<result column="is_remote" property="isRemote"/>
+		<result column="remarks" property="remarks"/>
+		<result column="end_hour" property="endHour"/>
+		<result column="brief" property="brief"/>
+	</resultMap>
+	<!-- 根据name或code来查询商家 and name!='' -->
+	<select id="getReststoreListCount" resultType="int">
+		select count(1) as counts from rest_store
+		<where>
+			<if test="name!=null"> and name like '%${name}%'</if>
+			<if test="code!=null"> and code like '%${code}%'</if>
+			<if test="caId!=null"> and ca_id =#{caId}</if>
+		</where> 
+	</select>
+	
+	<!-- 查询餐厅的列表 -->
+	<select id="getReststoreList" resultMap="RestStoreMap">
+		select rs.* from rest_store rs
+		<where>
+			<if test="name!=null"> and rs.name like '%${name}%'</if>
+			<if test="code!=null"> and rs.code like '%${code}%'</if>
+			<if test="caId!=null"> and ca_id =#{caId}</if>
+		</where> 
+		order by rs.rs_id desc
+		limit #{skipResults},#{maxResults}
+	</select>
+	<!-- 检查商家code,name是否重复 -->
+	<select id="isLegal" resultMap="RestStoreMap">
+		select rs.* from rest_store rs
+		<where>
+			<if test="rsId!=null"> and rs.rs_id!=#{rsId}</if>
+			<if test="code!=null"> and rs.code=#{code}</if>
+			<if test="name!=null"> and rs.name=#{name}</if>
+		</where>
+	</select>
+	<!-- 通过主键来查询 -->
+	<select id="getReststore" resultMap="RestStoreMap">
+		select rs.* from rest_store rs
+		where rs.rs_id=#{rsId}
+	</select>
+	<!-- 根据ca_id来查询唯一一个rest_store -->
+	<select id="getReststoreBycaid" resultMap="RestStoreMap">
+		select rs.* from rest_store rs
+		where rs.ca_id=#{caId} limit 1
+	</select>
+	
+	<!-- 删除商家 -->
+	<delete id="delRestStore">
+		delete from rest_store 
+		where rs_id in
+			<foreach collection="array" item="rsId"  open="(" separator="," close=")">
+            	#{rsId}
+        	</foreach>
+	</delete>
+	
+	
+	<!-- 更新rest_store信息 -->
+	<update id="update" parameterType="com.timeloit.pojo.rest.RestStore">
+		update rest_store
+		<trim prefix="set" suffixOverrides=",">
+				<if test="code!=null">code=#{code},</if>
+				<if test="name!=null">name=#{name},</if>
+				<if test="startHour!=null">start_hour=#{startHour},</if>
+				<if test="endHour!=null">end_hour=#{endHour},</if>
+				<if test="address!=null">address=#{address},</if>
+				<if test="tel!=null">tel=#{tel},</if>
+				<if test="contacts!=null">contacts=#{contacts},</if>
+				<if test="isRemote!=null">is_remote=#{isRemote},</if>
+				<if test="brief!=null">brief=#{brief},</if>
+				<if test="remarks!=null">remarks=#{remarks},</if>
+		</trim>
+		<where>
+			<if test="rsId!=null"> rs_id=#{rsId}</if>
+		</where>
+	</update>
+	
+	<!-- 添加rest_store -->
+	<insert id="addRestStore" parameterType="com.timeloit.pojo.rest.RestStore" flushCache="true" useGeneratedKeys="true" keyProperty="rsId">
+		insert into rest_store 
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="rsCaId != null">
+		 		rs_ca_id,
+			</if>
+			<if test="caId != null">
+		 		ca_id,
+			</if>
+			<if test="code != null">
+		 		code,
+			</if>
+			<if test="name != null">
+		 		name,
+			</if>
+			<if test="startHour != null">
+		 		start_hour,
+			</if>
+			<if test="endHour != null">
+		 		end_hour,
+			</if>
+			<if test="address != null">
+		 		address,
+			</if>
+			<if test="tel != null">
+		 		tel,
+			</if>
+			<if test="contacts != null">
+		 		contacts,
+			</if>
+			<if test="isRemote != null">
+		 		is_remote,
+			</if>
+			<if test="brief != null">
+		 		brief,
+			</if>
+			<if test="remarks != null">
+		 		remarks,
+			</if>
+			<if test="ssn != null">
+		 		ssn,
+			</if>
+			<if test="apiKey != null">
+		 		api_key
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="rsCaId != null">
+		 		#{rsCaId},
+			</if>
+			<if test="caId != null">
+		 		#{caId},
+			</if>
+			<if test="code != null">
+		 		#{code},
+			</if>
+			<if test="name != null">
+		 		#{name},
+			</if>
+			<if test="startHour != null">
+		 		#{startHour},
+			</if>
+			<if test="endHour != null">
+		 		#{endHour},
+			</if>
+			<if test="address != null">
+		 		#{address},
+			</if>
+			<if test="tel != null">
+		 		#{tel},
+			</if>
+			<if test="contacts != null">
+		 		#{contacts},
+			</if>
+			<if test="isRemote != null">
+		 		#{isRemote},
+			</if>
+			<if test="brief != null">
+		 		#{brief},
+			</if>
+			<if test="remarks != null">
+		 		#{remarks},
+			</if>
+			<if test="ssn != null">
+		 		#{ssn},
+			</if>
+			<if test="apiKey != null">
+		 		#{apiKey}
+			</if>
+		</trim>
+	</insert>
+</mapper>

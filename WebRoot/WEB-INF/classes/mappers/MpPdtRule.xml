@@ -1,0 +1,369 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="MpPdtRule">
+
+
+      <resultMap id="mpPdtRule" type="MpPdtRule">
+          <result column="mpr_id" property="mprId"/>
+          <result column="rulename"  property="name"/>
+          <result column="response_message"    property="responseMessage"/>
+           <result column="type" property="type"/>
+          <result column="create_time" property="createTime"/>
+          <result column="is_online" property="isOnline"/>
+          <association property="product"   javaType="com.timeloit.pojo.Product">
+              <id column="product_id"    property="productId"/>
+              <result column="productname" property="name"/>
+              <association property="productClazz"  javaType="com.timeloit.pojo.ProductClazz">
+                  <id  column="pcId"   property="pcId" />
+                  <result column="pcName" property="name" />
+              </association>
+          </association>
+      </resultMap>
+
+    <resultMap id="mpPdtRuleMp" type="MpPdtRule">
+        <result column="mpr_id" property="mprId"/>
+        <result column="rulename"  property="name"/>
+        <result column="response_message"    property="responseMessage"/>
+        <result column="type" property="type"/>
+        <result column="create_time" property="createTime"/>
+        <result column="is_online" property="isOnline"/>
+        <association property="product"   javaType="com.timeloit.pojo.Product">
+            <id column="product_id"    property="productId"/>
+            <result column="productname" property="name"/>
+        </association>
+        <association property="mpCustomer" javaType="com.timeloit.pojo.MpCustomer">
+            <id column="mc_id" property="mcId"/>
+            <result  column="mpname"   property="name"/>
+        </association>
+    </resultMap>
+
+
+    <resultMap type="com.timeloit.pojo.ProductCommandGroup" id="productCommandGroup">
+        <id column="pcg_id" property="pcgId"/>
+
+        <result column="gtitle" property="title" />
+        <result column="cmd_key" property="cmdKey" />
+        <collection property="productCommandList" ofType="com.timeloit.pojo.ProductCommand">
+            <id column="pc_id" property="pcId" />
+            <result column="ptitle" property="title"/>
+            <result column="cmd_str" property="cmdStr"/>
+        </collection>
+    </resultMap>
+
+
+    <!--   查询  公众帐号下 规则设定 条数-->
+    <select id="getMpPdtRulesCount"   resultType="java.lang.Integer">
+        select count(*)
+        <include refid="getMpPdtRule"  />
+    </select>
+
+
+    <!--   查询  公众帐号下 keyword条数-->
+    <select id="getMpPdtRuleKeywordCount"   resultType="java.lang.Integer">
+         SELECT
+	COUNT(
+		DISTINCT mp_pdt_rule_kw.mprk_id
+	    )
+    FROM
+	mp_pdt_rule_kw
+    INNER JOIN mp_pdt_rule ON mp_pdt_rule.mpr_id = mp_pdt_rule_kw.mpr_id
+    WHERE
+	mp_pdt_rule_kw.keyword=#{keyword}
+   AND mp_pdt_rule.mc_id =#{mcId}
+
+    </select>
+
+    <!--   查询  公众帐号下 公众帐号关键字规则及产品规则 keyword条数-->
+    <select id="getMpPdt2RuleKeywordCount"   resultType="java.lang.Integer" parameterType="map">
+      SELECT
+	  SUM(ct) AS ruleCount
+     FROM
+	(
+		SELECT
+			COUNT(
+				DISTINCT mp_pdt_rule_kw.mprk_id
+			) AS ct
+		FROM
+			mp_pdt_rule_kw
+		INNER JOIN mp_pdt_rule ON mp_pdt_rule.mpr_id = mp_pdt_rule_kw.mpr_id
+		WHERE
+			mp_pdt_rule_kw.keyword IN
+        <foreach collection="kws1" item="kws1"  open="(" separator="," close=")">
+            #{kws1}
+        </foreach>
+ 		AND mp_pdt_rule.mc_id = #{mcId}
+		UNION ALL
+			SELECT
+				COUNT(*) AS ct
+			FROM
+				mp_rule_kw
+			INNER JOIN mp_rule ON mp_rule_kw.mr_id = mp_rule.mr_id
+			WHERE
+				mp_rule.mc_id = #{mcId}
+			AND mp_rule_kw.keyword IN
+        <foreach collection="kws2" item="kws2"  open="(" separator="," close=")">
+            #{kws2}
+        </foreach>
+
+	  ) a
+
+    </select>
+
+
+
+ <!--   查询  公众帐号下 规则设定-->
+    <select id="getMpPdtRulesPage"  resultMap="mpPdtRule"  >
+        SELECT
+        mp_pdt_rule.mpr_id AS mpr_id,
+        mp_pdt_rule.product_id AS product_id,
+
+        mp_pdt_rule.name AS rulename,
+        mp_pdt_rule.response_message AS response_message,
+        mp_pdt_rule.type AS type,
+        mp_pdt_rule.create_time AS create_time,
+        mp_pdt_rule.is_online as is_online,
+        product.name AS productname,
+        product_clazz.pc_id as pcId,
+        product_clazz.name as pcName
+        <include refid="getMpPdtRule"/>
+
+        order by   mp_pdt_rule.create_time desc
+        limit #{skipResults},#{maxResults}
+    </select>
+
+   <!--     查询 一条规则-->
+    <select id="getMpPdtRuleMain" resultMap="mpPdtRuleMp" >
+         SELECT mp_customer.mc_id AS mc_id,
+                 mp_customer.`name` AS mpname,
+                product.product_id AS product_id,
+                mp_pdt_rule.`name` AS rulename,
+                 mp_pdt_rule.response_message AS response_message,
+                 mp_pdt_rule.type AS type,
+                 mp_pdt_rule.create_time AS create_time,
+                  product.`name` AS productname,
+                 mp_pdt_rule.is_online as is_online,
+                mp_pdt_rule.mpr_id AS mpr_id
+            FROM mp_pdt_rule
+             INNER JOIN
+              mp_customer ON mp_pdt_rule.mc_id = mp_customer.mc_id
+              INNER JOIN product ON mp_pdt_rule.product_id = product.product_id
+              where mp_pdt_rule.mpr_id=#{mprId}
+
+    </select>
+
+
+
+      <!--    查询规则模版的 命令字-->
+    <select id="getPdtRuleKeys" resultType="MpPdtRuleKw">
+
+        SELECT mprk_id as mprkId, mpr_id as mprId, keyword, match_way as matchWay, create_time as createTime
+         FROM mp_pdt_rule_kw
+              where mpr_id=#{mprId}
+    </select>
+
+     <!-- 查询 规则模版的关联属性-->
+    <select id="getMpPdtRuleAttrs"   resultType="MpPdtRuleAttr" >
+          SELECT mpra_id AS mpraId, pa_id AS paId, mpr_id AS mprId,create_time AS createTime
+           FROM mp_pdt_rule_attr  where   mpr_id=#{mprId}
+         ORDER BY  pa_id DESC
+
+    </select>
+
+     <!--   查询 规则模版的关联命令-->
+    <select id="getMpPdtRuleCmds"  resultType="MpPdtRuleCmd">
+               SELECT  mpr_id AS mprId,
+                        mprc_id AS mprcId,
+                        pc_id AS pcId,
+                        create_time AS createTime
+                FROM
+                 mp_pdt_rule_cmd
+                 where  mpr_id=#{mprId}
+
+
+    </select>
+
+
+
+
+    <sql id="getMpPdtRule">
+
+        FROM
+        mp_pdt_rule
+        INNER JOIN product ON mp_pdt_rule.product_id = product.product_id
+        inner join product_clazz  on product_clazz.pc_id= product.pc_id
+
+        <where>
+            <if test="mcId !=NULL">
+                mp_pdt_rule.mc_id =#{mcId}
+            </if>
+            <if test="name!=NULL">
+                and   mp_pdt_rule.name LIKE  '%${name}%'
+            </if>
+
+
+        </where>
+    </sql>
+
+
+    
+    
+    <!--插入 产品规则 公共部分-->
+        <insert id="addMpPdtRuleComm" >
+           insert into  mp_pdt_rule ( mp_pdt_rule.product_id, mp_pdt_rule.mc_id, mp_pdt_rule.name, mp_pdt_rule.response_message, mp_pdt_rule.type, mp_pdt_rule.create_time,    mp_pdt_rule.is_online )
+            values ( #{product.productId},
+               #{mpCustomer.mcId},
+              #{name},
+              #{responseMessage},
+              #{type},
+              #{createTime},
+              #{isOnline}
+               )
+
+            <selectKey resultType="long" keyProperty="mprId" order="AFTER">
+                SELECT LAST_INSERT_ID()
+            </selectKey>
+
+
+        </insert>
+
+
+    <!--更新上线状态-->
+    <update id="updateIsOnline" >
+        update mp_pdt_rule
+        set is_online=#{isOnline}
+        where mpr_id=#{mprId}
+    </update>
+
+<!--  批量插入  关键字-->
+   <insert id="addMpPdtRuleKws" parameterType="java.util.List">
+
+        <selectKey keyProperty="fetchTime" order="BEFORE"
+                   resultType="java.lang.String">
+            SELECT CURRENT_TIMESTAMP()
+        </selectKey>
+
+        insert into mp_pdt_rule_kw(mp_pdt_rule_kw.keyword, mp_pdt_rule_kw.mpr_id, mp_pdt_rule_kw.match_way,mp_pdt_rule_kw.create_time)   values
+        <foreach collection="list" item="im" index="index" separator=",">
+            (#{im.keyword}, #{im.mprId}, #{im.matchWay},#{im.createTime})
+        </foreach>
+
+    </insert>
+
+<!--    批量添加 产品规则 关联属性-->
+    <insert id="addMpPdtRuleAttrs" parameterType="java.util.List">
+
+        <selectKey keyProperty="fetchTime" order="BEFORE"
+                   resultType="java.lang.String">
+            SELECT CURRENT_TIMESTAMP()
+        </selectKey>
+        insert into  mp_pdt_rule_attr(mp_pdt_rule_attr.pa_id, mp_pdt_rule_attr.create_time, mp_pdt_rule_attr.mpr_id)  values
+        <foreach collection="list" item="im" index="index" separator=",">
+            (#{im.paId}, #{im.createTime}, #{im.mprId})
+        </foreach>
+
+    </insert>
+
+
+  <!--  批量添加产品规则关联命令-->
+    <insert id="addMpPdtRuleCmds" parameterType="java.util.List">
+        <selectKey keyProperty="fetchTime" order="BEFORE"
+                   resultType="java.lang.String">
+            SELECT CURRENT_TIMESTAMP()
+        </selectKey>
+        insert into  mp_pdt_rule_cmd(mp_pdt_rule_cmd.pc_id, mp_pdt_rule_cmd.create_time, mp_pdt_rule_cmd.mpr_id)  values
+        <foreach collection="list" item="im" index="index" separator=",">
+            (#{im.pcId}, #{im.createTime}, #{im.mprId})
+        </foreach>
+
+    </insert>
+
+
+    <delete id="delMpr" parameterType="long">
+        delete from mp_pdt_rule
+           WHERE mpr_id = #{mprId}
+    </delete>
+
+   <delete id="delKws" parameterType="long">
+      DELETE FROM mp_pdt_rule_kw
+        WHERE mpr_id = #{mprId}
+   </delete>
+
+    <delete id="delCmds" parameterType="long">
+          DELETE FROM mp_pdt_rule_cmd
+             WHERE mpr_id = #{mprId}
+    </delete>
+
+    <delete id="delAttrs" parameterType="long">
+         DELETE FROM mp_pdt_rule_attr
+             WHERE mpr_id = #{mprId}
+    </delete>
+
+
+    <!--查询 公众帐号下 关键字条数-->
+    <select id="getPdtRuleKwTxtCount" parameterType="map" resultType="int">
+        SELECT
+	    COUNT(*)
+       FROM
+	   mp_pdt_rule_kw
+       INNER JOIN mp_pdt_rule ON mp_pdt_rule_kw.mpr_id = mp_pdt_rule.mpr_id
+      WHERE
+	    mp_pdt_rule.mc_id = #{mcId}
+       AND mp_pdt_rule_kw.keyword =#{keyword}
+    </select>
+
+
+    <select id="getPdtRuleNameCount" resultType="int">
+        SELECT
+	      count(*)
+        FROM
+	            mp_pdt_rule
+       WHERE
+	       mp_pdt_rule.`name`=#{name}
+    </select>
+
+    <select id="getMpPdtRuleByMcIdList"    parameterType="list" resultType="com.timeloit.pojo.MpPdtRule">
+        SELECT
+        mpr_id as mprId,
+        product_id as productId,
+        mc_id as mcId,
+        `name` as name,
+        type
+        FROM
+        mp_pdt_rule
+        WHERE mc_id in
+        <foreach collection="list" item="mcId"  open="(" separator="," close=")">
+            #{mcId}
+        </foreach>
+    </select>
+
+    <delete id="delMpPdtRuleAttrByMprIdList" parameterType="list">
+        delete from mp_pdt_rule_attr where  mpr_id in
+        <foreach collection="list" item="mprId"  open="(" separator="," close=")">
+            #{mprId}
+        </foreach>
+    </delete>
+
+    <delete id="delMpPdtRuleCmdByMprIdList" parameterType="list">
+        delete from mp_pdt_rule_cmd where  mpr_id in
+        <foreach collection="list" item="mprId"  open="(" separator="," close=")">
+            #{mprId}
+        </foreach>
+    </delete>
+
+    <delete id="delMpPdtRuleKwByMprIdList" parameterType="list">
+        delete from mp_pdt_rule_kw  where  mpr_id in
+        <foreach collection="list" item="mprId"  open="(" separator="," close=")">
+            #{mprId}
+        </foreach>
+    </delete>
+
+    <delete id="delMpPdtRuleByMprIdList" parameterType="list">
+        delete from mp_pdt_rule  where  mpr_id in
+        <foreach collection="list" item="mprId"  open="(" separator="," close=")">
+            #{mprId}
+        </foreach>
+    </delete>
+
+  </mapper>

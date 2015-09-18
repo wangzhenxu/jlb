@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="UserKey">
+
+	<resultMap type="UserKey" id="userKey">
+		<result column="uk_id" property="ukId" />
+		<result column="scene_id" property="sceneId" />
+		<result column="user_id" property="userId" />
+		<result column="key_value" property="keyValue" />
+	</resultMap>
+
+	<!-- 根据用户ID和场景ID获得产品场景的设备key -->
+	<select id="getSceneKey" resultMap="userKey">
+		select * from user_key where
+		user_id=#{userId} and scene_id=#{sceneId}
+	</select>
+	<!-- 根据用户ID获得账号key -->
+	<select id="getUserKey" resultMap="userKey">
+		select * from user_key where
+		user_id=#{userId} and scene_id is null
+	</select>
+</mapper>

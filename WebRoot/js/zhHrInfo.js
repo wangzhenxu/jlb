@@ -52,6 +52,38 @@ function add(){
 	});
 }
 
+function onUploadImgChange(sender){ 
+       var oldForm=$(sender).closest("form");
+	   $.ajaxFileUpload({
+		url:'/product/management/checkImage.action', //需要链接到服务器地址
+		type:"POST",
+		async:false,
+		secureuri:false,
+	 	fileElementId:'ui-upload-input', //文件选择框的id属性
+		oldForm:oldForm,// 原formID
+	 	dataType:'text', //服务器返回的格式，可以是json
+		success:function(data,status){ //相当于java中try语句块的用法 data是从服务器返回来的值 
+		var data=T.json.parse(data);
+		var st=data.s;
+		var sd=data.d;
+			if(st==1){
+				samllPicbool=true;
+				$.validationEngine.closePrompt('.ui-upload-holderformError',true);
+			}
+			else{
+				samllPicbool=false;
+				$.validationEngine.buildPrompt('#ui-upload-holder','请上传大小在1M以内的图片','error');
+			}
+	 	},
+		error:function(data,status){ //相当于java中catch语句块的用法
+				samllPicbool=false;
+				$.validationEngine.buildPrompt('#ui-upload-holder','请上传大小在1M以内的图片','error');
+			
+		}
+	 });
+    
+}   
+
 function query(){
 	var name=$("#name").attr("value");
 	var q_qqName=$("#q_qqName").attr("value");

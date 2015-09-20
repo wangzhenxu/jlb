@@ -19,6 +19,11 @@ public class Const {
 	 */
 	public static final String SESSION_USER_KEY = "com.loiot.baqi.session_user_key";
 	/**
+	 * 会话中字典集合
+	 */
+	public static final String SESSION_DICTIONARYS_KEY = "com.loiot.baqi.session_dictionary_list_key";
+
+	/**
 	 * 会话中的登陆者
 	 */
 	public static final String SESSION_SUBJECT = "subject";

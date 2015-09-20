@@ -1,0 +1,476 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ZpJlInfo">
+
+	<resultMap type="ZpJlInfo" id="zpJlInfoMap">
+	        	<id  column="jl_id" property="jlId"></id>
+	        	<result  column="name" property="name" />
+	        	<result  column="sex" property="sex" />
+	        	<result  column="job_id" property="jobId" />
+	        	<result  column="emal" property="emal" />
+	        	<result  column="phone" property="phone" />
+	        	<result  column="identity_card" property="identityCard" />
+	        	<result  column="marital_id" property="maritalId" />
+	        	<result  column="salary_require_id" property="salaryRequireId" />
+	        	<result  column="famous_company_update_status" property="famousCompanyUpdateStatus" />
+	        	<result  column="education_id" property="educationId" />
+	        	<result  column="SchoolTag" property="schoolTag" />
+	        	<result  column="in_persion" property="inPersion" />
+	        	<result  column="in_time" property="inTime" />
+	        	<result  column="last_operator_time" property="lastOperatorTime" />
+	        	<result  column="job_start_time" property="jobStartTime" />
+	        	<result  column="import_status" property="importStatus" />
+	        	<result  column="job_position_id" property="jobPositionId" />
+	        	<result  column="job_position_level_id" property="jobPositionLevelId" />
+	</resultMap>
+	
+	<!-- 查询 建立信息列表 -->
+	<select id="queryZpJlInfoList" resultMap="zpJlInfoMap">
+		SELECT
+						 		zp_jl_info.jl_id,
+			        	
+						 		zp_jl_info.name,
+			        	
+						 		zp_jl_info.sex,
+			        	
+						 		zp_jl_info.job_id,
+			        	
+						 		zp_jl_info.emal,
+			        	
+						 		zp_jl_info.phone,
+			        	
+						 		zp_jl_info.identity_card,
+			        	
+						 		zp_jl_info.marital_id,
+			        	
+						 		zp_jl_info.salary_require_id,
+			        	
+						 		zp_jl_info.famous_company_update_status,
+			        	
+						 		zp_jl_info.education_id,
+			        	
+						 		zp_jl_info.SchoolTag,
+			        	
+						 		zp_jl_info.in_persion,
+			        	
+						 		zp_jl_info.in_time,
+			        	
+						 		zp_jl_info.last_operator_time,
+			        	
+						 		zp_jl_info.job_start_time,
+			        	
+						 		zp_jl_info.import_status,
+			        	
+						 		zp_jl_info.job_position_id,
+			        	
+						 		zp_jl_info.job_position_level_id
+			        	
+		FROM
+			zp_jl_info
+		<where>
+				<if test="qtype != null and qtype=='like'">
+				</if>
+				        	<if test="name != null and name !='' ">
+				        		AND zp_jl_info.name=#{name} 
+				        	</if>
+				        	<if test="sex != null and sex !='' ">
+				        		AND zp_jl_info.sex=#{sex} 
+				        	</if>
+				        	<if test="jobId != null and jobId !='' ">
+				        		AND zp_jl_info.job_id=#{jobId} 
+				        	</if>
+				        	<if test="emal != null and emal !='' ">
+				        		AND zp_jl_info.emal=#{emal} 
+				        	</if>
+				        	<if test="phone != null and phone !='' ">
+				        		AND zp_jl_info.phone=#{phone} 
+				        	</if>
+				        	<if test="identityCard != null and identityCard !='' ">
+				        		AND zp_jl_info.identity_card=#{identityCard} 
+				        	</if>
+				        	<if test="maritalId != null and maritalId !='' ">
+				        		AND zp_jl_info.marital_id=#{maritalId} 
+				        	</if>
+				        	<if test="salaryRequireId != null and salaryRequireId !='' ">
+				        		AND zp_jl_info.salary_require_id=#{salaryRequireId} 
+				        	</if>
+				        	<if test="famousCompanyUpdateStatus != null and famousCompanyUpdateStatus !='' ">
+				        		AND zp_jl_info.famous_company_update_status=#{famousCompanyUpdateStatus} 
+				        	</if>
+				        	<if test="educationId != null and educationId !='' ">
+				        		AND zp_jl_info.education_id=#{educationId} 
+				        	</if>
+				        	<if test="schoolTag != null and schoolTag !='' ">
+				        		AND zp_jl_info.SchoolTag=#{schoolTag} 
+				        	</if>
+				        	<if test="inPersion != null and inPersion !='' ">
+				        		AND zp_jl_info.in_persion=#{inPersion} 
+				        	</if>
+				        	<if test="inTime != null and inTime !='' ">
+				        		AND zp_jl_info.in_time=#{inTime} 
+				        	</if>
+				        	<if test="lastOperatorTime != null and lastOperatorTime !='' ">
+				        		AND zp_jl_info.last_operator_time=#{lastOperatorTime} 
+				        	</if>
+				        	<if test="jobStartTime != null and jobStartTime !='' ">
+				        		AND zp_jl_info.job_start_time=#{jobStartTime} 
+				        	</if>
+				        	<if test="importStatus != null and importStatus !='' ">
+				        		AND zp_jl_info.import_status=#{importStatus} 
+				        	</if>
+				        	<if test="jobPositionId != null and jobPositionId !='' ">
+				        		AND zp_jl_info.job_position_id=#{jobPositionId} 
+				        	</if>
+				        	<if test="jobPositionLevelId != null and jobPositionLevelId !='' ">
+				        		AND zp_jl_info.job_position_level_id=#{jobPositionLevelId} 
+				        	</if>
+		</where>
+		ORDER BY zp_jl_info.jl_id desc 
+		<if test="skipResults!=null">
+				limit #{skipResults} ,#{maxResults}
+		</if>
+		
+	</select>
+	
+	<!-- 查询 建立信息列表条数 -->
+	<select id="getZpJlInfoListCount" resultType="int">
+		SELECT
+			count(1)
+		FROM
+			zp_jl_info
+		<where>
+				<if test="qtype != null and qtype=='like'">
+				</if>
+				        	<if test="name != null and name !=''">
+				        		AND zp_jl_info.name=#{name} 
+				        	</if>
+				        	<if test="sex != null and sex !=''">
+				        		AND zp_jl_info.sex=#{sex} 
+				        	</if>
+				        	<if test="jobId != null and jobId !=''">
+				        		AND zp_jl_info.job_id=#{jobId} 
+				        	</if>
+				        	<if test="emal != null and emal !=''">
+				        		AND zp_jl_info.emal=#{emal} 
+				        	</if>
+				        	<if test="phone != null and phone !=''">
+				        		AND zp_jl_info.phone=#{phone} 
+				        	</if>
+				        	<if test="identityCard != null and identityCard !=''">
+				        		AND zp_jl_info.identity_card=#{identityCard} 
+				        	</if>
+				        	<if test="maritalId != null and maritalId !=''">
+				        		AND zp_jl_info.marital_id=#{maritalId} 
+				        	</if>
+				        	<if test="salaryRequireId != null and salaryRequireId !=''">
+				        		AND zp_jl_info.salary_require_id=#{salaryRequireId} 
+				        	</if>
+				        	<if test="famousCompanyUpdateStatus != null and famousCompanyUpdateStatus !=''">
+				        		AND zp_jl_info.famous_company_update_status=#{famousCompanyUpdateStatus} 
+				        	</if>
+				        	<if test="educationId != null and educationId !=''">
+				        		AND zp_jl_info.education_id=#{educationId} 
+				        	</if>
+				        	<if test="schoolTag != null and schoolTag !=''">
+				        		AND zp_jl_info.SchoolTag=#{schoolTag} 
+				        	</if>
+				        	<if test="inPersion != null and inPersion !=''">
+				        		AND zp_jl_info.in_persion=#{inPersion} 
+				        	</if>
+				        	<if test="inTime != null and inTime !=''">
+				        		AND zp_jl_info.in_time=#{inTime} 
+				        	</if>
+				        	<if test="lastOperatorTime != null and lastOperatorTime !=''">
+				        		AND zp_jl_info.last_operator_time=#{lastOperatorTime} 
+				        	</if>
+				        	<if test="jobStartTime != null and jobStartTime !=''">
+				        		AND zp_jl_info.job_start_time=#{jobStartTime} 
+				        	</if>
+				        	<if test="importStatus != null and importStatus !=''">
+				        		AND zp_jl_info.import_status=#{importStatus} 
+				        	</if>
+				        	<if test="jobPositionId != null and jobPositionId !=''">
+				        		AND zp_jl_info.job_position_id=#{jobPositionId} 
+				        	</if>
+				        	<if test="jobPositionLevelId != null and jobPositionLevelId !=''">
+				        		AND zp_jl_info.job_position_level_id=#{jobPositionLevelId} 
+				        	</if>
+		</where>
+	</select>
+	
+	
+	<!-- 添加 建立信息 -->
+	<insert id="addZpJlInfo" flushCache="true" useGeneratedKeys="true" keyProperty="jlId">
+		INSERT INTO zp_jl_info
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+		        	<if test="name != null">
+		        		name,
+		        	</if>
+		        	<if test="sex != null">
+		        		sex,
+		        	</if>
+		        	<if test="jobId != null">
+		        		job_id,
+		        	</if>
+		        	<if test="emal != null">
+		        		emal,
+		        	</if>
+		        	<if test="phone != null">
+		        		phone,
+		        	</if>
+		        	<if test="identityCard != null">
+		        		identity_card,
+		        	</if>
+		        	<if test="maritalId != null">
+		        		marital_id,
+		        	</if>
+		        	<if test="salaryRequireId != null">
+		        		salary_require_id,
+		        	</if>
+		        	<if test="famousCompanyUpdateStatus != null">
+		        		famous_company_update_status,
+		        	</if>
+		        	<if test="educationId != null">
+		        		education_id,
+		        	</if>
+		        	<if test="schoolTag != null">
+		        		SchoolTag,
+		        	</if>
+		        	<if test="inPersion != null">
+		        		in_persion,
+		        	</if>
+		        	<if test="inTime != null">
+		        		in_time,
+		        	</if>
+		        	<if test="lastOperatorTime != null">
+		        		last_operator_time,
+		        	</if>
+		        	<if test="jobStartTime != null">
+		        		job_start_time,
+		        	</if>
+		        	<if test="importStatus != null">
+		        		import_status,
+		        	</if>
+		        	<if test="jobPositionId != null">
+		        		job_position_id,
+		        	</if>
+		        	<if test="jobPositionLevelId != null">
+		        		job_position_level_id,
+		        	</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			        	<if test="name != null">
+			        		#{name},
+			        	</if>
+			        	<if test="sex != null">
+			        		#{sex},
+			        	</if>
+			        	<if test="jobId != null">
+			        		#{jobId},
+			        	</if>
+			        	<if test="emal != null">
+			        		#{emal},
+			        	</if>
+			        	<if test="phone != null">
+			        		#{phone},
+			        	</if>
+			        	<if test="identityCard != null">
+			        		#{identityCard},
+			        	</if>
+			        	<if test="maritalId != null">
+			        		#{maritalId},
+			        	</if>
+			        	<if test="salaryRequireId != null">
+			        		#{salaryRequireId},
+			        	</if>
+			        	<if test="famousCompanyUpdateStatus != null">
+			        		#{famousCompanyUpdateStatus},
+			        	</if>
+			        	<if test="educationId != null">
+			        		#{educationId},
+			        	</if>
+			        	<if test="schoolTag != null">
+			        		#{schoolTag},
+			        	</if>
+			        	<if test="inPersion != null">
+			        		#{inPersion},
+			        	</if>
+			        	<if test="inTime != null">
+			        		#{inTime},
+			        	</if>
+			        	<if test="lastOperatorTime != null">
+			        		#{lastOperatorTime},
+			        	</if>
+			        	<if test="jobStartTime != null">
+			        		#{jobStartTime},
+			        	</if>
+			        	<if test="importStatus != null">
+			        		#{importStatus},
+			        	</if>
+			        	<if test="jobPositionId != null">
+			        		#{jobPositionId},
+			        	</if>
+			        	<if test="jobPositionLevelId != null">
+			        		#{jobPositionLevelId},
+			        	</if>
+		</trim>
+	</insert>
+	
+	<!-- 修改 建立信息 -->
+	<update id="updateZpJlInfo" >
+		UPDATE  zp_jl_info
+		<trim prefix="set" suffixOverrides=",">
+			        	<if test="name != null">
+			        		name=#{name},
+			        	</if>
+			        	<if test="sex != null">
+			        		sex=#{sex},
+			        	</if>
+			        	<if test="jobId != null">
+			        		job_id=#{jobId},
+			        	</if>
+			        	<if test="emal != null">
+			        		emal=#{emal},
+			        	</if>
+			        	<if test="phone != null">
+			        		phone=#{phone},
+			        	</if>
+			        	<if test="identityCard != null">
+			        		identity_card=#{identityCard},
+			        	</if>
+			        	<if test="maritalId != null">
+			        		marital_id=#{maritalId},
+			        	</if>
+			        	<if test="salaryRequireId != null">
+			        		salary_require_id=#{salaryRequireId},
+			        	</if>
+			        	<if test="famousCompanyUpdateStatus != null">
+			        		famous_company_update_status=#{famousCompanyUpdateStatus},
+			        	</if>
+			        	<if test="educationId != null">
+			        		education_id=#{educationId},
+			        	</if>
+			        	<if test="schoolTag != null">
+			        		SchoolTag=#{schoolTag},
+			        	</if>
+			        	<if test="inPersion != null">
+			        		in_persion=#{inPersion},
+			        	</if>
+			        	<if test="inTime != null">
+			        		in_time=#{inTime},
+			        	</if>
+			        	<if test="lastOperatorTime != null">
+			        		last_operator_time=#{lastOperatorTime},
+			        	</if>
+			        	<if test="jobStartTime != null">
+			        		job_start_time=#{jobStartTime},
+			        	</if>
+			        	<if test="importStatus != null">
+			        		import_status=#{importStatus},
+			        	</if>
+			        	<if test="jobPositionId != null">
+			        		job_position_id=#{jobPositionId},
+			        	</if>
+			        	<if test="jobPositionLevelId != null">
+			        		job_position_level_id=#{jobPositionLevelId},
+			        	</if>
+		</trim>
+		WHERE jl_id=#{jlId}
+	</update>
+
+	<!-- 删除  建立信息 -->
+	<delete id="deleteZpJlInfo">
+		DELETE FROM zp_jl_info 
+		<where>
+				        	<if test="jlId != null">
+				        		AND jl_id=#{jlId} 
+				        	</if>
+				        	<if test="name != null">
+				        		AND name=#{name} 
+				        	</if>
+				        	<if test="sex != null">
+				        		AND sex=#{sex} 
+				        	</if>
+				        	<if test="jobId != null">
+				        		AND job_id=#{jobId} 
+				        	</if>
+				        	<if test="emal != null">
+				        		AND emal=#{emal} 
+				        	</if>
+				        	<if test="phone != null">
+				        		AND phone=#{phone} 
+				        	</if>
+				        	<if test="identityCard != null">
+				        		AND identity_card=#{identityCard} 
+				        	</if>
+				        	<if test="maritalId != null">
+				        		AND marital_id=#{maritalId} 
+				        	</if>
+				        	<if test="salaryRequireId != null">
+				        		AND salary_require_id=#{salaryRequireId} 
+				        	</if>
+				        	<if test="famousCompanyUpdateStatus != null">
+				        		AND famous_company_update_status=#{famousCompanyUpdateStatus} 
+				        	</if>
+				        	<if test="educationId != null">
+				        		AND education_id=#{educationId} 
+				        	</if>
+				        	<if test="schoolTag != null">
+				        		AND SchoolTag=#{schoolTag} 
+				        	</if>
+				        	<if test="inPersion != null">
+				        		AND in_persion=#{inPersion} 
+				        	</if>
+				        	<if test="inTime != null">
+				        		AND in_time=#{inTime} 
+				        	</if>
+				        	<if test="lastOperatorTime != null">
+				        		AND last_operator_time=#{lastOperatorTime} 
+				        	</if>
+				        	<if test="jobStartTime != null">
+				        		AND job_start_time=#{jobStartTime} 
+				        	</if>
+				        	<if test="importStatus != null">
+				        		AND import_status=#{importStatus} 
+				        	</if>
+				        	<if test="jobPositionId != null">
+				        		AND job_position_id=#{jobPositionId} 
+				        	</if>
+				        	<if test="jobPositionLevelId != null">
+				        		AND job_position_level_id=#{jobPositionLevelId} 
+				        	</if>
+		</where>
+	</delete>
+	
+	<!-- 获得  建立信息 -->
+	<select id="getZpJlInfoById" resultMap="zpJlInfoMap">
+		SELECT
+						 		ZpJlInfo.jl_id,
+						 		ZpJlInfo.name,
+						 		ZpJlInfo.sex,
+						 		ZpJlInfo.job_id,
+						 		ZpJlInfo.emal,
+						 		ZpJlInfo.phone,
+						 		ZpJlInfo.identity_card,
+						 		ZpJlInfo.marital_id,
+						 		ZpJlInfo.salary_require_id,
+						 		ZpJlInfo.famous_company_update_status,
+						 		ZpJlInfo.education_id,
+						 		ZpJlInfo.SchoolTag,
+						 		ZpJlInfo.in_persion,
+						 		ZpJlInfo.in_time,
+						 		ZpJlInfo.last_operator_time,
+						 		ZpJlInfo.job_start_time,
+						 		ZpJlInfo.import_status,
+						 		ZpJlInfo.job_position_id,
+						 		ZpJlInfo.job_position_level_id
+		FROM
+			zp_jl_info
+		WHERE 
+		zp_jl_info.jl_id=#{jlId}
+		
+	</select>
+
+</mapper>

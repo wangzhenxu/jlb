@@ -26,7 +26,7 @@ public class HomeController {
 	@RequestMapping(value = "/welcome")
 	public String welcome() {
 		Subject subject = SecurityUtils.getSubject();
-		if (subject.isPermitted("productClass:list")) {
+		/*if (subject.isPermitted("productClass:list")) {
 			// 产品分类
 			return "redirect:/product/class/list.action";
 		} else if (subject.isPermitted("product:list")) {
@@ -52,7 +52,9 @@ public class HomeController {
 		else {
 			// 什么角色都没有就到密码修改，一般没有这个情况
 			return "redirect:/password.action";
-		}
+		}*/
+		
+		return "redirect:/zpJlInfo/toAdd.action";
 	    
 	}
 }

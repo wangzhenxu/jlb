@@ -70,6 +70,9 @@
 		
 		<typeAlias type="com.loiot.baqi.pojo.ZpHrInfo" alias="ZpHrInfo" />
 		<typeAlias type="com.loiot.baqi.pojo.ZpEmalTemplate" alias="ZpEmalTemplate" />
+		<typeAlias type="com.loiot.baqi.pojo.ZpJlInfo" alias="ZpJlInfo" />
+		<typeAlias type="com.loiot.baqi.pojo.ZpDictionaryInfo" alias="ZpDictionaryInfo" />
+		
 		
 		
 	</typeAliases>

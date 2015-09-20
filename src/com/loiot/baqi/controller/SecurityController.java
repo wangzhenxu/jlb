@@ -1,5 +1,9 @@
 package com.loiot.baqi.controller;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -21,6 +25,8 @@ import com.loiot.baqi.controller.response.AjaxResponse;
 import com.loiot.baqi.security.shiro.AccountNotExistException;
 import com.loiot.baqi.security.shiro.PasswordWrongException;
 import com.loiot.baqi.service.AccountService;
+import com.loiot.baqi.service.ZpDictionaryInfoService;
+import com.loiot.baqi.utils.IndexInfoSingleTon;
 import com.loiot.baqi.utils.MD5Util;
 import com.timeloit.pojo.Account;
 
@@ -43,6 +49,9 @@ public class SecurityController {
      */
     @Resource
     private AccountService accountService;
+    
+    @Resource
+   	private ZpDictionaryInfoService zpDictionaryInfoService;
 
     /**
      * 跳转登陆页
@@ -65,7 +74,7 @@ public class SecurityController {
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ResponseBody
     public Object login(@RequestParam(value = "loginUsername") String username,
-            @RequestParam(value = "loginPassword") String password, HttpSession session) {
+            @RequestParam(value = "loginPassword") String password, HttpSession session) throws Exception {
 
         log.debug("loging username [{}] password [{}]", username, password);
 
@@ -92,6 +101,9 @@ public class SecurityController {
         session.setAttribute(Const.SESSION_SUBJECT, subject); // shiro已登录用户
         session.setAttribute(Const.SESSION_USER_KEY, accountService.getAccountByUsername(username));// 登陆用户
 
+        IndexInfoSingleTon indexInfo = IndexInfoSingleTon.getInstance();
+		Map<String, List> infoMap = indexInfo.getIndexInfoMap();  //  得到Map集合
+		infoMap.put(Const.SESSION_DICTIONARYS_KEY, zpDictionaryInfoService.queryZpDictionaryInfoList(new HashMap()));
         return AjaxResponse.OK;
     }
 

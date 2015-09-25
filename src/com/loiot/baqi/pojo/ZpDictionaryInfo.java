@@ -7,7 +7,7 @@ import lombok.EqualsAndHashCode;
  * 字典信息 实体类
  * 
  * @author  wangzx 
- * @creation 2015-09-19
+ * @creation 2015-09-23
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -19,6 +19,7 @@ public class ZpDictionaryInfo  implements java.io.Serializable{
 	    private Integer type;  //type db_column: type 
 	    private java.lang.String name;  //名称 db_column: name 
 	    private Integer sort;  //sort db_column: sort 
+	    private java.lang.String value;  //正则表达式(简历) db_column: value 
 
 
 	public ZpDictionaryInfo(){

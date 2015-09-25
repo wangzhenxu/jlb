@@ -9,6 +9,7 @@
 	        	<result  column="type" property="type" />
 	        	<result  column="name" property="name" />
 	        	<result  column="sort" property="sort" />
+	        	<result  column="value" property="value" />
 	</resultMap>
 	
 	<!-- 查询 字典信息列表 -->
@@ -20,7 +21,9 @@
 			        	
 						 		zp_dictionary_info.name,
 			        	
-						 		zp_dictionary_info.sort
+						 		zp_dictionary_info.sort,
+			        	
+						 		zp_dictionary_info.value
 			        	
 		FROM
 			zp_dictionary_info
@@ -35,6 +38,9 @@
 				        	</if>
 				        	<if test="sort != null and sort !='' ">
 				        		AND zp_dictionary_info.sort=#{sort} 
+				        	</if>
+				        	<if test="value != null and value !='' ">
+				        		AND zp_dictionary_info.value=#{value} 
 				        	</if>
 		</where>
 		ORDER BY type asc, sort asc 
@@ -62,6 +68,9 @@
 				        	<if test="sort != null and sort !=''">
 				        		AND zp_dictionary_info.sort=#{sort} 
 				        	</if>
+				        	<if test="value != null and value !=''">
+				        		AND zp_dictionary_info.value=#{value} 
+				        	</if>
 		</where>
 	</select>
 	
@@ -79,6 +88,9 @@
 		        	<if test="sort != null">
 		        		sort,
 		        	</if>
+		        	<if test="value != null">
+		        		value,
+		        	</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			        	<if test="type != null">
@@ -89,6 +101,9 @@
 			        	</if>
 			        	<if test="sort != null">
 			        		#{sort},
+			        	</if>
+			        	<if test="value != null">
+			        		#{value},
 			        	</if>
 		</trim>
 	</insert>
@@ -105,6 +120,9 @@
 			        	</if>
 			        	<if test="sort != null">
 			        		sort=#{sort},
+			        	</if>
+			        	<if test="value != null">
+			        		value=#{value},
 			        	</if>
 		</trim>
 		WHERE dictionary_id=#{dictionaryId}
@@ -126,6 +144,9 @@
 				        	<if test="sort != null">
 				        		AND sort=#{sort} 
 				        	</if>
+				        	<if test="value != null">
+				        		AND value=#{value} 
+				        	</if>
 		</where>
 	</delete>
 	
@@ -135,7 +156,8 @@
 						 		ZpDictionaryInfo.dictionary_id,
 						 		ZpDictionaryInfo.type,
 						 		ZpDictionaryInfo.name,
-						 		ZpDictionaryInfo.sort
+						 		ZpDictionaryInfo.sort,
+						 		ZpDictionaryInfo.value
 		FROM
 			zp_dictionary_info
 		WHERE 

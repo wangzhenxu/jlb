@@ -18,7 +18,9 @@
 		class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
 		<property name="supportedMediaTypes">    
 	       <list>    
-	           <value>application/json;charset=UTF-8</value>  
+	            <value>apolication/json; charset=UTF-8</value>
+                <value>text/html;charset=UTF-8</value>
+                <value>text/plain;charset=UTF-8</value>
 	       </list>    
    		</property>  
 	</bean>	
@@ -47,7 +49,12 @@
   		        <prop key="com.loiot.baqi.exception.IllegalAppException">/app/IllegalAppException</prop>
 		    </props> 
 		</property>
-   </bean>	
+   </bean>
+  
+   
+   
+    
+    	
 	<!-- 扫描controller -->
 	<context:component-scan base-package="com.loiot.baqi.controller" />
 	<!-- mvc注解驱动 -->

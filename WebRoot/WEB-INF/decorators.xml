@@ -47,8 +47,9 @@
 		<pattern>/product/management/toCommandInfo.action*</pattern>
 		<pattern>/product/management/toWarn.action*</pattern>
 		<pattern>/upload.action*</pattern>
-		
 		<pattern>/project/getProjectRole.action*</pattern>
+
+		 <pattern>/zpJlInfo/paseWord.action*</pattern> 
 	</excludes>
 
 	<decorator name="main" page="newMain.ftl">

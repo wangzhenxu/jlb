@@ -30,7 +30,12 @@ public enum DictionaryType {
 	
     JOB_POSITION(9, "职位"),
     
-    JOB_POSITION_LEVE(10, "职位级别");
+    JOB_POSITION_LEVE(10, "职位级别"),
+	
+	RESUME_REGEXP(11, "简历匹配正则"),
+	
+	ENGLISH_LEVEL(12, "英语等级");
+	
     
 
 	/**

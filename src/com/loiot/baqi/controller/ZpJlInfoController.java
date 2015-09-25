@@ -1,5 +1,6 @@
 package com.loiot.baqi.controller;
 
+import java.io.File;
 import java.util.*;
 
 import com.loiot.baqi.pojo.*;
@@ -7,8 +8,11 @@ import com.loiot.baqi.dao.*;
 import com.loiot.baqi.service.*;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.fileupload.disk.DiskFileItem;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -18,12 +22,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import com.loiot.baqi.pojo.*;
 import com.loiot.baqi.constant.Const;
 import com.loiot.baqi.controller.response.AjaxResponse;
 import com.loiot.baqi.controller.response.Pager;
 import com.loiot.baqi.service.*;
+import com.loiot.commons.utils.DateUtil;
 import com.timeloit.pojo.Account;
 
 /**
@@ -82,15 +88,24 @@ public class ZpJlInfoController {
      */
     @RequestMapping(value = "/add")
     @ResponseBody
-    public Object addZpJlInfo(ZpJlInfo p,HttpSession session) {
+    public Object addZpJlInfo(ZpJlInfo p,HttpSession session,HttpServletRequest request) {
     	try {
-            //Account account = (Account) session.getAttribute(Const.SESSION_USER_KEY);
+    		System.out.println(p);
+    		Account account = (Account) session.getAttribute(Const.SESSION_USER_KEY);
+    		p.setInTime(new Date());
+    		p.setInPersion(account.getUsername());
+    		String jobStartTimeT = request.getParameter("jobStartTimeT");
+    		if(!StringUtils.isBlank(jobStartTimeT)){
+    			Date jobStartTime =DateUtil.toDate(jobStartTimeT+"-01");
+        		p.setJobStartTime(jobStartTime);
+    		}
+    		
     		//验证唯一性
         	HashMap<String,Object> pMap =new HashMap<String,Object>();
         	//pMap.put("name", p.getName);
         	int result=zpJlInfoService.getZpJlInfoListCount(pMap);
         	if(result>0){
-		        return NAME_EXIST;
+		        //return NAME_EXIST;
 			}
     		zpJlInfoService.addZpJlInfo(p);
     		// 添加成功
@@ -193,12 +208,19 @@ public class ZpJlInfoController {
      * @return
      * @throws Exception 
      */
-    @RequestMapping(method={RequestMethod.GET,RequestMethod.POST},value="/checkImage")
-    public String checkImage(@RequestParam(value="ui-upload-input") MultipartFile imgFile) throws Exception {
-    	if(imgFile.getSize()>1048576){
+    @RequestMapping(method={RequestMethod.GET,RequestMethod.POST},value="/paseWord")
+    @ResponseBody
+    public Object paseWord(@RequestParam(value="ui-upload-input") CommonsMultipartFile  file,HttpServletResponse response) throws Exception {
+    	//response.setContentType("text/plain");
+    	DiskFileItem fi = (DiskFileItem)file.getFileItem(); 
+        File f = fi.getStoreLocation();
+        ZpJlInfo bi = this.zpJlInfoService.paseWord(f,fi.getName());
+        AjaxResponse result = AjaxResponse.OK(bi);
+    	/*if(f.getSize()>1048576){
     		return "/product/maxUploadExceeded";
     	}else  
-    		return "/product/UploadSuccess";
+    		return "/product/UploadSuccess";*/
+        return result;
     }
     
 

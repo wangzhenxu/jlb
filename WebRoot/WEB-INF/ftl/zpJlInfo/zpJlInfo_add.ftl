@@ -32,7 +32,7 @@
 	         <div class="uploadlay">
 	           <div id="ui-upload-holder">
 	             <div id="ui-upload-txt">浏览</div>
-	             <input type="file" id="ui-upload-input" class="ui-upload-input" name="ui-upload-input" onchange="jlInfo.upload(this);alert(1);">
+	             <input type="file" id="ui-upload-input" class="ui-upload-input" name="ui-upload-input" onchange="jlInfo.upload(this);">
 	             </div>
 	         </div>
           </td>
@@ -62,6 +62,65 @@
           	 <input name="emal" id="emal" type="text" class="inputa error-field" validate="validate[required,custom[eightCha]]">
           </td>
          </tr>
+          <tr>
+           <td  align="right" class="hui1">身份证：</td>
+           <td  align="left" valign="middle">
+          	 <input name="identityCard" id="identityCard" type="text" class="inputa error-field" validate="validate[required,custom[eightCha]]">
+           </td>
+          <td align="right" class="hui1">婚否：</td>
+          <td  align="left" valign="middle">
+				 <#list DictionaryUtil.getTypes(DictionaryType.IS_MARRY.getCode()) as c>
+	          	 	<input class="radio" name="maritalId" type="radio" value="${c.dictionaryId}" > ${c.name!''} 
+	          	 </#list>
+           </td>
+         </tr>
+         
+          <tr>
+           <td  align="right" class="hui1">最高学历：</td>
+           <td  align="left" valign="middle">
+          	 <#list DictionaryUtil.getTypes(DictionaryType.EDUCATION.getCode()) as c>
+	          	 	<input class="radio" name="educationId" type="radio" value="${c.dictionaryId}" > ${c.name!''} 
+          	 </#list> 
+           </td>
+          <td align="right" class="hui1">学校名称：</td>
+          <td  align="left" valign="middle">
+          	 <input name="schoolTag" id="schoolTag" type="text" class="inputa error-field" validate="validate[required,custom[eightCha]]">
+          </td>
+         </tr>
+         
+         <tr>
+           <td  align="right" class="hui1">专业：</td>
+           <td  align="left" valign="middle">
+          	   <input name="topSpecialty" id="topSpecialty" type="text" class="inputa error-field" validate="validate[required,custom[eightCha]]">
+           </td>
+          <td align="right" class="hui1">英语等级：</td>
+          <td  align="left" valign="middle">
+	 		 <#list DictionaryUtil.getTypes(DictionaryType.ENGLISH_LEVEL.getCode()) as c>
+	          	 	<input class="radio" name="englishLevelId" type="radio" value="${c.dictionaryId}" > ${c.name!''} 
+          	 </#list> 
+		  </td>
+         </tr>
+         
+          <tr>
+           <td  align="right" class="hui1">出生年月：</td>
+           <td  align="left" valign="middle">
+          	 <input name="birthday" id="birthday" onClick="WdatePicker({dateFmt:'yyyy-MM'})" type="text" class="inputa error-field" validate="validate[required,custom[eightCha]]">
+           </td>
+          <td align="right" class="hui1"></td>
+          <td  align="left" valign="middle">
+          </td>
+         </tr>
+          <tr>
+           <td  align="right" class="hui1">工作开始时间：</td>
+           <td  align="left" valign="middle">
+          	 <input name="jobStartTimeT" id="jobStartTimeT" onClick="WdatePicker({dateFmt:'yyyy-MM'})" type="text" class="inputa error-field" validate="validate[required,custom[eightCha]]">
+           </td>
+          <td align="right" class="hui1">现住址：</td>
+          <td  align="left" valign="middle">
+                       <input name="nowAddress" id="nowAddress" type="text" class="inputa error-field" validate="validate[required,custom[eightCha]]">
+          </td>
+         </tr>
+         
          <tr>
            <td  align="right" class="hui1">职位：</td>
            <td  align="left" valign="middle" clospan="3">
@@ -86,42 +145,6 @@
           	  	 <input class="radio" name="salaryRequireId" type="radio" value="${c.dictionaryId}" > ${c.name!''} 
           	 </#list>
            </td>
-         </tr>
-         
-          <tr>
-           <td  align="right" class="hui1">身份证：</td>
-           <td  align="left" valign="middle">
-          	 <input name="identityCard" id="identityCard" type="text" class="inputa error-field" validate="validate[required,custom[eightCha]]">
-           </td>
-          <td align="right" class="hui1">婚否：</td>
-          <td  align="left" valign="middle">
-				 <#list DictionaryUtil.getTypes(DictionaryType.IS_MARRY.getCode()) as c>
-	          	 	<input class="radio" name="maritalId" type="radio" value="${c.dictionaryId}" > ${c.name!''} 
-	          	 </#list>
-           </td>
-         </tr>
-         
-          <tr>
-           <td  align="right" class="hui1">学历：</td>
-           <td  align="left" valign="middle">
-          	 <#list DictionaryUtil.getTypes(DictionaryType.EDUCATION.getCode()) as c>
-	          	 	<input class="radio" name="educationId" type="radio" value="${c.dictionaryId}" > ${c.name!''} 
-          	 </#list> 
-           </td>
-          <td align="right" class="hui1">学校名称：</td>
-          <td  align="left" valign="middle">
-          	 <input name="schoolTag" id="schoolTag" type="text" class="inputa error-field" validate="validate[required,custom[eightCha]]">
-          </td>
-         </tr>
-         
-          <tr>
-           <td  align="right" class="hui1">工作开始时间：</td>
-           <td  align="left" valign="middle">
-          	 <input name="jobStartTimeT" id="jobStartTimeT" onClick="WdatePicker({dateFmt:'yyyy-MM'})" type="text" class="inputa error-field" validate="validate[required,custom[eightCha]]">
-           </td>
-          <td align="right" class="hui1"></td>
-          <td  align="left" valign="middle">
-          </td>
          </tr>
          </table>
 

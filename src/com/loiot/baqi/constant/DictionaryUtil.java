@@ -32,7 +32,7 @@ public class DictionaryUtil {
 		String name ="";
 		for(ZpDictionaryInfo dic : dictList){
 			if(dic.getType()==DictionaryType.SALARY_REQUIRE.getCode()){
-				name=dic.getName();
+				name=dic.getShowName();
 			}
 		}
 		return name;
@@ -55,7 +55,7 @@ public class DictionaryUtil {
 		Map<String,List> maps = IndexInfoSingleTon.getInstance().getIndexInfoMap();
 		List<ZpDictionaryInfo> dictList= maps.get(Const.SESSION_DICTIONARYS_KEY);
 		for(ZpDictionaryInfo dic : dictList){
-			if(dic.getType()==type || dic.getName().equals(name)){
+			if(dic.getType()==type && dic.getName().equals(name)){
 				return dic.getDictionaryId();
 			}
 		}

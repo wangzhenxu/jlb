@@ -32,7 +32,24 @@ public class RegexpUtils {
             list.add(args); 
         }
         return list;  
-    }  
+    } 
+ 
+ public List<String> matchGroupB(String regexp, String data) {  
+	 	//System.out.println("regexp:"+regexp);
+     Pattern p = Pattern.compile(regexp);  
+     Matcher matcher = p.matcher(data);
+     List<String> list = new ArrayList<String>();
+     int j=0;
+     while (matcher.find()) {
+    	 if(!list.contains(matcher.group("vv")))
+         list.add(matcher.group("vv")); 
+     }
+     if(list.size()>1){
+ 	 	System.out.println("cont >1 regexp:"+regexp);
+     }
+     return list;  
+ } 
+ 
     private static RegexpUtils ru = null;  
     //单太模式  
     public static RegexpUtils getInstance() {  

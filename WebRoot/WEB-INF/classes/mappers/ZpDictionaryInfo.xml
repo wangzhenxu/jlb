@@ -8,7 +8,7 @@
 	        	<id  column="dictionary_id" property="dictionaryId"></id>
 	        	<result  column="type" property="type" />
 	        	<result  column="name" property="name" />
-	        	<result  column="sort" property="sort" />
+	        	<result  column="show_name" property="showName" />
 	        	<result  column="value" property="value" />
 	</resultMap>
 	
@@ -23,7 +23,9 @@
 			        	
 						 		zp_dictionary_info.sort,
 			        	
-						 		zp_dictionary_info.value
+						 		zp_dictionary_info.value,
+						 		
+						 		zp_dictionary_info.show_name
 			        	
 		FROM
 			zp_dictionary_info
@@ -41,6 +43,9 @@
 				        	</if>
 				        	<if test="value != null and value !='' ">
 				        		AND zp_dictionary_info.value=#{value} 
+				        	</if>
+				        		<if test="showName != null and showName !='' ">
+				        		AND zp_dictionary_info.show_name=#{showName} 
 				        	</if>
 		</where>
 		ORDER BY type asc, sort asc 
@@ -71,6 +76,10 @@
 				        	<if test="value != null and value !=''">
 				        		AND zp_dictionary_info.value=#{value} 
 				        	</if>
+				        	<if test="showName != null and showName !=''">
+				        		AND zp_dictionary_info.showName=#{showName} 
+				        	</if>
+				        	
 		</where>
 	</select>
 	

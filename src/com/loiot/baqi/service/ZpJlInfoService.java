@@ -21,6 +21,7 @@ import com.loiot.baqi.service.ZpJlInfoService;
 import com.loiot.baqi.status.DictionaryType;
 import com.loiot.baqi.status.ResumeMatchingRegexpType;
 import com.loiot.baqi.utils.IdcardUtils;
+import com.loiot.baqi.utils.JLBUtils;
 import com.loiot.baqi.utils.RegexpUtils;
 import com.loiot.baqi.utils.WordUtils;
 import com.loiot.baqi.pojo.ZpDictionaryInfo;
@@ -153,6 +154,7 @@ public class ZpJlInfoService{
     
     public ZpJlInfo paseWord(File file,String fileName) throws Exception{
 			String txt = WordUtils.getWordText(file.getPath(),fileName);
+			System.out.println("text:" + txt);
 			ZpJlInfo zp = this.regxWordKeyword(txt);
 		  return zp;
     }
@@ -172,93 +174,121 @@ public class ZpJlInfoService{
     	ZpJlInfo bean = new ZpJlInfo();
     	Matcher matcher=null;
     	String regexpStr=null;
-    	List<String[]> matchs =null;
+    	List<String> matchs =null;
     	int count=0;
     	String matcherString="";
     	String idcard = "exits";
+    	String birthdate="exits";
     	RegexpUtils instance = RegexpUtils.getInstance();
-    	matchs = instance.matchGroup(getJlRegexp(ResumeMatchingRegexpType.ID_CARD_REGEXP.getTitle()), content);
+    	
+    	
+    	
+    	matchs = instance.matchGroupB(getJlRegexp(ResumeMatchingRegexpType.ID_CARD_REGEXP.getTitle()), content);
     	//身份证
     	if(matchs.size()==1){
-    		matcherString=matchs.get(0)[0];
+    		matcherString=matchs.get(0);
+    		bean.setIdentityCard(matcherString);
     		String sex = IdcardUtils.getGenderByIdCard(matcherString);
     		int age = IdcardUtils.getAgeByIdCard(matcherString);
-    		String ym = IdcardUtils.getYearMonth(matcherString);
-    		bean.setIdentityCard(matcherString);
     		bean.setSex(DictionaryUtil.getCode(DictionaryType.SEX.getCode(), sex));
+    		Date new2 = DateUtil.addYear(new Date(), -age);
+    		bean.setBirthday(new2);
     	} else {
     		idcard="noExits";
     	}
     	//身份证不存在
     	if(idcard.equals("noExits")){
     		//性别
-    		matchs = instance.matchGroup(getJlRegexp(ResumeMatchingRegexpType.SEX_REGEXP.getTitle()), content);
+    		matchs = instance.matchGroupB(getJlRegexp(ResumeMatchingRegexpType.SEX_REGEXP.getTitle()), content);
     		if(matchs.size()==1){
-    			matcherString=matchs.get(0)[0];
+    			matcherString=matchs.get(0);
         		bean.setSex(DictionaryUtil.getCode(DictionaryType.SEX.getCode(), matcherString));
     		}
-    		//年龄
-    		matchs = instance.matchGroup(getJlRegexp(ResumeMatchingRegexpType.AGE_REGEXP.getTitle()), content);
-    		if(matchs.size()==1){
-    			matcherString=matchs.get(0)[0];
-    			int ageInt = Integer.parseInt(matcherString);
-    			Date fff = DateUtil.addYear(new Date(), -ageInt);
-        		System.out.println("年龄："+matcherString);
-    		}
     		
+    		// 出生日期
+    		matchs = instance.matchGroupB(getJlRegexp(ResumeMatchingRegexpType.BIRTHDATE_REGEXP.getTitle()), content);
+    		if(matchs.size()==1){
+    			matcherString=matchs.get(0);
+    			String new1=JLBUtils.dealbirthday(matcherString);
+    			Date new2 = DateUtil.toDate(new1);
+        		bean.setBirthday(new2);
+    		}
     	}
+    	
+    	//年龄
+		matchs = instance.matchGroupB(getJlRegexp(ResumeMatchingRegexpType.AGE_REGEXP.getTitle()), content);
+		if(matchs.size()==1 && bean.getBirthday()==null){
+			matcherString=matchs.get(0);
+			int ageInt = Integer.parseInt(matcherString);
+			Date new2 = DateUtil.addYear(new Date(), -ageInt);
+			bean.setBirthday(new2);
+		}
     	//姓名
-    	matchs = instance.matchGroup(getJlRegexp(ResumeMatchingRegexpType.NAME_REGEXP.getTitle()), content);
+    	matchs = instance.matchGroupB(getJlRegexp(ResumeMatchingRegexpType.NAME_REGEXP.getTitle()), content);
 		if(matchs.size()==1){
-			matcherString=matchs.get(0)[0];
+			matcherString=matchs.get(0);
 			bean.setName(matcherString);
 		}
     	//邮箱
-		matchs = instance.matchGroup(getJlRegexp(ResumeMatchingRegexpType.EMAIL_REGEXP.getTitle()), content);
+		matchs = instance.matchGroupB(getJlRegexp(ResumeMatchingRegexpType.EMAIL_REGEXP.getTitle()), content);
 		if(matchs.size()==1){
-			matcherString=matchs.get(0)[0];
+			matcherString=matchs.get(0);
     		bean.setEmal(matcherString);
 		}
 		
 		//手机
-		matchs = instance.matchGroup(getJlRegexp(ResumeMatchingRegexpType.PHONE_REGEXP.getTitle()), content);
+		matchs = instance.matchGroupB(getJlRegexp(ResumeMatchingRegexpType.PHONE_REGEXP.getTitle()), content);
 		if(matchs.size()==1){
-			matcherString=matchs.get(0)[0];
+			matcherString=matchs.get(0);
     		bean.setPhone(matcherString);
 		}
 		//最高学校
-		matchs = instance.matchGroup(getJlRegexp(ResumeMatchingRegexpType.SCHOOLTAG_REGEXP.getTitle()), content);
+		matchs = instance.matchGroupB(getJlRegexp(ResumeMatchingRegexpType.SCHOOLTAG_REGEXP.getTitle()), content);
 		if(matchs.size()==1){
-			matcherString=matchs.get(0)[0];
+			matcherString=matchs.get(0);
     		bean.setSchoolTag(matcherString);
+    		if(matcherString.equals("大学")){
+    			Long v = DictionaryUtil.getCode(DictionaryType.EDUCATION.getCode(),JLBUtils.dealDeEducation(matcherString));
+    			bean.setEducationId(v);
+    		}
 		}
-		//学历
-		matchs = instance.matchGroup(getJlRegexp(ResumeMatchingRegexpType.TOP_SCHOOLTAG_REGEXP.getTitle()), content);
-		if(matchs.size()==1){
-			matcherString=matchs.get(0)[0];
-    		bean.setSchoolTag(matcherString);
+		if(bean.getEducationId()==null){
+			//学历
+			matchs = instance.matchGroupB(getJlRegexp(ResumeMatchingRegexpType.TOP_SCHOOLTAG_REGEXP.getTitle()), content);
+			if(matchs.size()>0){
+				matcherString=matchs.get(0);
+				Long v = DictionaryUtil.getCode(DictionaryType.EDUCATION.getCode(),JLBUtils.dealDeEducation(matcherString));
+				bean.setEducationId(v);
+			}
 		}
+		
 		//婚否
-		matchs = instance.matchGroup(getJlRegexp(ResumeMatchingRegexpType.MARITAL_REGEXP.getTitle()), content);
+		matchs = instance.matchGroupB(getJlRegexp(ResumeMatchingRegexpType.MARITAL_REGEXP.getTitle()), content);
 		if(matchs.size()==1){
-			matcherString=matchs.get(0)[0];
+			matcherString=matchs.get(0);
     		bean.setMaritalId(DictionaryUtil.getCode(DictionaryType.IS_MARRY.getCode(), matcherString));
 		}
 		//英语等级 (11)
-		matchs = instance.matchGroup(getJlRegexp(ResumeMatchingRegexpType.ENGLISH_LEVEL_REGEXP.getTitle()), content);
+		matchs = instance.matchGroupB(getJlRegexp(ResumeMatchingRegexpType.ENGLISH_LEVEL_REGEXP.getTitle()), content);
 		if(matchs.size()==1){
-			matcherString=matchs.get(0)[0];
-			
-			bean.setEnglishLevelId(10l);
+			matcherString=matchs.get(0);
+			Long v = DictionaryUtil.getCode(DictionaryType.ENGLISH_LEVEL.getCode(),JLBUtils.englishLevel(matcherString));
+			bean.setEnglishLevelId(v);
 		}
 		//专业
-		matchs = instance.matchGroup(getJlRegexp(ResumeMatchingRegexpType.TOP_SPECIALTY_REGEXP.getTitle()), content);
+		matchs = instance.matchGroupB(getJlRegexp(ResumeMatchingRegexpType.TOP_SPECIALTY_REGEXP.getTitle()), content);
 		if(matchs.size()==1){
-			matcherString=matchs.get(0)[0];
+			matcherString=matchs.get(0);
     		bean.setTopSpecialty(matcherString);
 		}
-		
-		
+		//工作年限
+		matchs = instance.matchGroupB(getJlRegexp(ResumeMatchingRegexpType.JOB_WORK_TERM_REGEXP.getTitle()), content);
+		if(matchs.size()==1){
+			matcherString=matchs.get(0);
+			int new1 = Integer.parseInt(matcherString);
+			Date new2 = DateUtil.addYear(new Date(), -new1);
+    		bean.setJobStartTime(new2);
+		}
 		return bean;
 	}
 	

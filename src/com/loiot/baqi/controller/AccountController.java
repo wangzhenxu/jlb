@@ -31,6 +31,8 @@ public class AccountController {
     public static final AjaxResponse ACCOUNT_USERNAME_EXIST = new AjaxResponse(-100301, "用户名已存在");
 
     private Logger log = LoggerFactory.getLogger(this.getClass());
+    
+    
 
     /**
      * 后台用户业务逻辑

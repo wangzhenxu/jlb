@@ -62,6 +62,8 @@
 	
 	<!-- 默认servlet -->
 	<mvc:default-servlet-handler/>
+	
+	
 
 	<!-- 静态资源设定 -->
 	<mvc:resources mapping="/img/**" location="/img/" />

@@ -27,6 +27,7 @@
 	        	<result  column="now_address" property="nowAddress" />
 	        	<result  column="english_level_id" property="englishLevelId" />
 	        	<result  column="top_specialty" property="topSpecialty" />
+	        	<result  column="birthday" property="birthday" />
 	</resultMap>
 	
 	<!-- 查询 简历信息列表 -->
@@ -75,6 +76,7 @@
 						 		zp_jl_info.english_level_id,
 			        	
 						 		zp_jl_info.top_specialty
+						 		zp_jl_info.birthday
 			        	
 		FROM
 			zp_jl_info
@@ -295,6 +297,9 @@
 		        	<if test="topSpecialty != null">
 		        		top_specialty,
 		        	</if>
+		        	<if test="birthday != null">
+		        		birthday,
+		        	</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			        	<if test="name != null">
@@ -359,6 +364,9 @@
 			        	</if>
 			        	<if test="topSpecialty != null">
 			        		#{topSpecialty},
+			        	</if>
+			        	<if test="birthday != null">
+			        		#{birthday},
 			        	</if>
 		</trim>
 	</insert>
@@ -532,6 +540,7 @@
 						 		ZpJlInfo.now_address,
 						 		ZpJlInfo.english_level_id,
 						 		ZpJlInfo.top_specialty
+						 		ZpJlInfo.birthday
 		FROM
 			zp_jl_info
 		WHERE 

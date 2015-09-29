@@ -215,6 +215,7 @@ public class ZpJlInfoController {
     	DiskFileItem fi = (DiskFileItem)file.getFileItem(); 
         File f = fi.getStoreLocation();
         ZpJlInfo bi = this.zpJlInfoService.paseWord(f,fi.getName());
+        System.out.println(bi);
         AjaxResponse result = AjaxResponse.OK(bi);
     	/*if(f.getSize()>1048576){
     		return "/product/maxUploadExceeded";

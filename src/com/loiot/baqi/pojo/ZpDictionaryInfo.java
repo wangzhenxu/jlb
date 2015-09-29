@@ -20,7 +20,7 @@ public class ZpDictionaryInfo  implements java.io.Serializable{
 	    private java.lang.String name;  //名称 db_column: name 
 	    private Integer sort;  //sort db_column: sort 
 	    private java.lang.String value;  //正则表达式(简历) db_column: value 
-
+	    private java.lang.String showName;  //名称 db_column: show_name 
 
 	public ZpDictionaryInfo(){
 	}

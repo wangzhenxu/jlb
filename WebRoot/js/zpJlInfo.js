@@ -24,6 +24,11 @@ var jlInfo ={
 	},
 	
 	upload :function (sender){
+		if(!sender.value.endWith("doc") && !sender.value.endWith("docx") ){
+			hiOverAlert("目前只支持上传word文件",1000);
+			return;
+		}
+		
 		 var oldForm=$(sender).closest("form");
 		   $.ajaxFileUpload({
 			url:'/zpJlInfo/paseWord.action', //需要链接到服务器地址
@@ -38,6 +43,7 @@ var jlInfo ={
 				var st=result.s;
 				var sd=result.d;
 					if(st==1){
+						$("#addform").resetForm();
 						jlInfo.setForm(result.data);
 					}
 					else{
@@ -66,8 +72,23 @@ var jlInfo ={
 		if(obj.schoolTag && obj.schoolTag.length>0){
 			$("#schoolTag").val(obj.schoolTag);
 		}
-		
-		
+		if(obj.topSpecialty && obj.topSpecialty.length>0){
+			$("#topSpecialty").val(obj.topSpecialty);
+		}
+		if(obj.birthday && obj.birthday>0){
+			var new1 = new Date(obj.birthday).format("yyyy-MM");
+			$("#birthday").val(new1);
+		}
+		if(obj.educationId && obj.educationId>0){
+			$("input[name=educationId][value="+obj.educationId+"]").attr("checked",true);
+		}
+		if(obj.englishLevelId && obj.englishLevelId>0){
+			$("input[name=englishLevelId][value="+obj.englishLevelId+"]").attr("checked",true);
+		}
+		if(obj.jobStartTime && obj.jobStartTime>0){
+			var new1 = new Date(obj.jobStartTime).format("yyyy-MM");
+			$("#jobStartTimeT").val(new1);
+		}
 		
 		
 	}

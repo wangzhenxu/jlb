@@ -37,6 +37,9 @@ public class ZpJlInfo  implements java.io.Serializable{
 	    private java.lang.String nowAddress;  //现住址 db_column: now_address 
 	    private java.lang.Long englishLevelId;  //英语等级 db_column: english_level_id 
 	    private java.lang.String topSpecialty;  //专业 db_column: top_specialty 
+	    private java.util.Date birthday;  //生日 c=dv_column: birthday 
+
+	    
 
 
 	public ZpJlInfo(){

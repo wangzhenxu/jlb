@@ -72,6 +72,11 @@
 		<typeAlias type="com.loiot.baqi.pojo.ZpEmalTemplate" alias="ZpEmalTemplate" />
 		<typeAlias type="com.loiot.baqi.pojo.ZpJlInfo" alias="ZpJlInfo" />
 		<typeAlias type="com.loiot.baqi.pojo.ZpDictionaryInfo" alias="ZpDictionaryInfo" />
+		<typeAlias type="com.loiot.baqi.pojo.ZpCompanyInfo" alias="ZpCompanyInfo" />
+		<typeAlias type="com.loiot.baqi.pojo.ZpCompanyJobInfo" alias="ZpCompanyJobInfo" />
+		<typeAlias type="com.loiot.baqi.pojo.ZpJlExpandInfo" alias="ZpJlExpandInfo" />
+		<typeAlias type="com.loiot.baqi.pojo.ZpJobMatchingInfo" alias="ZpJobMatchingInfo" />
+		<typeAlias type="com.loiot.baqi.pojo.ZpJlJobLevels" alias="ZpJlJobLevels" />
 		
 		
 		

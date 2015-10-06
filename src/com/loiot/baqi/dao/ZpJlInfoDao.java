@@ -24,8 +24,9 @@ public class ZpJlInfoDao extends SqlSessionDaoSupport{
      * 
      * @param p 参数对象
      */
-    public void addZpJlInfo(ZpJlInfo p)throws Exception {
-        this.getSqlSession().insert("ZpJlInfo.addZpJlInfo", p);
+    public ZpJlInfo addZpJlInfo(ZpJlInfo p)throws Exception {
+    	 this.getSqlSession().insert("ZpJlInfo.addZpJlInfo", p);
+    	 return p;
     }
     
     /**

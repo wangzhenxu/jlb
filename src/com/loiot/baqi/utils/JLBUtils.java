@@ -5,6 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.loiot.baqi.pojo.ZpCompanyJobInfo;
+import com.loiot.baqi.pojo.ZpJlInfo;
+import com.loiot.baqi.status.JobMatchType;
+
 
 public class JLBUtils {
 	
@@ -30,6 +34,111 @@ public class JLBUtils {
 		str="八级";
 		return str;
 	}
+	
+	
+	public static String  dealYearMoney(Long money){
+		String str = "";
+		if(money!=null) {
+			str=String.valueOf(money/10000);
+		}
+		return str;
+	}
+	
+	public static String dealWordTerm(Integer start, Integer end ){
+		String str="";
+		if(start==null && end==null){
+			str = "无";
+		} else 
+		if(start!=null && end==null){
+			str = start+"年以上";
+		} else
+		if(start==null && end!=null){
+			str = end+"年以下";
+		}
+		else
+		if(start!=null && end!=null){
+			str = start+"-" +end +"年";
+		}
+		return str;
+	}
+	
+	
+	public static void testmoney(){
+		ZpJlInfo jl = new ZpJlInfo();
+		jl.setSalaryRequireId(2l);
+	   
+		ZpCompanyJobInfo job = new ZpCompanyJobInfo();
+		//job.setExpectedYearMoneyStart(14000d);
+		//job.setExpectedYearMoneyEnd(19000d);
+		
+		Double moneyS = job.getExpectedYearMoneyStart();
+		Double moneyE = job.getExpectedYearMoneyEnd();
+		String  startMatchFlag ="";
+		String  endMatchFlag="";
+		String resultMatchFlag="";
+		if(moneyS!=null){
+			Double jlMoneyS=  15000d;
+			if(jlMoneyS!=null){
+				 startMatchFlag="nomatch";
+				 if(moneyS<=jlMoneyS){
+					 startMatchFlag="match";
+				 } else {
+					 startMatchFlag="nomatch";
+				 }
+			}
+		}
+		
+		if(moneyE!=null){
+			Double jlMoneyE= 20000d;
+			if(jlMoneyE!=null){
+				endMatchFlag="nomatch";
+				 if(moneyE>=jlMoneyE){
+					 endMatchFlag="match";
+				 } else {
+					 endMatchFlag="nomatch";
+				 }
+			}
+		}
+		
+		if(moneyS!=null && moneyE!=null){
+			if(startMatchFlag.equals("match") &&  endMatchFlag.equals("match")){
+				resultMatchFlag="match"; 
+			} else {
+				resultMatchFlag="nomatch";
+			}
+		}else
+		if(moneyS!=null){
+			if(startMatchFlag.equals("match")){
+				resultMatchFlag="match"; 
+			}else {
+				resultMatchFlag="nomatch";
+			}
+		}else
+		if(moneyE!=null){
+			if(endMatchFlag.equals("match")){
+				resultMatchFlag="match"; 
+			}else {
+				resultMatchFlag="nomatch";
+			}
+		}
+		
+	  System.out.println("startMatchFlag:" + startMatchFlag);
+	  System.out.println("endMatchFlag:" + endMatchFlag);
+	  System.out.println("resultMatchFlag:" + resultMatchFlag);
+
+		
+		
+		
+	}
+	
+	public static void main(String args[]) {
+		
+		//System.out.println(JLBUtils.dealYearMoney(500l));;
+		JLBUtils.testmoney();
+	}
+	
+	
+	
 	
 
 }

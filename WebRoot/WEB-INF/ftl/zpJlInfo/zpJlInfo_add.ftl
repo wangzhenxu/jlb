@@ -11,7 +11,11 @@
 <script src="/js/ajaxfileupload.js"></script>
 <script src="/js/my97/WdatePicker.js" type="text/javascript" > </script>
 
-<form id="addform" name="form" action="/zpJlInfo/add.action" method="post">
+<form id="addform" name="form" action="/zpJlInfo/add.action" method="post" enctype="multipart/form-data">
+<input type="hidden" name="jlFilePath" id="jlFilePath" />
+<input type="hidden" name="jlContent" id="jlContent" />
+<input type="hidden" name="jobPositionLevelIds" id="jobPositionLevelIds" />
+
 <!-- 右侧 开始 -->
 <div class="right">
     <div class="location">
@@ -104,7 +108,7 @@
           <tr>
            <td  align="right" class="hui1">出生年月：</td>
            <td  align="left" valign="middle">
-          	 <input name="birthday" id="birthday" onClick="WdatePicker({dateFmt:'yyyy-MM'})" type="text" class="inputa error-field" validate="validate[required,custom[eightCha]]">
+          	 <input name="birthdayT" id="birthday" onClick="WdatePicker({dateFmt:'yyyy-MM'})" type="text" class="inputa error-field" validate="validate[required,custom[eightCha]]">
            </td>
           <td align="right" class="hui1"></td>
           <td  align="left" valign="middle">
@@ -133,7 +137,7 @@
            <td  align="right" class="hui1">职位级别：</td>
            <td  align="left" valign="middle" clospan="3">
 			 <#list DictionaryUtil.getTypes(DictionaryType.JOB_POSITION_LEVE.getCode()) as c>
-          	  	 <input class="radio" name="jobPositionLevelId" type="radio" value="${c.dictionaryId}" > ${c.name!''} 
+          	  	 <input class="radio" name="jobPositionLevelId" type="checkbox" value="${c.dictionaryId}" > ${c.name!''} 
           	 </#list>
            </td>
          </tr>

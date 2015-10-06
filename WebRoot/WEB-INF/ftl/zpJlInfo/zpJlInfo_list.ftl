@@ -104,9 +104,10 @@ jQuery(document).ready(function(){
         </#if>
        </td>
         <td align="center" class="hui">
-	    	 <#if c.jobPositionLevelId??>
-	    		${DictionaryUtil.getName(c.jobPositionLevelId)}
-	    	 </#if>
+	        <#list c.zpJlJobLevels as h>
+	       		 ${DictionaryUtil.getName(h.jobLevelId)}
+	        </#list>
+	    	 
 	    </td>
 	    <td align="center" class="hui">
 	    	 <#if c.salaryRequireId??>
@@ -132,7 +133,9 @@ jQuery(document).ready(function(){
         			 ${c.inTime?string("yyyy-MM-dd HH:mm:ss")}
  				</#if>
 	    </td>
-	
+		 <td align="center" class="hui">
+	    	 <a  href="javascript:jlInfo.matchJob('${c.jlId!""}');">匹配职位</a>
+	     </td>
 	    
        </tr>
        </#list>
@@ -151,5 +154,20 @@ jQuery(document).ready(function(){
   <!-- 弹窗 结束 -->
   <#include "../include/deleteConfirmModal.ftl">
 
+<!-- 弹窗 开始 -->
+<div class="pop_sure modal hide fade" id="match_job_pop">
+  <div class="title0">确认框<a class="x" href="javascript:void(0)"  data-dismiss="modal"></a></div>
+  <div class="text0" id="match_job_pop_title"></div>
+  <div class="w100">
+    <ul class="r50">
+      <li id="match_job_pop_li">
+        <a class="button mar" id="selete_match_btn"  href="javascript:void(0)" value=false><span>查看结果</span></a>
+        <a class="button mar" id="match_job_btn"  href="javascript:void(0)" value=false><span>重新匹配</span></a>
+        <a class="button" href="javascript:void(0)"  data-dismiss="modal"><span>取消</span></a>
+      </li>
+    </ul>
+</div>
+</div>
+<!-- 删除弹窗 结束 -->
 
 </html>

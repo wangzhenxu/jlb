@@ -25,9 +25,14 @@
 	        	<result  column="job_position_id" property="jobPositionId" />
 	        	<result  column="job_position_level_id" property="jobPositionLevelId" />
 	        	<result  column="now_address" property="nowAddress" />
-	        	<result  column="english_level_id" property="englishLevelId" />
 	        	<result  column="top_specialty" property="topSpecialty" />
 	        	<result  column="birthday" property="birthday" />
+	        	<!-- 职位列表 -->
+				<collection ofType="ZpJlJobLevels" property="zpJlJobLevels">
+						<id  column="t_jl_job_level_id" property="jlJobLevelId"></id>
+			        	<result  column="t_jl_id" property="jlId" />
+			        	<result  column="t_job_level_id" property="jobLevelId" />
+				</collection>
 	</resultMap>
 	
 	<!-- 查询 简历信息列表 -->
@@ -75,11 +80,19 @@
 			        	
 						 		zp_jl_info.english_level_id,
 			        	
-						 		zp_jl_info.top_specialty
-						 		zp_jl_info.birthday
+						 		zp_jl_info.top_specialty,
+						 		
+						 		zp_jl_info.birthday,
+						 		
+						 		zp_jl_job_levels.jl_job_level_id as t_jl_job_level_id,
+						 		
+						 		zp_jl_job_levels.jl_id as t_jl_id,
+						 		
+						 		zp_jl_job_levels.job_level_id as t_job_level_id
+						 		
 			        	
 		FROM
-			zp_jl_info
+			zp_jl_info LEFT JOIN zp_jl_job_levels  ON zp_jl_info.jl_id = zp_jl_job_levels.jl_id
 		<where>
 				<if test="qtype != null and qtype=='like'">
 				</if>
@@ -518,31 +531,34 @@
 	<!-- 获得  简历信息 -->
 	<select id="getZpJlInfoById" resultMap="zpJlInfoMap">
 		SELECT
-						 		ZpJlInfo.jl_id,
-						 		ZpJlInfo.name,
-						 		ZpJlInfo.sex,
-						 		ZpJlInfo.job_id,
-						 		ZpJlInfo.emal,
-						 		ZpJlInfo.phone,
-						 		ZpJlInfo.identity_card,
-						 		ZpJlInfo.marital_id,
-						 		ZpJlInfo.salary_require_id,
-						 		ZpJlInfo.famous_company_update_status,
-						 		ZpJlInfo.education_id,
-						 		ZpJlInfo.SchoolTag,
-						 		ZpJlInfo.in_persion,
-						 		ZpJlInfo.in_time,
-						 		ZpJlInfo.last_operator_time,
-						 		ZpJlInfo.job_start_time,
-						 		ZpJlInfo.import_status,
-						 		ZpJlInfo.job_position_id,
-						 		ZpJlInfo.job_position_level_id,
-						 		ZpJlInfo.now_address,
-						 		ZpJlInfo.english_level_id,
-						 		ZpJlInfo.top_specialty
-						 		ZpJlInfo.birthday
+						 		zp_jl_info.jl_id,
+						 		zp_jl_info.name,
+						 		zp_jl_info.sex,
+						 		zp_jl_info.job_id,
+						 		zp_jl_info.emal,
+						 		zp_jl_info.phone,
+						 		zp_jl_info.identity_card,
+						 		zp_jl_info.marital_id,
+						 		zp_jl_info.salary_require_id,
+						 		zp_jl_info.famous_company_update_status,
+						 		zp_jl_info.education_id,
+						 		zp_jl_info.SchoolTag,
+						 		zp_jl_info.in_persion,
+						 		zp_jl_info.in_time,
+						 		zp_jl_info.last_operator_time,
+						 		zp_jl_info.job_start_time,
+						 		zp_jl_info.import_status,
+						 		zp_jl_info.job_position_id,
+						 		zp_jl_info.job_position_level_id,
+						 		zp_jl_info.now_address,
+						 		zp_jl_info.english_level_id,
+						 		zp_jl_info.top_specialty,
+						 		zp_jl_info.birthday,
+						 		zp_jl_job_levels.jl_job_level_id as t_jl_job_level_id,
+						 		zp_jl_job_levels.jl_id as t_jl_id,
+						 		zp_jl_job_levels.job_level_id as t_job_level_id
 		FROM
-			zp_jl_info
+			zp_jl_info LEFT JOIN zp_jl_job_levels  ON zp_jl_info.jl_id = zp_jl_job_levels.jl_id
 		WHERE 
 		zp_jl_info.jl_id=#{jlId}
 		

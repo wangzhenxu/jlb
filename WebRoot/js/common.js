@@ -1,6 +1,9 @@
 var common = {
 	//bt弹出
-	openModal : function (id){
+	openModal : function (id,title){
+			if(title){
+				$("#"+id+"_title").html(title);
+			}
 			$("#"+id).modal().css({
 				'margin-top': function () {
 			        return -($(this).height()/2)},
@@ -8,6 +11,19 @@ var common = {
 			        return -($(this).width()/2);
 			    }
 			});
+	},
+	//获取复选框的值
+	getCheckbox : function(name){
+		var str="";
+        var arr = $("input[name='"+name+"']:checked").get();
+        for(var i=0;i<arr.length;i++){
+        	if(i==0){
+        		str=arr[i].value;
+        	}else{
+        		str=str+"," + arr[i].value;
+        	}
+        }
+       return str;
 	}
 }
 

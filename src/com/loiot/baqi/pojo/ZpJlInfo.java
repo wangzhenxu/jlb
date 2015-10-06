@@ -1,5 +1,9 @@
 package com.loiot.baqi.pojo;
 
+import java.util.List;
+
+import com.timeloit.pojo.Node;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -38,8 +42,12 @@ public class ZpJlInfo  implements java.io.Serializable{
 	    private java.lang.Long englishLevelId;  //英语等级 db_column: english_level_id 
 	    private java.lang.String topSpecialty;  //专业 db_column: top_specialty 
 	    private java.util.Date birthday;  //生日 c=dv_column: birthday 
-
+	    //扩展信息
+	    private java.lang.String jlFilePath;  //简历存放路径 db_column: jl_file_path 
+	    private java.lang.String jlContent;  //简历内容 db_column: jl_content
 	    
+		private List<ZpJlJobLevels> zpJlJobLevels; //职位列表
+
 
 
 	public ZpJlInfo(){

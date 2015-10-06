@@ -29,6 +29,17 @@ public class ApplicationConst {
      * 文件访问地址
      */
     public static final String UPLOAD_PIC_URL=appBundle.getString("cms.upload.pic.url");
+    
+    /**
+     * 简历上传路径
+     */
+    public static final String UPLOAD_JL_PATH=appBundle.getString("jl.uplad.path");
+    /**
+     * 简历访问地址
+     */
+    public static final String UPLOAD_JL_URL=appBundle.getString("jl.uplad.url");
+    
+    
     /**
      * wagang平台访问地址
      */

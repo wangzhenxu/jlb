@@ -34,10 +34,16 @@ public enum DictionaryType {
 	
 	RESUME_REGEXP(11, "简历匹配正则"),
 	
-	ENGLISH_LEVEL(12, "英语等级");
+	ENGLISH_LEVEL(12, "英语等级"),
 	
-    
+	COMPANY_SCALE(13, "公司规模"),
 
+	COMPANY_NATURE(14, "公司性质"),
+	
+	COMPANY_FINANCING_LEVEL(15, "融资阶段"),
+	
+	COMPANY_INDUSTRY(16, "所属行业");
+	
 	/**
 	 * 状态码
 	 */

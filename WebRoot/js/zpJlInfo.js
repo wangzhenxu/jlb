@@ -11,6 +11,9 @@ var jlInfo ={
 		if(!b){
 			return false;
 		}
+		
+		var jobPositionLevelIds = common.getCheckbox("jobPositionLevelId");
+		$("#jobPositionLevelIds").val(jobPositionLevelIds);
 		$('#addform').ajaxSubmit(function(resp) {
 		if (resp.s > 0) {
 			location="/zpJlInfo/list.action";
@@ -89,8 +92,43 @@ var jlInfo ={
 			var new1 = new Date(obj.jobStartTime).format("yyyy-MM");
 			$("#jobStartTimeT").val(new1);
 		}
+		if(obj.jlFilePath && obj.jlFilePath.length>0){
+			$("#jlFilePath").val(obj.jlFilePath);
+		}
+		if(obj.jlContent && obj.jlContent.length>0){
+			$("#jlContent").val(obj.jlContent);
+		}
 		
-		
+	},
+	
+	matchJob : function (jlId){
+		var rData={"jlId" : jlId};
+		$.ajax({
+			async : true, // 使用同步请求，因为异步请求不能将返回值传给全局变量；
+			url : "/zpJobMatchingInfo/matchCheck.action",
+			data : rData,// "st=2012-11-01 22:22:10",
+			success : function(resp) {
+				resp.s=-100;
+				if (resp.s > 0) {
+					location.href= "/zpJobMatchingInfo/list.action?jobId="+ jlId;
+				}  else
+				if (resp.s == -100) {
+					common.openModal("match_job_pop","已经匹配过了");
+					//查看匹配结果
+					$("#selete_match_btn").click(function (){
+						location.href="/zpJobMatchingInfo/list.action?jobId="+jlId;
+					});
+					//重新匹配职位
+					$("#match_job_btn").click(function (){
+						location.href="/zpJobMatchingInfo/match.action?jlId="+jlId;
+					});
+				}
+				else {
+					hiOverAlert(resp.d,1000);
+				}
+
+			}
+		});
 	}
 
 }

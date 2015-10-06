@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItem;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -99,15 +100,26 @@ public class ZpJlInfoController {
     			Date jobStartTime =DateUtil.toDate(jobStartTimeT+"-01");
         		p.setJobStartTime(jobStartTime);
     		}
+    		String birthdayT = request.getParameter("birthdayT");
+    		if(!StringUtils.isBlank(birthdayT)){
+    			Date birthday =DateUtil.toDate(birthdayT+"-01");
+        		p.setBirthday(birthday);
+    		}
+    		//职位列表
+    		String jobPositionLevelIds = request.getParameter("jobPositionLevelIds");
     		
-    		//验证唯一性
+    		
+    		
+    		/*DiskFileItem fi = (DiskFileItem)file.getFileItem(); 
+            File f = fi.getStoreLocation();*/
+    		/*//验证唯一性
         	HashMap<String,Object> pMap =new HashMap<String,Object>();
         	//pMap.put("name", p.getName);
         	int result=zpJlInfoService.getZpJlInfoListCount(pMap);
         	if(result>0){
 		        //return NAME_EXIST;
-			}
-    		zpJlInfoService.addZpJlInfo(p);
+			}*/
+    		zpJlInfoService.addZpJlInfo(p,jobPositionLevelIds);
     		// 添加成功
     		return AjaxResponse.OK;
     	}
@@ -210,11 +222,11 @@ public class ZpJlInfoController {
      */
     @RequestMapping(method={RequestMethod.GET,RequestMethod.POST},value="/paseWord")
     @ResponseBody
-    public Object paseWord(@RequestParam(value="ui-upload-input") CommonsMultipartFile  file,HttpServletResponse response) throws Exception {
+    public Object paseWord(@RequestParam(value="ui-upload-input") CommonsMultipartFile file  ,HttpServletResponse response) throws Exception {
     	//response.setContentType("text/plain");
-    	DiskFileItem fi = (DiskFileItem)file.getFileItem(); 
+    	DiskFileItem fi = (DiskFileItem)file.getFileItem();
         File f = fi.getStoreLocation();
-        ZpJlInfo bi = this.zpJlInfoService.paseWord(f,fi.getName());
+        ZpJlInfo bi = this.zpJlInfoService.paseWord(f,file,fi.getName());
         System.out.println(bi);
         AjaxResponse result = AjaxResponse.OK(bi);
     	/*if(f.getSize()>1048576){

@@ -8,10 +8,9 @@ url url地址
 join url地址与分页参数的连接字符,一般是?或是&
 -->
 <#macro pageBar pager url join >
-	
 	<#-- 获取参数 -->	
 	<#assign pageIndex=pager.pageIndex pageCount=pager.pageCount totalResults=pager.totalResults/>
-
+    
 	<div class="manu">
 	共为您找到相关结果${totalResults}个
 		<#-- 总页数<=0,直接生成不可点击的页码 -->

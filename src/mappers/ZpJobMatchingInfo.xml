@@ -1,0 +1,696 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ZpJobMatchingInfo">
+
+	<resultMap type="ZpJobMatchingInfo" id="zpJobMatchingInfoMap">
+	        	<id  column="match_id" property="matchId"></id>
+	        	<result  column="job_id" property="jobId" />
+	        	<result  column="company_id" property="companyId" />
+	        	<result  column="sex_id" property="sexId" />
+	        	<result  column="sex_status" property="sexStatus" />
+	        	<result  column="job_position_id" property="jobPositionId" />
+	        	<result  column="job_position_id_status" property="jobPositionIdStatus" />
+	        	<result  column="job_position_level_id" property="jobPositionLevelId" />
+	        	<result  column="job_position_level_id_status" property="jobPositionLevelIdStatus" />
+	        	<result  column="marital_id" property="maritalId" />
+	        	<result  column="marital_id_status" property="maritalIdStatus" />
+	        	<result  column="salary_require_id" property="salaryRequireId" />
+	        	<result  column="salary_require_id_status" property="salaryRequireIdStatus" />
+	        	<result  column="education_id" property="educationId" />
+	        	<result  column="education_id_status" property="educationIdStatus" />
+	        	<result  column="english_level_id" property="englishLevelId" />
+	        	<result  column="english_level_id_status" property="englishLevelIdStatus" />
+	        	<result  column="top_specialty" property="topSpecialty" />
+	        	<result  column="top_specialty_status" property="topSpecialtyStatus" />
+	        	<result  column="birthday" property="birthday" />
+	        	<result  column="birthday_status" property="birthdayStatus" />
+	        	<result  column="job_starttime" property="jobStarttime" />
+	        	<result  column="job_starttime_status" property="jobStarttimeStatus" />
+	        	<result  column="match_keword" property="matchKeword" />
+	        	<result  column="no_match_keyword" property="noMatchKeyword" />
+	        	<result  column="distance" property="distance" />
+	        	<result  column="distance_status" property="distanceStatus" />
+	        	<result  column="in_datetime" property="inDatetime" />
+	        	<result  column="in_person" property="inPerson" />
+	</resultMap>
+	
+	<!-- 查询 职位匹配信息列表 -->
+	<select id="queryZpJobMatchingInfoList" resultMap="zpJobMatchingInfoMap">
+		SELECT
+						 		zp_job_matching_info.match_id,
+			        	
+						 		zp_job_matching_info.job_id,
+			        	
+						 		zp_job_matching_info.company_id,
+			        	
+						 		zp_job_matching_info.sex_id,
+			        	
+						 		zp_job_matching_info.sex_status,
+			        	
+						 		zp_job_matching_info.job_position_id,
+			        	
+						 		zp_job_matching_info.job_position_id_status,
+			        	
+						 		zp_job_matching_info.job_position_level_id,
+			        	
+						 		zp_job_matching_info.job_position_level_id_status,
+			        	
+						 		zp_job_matching_info.marital_id,
+			        	
+						 		zp_job_matching_info.marital_id_status,
+			        	
+						 		zp_job_matching_info.salary_require_id,
+			        	
+						 		zp_job_matching_info.salary_require_id_status,
+			        	
+						 		zp_job_matching_info.education_id,
+			        	
+						 		zp_job_matching_info.education_id_status,
+			        	
+						 		zp_job_matching_info.english_level_id,
+			        	
+						 		zp_job_matching_info.english_level_id_status,
+			        	
+						 		zp_job_matching_info.top_specialty,
+			        	
+						 		zp_job_matching_info.top_specialty_status,
+			        	
+						 		zp_job_matching_info.birthday,
+			        	
+						 		zp_job_matching_info.birthday_status,
+			        	
+						 		zp_job_matching_info.job_starttime,
+			        	
+						 		zp_job_matching_info.job_starttime_status,
+			        	
+						 		zp_job_matching_info.match_keword,
+			        	
+						 		zp_job_matching_info.no_match_keyword,
+			        	
+						 		zp_job_matching_info.distance,
+			        	
+						 		zp_job_matching_info.distance_status,
+			        	
+						 		zp_job_matching_info.in_datetime,
+			        	
+						 		zp_job_matching_info.in_person
+			        	
+		FROM
+			zp_job_matching_info
+		<where>
+							<if test="qtype != null and qtype=='like'">
+							</if>
+				        	<if test="jobId != null and jobId !='' ">
+				        		AND zp_job_matching_info.job_id=#{jobId} 
+				        	</if>
+				        	<if test="companyId != null and companyId !='' ">
+				        		AND zp_job_matching_info.company_id=#{companyId} 
+				        	</if>
+				        	<if test="sexId != null and sexId !='' ">
+				        		AND zp_job_matching_info.sex_id=#{sexId} 
+				        	</if>
+				        	<if test="sexStatus != null and sexStatus !='' ">
+				        		AND zp_job_matching_info.sex_status=#{sexStatus} 
+				        	</if>
+				        	<if test="jobPositionId != null and jobPositionId !='' ">
+				        		AND zp_job_matching_info.job_position_id=#{jobPositionId} 
+				        	</if>
+				        	<if test="jobPositionIdStatus != null and jobPositionIdStatus !='' ">
+				        		AND zp_job_matching_info.job_position_id_status=#{jobPositionIdStatus} 
+				        	</if>
+				        	<if test="jobPositionLevelId != null and jobPositionLevelId !='' ">
+				        		AND zp_job_matching_info.job_position_level_id=#{jobPositionLevelId} 
+				        	</if>
+				        	<if test="jobPositionLevelIdStatus != null and jobPositionLevelIdStatus !='' ">
+				        		AND zp_job_matching_info.job_position_level_id_status=#{jobPositionLevelIdStatus} 
+				        	</if>
+				        	<if test="maritalId != null and maritalId !='' ">
+				        		AND zp_job_matching_info.marital_id=#{maritalId} 
+				        	</if>
+				        	<if test="maritalIdStatus != null and maritalIdStatus !='' ">
+				        		AND zp_job_matching_info.marital_id_status=#{maritalIdStatus} 
+				        	</if>
+				        	<if test="salaryRequireId != null and salaryRequireId !='' ">
+				        		AND zp_job_matching_info.salary_require_id=#{salaryRequireId} 
+				        	</if>
+				        	<if test="salaryRequireIdStatus != null and salaryRequireIdStatus !='' ">
+				        		AND zp_job_matching_info.salary_require_id_status=#{salaryRequireIdStatus} 
+				        	</if>
+				        	<if test="educationId != null and educationId !='' ">
+				        		AND zp_job_matching_info.education_id=#{educationId} 
+				        	</if>
+				        	<if test="educationIdStatus != null and educationIdStatus !='' ">
+				        		AND zp_job_matching_info.education_id_status=#{educationIdStatus} 
+				        	</if>
+				        	<if test="englishLevelId != null and englishLevelId !='' ">
+				        		AND zp_job_matching_info.english_level_id=#{englishLevelId} 
+				        	</if>
+				        	<if test="englishLevelIdStatus != null and englishLevelIdStatus !='' ">
+				        		AND zp_job_matching_info.english_level_id_status=#{englishLevelIdStatus} 
+				        	</if>
+				        	<if test="topSpecialty != null and topSpecialty !='' ">
+				        		AND zp_job_matching_info.top_specialty=#{topSpecialty} 
+				        	</if>
+				        	<if test="topSpecialtyStatus != null and topSpecialtyStatus !='' ">
+				        		AND zp_job_matching_info.top_specialty_status=#{topSpecialtyStatus} 
+				        	</if>
+				        	<if test="birthday != null and birthday !='' ">
+				        		AND zp_job_matching_info.birthday=#{birthday} 
+				        	</if>
+				        	<if test="birthdayStatus != null and birthdayStatus !='' ">
+				        		AND zp_job_matching_info.birthday_status=#{birthdayStatus} 
+				        	</if>
+				        	<if test="jobStarttime != null and jobStarttime !='' ">
+				        		AND zp_job_matching_info.job_starttime=#{jobStarttime} 
+				        	</if>
+				        	<if test="jobStarttimeStatus != null and jobStarttimeStatus !='' ">
+				        		AND zp_job_matching_info.job_starttime_status=#{jobStarttimeStatus} 
+				        	</if>
+				        	<if test="matchKeword != null and matchKeword !='' ">
+				        		AND zp_job_matching_info.match_keword=#{matchKeword} 
+				        	</if>
+				        	<if test="noMatchKeyword != null and noMatchKeyword !='' ">
+				        		AND zp_job_matching_info.no_match_keyword=#{noMatchKeyword} 
+				        	</if>
+				        	<if test="distance != null and distance !='' ">
+				        		AND zp_job_matching_info.distance=#{distance} 
+				        	</if>
+				        	<if test="distanceStatus != null and distanceStatus !='' ">
+				        		AND zp_job_matching_info.distance_status=#{distanceStatus} 
+				        	</if>
+				        	<if test="inDatetime != null and inDatetime !='' ">
+				        		AND zp_job_matching_info.in_datetime=#{inDatetime} 
+				        	</if>
+				        	<if test="inPerson != null and inPerson !='' ">
+				        		AND zp_job_matching_info.in_person=#{inPerson} 
+				        	</if>
+		</where>
+		ORDER BY zp_job_matching_info.match_id desc 
+		<if test="skipResults!=null">
+				limit #{skipResults} ,#{maxResults}
+		</if>
+		
+	</select>
+	
+	<!-- 查询 职位匹配信息列表条数 -->
+	<select id="getZpJobMatchingInfoListCount" resultType="int">
+		SELECT
+			count(1)
+		FROM
+			zp_job_matching_info
+		<where>
+							<if test="qtype != null and qtype=='like'">
+							</if>
+				        	<if test="jobId != null and jobId !=''">
+				        		AND zp_job_matching_info.job_id=#{jobId} 
+				        	</if>
+				        	<if test="companyId != null and companyId !=''">
+				        		AND zp_job_matching_info.company_id=#{companyId} 
+				        	</if>
+				        	<if test="sexId != null and sexId !=''">
+				        		AND zp_job_matching_info.sex_id=#{sexId} 
+				        	</if>
+				        	<if test="sexStatus != null and sexStatus !=''">
+				        		AND zp_job_matching_info.sex_status=#{sexStatus} 
+				        	</if>
+				        	<if test="jobPositionId != null and jobPositionId !=''">
+				        		AND zp_job_matching_info.job_position_id=#{jobPositionId} 
+				        	</if>
+				        	<if test="jobPositionIdStatus != null and jobPositionIdStatus !=''">
+				        		AND zp_job_matching_info.job_position_id_status=#{jobPositionIdStatus} 
+				        	</if>
+				        	<if test="jobPositionLevelId != null and jobPositionLevelId !=''">
+				        		AND zp_job_matching_info.job_position_level_id=#{jobPositionLevelId} 
+				        	</if>
+				        	<if test="jobPositionLevelIdStatus != null and jobPositionLevelIdStatus !=''">
+				        		AND zp_job_matching_info.job_position_level_id_status=#{jobPositionLevelIdStatus} 
+				        	</if>
+				        	<if test="maritalId != null and maritalId !=''">
+				        		AND zp_job_matching_info.marital_id=#{maritalId} 
+				        	</if>
+				        	<if test="maritalIdStatus != null and maritalIdStatus !=''">
+				        		AND zp_job_matching_info.marital_id_status=#{maritalIdStatus} 
+				        	</if>
+				        	<if test="salaryRequireId != null and salaryRequireId !=''">
+				        		AND zp_job_matching_info.salary_require_id=#{salaryRequireId} 
+				        	</if>
+				        	<if test="salaryRequireIdStatus != null and salaryRequireIdStatus !=''">
+				        		AND zp_job_matching_info.salary_require_id_status=#{salaryRequireIdStatus} 
+				        	</if>
+				        	<if test="educationId != null and educationId !=''">
+				        		AND zp_job_matching_info.education_id=#{educationId} 
+				        	</if>
+				        	<if test="educationIdStatus != null and educationIdStatus !=''">
+				        		AND zp_job_matching_info.education_id_status=#{educationIdStatus} 
+				        	</if>
+				        	<if test="englishLevelId != null and englishLevelId !=''">
+				        		AND zp_job_matching_info.english_level_id=#{englishLevelId} 
+				        	</if>
+				        	<if test="englishLevelIdStatus != null and englishLevelIdStatus !=''">
+				        		AND zp_job_matching_info.english_level_id_status=#{englishLevelIdStatus} 
+				        	</if>
+				        	<if test="topSpecialty != null and topSpecialty !=''">
+				        		AND zp_job_matching_info.top_specialty=#{topSpecialty} 
+				        	</if>
+				        	<if test="topSpecialtyStatus != null and topSpecialtyStatus !=''">
+				        		AND zp_job_matching_info.top_specialty_status=#{topSpecialtyStatus} 
+				        	</if>
+				        	<if test="birthday != null and birthday !=''">
+				        		AND zp_job_matching_info.birthday=#{birthday} 
+				        	</if>
+				        	<if test="birthdayStatus != null and birthdayStatus !=''">
+				        		AND zp_job_matching_info.birthday_status=#{birthdayStatus} 
+				        	</if>
+				        	<if test="jobStarttime != null and jobStarttime !=''">
+				        		AND zp_job_matching_info.job_starttime=#{jobStarttime} 
+				        	</if>
+				        	<if test="jobStarttimeStatus != null and jobStarttimeStatus !=''">
+				        		AND zp_job_matching_info.job_starttime_status=#{jobStarttimeStatus} 
+				        	</if>
+				        	<if test="matchKeword != null and matchKeword !=''">
+				        		AND zp_job_matching_info.match_keword=#{matchKeword} 
+				        	</if>
+				        	<if test="noMatchKeyword != null and noMatchKeyword !=''">
+				        		AND zp_job_matching_info.no_match_keyword=#{noMatchKeyword} 
+				        	</if>
+				        	<if test="distance != null and distance !=''">
+				        		AND zp_job_matching_info.distance=#{distance} 
+				        	</if>
+				        	<if test="distanceStatus != null and distanceStatus !=''">
+				        		AND zp_job_matching_info.distance_status=#{distanceStatus} 
+				        	</if>
+				        	<if test="inDatetime != null and inDatetime !=''">
+				        		AND zp_job_matching_info.in_datetime=#{inDatetime} 
+				        	</if>
+				        	<if test="inPerson != null and inPerson !=''">
+				        		AND zp_job_matching_info.in_person=#{inPerson} 
+				        	</if>
+		</where>
+	</select>
+	
+	
+	<!-- 添加 职位匹配信息 -->
+	<insert id="addZpJobMatchingInfo" flushCache="true" useGeneratedKeys="true" keyProperty="matchId">
+		INSERT INTO zp_job_matching_info
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+		        	<if test="jobId != null">
+		        		job_id,
+		        	</if>
+		        	<if test="companyId != null">
+		        		company_id,
+		        	</if>
+		        	<if test="sexId != null">
+		        		sex_id,
+		        	</if>
+		        	<if test="sexStatus != null">
+		        		sex_status,
+		        	</if>
+		        	<if test="jobPositionId != null">
+		        		job_position_id,
+		        	</if>
+		        	<if test="jobPositionIdStatus != null">
+		        		job_position_id_status,
+		        	</if>
+		        	<if test="jobPositionLevelId != null">
+		        		job_position_level_id,
+		        	</if>
+		        	<if test="jobPositionLevelIdStatus != null">
+		        		job_position_level_id_status,
+		        	</if>
+		        	<if test="maritalId != null">
+		        		marital_id,
+		        	</if>
+		        	<if test="maritalIdStatus != null">
+		        		marital_id_status,
+		        	</if>
+		        	<if test="salaryRequireId != null">
+		        		salary_require_id,
+		        	</if>
+		        	<if test="salaryRequireIdStatus != null">
+		        		salary_require_id_status,
+		        	</if>
+		        	<if test="educationId != null">
+		        		education_id,
+		        	</if>
+		        	<if test="educationIdStatus != null">
+		        		education_id_status,
+		        	</if>
+		        	<if test="englishLevelId != null">
+		        		english_level_id,
+		        	</if>
+		        	<if test="englishLevelIdStatus != null">
+		        		english_level_id_status,
+		        	</if>
+		        	<if test="topSpecialty != null">
+		        		top_specialty,
+		        	</if>
+		        	<if test="topSpecialtyStatus != null">
+		        		top_specialty_status,
+		        	</if>
+		        	<if test="birthday != null">
+		        		birthday,
+		        	</if>
+		        	<if test="birthdayStatus != null">
+		        		birthday_status,
+		        	</if>
+		        	<if test="jobStarttime != null">
+		        		job_starttime,
+		        	</if>
+		        	<if test="jobStarttimeStatus != null">
+		        		job_starttime_status,
+		        	</if>
+		        	<if test="matchKeword != null">
+		        		match_keword,
+		        	</if>
+		        	<if test="noMatchKeyword != null">
+		        		no_match_keyword,
+		        	</if>
+		        	<if test="distance != null">
+		        		distance,
+		        	</if>
+		        	<if test="distanceStatus != null">
+		        		distance_status,
+		        	</if>
+		        	<if test="inDatetime != null">
+		        		in_datetime,
+		        	</if>
+		        	<if test="inPerson != null">
+		        		in_person,
+		        	</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			        	<if test="jobId != null">
+			        		#{jobId},
+			        	</if>
+			        	<if test="companyId != null">
+			        		#{companyId},
+			        	</if>
+			        	<if test="sexId != null">
+			        		#{sexId},
+			        	</if>
+			        	<if test="sexStatus != null">
+			        		#{sexStatus},
+			        	</if>
+			        	<if test="jobPositionId != null">
+			        		#{jobPositionId},
+			        	</if>
+			        	<if test="jobPositionIdStatus != null">
+			        		#{jobPositionIdStatus},
+			        	</if>
+			        	<if test="jobPositionLevelId != null">
+			        		#{jobPositionLevelId},
+			        	</if>
+			        	<if test="jobPositionLevelIdStatus != null">
+			        		#{jobPositionLevelIdStatus},
+			        	</if>
+			        	<if test="maritalId != null">
+			        		#{maritalId},
+			        	</if>
+			        	<if test="maritalIdStatus != null">
+			        		#{maritalIdStatus},
+			        	</if>
+			        	<if test="salaryRequireId != null">
+			        		#{salaryRequireId},
+			        	</if>
+			        	<if test="salaryRequireIdStatus != null">
+			        		#{salaryRequireIdStatus},
+			        	</if>
+			        	<if test="educationId != null">
+			        		#{educationId},
+			        	</if>
+			        	<if test="educationIdStatus != null">
+			        		#{educationIdStatus},
+			        	</if>
+			        	<if test="englishLevelId != null">
+			        		#{englishLevelId},
+			        	</if>
+			        	<if test="englishLevelIdStatus != null">
+			        		#{englishLevelIdStatus},
+			        	</if>
+			        	<if test="topSpecialty != null">
+			        		#{topSpecialty},
+			        	</if>
+			        	<if test="topSpecialtyStatus != null">
+			        		#{topSpecialtyStatus},
+			        	</if>
+			        	<if test="birthday != null">
+			        		#{birthday},
+			        	</if>
+			        	<if test="birthdayStatus != null">
+			        		#{birthdayStatus},
+			        	</if>
+			        	<if test="jobStarttime != null">
+			        		#{jobStarttime},
+			        	</if>
+			        	<if test="jobStarttimeStatus != null">
+			        		#{jobStarttimeStatus},
+			        	</if>
+			        	<if test="matchKeword != null">
+			        		#{matchKeword},
+			        	</if>
+			        	<if test="noMatchKeyword != null">
+			        		#{noMatchKeyword},
+			        	</if>
+			        	<if test="distance != null">
+			        		#{distance},
+			        	</if>
+			        	<if test="distanceStatus != null">
+			        		#{distanceStatus},
+			        	</if>
+			        	<if test="inDatetime != null">
+			        		#{inDatetime},
+			        	</if>
+			        	<if test="inPerson != null">
+			        		#{inPerson},
+			        	</if>
+		</trim>
+	</insert>
+	
+	<!-- 修改 职位匹配信息 -->
+	<update id="updateZpJobMatchingInfo" >
+		UPDATE  zp_job_matching_info
+		<trim prefix="set" suffixOverrides=",">
+			        	<if test="jobId != null">
+			        		job_id=#{jobId},
+			        	</if>
+			        	<if test="companyId != null">
+			        		company_id=#{companyId},
+			        	</if>
+			        	<if test="sexId != null">
+			        		sex_id=#{sexId},
+			        	</if>
+			        	<if test="sexStatus != null">
+			        		sex_status=#{sexStatus},
+			        	</if>
+			        	<if test="jobPositionId != null">
+			        		job_position_id=#{jobPositionId},
+			        	</if>
+			        	<if test="jobPositionIdStatus != null">
+			        		job_position_id_status=#{jobPositionIdStatus},
+			        	</if>
+			        	<if test="jobPositionLevelId != null">
+			        		job_position_level_id=#{jobPositionLevelId},
+			        	</if>
+			        	<if test="jobPositionLevelIdStatus != null">
+			        		job_position_level_id_status=#{jobPositionLevelIdStatus},
+			        	</if>
+			        	<if test="maritalId != null">
+			        		marital_id=#{maritalId},
+			        	</if>
+			        	<if test="maritalIdStatus != null">
+			        		marital_id_status=#{maritalIdStatus},
+			        	</if>
+			        	<if test="salaryRequireId != null">
+			        		salary_require_id=#{salaryRequireId},
+			        	</if>
+			        	<if test="salaryRequireIdStatus != null">
+			        		salary_require_id_status=#{salaryRequireIdStatus},
+			        	</if>
+			        	<if test="educationId != null">
+			        		education_id=#{educationId},
+			        	</if>
+			        	<if test="educationIdStatus != null">
+			        		education_id_status=#{educationIdStatus},
+			        	</if>
+			        	<if test="englishLevelId != null">
+			        		english_level_id=#{englishLevelId},
+			        	</if>
+			        	<if test="englishLevelIdStatus != null">
+			        		english_level_id_status=#{englishLevelIdStatus},
+			        	</if>
+			        	<if test="topSpecialty != null">
+			        		top_specialty=#{topSpecialty},
+			        	</if>
+			        	<if test="topSpecialtyStatus != null">
+			        		top_specialty_status=#{topSpecialtyStatus},
+			        	</if>
+			        	<if test="birthday != null">
+			        		birthday=#{birthday},
+			        	</if>
+			        	<if test="birthdayStatus != null">
+			        		birthday_status=#{birthdayStatus},
+			        	</if>
+			        	<if test="jobStarttime != null">
+			        		job_starttime=#{jobStarttime},
+			        	</if>
+			        	<if test="jobStarttimeStatus != null">
+			        		job_starttime_status=#{jobStarttimeStatus},
+			        	</if>
+			        	<if test="matchKeword != null">
+			        		match_keword=#{matchKeword},
+			        	</if>
+			        	<if test="noMatchKeyword != null">
+			        		no_match_keyword=#{noMatchKeyword},
+			        	</if>
+			        	<if test="distance != null">
+			        		distance=#{distance},
+			        	</if>
+			        	<if test="distanceStatus != null">
+			        		distance_status=#{distanceStatus},
+			        	</if>
+			        	<if test="inDatetime != null">
+			        		in_datetime=#{inDatetime},
+			        	</if>
+			        	<if test="inPerson != null">
+			        		in_person=#{inPerson},
+			        	</if>
+		</trim>
+		WHERE match_id=#{matchId}
+	</update>
+
+	<!-- 删除  职位匹配信息 -->
+	<delete id="deleteZpJobMatchingInfo">
+		DELETE FROM zp_job_matching_info 
+		<where>
+				        	<if test="matchId != null">
+				        		AND match_id=#{matchId} 
+				        	</if>
+				        	<if test="jobId != null">
+				        		AND job_id=#{jobId} 
+				        	</if>
+				        	<if test="companyId != null">
+				        		AND company_id=#{companyId} 
+				        	</if>
+				        	<if test="sexId != null">
+				        		AND sex_id=#{sexId} 
+				        	</if>
+				        	<if test="sexStatus != null">
+				        		AND sex_status=#{sexStatus} 
+				        	</if>
+				        	<if test="jobPositionId != null">
+				        		AND job_position_id=#{jobPositionId} 
+				        	</if>
+				        	<if test="jobPositionIdStatus != null">
+				        		AND job_position_id_status=#{jobPositionIdStatus} 
+				        	</if>
+				        	<if test="jobPositionLevelId != null">
+				        		AND job_position_level_id=#{jobPositionLevelId} 
+				        	</if>
+				        	<if test="jobPositionLevelIdStatus != null">
+				        		AND job_position_level_id_status=#{jobPositionLevelIdStatus} 
+				        	</if>
+				        	<if test="maritalId != null">
+				        		AND marital_id=#{maritalId} 
+				        	</if>
+				        	<if test="maritalIdStatus != null">
+				        		AND marital_id_status=#{maritalIdStatus} 
+				        	</if>
+				        	<if test="salaryRequireId != null">
+				        		AND salary_require_id=#{salaryRequireId} 
+				        	</if>
+				        	<if test="salaryRequireIdStatus != null">
+				        		AND salary_require_id_status=#{salaryRequireIdStatus} 
+				        	</if>
+				        	<if test="educationId != null">
+				        		AND education_id=#{educationId} 
+				        	</if>
+				        	<if test="educationIdStatus != null">
+				        		AND education_id_status=#{educationIdStatus} 
+				        	</if>
+				        	<if test="englishLevelId != null">
+				        		AND english_level_id=#{englishLevelId} 
+				        	</if>
+				        	<if test="englishLevelIdStatus != null">
+				        		AND english_level_id_status=#{englishLevelIdStatus} 
+				        	</if>
+				        	<if test="topSpecialty != null">
+				        		AND top_specialty=#{topSpecialty} 
+				        	</if>
+				        	<if test="topSpecialtyStatus != null">
+				        		AND top_specialty_status=#{topSpecialtyStatus} 
+				        	</if>
+				        	<if test="birthday != null">
+				        		AND birthday=#{birthday} 
+				        	</if>
+				        	<if test="birthdayStatus != null">
+				        		AND birthday_status=#{birthdayStatus} 
+				        	</if>
+				        	<if test="jobStarttime != null">
+				        		AND job_starttime=#{jobStarttime} 
+				        	</if>
+				        	<if test="jobStarttimeStatus != null">
+				        		AND job_starttime_status=#{jobStarttimeStatus} 
+				        	</if>
+				        	<if test="matchKeword != null">
+				        		AND match_keword=#{matchKeword} 
+				        	</if>
+				        	<if test="noMatchKeyword != null">
+				        		AND no_match_keyword=#{noMatchKeyword} 
+				        	</if>
+				        	<if test="distance != null">
+				        		AND distance=#{distance} 
+				        	</if>
+				        	<if test="distanceStatus != null">
+				        		AND distance_status=#{distanceStatus} 
+				        	</if>
+				        	<if test="inDatetime != null">
+				        		AND in_datetime=#{inDatetime} 
+				        	</if>
+				        	<if test="inPerson != null">
+				        		AND in_person=#{inPerson} 
+				        	</if>
+		</where>
+	</delete>
+	
+	<!-- 获得  职位匹配信息 -->
+	<select id="getZpJobMatchingInfoById" resultMap="zpJobMatchingInfoMap">
+		SELECT
+						 		ZpJobMatchingInfo.match_id,
+						 		ZpJobMatchingInfo.job_id,
+						 		ZpJobMatchingInfo.company_id,
+						 		ZpJobMatchingInfo.sex_id,
+						 		ZpJobMatchingInfo.sex_status,
+						 		ZpJobMatchingInfo.job_position_id,
+						 		ZpJobMatchingInfo.job_position_id_status,
+						 		ZpJobMatchingInfo.job_position_level_id,
+						 		ZpJobMatchingInfo.job_position_level_id_status,
+						 		ZpJobMatchingInfo.marital_id,
+						 		ZpJobMatchingInfo.marital_id_status,
+						 		ZpJobMatchingInfo.salary_require_id,
+						 		ZpJobMatchingInfo.salary_require_id_status,
+						 		ZpJobMatchingInfo.education_id,
+						 		ZpJobMatchingInfo.education_id_status,
+						 		ZpJobMatchingInfo.english_level_id,
+						 		ZpJobMatchingInfo.english_level_id_status,
+						 		ZpJobMatchingInfo.top_specialty,
+						 		ZpJobMatchingInfo.top_specialty_status,
+						 		ZpJobMatchingInfo.birthday,
+						 		ZpJobMatchingInfo.birthday_status,
+						 		ZpJobMatchingInfo.job_starttime,
+						 		ZpJobMatchingInfo.job_starttime_status,
+						 		ZpJobMatchingInfo.match_keword,
+						 		ZpJobMatchingInfo.no_match_keyword,
+						 		ZpJobMatchingInfo.distance,
+						 		ZpJobMatchingInfo.distance_status,
+						 		ZpJobMatchingInfo.in_datetime,
+						 		ZpJobMatchingInfo.in_person
+		FROM
+			zp_job_matching_info
+		WHERE 
+		zp_job_matching_info.match_id=#{matchId}
+		
+	</select>
+
+</mapper>

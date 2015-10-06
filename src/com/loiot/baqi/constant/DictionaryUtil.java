@@ -26,16 +26,33 @@ public class DictionaryUtil {
 		return newList;
 	}
 	
-	public static String getName(int code){
+	public static String getName(Long code){
+		if(code==null){
+			return "";
+		}
 		Map<String,List> maps = IndexInfoSingleTon.getInstance().getIndexInfoMap();
 		List<ZpDictionaryInfo> dictList= maps.get(Const.SESSION_DICTIONARYS_KEY);
 		String name ="";
 		for(ZpDictionaryInfo dic : dictList){
-			if(dic.getType()==DictionaryType.SALARY_REQUIRE.getCode()){
+			if(dic.getDictionaryId()==code){
 				name=dic.getShowName();
 			}
 		}
 		return name;
+	}
+	
+	public static ZpDictionaryInfo getBean(Long code){
+		if(code==null){
+			return null;
+		}
+		Map<String,List> maps = IndexInfoSingleTon.getInstance().getIndexInfoMap();
+		List<ZpDictionaryInfo> dictList= maps.get(Const.SESSION_DICTIONARYS_KEY);
+		for(ZpDictionaryInfo dic : dictList){
+			if(dic.getDictionaryId()==code){
+				return dic;
+			}
+		}
+		return null;
 	}
 	
 	public static List<ZpDictionaryInfo> getRegexpList(){
@@ -61,4 +78,5 @@ public class DictionaryUtil {
 		}
 		return null;
 	}
+	
 }

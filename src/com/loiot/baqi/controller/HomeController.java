@@ -53,8 +53,9 @@ public class HomeController {
 			// 什么角色都没有就到密码修改，一般没有这个情况
 			return "redirect:/password.action";
 		}*/
-		
-		return "redirect:/zpJlInfo/toAdd.action";
-	    
+		//
+		//return "redirect:/zpCompanyJobInfo/toAdd.action";
+		return "redirect:/zpJlInfo/list.action";
+
 	}
 }

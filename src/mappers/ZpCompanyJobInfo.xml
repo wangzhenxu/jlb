@@ -1,0 +1,623 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ZpCompanyJobInfo">
+
+	<resultMap type="ZpCompanyJobInfo" id="zpCompanyJobInfoMap">
+	        	<id  column="job_id" property="jobId"></id>
+	        	<result  column="company_id" property="companyId" />
+	        	<result  column="typeId" property="typeId" />
+	        	<result  column="name" property="name" />
+	        	<result  column="report_object" property="reportObject" />
+	        	<result  column="jobPositionLevelId" property="jobPositionLevelId" />
+	        	<result  column="zp_person_count" property="zpPersonCount" />
+	        	<result  column="expected_year_money_start" property="expectedYearMoneyStart" />
+	        	<result  column="expected_year_money_end" property="expectedYearMoneyEnd" />
+	        	<result  column="work_term_start" property="workTermStart" />
+	        	<result  column="work_term_end" property="workTermEnd" />
+	        	<result  column="down_team_person_count" property="downTeamPersonCount" />
+	        	<result  column="zp_require" property="zpRequire" />
+	        	<result  column="sex" property="sex" />
+	        	<result  column="educationId" property="educationId" />
+	        	<result  column="englishLevelId" property="englishLevelId" />
+	        	<result  column="topSpecialty" property="topSpecialty" />
+	        	<result  column="job_tempt_text" property="jobTemptText" />
+	        	<result  column="job_tempt_item" property="jobTemptItem" />
+	        	<result  column="desc" property="desc" />
+	        	<result  column="more_desc" property="moreDesc" />
+	        	<result  column="in_person" property="inPerson" />
+	        	<result  column="in_datetime" property="inDatetime" />
+	        	<result  column="last_update_time" property="lastUpdateTime" />
+	        	<result  column="is_delete" property="isDelete" />
+	</resultMap>
+	
+	<!-- 查询 公司职位列表 -->
+	<select id="queryZpCompanyJobInfoList" resultMap="zpCompanyJobInfoMap">
+		SELECT
+						 		zp_company_job_info.job_id,
+			        	
+						 		zp_company_job_info.company_id,
+			        	
+						 		zp_company_job_info.typeId,
+			        	
+						 		zp_company_job_info.name,
+			        	
+						 		zp_company_job_info.report_object,
+			        	
+						 		zp_company_job_info.jobPositionLevelId,
+			        	
+						 		zp_company_job_info.zp_person_count,
+			        	
+						 		zp_company_job_info.expected_year_money_start,
+			        	
+						 		zp_company_job_info.expected_year_money_end,
+			        	
+						 		zp_company_job_info.work_term_start,
+			        	
+						 		zp_company_job_info.work_term_end,
+			        	
+						 		zp_company_job_info.down_team_person_count,
+			        	
+						 		zp_company_job_info.zp_require,
+			        	
+						 		zp_company_job_info.sex,
+			        	
+						 		zp_company_job_info.educationId,
+			        	
+						 		zp_company_job_info.englishLevelId,
+			        	
+						 		zp_company_job_info.topSpecialty,
+			        	
+						 		zp_company_job_info.job_tempt_text,
+			        	
+						 		zp_company_job_info.job_tempt_item,
+			        	
+						 		zp_company_job_info.desc,
+			        	
+						 		zp_company_job_info.more_desc,
+			        	
+						 		zp_company_job_info.in_person,
+			        	
+						 		zp_company_job_info.in_datetime,
+			        	
+						 		zp_company_job_info.last_update_time,
+			        	
+						 		zp_company_job_info.is_delete
+			        	
+		FROM
+			zp_company_job_info
+		<where>
+							<if test="qtype != null and qtype=='like'">
+									<if test="name != null and name !='' ">
+						        		AND zp_company_job_info.name like '%${name}' 
+						        	</if>
+						        	 
+								     <if test="expectedYearMoneyStart != null and expectedYearMoneyStart !='' ">
+						        		<![CDATA[ AND zp_company_job_info.expected_year_money_start>=#{expectedYearMoneyStart}]]> 
+						        	</if>
+						        	<if test="expectedYearMoneyEnd != null and expectedYearMoneyEnd !='' ">
+						        		<![CDATA[ AND zp_company_job_info.expected_year_money_end<=#{expectedYearMoneyEnd} ]]> 
+						        	</if>
+						        	<if test="workTermStart != null and workTermStart !='' ">
+						        		<![CDATA[ AND zp_company_job_info.work_term_start>=#{workTermStart}  ]]>
+						        	</if>
+						        	<if test="workTermEnd != null and workTermEnd !='' ">
+						        		<![CDATA[ AND zp_company_job_info.work_term_end<=#{workTermEnd}  ]]>
+						        	</if>
+							</if>
+							<if test="qtype == null and name != null and name !='' ">
+						        		AND zp_company_job_info.name=#{name} 
+				        	</if>
+				        	<if test="companyId != null and companyId !='' ">
+				        		AND zp_company_job_info.company_id=#{companyId} 
+				        	</if>
+				        	<if test="typeId != null and typeId !='' ">
+				        		AND zp_company_job_info.typeId=#{typeId} 
+				        	</if>
+				        	<if test="reportObject != null and reportObject !='' ">
+				        		AND zp_company_job_info.report_object=#{reportObject} 
+				        	</if>
+				        	<if test="jobPositionLevelId != null and jobPositionLevelId !='' ">
+				        		AND zp_company_job_info.jobPositionLevelId=#{jobPositionLevelId} 
+				        	</if>
+				        	<if test="zpPersonCount != null and zpPersonCount !='' ">
+				        		AND zp_company_job_info.zp_person_count=#{zpPersonCount} 
+				        	</if>
+				        	
+				        	<if test="downTeamPersonCount != null and downTeamPersonCount !='' ">
+				        		AND zp_company_job_info.down_team_person_count=#{downTeamPersonCount} 
+				        	</if>
+				        	<if test="zpRequire != null and zpRequire !='' ">
+				        		AND zp_company_job_info.zp_require=#{zpRequire} 
+				        	</if>
+				        	<if test="sex != null and sex !='' ">
+				        		AND zp_company_job_info.sex=#{sex} 
+				        	</if>
+				        	<if test="educationId != null and educationId !='' ">
+				        		AND zp_company_job_info.educationId=#{educationId} 
+				        	</if>
+				        	<if test="englishLevelId != null and englishLevelId !='' ">
+				        		AND zp_company_job_info.englishLevelId=#{englishLevelId} 
+				        	</if>
+				        	<if test="topSpecialty != null and topSpecialty !='' ">
+				        		AND zp_company_job_info.topSpecialty=#{topSpecialty} 
+				        	</if>
+				        	<if test="jobTemptText != null and jobTemptText !='' ">
+				        		AND zp_company_job_info.job_tempt_text=#{jobTemptText} 
+				        	</if>
+				        	<if test="jobTemptItem != null and jobTemptItem !='' ">
+				        		AND zp_company_job_info.job_tempt_item=#{jobTemptItem} 
+				        	</if>
+				        	<if test="desc != null and desc !='' ">
+				        		AND zp_company_job_info.desc=#{desc} 
+				        	</if>
+				        	<if test="moreDesc != null and moreDesc !='' ">
+				        		AND zp_company_job_info.more_desc=#{moreDesc} 
+				        	</if>
+				        	<if test="inPerson != null and inPerson !='' ">
+				        		AND zp_company_job_info.in_person=#{inPerson} 
+				        	</if>
+				        	<if test="inDatetime != null and inDatetime !='' ">
+				        		AND zp_company_job_info.in_datetime=#{inDatetime} 
+				        	</if>
+				        	<if test="lastUpdateTime != null and lastUpdateTime !='' ">
+				        		AND zp_company_job_info.last_update_time=#{lastUpdateTime} 
+				        	</if>
+				        	<if test="isDelete != null and isDelete !='' ">
+				        		AND zp_company_job_info.is_delete=#{isDelete} 
+				        	</if>
+				        	<if test="ids !=null">
+				         		AND zp_company_job_info.jobPositionLevelId IN
+							    <foreach  item="item" collection="ids"  index="index" open="(" separator="," close=")"> 
+										 ${item} 
+								</foreach>
+			       			 </if>
+		</where>
+		ORDER BY zp_company_job_info.job_id desc 
+		<if test="skipResults!=null">
+				limit #{skipResults} ,#{maxResults}
+		</if>
+		
+	</select>
+	
+	<!-- 查询 公司职位列表条数 -->
+	<select id="getZpCompanyJobInfoListCount" resultType="int">
+		SELECT
+			count(1)
+		FROM
+			zp_company_job_info
+		<where>
+							<if test="qtype != null and qtype=='like'">
+									<if test="name != null and name !='' ">
+						        		AND zp_company_job_info.name like '%${name}' 
+						        	</if>
+						        	 
+								     <if test="expectedYearMoneyStart != null and expectedYearMoneyStart !='' ">
+						        		<![CDATA[ AND zp_company_job_info.expected_year_money_start>=#{expectedYearMoneyStart}]]> 
+						        	</if>
+						        	<if test="expectedYearMoneyEnd != null and expectedYearMoneyEnd !='' ">
+						        		<![CDATA[ AND zp_company_job_info.expected_year_money_end<=#{expectedYearMoneyEnd} ]]> 
+						        	</if>
+						        	<if test="workTermStart != null and workTermStart !='' ">
+						        		<![CDATA[ AND zp_company_job_info.work_term_start>=#{workTermStart}  ]]>
+						        	</if>
+						        	<if test="workTermEnd != null and workTermEnd !='' ">
+						        		<![CDATA[ AND zp_company_job_info.work_term_end<=#{workTermEnd}  ]]>
+						        	</if>
+							</if>
+							<if test="qtype == null and name != null and name !='' ">
+						        		AND zp_company_job_info.name=#{name} 
+				        	</if>
+				        	<if test="companyId != null and companyId !=''">
+				        		AND zp_company_job_info.company_id=#{companyId} 
+				        	</if>
+				        	<if test="typeId != null and typeId !=''">
+				        		AND zp_company_job_info.typeId=#{typeId} 
+				        	</if>
+				        	<if test="reportObject != null and reportObject !=''">
+				        		AND zp_company_job_info.report_object=#{reportObject} 
+				        	</if>
+				        	<if test="jobPositionLevelId != null and jobPositionLevelId !=''">
+				        		AND zp_company_job_info.jobPositionLevelId=#{jobPositionLevelId} 
+				        	</if>
+				        	<if test="zpPersonCount != null and zpPersonCount !=''">
+				        		AND zp_company_job_info.zp_person_count=#{zpPersonCount} 
+				        	</if>
+				        	<if test="downTeamPersonCount != null and downTeamPersonCount !=''">
+				        		AND zp_company_job_info.down_team_person_count=#{downTeamPersonCount} 
+				        	</if>
+				        	<if test="zpRequire != null and zpRequire !=''">
+				        		AND zp_company_job_info.zp_require=#{zpRequire} 
+				        	</if>
+				        	<if test="sex != null and sex !=''">
+				        		AND zp_company_job_info.sex=#{sex} 
+				        	</if>
+				        	<if test="educationId != null and educationId !=''">
+				        		AND zp_company_job_info.educationId=#{educationId} 
+				        	</if>
+				        	<if test="englishLevelId != null and englishLevelId !=''">
+				        		AND zp_company_job_info.englishLevelId=#{englishLevelId} 
+				        	</if>
+				        	<if test="topSpecialty != null and topSpecialty !=''">
+				        		AND zp_company_job_info.topSpecialty=#{topSpecialty} 
+				        	</if>
+				        	<if test="jobTemptText != null and jobTemptText !=''">
+				        		AND zp_company_job_info.job_tempt_text=#{jobTemptText} 
+				        	</if>
+				        	<if test="jobTemptItem != null and jobTemptItem !=''">
+				        		AND zp_company_job_info.job_tempt_item=#{jobTemptItem} 
+				        	</if>
+				        	<if test="desc != null and desc !=''">
+				        		AND zp_company_job_info.desc=#{desc} 
+				        	</if>
+				        	<if test="moreDesc != null and moreDesc !=''">
+				        		AND zp_company_job_info.more_desc=#{moreDesc} 
+				        	</if>
+				        	<if test="inPerson != null and inPerson !=''">
+				        		AND zp_company_job_info.in_person=#{inPerson} 
+				        	</if>
+				        	<if test="inDatetime != null and inDatetime !=''">
+				        		AND zp_company_job_info.in_datetime=#{inDatetime} 
+				        	</if>
+				        	<if test="lastUpdateTime != null and lastUpdateTime !=''">
+				        		AND zp_company_job_info.last_update_time=#{lastUpdateTime} 
+				        	</if>
+				        	<if test="isDelete != null and isDelete !=''">
+				        		AND zp_company_job_info.is_delete=#{isDelete} 
+				        	</if>
+		</where>
+	</select>
+	
+	
+	<!-- 添加 公司职位 -->
+	<insert id="addZpCompanyJobInfo" flushCache="true" useGeneratedKeys="true" keyProperty="jobId">
+		INSERT INTO zp_company_job_info
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+		        	<if test="companyId != null">
+		        		company_id,
+		        	</if>
+		        	<if test="typeId != null">
+		        		typeId,
+		        	</if>
+		        	<if test="name != null">
+		        		name,
+		        	</if>
+		        	<if test="reportObject != null">
+		        		report_object,
+		        	</if>
+		        	<if test="jobPositionLevelId != null">
+		        		jobPositionLevelId,
+		        	</if>
+		        	<if test="zpPersonCount != null">
+		        		zp_person_count,
+		        	</if>
+		        	<if test="expectedYearMoneyStart != null">
+		        		expected_year_money_start,
+		        	</if>
+		        	<if test="expectedYearMoneyEnd != null">
+		        		expected_year_money_end,
+		        	</if>
+		        	<if test="workTermStart != null">
+		        		work_term_start,
+		        	</if>
+		        	<if test="workTermEnd != null">
+		        		work_term_end,
+		        	</if>
+		        	<if test="downTeamPersonCount != null">
+		        		down_team_person_count,
+		        	</if>
+		        	<if test="zpRequire != null">
+		        		zp_require,
+		        	</if>
+		        	<if test="sex != null">
+		        		sex,
+		        	</if>
+		        	<if test="educationId != null">
+		        		educationId,
+		        	</if>
+		        	<if test="englishLevelId != null">
+		        		englishLevelId,
+		        	</if>
+		        	<if test="topSpecialty != null">
+		        		topSpecialty,
+		        	</if>
+		        	<if test="jobTemptText != null">
+		        		job_tempt_text,
+		        	</if>
+		        	<if test="jobTemptItem != null">
+		        		job_tempt_item,
+		        	</if>
+		        	<if test="desc != null">
+		        			`desc`,
+		        	</if>
+		        	<if test="moreDesc != null">
+		        		more_desc,
+		        	</if>
+		        	<if test="inPerson != null">
+		        		in_person,
+		        	</if>
+		        	<if test="inDatetime != null">
+		        		in_datetime,
+		        	</if>
+		        	<if test="lastUpdateTime != null">
+		        		last_update_time,
+		        	</if>
+		        	<if test="isDelete != null">
+		        		is_delete,
+		        	</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			        	<if test="companyId != null">
+			        		#{companyId},
+			        	</if>
+			        	<if test="typeId != null">
+			        		#{typeId},
+			        	</if>
+			        	<if test="name != null">
+			        		#{name},
+			        	</if>
+			        	<if test="reportObject != null">
+			        		#{reportObject},
+			        	</if>
+			        	<if test="jobPositionLevelId != null">
+			        		#{jobPositionLevelId},
+			        	</if>
+			        	<if test="zpPersonCount != null">
+			        		#{zpPersonCount},
+			        	</if>
+			        	<if test="expectedYearMoneyStart != null">
+			        		#{expectedYearMoneyStart},
+			        	</if>
+			        	<if test="expectedYearMoneyEnd != null">
+			        		#{expectedYearMoneyEnd},
+			        	</if>
+			        	<if test="workTermStart != null">
+			        		#{workTermStart},
+			        	</if>
+			        	<if test="workTermEnd != null">
+			        		#{workTermEnd},
+			        	</if>
+			        	<if test="downTeamPersonCount != null">
+			        		#{downTeamPersonCount},
+			        	</if>
+			        	<if test="zpRequire != null">
+			        		#{zpRequire},
+			        	</if>
+			        	<if test="sex != null">
+			        		#{sex},
+			        	</if>
+			        	<if test="educationId != null">
+			        		#{educationId},
+			        	</if>
+			        	<if test="englishLevelId != null">
+			        		#{englishLevelId},
+			        	</if>
+			        	<if test="topSpecialty != null">
+			        		#{topSpecialty},
+			        	</if>
+			        	<if test="jobTemptText != null">
+			        		#{jobTemptText},
+			        	</if>
+			        	<if test="jobTemptItem != null">
+			        		#{jobTemptItem},
+			        	</if>
+			        	<if test="desc != null">
+			        		#{desc},
+			        	</if>
+			        	<if test="moreDesc != null">
+			        		#{moreDesc},
+			        	</if>
+			        	<if test="inPerson != null">
+			        		#{inPerson},
+			        	</if>
+			        	<if test="inDatetime != null">
+			        		#{inDatetime},
+			        	</if>
+			        	<if test="lastUpdateTime != null">
+			        		#{lastUpdateTime},
+			        	</if>
+			        	<if test="isDelete != null">
+			        		#{isDelete},
+			        	</if>
+		</trim>
+	</insert>
+	
+	<!-- 修改 公司职位 -->
+	<update id="updateZpCompanyJobInfo" >
+		UPDATE  zp_company_job_info
+		<trim prefix="set" suffixOverrides=",">
+			        	<if test="companyId != null">
+			        		company_id=#{companyId},
+			        	</if>
+			        	<if test="typeId != null">
+			        		typeId=#{typeId},
+			        	</if>
+			        	<if test="name != null">
+			        		name=#{name},
+			        	</if>
+			        	<if test="reportObject != null">
+			        		report_object=#{reportObject},
+			        	</if>
+			        	<if test="jobPositionLevelId != null">
+			        		jobPositionLevelId=#{jobPositionLevelId},
+			        	</if>
+			        	<if test="zpPersonCount != null">
+			        		zp_person_count=#{zpPersonCount},
+			        	</if>
+			        	<if test="expectedYearMoneyStart != null">
+			        		expected_year_money_start=#{expectedYearMoneyStart},
+			        	</if>
+			        	<if test="expectedYearMoneyEnd != null">
+			        		expected_year_money_end=#{expectedYearMoneyEnd},
+			        	</if>
+			        	<if test="workTermStart != null">
+			        		work_term_start=#{workTermStart},
+			        	</if>
+			        	<if test="workTermEnd != null">
+			        		work_term_end=#{workTermEnd},
+			        	</if>
+			        	<if test="downTeamPersonCount != null">
+			        		down_team_person_count=#{downTeamPersonCount},
+			        	</if>
+			        	<if test="zpRequire != null">
+			        		zp_require=#{zpRequire},
+			        	</if>
+			        	<if test="sex != null">
+			        		sex=#{sex},
+			        	</if>
+			        	<if test="educationId != null">
+			        		educationId=#{educationId},
+			        	</if>
+			        	<if test="englishLevelId != null">
+			        		englishLevelId=#{englishLevelId},
+			        	</if>
+			        	<if test="topSpecialty != null">
+			        		topSpecialty=#{topSpecialty},
+			        	</if>
+			        	<if test="jobTemptText != null">
+			        		job_tempt_text=#{jobTemptText},
+			        	</if>
+			        	<if test="jobTemptItem != null">
+			        		job_tempt_item=#{jobTemptItem},
+			        	</if>
+			        	<if test="desc != null">
+			        		desc=#{desc},
+			        	</if>
+			        	<if test="moreDesc != null">
+			        		more_desc=#{moreDesc},
+			        	</if>
+			        	<if test="inPerson != null">
+			        		in_person=#{inPerson},
+			        	</if>
+			        	<if test="inDatetime != null">
+			        		in_datetime=#{inDatetime},
+			        	</if>
+			        	<if test="lastUpdateTime != null">
+			        		last_update_time=#{lastUpdateTime},
+			        	</if>
+			        	<if test="isDelete != null">
+			        		is_delete=#{isDelete},
+			        	</if>
+		</trim>
+		WHERE job_id=#{jobId}
+	</update>
+
+	<!-- 删除  公司职位 -->
+	<delete id="deleteZpCompanyJobInfo">
+		DELETE FROM zp_company_job_info 
+		<where>
+				        	<if test="jobId != null">
+				        		AND job_id=#{jobId} 
+				        	</if>
+				        	<if test="companyId != null">
+				        		AND company_id=#{companyId} 
+				        	</if>
+				        	<if test="typeId != null">
+				        		AND typeId=#{typeId} 
+				        	</if>
+				        	<if test="name != null">
+				        		AND name=#{name} 
+				        	</if>
+				        	<if test="reportObject != null">
+				        		AND report_object=#{reportObject} 
+				        	</if>
+				        	<if test="jobPositionLevelId != null">
+				        		AND jobPositionLevelId=#{jobPositionLevelId} 
+				        	</if>
+				        	<if test="zpPersonCount != null">
+				        		AND zp_person_count=#{zpPersonCount} 
+				        	</if>
+				        	<if test="expectedYearMoneyStart != null">
+				        		AND expected_year_money_start=#{expectedYearMoneyStart} 
+				        	</if>
+				        	<if test="expectedYearMoneyEnd != null">
+				        		AND expected_year_money_end=#{expectedYearMoneyEnd} 
+				        	</if>
+				        	<if test="workTermStart != null">
+				        		AND work_term_start=#{workTermStart} 
+				        	</if>
+				        	<if test="workTermEnd != null">
+				        		AND work_term_end=#{workTermEnd} 
+				        	</if>
+				        	<if test="downTeamPersonCount != null">
+				        		AND down_team_person_count=#{downTeamPersonCount} 
+				        	</if>
+				        	<if test="zpRequire != null">
+				        		AND zp_require=#{zpRequire} 
+				        	</if>
+				        	<if test="sex != null">
+				        		AND sex=#{sex} 
+				        	</if>
+				        	<if test="educationId != null">
+				        		AND educationId=#{educationId} 
+				        	</if>
+				        	<if test="englishLevelId != null">
+				        		AND englishLevelId=#{englishLevelId} 
+				        	</if>
+				        	<if test="topSpecialty != null">
+				        		AND topSpecialty=#{topSpecialty} 
+				        	</if>
+				        	<if test="jobTemptText != null">
+				        		AND job_tempt_text=#{jobTemptText} 
+				        	</if>
+				        	<if test="jobTemptItem != null">
+				        		AND job_tempt_item=#{jobTemptItem} 
+				        	</if>
+				        	<if test="desc != null">
+				        		AND desc=#{desc} 
+				        	</if>
+				        	<if test="moreDesc != null">
+				        		AND more_desc=#{moreDesc} 
+				        	</if>
+				        	<if test="inPerson != null">
+				        		AND in_person=#{inPerson} 
+				        	</if>
+				        	<if test="inDatetime != null">
+				        		AND in_datetime=#{inDatetime} 
+				        	</if>
+				        	<if test="lastUpdateTime != null">
+				        		AND last_update_time=#{lastUpdateTime} 
+				        	</if>
+				        	<if test="isDelete != null">
+				        		AND is_delete=#{isDelete} 
+				        	</if>
+		</where>
+	</delete>
+	
+	<!-- 获得  公司职位 -->
+	<select id="getZpCompanyJobInfoById" resultMap="zpCompanyJobInfoMap">
+		SELECT
+						 		ZpCompanyJobInfo.job_id,
+						 		ZpCompanyJobInfo.company_id,
+						 		ZpCompanyJobInfo.typeId,
+						 		ZpCompanyJobInfo.name,
+						 		ZpCompanyJobInfo.report_object,
+						 		ZpCompanyJobInfo.jobPositionLevelId,
+						 		ZpCompanyJobInfo.zp_person_count,
+						 		ZpCompanyJobInfo.expected_year_money_start,
+						 		ZpCompanyJobInfo.expected_year_money_end,
+						 		ZpCompanyJobInfo.work_term_start,
+						 		ZpCompanyJobInfo.work_term_end,
+						 		ZpCompanyJobInfo.down_team_person_count,
+						 		ZpCompanyJobInfo.zp_require,
+						 		ZpCompanyJobInfo.sex,
+						 		ZpCompanyJobInfo.educationId,
+						 		ZpCompanyJobInfo.englishLevelId,
+						 		ZpCompanyJobInfo.topSpecialty,
+						 		ZpCompanyJobInfo.job_tempt_text,
+						 		ZpCompanyJobInfo.job_tempt_item,
+						 		ZpCompanyJobInfo.desc,
+						 		ZpCompanyJobInfo.more_desc,
+						 		ZpCompanyJobInfo.in_person,
+						 		ZpCompanyJobInfo.in_datetime,
+						 		ZpCompanyJobInfo.last_update_time,
+						 		ZpCompanyJobInfo.is_delete
+		FROM
+			zp_company_job_info
+		WHERE 
+		zp_company_job_info.job_id=#{jobId}
+		
+	</select>
+
+</mapper>

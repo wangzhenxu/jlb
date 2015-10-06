@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ZpJlExpandInfo">
+
+	<resultMap type="ZpJlExpandInfo" id="zpJlExpandInfoMap">
+	        	<id  column="jl_expand_id" property="jlExpandId"></id>
+	        	<result  column="jl_id" property="jlId" />
+	        	<result  column="jl_file_path" property="jlFilePath" />
+	        	<result  column="jl_content" property="jlContent" />
+	</resultMap>
+	
+	<!-- 查询 简历扩展信息列表 -->
+	<select id="queryZpJlExpandInfoList" resultMap="zpJlExpandInfoMap">
+		SELECT
+						 		zp_jl_expand_info.jl_expand_id,
+			        	
+						 		zp_jl_expand_info.jl_id,
+			        	
+						 		zp_jl_expand_info.jl_file_path,
+			        	
+						 		zp_jl_expand_info.jl_content
+			        	
+		FROM
+			zp_jl_expand_info
+		<where>
+							<if test="qtype != null and qtype=='like'">
+							</if>
+				        	<if test="jlId != null and jlId !='' ">
+				        		AND zp_jl_expand_info.jl_id=#{jlId} 
+				        	</if>
+				        	<if test="jlFilePath != null and jlFilePath !='' ">
+				        		AND zp_jl_expand_info.jl_file_path=#{jlFilePath} 
+				        	</if>
+				        	<if test="jlContent != null and jlContent !='' ">
+				        		AND zp_jl_expand_info.jl_content=#{jlContent} 
+				        	</if>
+		</where>
+		ORDER BY zp_jl_expand_info.jl_expand_id desc 
+		<if test="skipResults!=null">
+				limit #{skipResults} ,#{maxResults}
+		</if>
+		
+	</select>
+	
+	<!-- 查询 简历扩展信息列表条数 -->
+	<select id="getZpJlExpandInfoListCount" resultType="int">
+		SELECT
+			count(1)
+		FROM
+			zp_jl_expand_info
+		<where>
+							<if test="qtype != null and qtype=='like'">
+							</if>
+				        	<if test="jlId != null and jlId !=''">
+				        		AND zp_jl_expand_info.jl_id=#{jlId} 
+				        	</if>
+				        	<if test="jlFilePath != null and jlFilePath !=''">
+				        		AND zp_jl_expand_info.jl_file_path=#{jlFilePath} 
+				        	</if>
+				        	<if test="jlContent != null and jlContent !=''">
+				        		AND zp_jl_expand_info.jl_content=#{jlContent} 
+				        	</if>
+		</where>
+	</select>
+	
+	
+	<!-- 添加 简历扩展信息 -->
+	<insert id="addZpJlExpandInfo" flushCache="true" useGeneratedKeys="true" keyProperty="jlExpandId">
+		INSERT INTO zp_jl_expand_info
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+		        	<if test="jlId != null">
+		        		jl_id,
+		        	</if>
+		        	<if test="jlFilePath != null">
+		        		jl_file_path,
+		        	</if>
+		        	<if test="jlContent != null">
+		        		jl_content,
+		        	</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			        	<if test="jlId != null">
+			        		#{jlId},
+			        	</if>
+			        	<if test="jlFilePath != null">
+			        		#{jlFilePath},
+			        	</if>
+			        	<if test="jlContent != null">
+			        		#{jlContent},
+			        	</if>
+		</trim>
+	</insert>
+	
+	<!-- 修改 简历扩展信息 -->
+	<update id="updateZpJlExpandInfo" >
+		UPDATE  zp_jl_expand_info
+		<trim prefix="set" suffixOverrides=",">
+			        	<if test="jlId != null">
+			        		jl_id=#{jlId},
+			        	</if>
+			        	<if test="jlFilePath != null">
+			        		jl_file_path=#{jlFilePath},
+			        	</if>
+			        	<if test="jlContent != null">
+			        		jl_content=#{jlContent},
+			        	</if>
+		</trim>
+		WHERE jl_expand_id=#{jlExpandId}
+	</update>
+
+	<!-- 删除  简历扩展信息 -->
+	<delete id="deleteZpJlExpandInfo">
+		DELETE FROM zp_jl_expand_info 
+		<where>
+				        	<if test="jlExpandId != null">
+				        		AND jl_expand_id=#{jlExpandId} 
+				        	</if>
+				        	<if test="jlId != null">
+				        		AND jl_id=#{jlId} 
+				        	</if>
+				        	<if test="jlFilePath != null">
+				        		AND jl_file_path=#{jlFilePath} 
+				        	</if>
+				        	<if test="jlContent != null">
+				        		AND jl_content=#{jlContent} 
+				        	</if>
+		</where>
+	</delete>
+	
+	<!-- 获得  简历扩展信息 -->
+	<select id="getZpJlExpandInfoById" resultMap="zpJlExpandInfoMap">
+		SELECT
+						 		ZpJlExpandInfo.jl_expand_id,
+						 		ZpJlExpandInfo.jl_id,
+						 		ZpJlExpandInfo.jl_file_path,
+						 		ZpJlExpandInfo.jl_content
+		FROM
+			zp_jl_expand_info
+		WHERE 
+		zp_jl_expand_info.jl_expand_id=#{jlExpandId}
+		
+	</select>
+
+</mapper>

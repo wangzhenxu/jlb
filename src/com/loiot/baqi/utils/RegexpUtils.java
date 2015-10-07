@@ -50,6 +50,13 @@ public class RegexpUtils {
      return list;  
  } 
  
+ public boolean isExitsKeyword(String regexp, String data) {  
+  Pattern p = Pattern.compile(regexp,Pattern.CASE_INSENSITIVE);  
+  Matcher matcher = p.matcher(data);
+  boolean b = matcher.find();
+  return b;  
+} 
+ 
     private static RegexpUtils ru = null;  
     //单太模式  
     public static RegexpUtils getInstance() {  
@@ -61,10 +68,19 @@ public class RegexpUtils {
     }
     
     public static void main(String[] args) {  
-    	RegexpUtils ru = RegexpUtils.getInstance();  
+    	/*RegexpUtils ru = RegexpUtils.getInstance();  
         String regexp = "(\\d{3}).(\\d{3}).(\\d{2})";  
         String data = "ldap://444.555.66.152:389/  ldap://111.222.33.152:389/  ";  
-        System.out.println("" + ru.matchGroup(regexp, data).size());  
+        System.out.println("" + ru.matchGroup(regexp, data).size());  */
+    	
+    	//boolean b =RegexpUtils.getInstance().isExitsKeyword("springbvc", " springMVC ");
+        //System.out.println("b:" + b);
+    	
+    	System.out.println(100/5 * 3);
+    	System.out.println(100/3 * 3);
+    	System.out.println(100/10 * 5);
+    	
+
     }  
 
 }

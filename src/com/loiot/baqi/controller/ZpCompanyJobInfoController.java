@@ -5,6 +5,7 @@ import java.util.*;
 import com.loiot.baqi.pojo.*;
 import com.loiot.baqi.dao.*;
 import com.loiot.baqi.service.*;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -44,6 +45,9 @@ public class ZpCompanyJobInfoController {
     
     @Resource
 	private ZpCompanyJobInfoService zpCompanyJobInfoService;
+    
+    @Resource
+	private ZpCompanyInfoService zpCompanyInfoService;
 	
 	private ZpCompanyJobInfo zpCompanyJobInfo;
 	
@@ -91,8 +95,14 @@ public class ZpCompanyJobInfoController {
      * @return
      */
     @RequestMapping(value = "/toAdd")
-    public String toAddZpCompanyJobInfo(ModelMap model) {
-        
+    public String toAddZpCompanyJobInfo(@RequestParam(value = "companyId", required = true) java.lang.Long companyId,ModelMap model) {
+    	  try {
+    		 ZpCompanyInfo company = zpCompanyInfoService.getZpCompanyInfoById(companyId);
+			model.put("company",company  );
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         return "/companyJob/companyJob_add";
     }
 

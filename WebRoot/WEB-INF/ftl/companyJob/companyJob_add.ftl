@@ -31,7 +31,7 @@
 <form id="addform" name="form" action="/zpCompanyJobInfo/add.action" method="post">
 <input type="hidden" name="desc" id="desc" />
 <input type="hidden" name="moreDesc" id="moreDesc" />
-<input type="hidden" name="companyId" id="companyId" />  
+<input type="hidden" name="companyId" id="${company.companyId!''}" />  
 <input type="hidden" name="expectedYearMoney" id="expectedYearMoney" />  
 
 
@@ -52,6 +52,7 @@
          <tr>
            <td  align="right" class="hui1">公司名称：</td>
            <td  align="left" valign="middle">
+           ${company.name}
           </td>
           <td align="right" class="hui1">职位名称：</td>
           <td  align="left" valign="middle">
@@ -104,6 +105,23 @@
            	 -
            	 <input name="workTermEnd" id="workTermEnd" type="text" style="width:50px;"  class="inputa error-field" validate="validate[required,custom[eightCha]]">
            	 &nbsp;年
+           </td>
+         </tr>
+         
+         
+         <tr>
+           <td  align="right" class="hui1">年龄：</td>
+           <td  align="left" valign="middle">
+          	 <input name="ageStart" id="ageStart" type="text" style="width:50px;"  class="inputa error-field" validate="validate[required,custom[eightCha]]">
+           	 -
+           	 <input name="ageEnd" id="ageEnd" type="text" style="width:50px;"  class="inputa error-field" validate="validate[required,custom[eightCha]]">
+           	 &nbsp;岁
+           </td>
+          <td align="right" class="hui1">婚否：</td>
+          <td  align="left" valign="middle">
+          	<#list DictionaryUtil.getTypes(DictionaryType.IS_MARRY.getCode()) as c>
+	          	 	<input class="radio" name="maritalId" type="radio" value="${c.dictionaryId}" > ${c.name!''} 
+	        </#list>
            </td>
          </tr>
          

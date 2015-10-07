@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ZpJobMatchingKeys">
+
+	<resultMap type="ZpJobMatchingKeys" id="zpJobMatchingKeysMap">
+	        	<id  column="key_id" property="keyId"></id>
+	        	<result  column="job_id" property="jobId" />
+	        	<result  column="jl_id" property="jlId" />
+	        	<result  column="keyword" property="keyword" />
+	        	<result  column="is_match" property="isMatch" />
+	</resultMap>
+	
+	<!-- 查询 职位匹配关键字列表 -->
+	<select id="queryZpJobMatchingKeysList" resultMap="zpJobMatchingKeysMap">
+		SELECT
+						 		zp_job_matching_keys.key_id,
+			        	
+						 		zp_job_matching_keys.job_id,
+			        	
+						 		zp_job_matching_keys.jl_id,
+			        	
+						 		zp_job_matching_keys.keyword,
+			        	
+						 		zp_job_matching_keys.is_match
+			        	
+		FROM
+			zp_job_matching_keys
+		<where>
+							<if test="qtype != null and qtype=='like'">
+							</if>
+				        	<if test="jobId != null and jobId !='' ">
+				        		AND zp_job_matching_keys.job_id=#{jobId} 
+				        	</if>
+				        	<if test="jlId != null and jlId !='' ">
+				        		AND zp_job_matching_keys.jl_id=#{jlId} 
+				        	</if>
+				        	<if test="keyword != null and keyword !='' ">
+				        		AND zp_job_matching_keys.keyword=#{keyword} 
+				        	</if>
+				        	<if test="isMatch != null and isMatch !='' ">
+				        		AND zp_job_matching_keys.is_match=#{isMatch} 
+				        	</if>
+					
+					<if test="ids !=null">
+				         AND zp_job_matching_keys.key_id IN
+						    <foreach  item="item" collection="ids"  index="index" open="(" separator="," close=")"> 
+									 ${item} 
+							</foreach>
+			        </if>
+		</where>
+		ORDER BY zp_job_matching_keys.key_id desc 
+		<if test="skipResults!=null">
+				limit #{skipResults} ,#{maxResults}
+		</if>
+		
+	</select>
+	
+	<!-- 查询 职位匹配关键字列表条数 -->
+	<select id="getZpJobMatchingKeysListCount" resultType="int">
+		SELECT
+			count(1)
+		FROM
+			zp_job_matching_keys
+		<where>
+							<if test="qtype != null and qtype=='like'">
+							</if>
+				        	<if test="jobId != null and jobId !=''">
+				        		AND zp_job_matching_keys.job_id=#{jobId} 
+				        	</if>
+				        	<if test="jlId != null and jlId !=''">
+				        		AND zp_job_matching_keys.jl_id=#{jlId} 
+				        	</if>
+				        	<if test="keyword != null and keyword !=''">
+				        		AND zp_job_matching_keys.keyword=#{keyword} 
+				        	</if>
+				        	<if test="isMatch != null and isMatch !=''">
+				        		AND zp_job_matching_keys.is_match=#{isMatch} 
+				        	</if>
+				<if test="ids !=null">
+				         AND zp_job_matching_keys.key_id IN
+						    <foreach  item="item" collection="ids"  index="index" open="(" separator="," close=")"> 
+									 ${item} 
+							</foreach>
+			        </if>
+		</where>
+	</select>
+	
+	
+	<!-- 添加 职位匹配关键字 -->
+	<insert id="addZpJobMatchingKeys" flushCache="true" useGeneratedKeys="true" keyProperty="keyId">
+		INSERT INTO zp_job_matching_keys
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+		        	<if test="jobId != null">
+		        		job_id,
+		        	</if>
+		        	<if test="jlId != null">
+		        		jl_id,
+		        	</if>
+		        	<if test="keyword != null">
+		        		keyword,
+		        	</if>
+		        	<if test="isMatch != null">
+		        		is_match,
+		        	</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			        	<if test="jobId != null">
+			        		#{jobId},
+			        	</if>
+			        	<if test="jlId != null">
+			        		#{jlId},
+			        	</if>
+			        	<if test="keyword != null">
+			        		#{keyword},
+			        	</if>
+			        	<if test="isMatch != null">
+			        		#{isMatch},
+			        	</if>
+		</trim>
+	</insert>
+	
+	<!-- 修改 职位匹配关键字 -->
+	<update id="updateZpJobMatchingKeys" >
+		UPDATE  zp_job_matching_keys
+		<trim prefix="set" suffixOverrides=",">
+			        	<if test="jobId != null">
+			        		job_id=#{jobId},
+			        	</if>
+			        	<if test="jlId != null">
+			        		jl_id=#{jlId},
+			        	</if>
+			        	<if test="keyword != null">
+			        		keyword=#{keyword},
+			        	</if>
+			        	<if test="isMatch != null">
+			        		is_match=#{isMatch},
+			        	</if>
+		</trim>
+		WHERE key_id=#{keyId}
+	</update>
+
+	<!-- 删除  职位匹配关键字 -->
+	<delete id="deleteZpJobMatchingKeys">
+		DELETE FROM zp_job_matching_keys 
+		<where>
+				        	<if test="keyId != null">
+				        		AND key_id=#{keyId} 
+				        	</if>
+				        	<if test="jobId != null">
+				        		AND job_id=#{jobId} 
+				        	</if>
+				        	<if test="jlId != null">
+				        		AND jl_id=#{jlId} 
+				        	</if>
+				        	<if test="keyword != null">
+				        		AND keyword=#{keyword} 
+				        	</if>
+				        	<if test="isMatch != null">
+				        		AND is_match=#{isMatch} 
+				        	</if>
+		</where>
+	</delete>
+	
+	<!-- 获得  职位匹配关键字 -->
+	<select id="getZpJobMatchingKeysById" resultMap="zpJobMatchingKeysMap">
+		SELECT
+						 		zp_job_matching_keys.key_id,
+						 		zp_job_matching_keys.job_id,
+						 		zp_job_matching_keys.jl_id,
+						 		zp_job_matching_keys.keyword,
+						 		zp_job_matching_keys.is_match
+		FROM
+			zp_job_matching_keys
+		WHERE 
+		zp_job_matching_keys.key_id=#{keyId}
+		
+	</select>
+
+</mapper>

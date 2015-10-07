@@ -119,7 +119,7 @@
        			 <a  href="javascript:">详情</a>
         		 <a  href="javascript:">修改</a>
          		 <a  href="javascript:">删除</a>
-         		 <a  href="javascript:">发布职位</a>
+         		 <a  href="javascript:companyInfo.toAddJob('${c.companyId}')">发布职位</a>
         </td>
          		
        </tr>

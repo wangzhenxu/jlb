@@ -82,7 +82,7 @@
     </div>
     <div class="form">
       <#if subject.isPermitted("productClass:add")>
-     	<div class="form1"><a href="javascript:void(0)"><img src="/images/erji_18.jpg" width="83" height="22" border="0"  name="addpro"  onclick="companyJob.toAdd();"/></a></div>
+     	<div style="display:none;" class="form1"><a href="javascript:void(0)"><img src="/images/erji_18.jpg" width="83" height="22" border="0"  name="addpro"  onclick="companyJob.toAdd();"/></a></div>
      </#if>
      <div class="form2">
      <table width="100%"  border="1" align="left" cellpadding="0" cellspacing="0" bordercolor="#ffffff" style="border-collapse:collapse">
@@ -93,6 +93,10 @@
         <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>职位级别</strong></td>
         <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>工作年限</strong></td>
         <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>预计年薪</strong></td>
+        
+        <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>年龄</strong></td>
+        <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>婚否</strong></td>
+        
         <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>招聘人数</strong></td>
         <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>录入人</strong></td>
         <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>录入时间</strong></td>
@@ -116,8 +120,17 @@
           	${JLBUtils.dealWordTerm(c.workTermStart,c.workTermEnd)}
         </td>
         <td align="center" class="hui">
-       		${JLBUtils.dealYearMoney(c.expectedYearMoneyStart)}-${JLBUtils.dealYearMoney(c.expectedYearMoneyEnd)}万
+       		${JLBUtils.dealExpectedYearMoney(c.expectedYearMoneyStart,c.expectedYearMoneyEnd)}
         </td>
+          <td align="center" class="hui">
+       		${JLBUtils.dealAgeRange(c.ageStart,c.ageEnd)}
+          </td>
+          <td align="center" class="hui">
+       		<#if c.maritalId??> 	
+    		 ${DictionaryUtil.getName(c.maritalId)}
+  	 	 	</#if>	
+         </td>
+        
         <td align="center" class="hui">
         	${c.zpPersonCount!'0'}人
         </td>

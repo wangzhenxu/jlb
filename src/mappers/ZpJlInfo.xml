@@ -27,12 +27,15 @@
 	        	<result  column="now_address" property="nowAddress" />
 	        	<result  column="top_specialty" property="topSpecialty" />
 	        	<result  column="birthday" property="birthday" />
+	        	<result  column="jlFilePath" property="jlFilePath" />
+	        	<result  column="jlContent" property="jlContent" />
 	        	<!-- 职位列表 -->
 				<collection ofType="ZpJlJobLevels" property="zpJlJobLevels">
 						<id  column="t_jl_job_level_id" property="jlJobLevelId"></id>
 			        	<result  column="t_jl_id" property="jlId" />
 			        	<result  column="t_job_level_id" property="jobLevelId" />
 				</collection>
+				
 	</resultMap>
 	
 	<!-- 查询 简历信息列表 -->
@@ -88,11 +91,14 @@
 						 		
 						 		zp_jl_job_levels.jl_id as t_jl_id,
 						 		
-						 		zp_jl_job_levels.job_level_id as t_job_level_id
+						 		zp_jl_job_levels.job_level_id as t_job_level_id,
 						 		
-			        	
+						 		zp_jl_expand_info.jl_file_path as jlFilePath,
+						 		
+						 		zp_jl_expand_info.jl_content as jlContent
 		FROM
-			zp_jl_info LEFT JOIN zp_jl_job_levels  ON zp_jl_info.jl_id = zp_jl_job_levels.jl_id
+			zp_jl_info LEFT JOIN zp_jl_job_levels  ON zp_jl_info.jl_id = zp_jl_job_levels.jl_id 
+			LEFT JOIN zp_jl_expand_info ON zp_jl_info.jl_id = zp_jl_expand_info.jl_id
 		<where>
 				<if test="qtype != null and qtype=='like'">
 				</if>
@@ -556,9 +562,12 @@
 						 		zp_jl_info.birthday,
 						 		zp_jl_job_levels.jl_job_level_id as t_jl_job_level_id,
 						 		zp_jl_job_levels.jl_id as t_jl_id,
-						 		zp_jl_job_levels.job_level_id as t_job_level_id
+						 		zp_jl_job_levels.job_level_id as t_job_level_id,
+						 		zp_jl_expand_info.jl_file_path as jlFilePath,
+						 		zp_jl_expand_info.jl_content as jlContent
 		FROM
-			zp_jl_info LEFT JOIN zp_jl_job_levels  ON zp_jl_info.jl_id = zp_jl_job_levels.jl_id
+			zp_jl_info LEFT JOIN zp_jl_job_levels  ON zp_jl_info.jl_id = zp_jl_job_levels.jl_id 
+			LEFT JOIN zp_jl_expand_info ON zp_jl_info.jl_id = zp_jl_expand_info.jl_id
 		WHERE 
 		zp_jl_info.jl_id=#{jlId}
 		

@@ -11,8 +11,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.loiot.baqi.controller.response.Pager;
+import com.loiot.baqi.dao.ZpCompanyJobDemandKeysDao;
 import com.loiot.baqi.dao.ZpCompanyJobInfoDao;
 import com.loiot.baqi.service.ZpCompanyJobInfoService;
+import com.loiot.baqi.pojo.ZpCompanyJobDemandKeys;
 import com.loiot.baqi.pojo.ZpCompanyJobInfo;
 
 /**
@@ -30,7 +32,8 @@ public class ZpCompanyJobInfoService{
     @Resource
 	private ZpCompanyJobInfoDao zpCompanyJobInfoDao;
 	
-	
+    @Resource
+   	private ZpCompanyJobDemandKeysDao zpCompanyJobDemandKeysDao;
 	 /**
      * 查询 公司职位列表分页
      * 
@@ -60,6 +63,18 @@ public class ZpCompanyJobInfoService{
      */
     public void addZpCompanyJobInfo(ZpCompanyJobInfo p)throws Exception {
         zpCompanyJobInfoDao.addZpCompanyJobInfo(p);
+        //添加职位关键字
+        if(p.getZpRequire()!=null && p.getZpRequire().length()>0){
+        	String requires[] = p.getZpRequire().split(",");
+        	for(int i=0;i<requires.length;i++){
+        		String keyword = requires[i];
+        		ZpCompanyJobDemandKeys  b = new ZpCompanyJobDemandKeys();
+        		b.setJobId(p.getJobId());
+        		b.setKeyword(keyword);
+        		this.zpCompanyJobDemandKeysDao.addZpCompanyJobDemandKeys(b);
+        	}
+        }
+        
     }
     
     /**

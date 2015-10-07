@@ -1,5 +1,7 @@
 package com.loiot.baqi.pojo;
 
+import java.util.List;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -17,7 +19,7 @@ public class ZpJobMatchingInfo  implements java.io.Serializable{
 		
 	    private java.lang.Long matchId;  //主建匹配id db_column: match_id 
 	    private java.lang.Long jobId;  //职位id db_column: job_id 
-	    private java.lang.Long companyId;  //公司id db_column: company_id 
+	    private java.lang.Long jlId;  //简历id db_column: company_id 
 	    private java.lang.Long sexId;  //性别 db_column: sex_id 
 	    private Integer sexStatus;  //sexStatus db_column: sex_status 
 	    private java.lang.Long jobPositionId;  //职位类型 db_column: job_position_id 
@@ -43,7 +45,18 @@ public class ZpJobMatchingInfo  implements java.io.Serializable{
 	    private java.lang.String distance;  //distance db_column: distance 
 	    private Integer distanceStatus;  //distanceStatus db_column: distance_status 
 	    private java.util.Date inDatetime;  //录入时间 db_column: in_datetime 
-	    private java.lang.String inPerson;  //录入人 db_column: in_person 
+	    private java.lang.String inPerson;  //录入人 db_column: in_person
+	    
+	    private String companyName; //公司名称
+	    private String jobName;//职位名称
+	    
+	    private Double keywordPercent; //匹配关键字比例
+	    private Integer keywordCount;//要求匹配的关键字数量
+	    private Integer keywordMatchCount; //以匹配数
+	    
+	   
+	    
+	    List<ZpJobMatchingKeys> keys;
 
 
 	public ZpJobMatchingInfo(){

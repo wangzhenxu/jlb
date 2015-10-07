@@ -328,19 +328,19 @@
 	<!-- 获得  公司信息 -->
 	<select id="getZpCompanyInfoById" resultMap="zpCompanyInfoMap">
 		SELECT
-						 		ZpCompanyInfo.company_id,
-						 		ZpCompanyInfo.name,
-						 		ZpCompanyInfo.address,
-						 		ZpCompanyInfo.desc,
-						 		ZpCompanyInfo.more_desc,
-						 		ZpCompanyInfo.scale_id,
-						 		ZpCompanyInfo.regtime,
-						 		ZpCompanyInfo.financing_level_id,
-						 		ZpCompanyInfo.industry_id,
-						 		ZpCompanyInfo.company_nature,
-						 		ZpCompanyInfo.in_person,
-						 		ZpCompanyInfo.last_update_time,
-						 		ZpCompanyInfo.is_delete
+						 		zp_company_info.company_id,
+						 		zp_company_info.name,
+						 		zp_company_info.address,
+						 		zp_company_info.desc,
+						 		zp_company_info.more_desc,
+						 		zp_company_info.scale_id,
+						 		zp_company_info.regtime,
+						 		zp_company_info.financing_level_id,
+						 		zp_company_info.industry_id,
+						 		zp_company_info.company_nature,
+						 		zp_company_info.in_person,
+						 		zp_company_info.last_update_time,
+						 		zp_company_info.is_delete
 		FROM
 			zp_company_info
 		WHERE 

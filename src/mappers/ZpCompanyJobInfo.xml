@@ -21,6 +21,9 @@
 	        	<result  column="sex" property="sex" />
 	        	<result  column="educationId" property="educationId" />
 	        	<result  column="englishLevelId" property="englishLevelId" />
+	        	<result  column="age_start" property="ageStart" />
+	        	<result  column="age_end" property="ageEnd" />
+	        	<result  column="marital_id" property="maritalId" />
 	        	<result  column="topSpecialty" property="topSpecialty" />
 	        	<result  column="job_tempt_text" property="jobTemptText" />
 	        	<result  column="job_tempt_item" property="jobTemptItem" />
@@ -30,9 +33,19 @@
 	        	<result  column="in_datetime" property="inDatetime" />
 	        	<result  column="last_update_time" property="lastUpdateTime" />
 	        	<result  column="is_delete" property="isDelete" />
+	        	
+	        	<!-- 职位要求关键字列表 -->
+				<collection ofType="ZpCompanyJobDemandKeys" property="keys">
+						<id  column="k_key_id" property="keyId"></id>
+			        	<result  column="k_job_id" property="jobId" />
+			        	<result  column="k_keyword" property="keyword" />
+			        	<result  column="k_proportion" property="proportion" />
+				</collection>
+				
+	        	
 	</resultMap>
 	
-	<!-- 查询 公司职位列表 -->
+	<!-- 查询 公司职位信息列表 -->
 	<select id="queryZpCompanyJobInfoList" resultMap="zpCompanyJobInfoMap">
 		SELECT
 						 		zp_company_job_info.job_id,
@@ -67,6 +80,12 @@
 			        	
 						 		zp_company_job_info.englishLevelId,
 			        	
+						 		zp_company_job_info.age_start,
+			        	
+						 		zp_company_job_info.age_end,
+			        	
+						 		zp_company_job_info.marital_id,
+			        	
 						 		zp_company_job_info.topSpecialty,
 			        	
 						 		zp_company_job_info.job_tempt_text,
@@ -83,10 +102,18 @@
 			        	
 						 		zp_company_job_info.last_update_time,
 			        	
-						 		zp_company_job_info.is_delete
+						 		zp_company_job_info.is_delete,
+						 		
+						 		zp_company_job_demand_keys.key_id as k_key_id ,
+			        	
+						 		zp_company_job_demand_keys.job_id as k_job_id,
+			        	
+						 		zp_company_job_demand_keys.keyword as k_keyword,
+			        	
+						 		zp_company_job_demand_keys.proportion as  k_proportion
 			        	
 		FROM
-			zp_company_job_info
+			zp_company_job_info LEFT JOIN zp_company_job_demand_keys ON zp_company_job_info.job_id= zp_company_job_demand_keys.job_id
 		<where>
 							<if test="qtype != null and qtype=='like'">
 									<if test="name != null and name !='' ">
@@ -106,14 +133,14 @@
 						        		<![CDATA[ AND zp_company_job_info.work_term_end<=#{workTermEnd}  ]]>
 						        	</if>
 							</if>
-							<if test="qtype == null and name != null and name !='' ">
-						        		AND zp_company_job_info.name=#{name} 
-				        	</if>
 				        	<if test="companyId != null and companyId !='' ">
 				        		AND zp_company_job_info.company_id=#{companyId} 
 				        	</if>
 				        	<if test="typeId != null and typeId !='' ">
 				        		AND zp_company_job_info.typeId=#{typeId} 
+				        	</if>
+				        	<if test="qtype == null and name != null and name !='' ">
+				        		AND zp_company_job_info.name=#{name} 
 				        	</if>
 				        	<if test="reportObject != null and reportObject !='' ">
 				        		AND zp_company_job_info.report_object=#{reportObject} 
@@ -124,7 +151,6 @@
 				        	<if test="zpPersonCount != null and zpPersonCount !='' ">
 				        		AND zp_company_job_info.zp_person_count=#{zpPersonCount} 
 				        	</if>
-				        	
 				        	<if test="downTeamPersonCount != null and downTeamPersonCount !='' ">
 				        		AND zp_company_job_info.down_team_person_count=#{downTeamPersonCount} 
 				        	</if>
@@ -139,6 +165,15 @@
 				        	</if>
 				        	<if test="englishLevelId != null and englishLevelId !='' ">
 				        		AND zp_company_job_info.englishLevelId=#{englishLevelId} 
+				        	</if>
+				        	<if test="ageStart != null and ageStart !='' ">
+				        		AND zp_company_job_info.age_start=#{ageStart} 
+				        	</if>
+				        	<if test="ageEnd != null and ageEnd !='' ">
+				        		AND zp_company_job_info.age_end=#{ageEnd} 
+				        	</if>
+				        	<if test="maritalId != null and maritalId !='' ">
+				        		AND zp_company_job_info.marital_id=#{maritalId} 
 				        	</if>
 				        	<if test="topSpecialty != null and topSpecialty !='' ">
 				        		AND zp_company_job_info.topSpecialty=#{topSpecialty} 
@@ -167,12 +202,13 @@
 				        	<if test="isDelete != null and isDelete !='' ">
 				        		AND zp_company_job_info.is_delete=#{isDelete} 
 				        	</if>
-				        	<if test="ids !=null">
-				         		AND zp_company_job_info.jobPositionLevelId IN
-							    <foreach  item="item" collection="ids"  index="index" open="(" separator="," close=")"> 
-										 ${item} 
-								</foreach>
-			       			 </if>
+					
+					<if test="ids !=null">
+				         AND zp_company_job_info.job_id IN
+						    <foreach  item="item" collection="ids"  index="index" open="(" separator="," close=")"> 
+									 ${item} 
+							</foreach>
+			        </if>
 		</where>
 		ORDER BY zp_company_job_info.job_id desc 
 		<if test="skipResults!=null">
@@ -181,7 +217,7 @@
 		
 	</select>
 	
-	<!-- 查询 公司职位列表条数 -->
+	<!-- 查询 公司职位信息列表条数 -->
 	<select id="getZpCompanyJobInfoListCount" resultType="int">
 		SELECT
 			count(1)
@@ -206,14 +242,14 @@
 						        		<![CDATA[ AND zp_company_job_info.work_term_end<=#{workTermEnd}  ]]>
 						        	</if>
 							</if>
-							<if test="qtype == null and name != null and name !='' ">
-						        		AND zp_company_job_info.name=#{name} 
-				        	</if>
 				        	<if test="companyId != null and companyId !=''">
 				        		AND zp_company_job_info.company_id=#{companyId} 
 				        	</if>
 				        	<if test="typeId != null and typeId !=''">
 				        		AND zp_company_job_info.typeId=#{typeId} 
+				        	</if>
+				        	<if test="qtype == null and name != null and name !=''">
+				        		AND zp_company_job_info.name=#{name} 
 				        	</if>
 				        	<if test="reportObject != null and reportObject !=''">
 				        		AND zp_company_job_info.report_object=#{reportObject} 
@@ -224,6 +260,7 @@
 				        	<if test="zpPersonCount != null and zpPersonCount !=''">
 				        		AND zp_company_job_info.zp_person_count=#{zpPersonCount} 
 				        	</if>
+				      
 				        	<if test="downTeamPersonCount != null and downTeamPersonCount !=''">
 				        		AND zp_company_job_info.down_team_person_count=#{downTeamPersonCount} 
 				        	</if>
@@ -238,6 +275,15 @@
 				        	</if>
 				        	<if test="englishLevelId != null and englishLevelId !=''">
 				        		AND zp_company_job_info.englishLevelId=#{englishLevelId} 
+				        	</if>
+				        	<if test="ageStart != null and ageStart !=''">
+				        		AND zp_company_job_info.age_start=#{ageStart} 
+				        	</if>
+				        	<if test="ageEnd != null and ageEnd !=''">
+				        		AND zp_company_job_info.age_end=#{ageEnd} 
+				        	</if>
+				        	<if test="maritalId != null and maritalId !=''">
+				        		AND zp_company_job_info.marital_id=#{maritalId} 
 				        	</if>
 				        	<if test="topSpecialty != null and topSpecialty !=''">
 				        		AND zp_company_job_info.topSpecialty=#{topSpecialty} 
@@ -266,11 +312,17 @@
 				        	<if test="isDelete != null and isDelete !=''">
 				        		AND zp_company_job_info.is_delete=#{isDelete} 
 				        	</if>
+				<if test="ids !=null">
+				         AND zp_company_job_info.job_id IN
+						    <foreach  item="item" collection="ids"  index="index" open="(" separator="," close=")"> 
+									 ${item} 
+							</foreach>
+			        </if>
 		</where>
 	</select>
 	
 	
-	<!-- 添加 公司职位 -->
+	<!-- 添加 公司职位信息 -->
 	<insert id="addZpCompanyJobInfo" flushCache="true" useGeneratedKeys="true" keyProperty="jobId">
 		INSERT INTO zp_company_job_info
 		<trim prefix="(" suffix=")" suffixOverrides=",">
@@ -319,6 +371,15 @@
 		        	<if test="englishLevelId != null">
 		        		englishLevelId,
 		        	</if>
+		        	<if test="ageStart != null">
+		        		age_start,
+		        	</if>
+		        	<if test="ageEnd != null">
+		        		age_end,
+		        	</if>
+		        	<if test="maritalId != null">
+		        		marital_id,
+		        	</if>
 		        	<if test="topSpecialty != null">
 		        		topSpecialty,
 		        	</if>
@@ -329,7 +390,7 @@
 		        		job_tempt_item,
 		        	</if>
 		        	<if test="desc != null">
-		        			`desc`,
+		        		`desc`,
 		        	</if>
 		        	<if test="moreDesc != null">
 		        		more_desc,
@@ -393,6 +454,15 @@
 			        	<if test="englishLevelId != null">
 			        		#{englishLevelId},
 			        	</if>
+			        	<if test="ageStart != null">
+			        		#{ageStart},
+			        	</if>
+			        	<if test="ageEnd != null">
+			        		#{ageEnd},
+			        	</if>
+			        	<if test="maritalId != null">
+			        		#{maritalId},
+			        	</if>
 			        	<if test="topSpecialty != null">
 			        		#{topSpecialty},
 			        	</if>
@@ -423,7 +493,7 @@
 		</trim>
 	</insert>
 	
-	<!-- 修改 公司职位 -->
+	<!-- 修改 公司职位信息 -->
 	<update id="updateZpCompanyJobInfo" >
 		UPDATE  zp_company_job_info
 		<trim prefix="set" suffixOverrides=",">
@@ -472,6 +542,15 @@
 			        	<if test="englishLevelId != null">
 			        		englishLevelId=#{englishLevelId},
 			        	</if>
+			        	<if test="ageStart != null">
+			        		age_start=#{ageStart},
+			        	</if>
+			        	<if test="ageEnd != null">
+			        		age_end=#{ageEnd},
+			        	</if>
+			        	<if test="maritalId != null">
+			        		marital_id=#{maritalId},
+			        	</if>
 			        	<if test="topSpecialty != null">
 			        		topSpecialty=#{topSpecialty},
 			        	</if>
@@ -503,7 +582,7 @@
 		WHERE job_id=#{jobId}
 	</update>
 
-	<!-- 删除  公司职位 -->
+	<!-- 删除  公司职位信息 -->
 	<delete id="deleteZpCompanyJobInfo">
 		DELETE FROM zp_company_job_info 
 		<where>
@@ -555,6 +634,15 @@
 				        	<if test="englishLevelId != null">
 				        		AND englishLevelId=#{englishLevelId} 
 				        	</if>
+				        	<if test="ageStart != null">
+				        		AND age_start=#{ageStart} 
+				        	</if>
+				        	<if test="ageEnd != null">
+				        		AND age_end=#{ageEnd} 
+				        	</if>
+				        	<if test="maritalId != null">
+				        		AND marital_id=#{maritalId} 
+				        	</if>
 				        	<if test="topSpecialty != null">
 				        		AND topSpecialty=#{topSpecialty} 
 				        	</if>
@@ -585,36 +673,48 @@
 		</where>
 	</delete>
 	
-	<!-- 获得  公司职位 -->
+	<!-- 获得  公司职位信息 -->
 	<select id="getZpCompanyJobInfoById" resultMap="zpCompanyJobInfoMap">
 		SELECT
-						 		ZpCompanyJobInfo.job_id,
-						 		ZpCompanyJobInfo.company_id,
-						 		ZpCompanyJobInfo.typeId,
-						 		ZpCompanyJobInfo.name,
-						 		ZpCompanyJobInfo.report_object,
-						 		ZpCompanyJobInfo.jobPositionLevelId,
-						 		ZpCompanyJobInfo.zp_person_count,
-						 		ZpCompanyJobInfo.expected_year_money_start,
-						 		ZpCompanyJobInfo.expected_year_money_end,
-						 		ZpCompanyJobInfo.work_term_start,
-						 		ZpCompanyJobInfo.work_term_end,
-						 		ZpCompanyJobInfo.down_team_person_count,
-						 		ZpCompanyJobInfo.zp_require,
-						 		ZpCompanyJobInfo.sex,
-						 		ZpCompanyJobInfo.educationId,
-						 		ZpCompanyJobInfo.englishLevelId,
-						 		ZpCompanyJobInfo.topSpecialty,
-						 		ZpCompanyJobInfo.job_tempt_text,
-						 		ZpCompanyJobInfo.job_tempt_item,
-						 		ZpCompanyJobInfo.desc,
-						 		ZpCompanyJobInfo.more_desc,
-						 		ZpCompanyJobInfo.in_person,
-						 		ZpCompanyJobInfo.in_datetime,
-						 		ZpCompanyJobInfo.last_update_time,
-						 		ZpCompanyJobInfo.is_delete
+						 		zp_company_job_info.job_id,
+						 		zp_company_job_info.company_id,
+						 		zp_company_job_info.typeId,
+						 		zp_company_job_info.name,
+						 		zp_company_job_info.report_object,
+						 		zp_company_job_info.jobPositionLevelId,
+						 		zp_company_job_info.zp_person_count,
+						 		zp_company_job_info.expected_year_money_start,
+						 		zp_company_job_info.expected_year_money_end,
+						 		zp_company_job_info.work_term_start,
+						 		zp_company_job_info.work_term_end,
+						 		zp_company_job_info.down_team_person_count,
+						 		zp_company_job_info.zp_require,
+						 		zp_company_job_info.sex,
+						 		zp_company_job_info.educationId,
+						 		zp_company_job_info.englishLevelId,
+						 		zp_company_job_info.age_start,
+						 		zp_company_job_info.age_end,
+						 		zp_company_job_info.marital_id,
+						 		zp_company_job_info.topSpecialty,
+						 		zp_company_job_info.job_tempt_text,
+						 		zp_company_job_info.job_tempt_item,
+						 		zp_company_job_info.desc,
+						 		zp_company_job_info.more_desc,
+						 		zp_company_job_info.in_person,
+						 		zp_company_job_info.in_datetime,
+						 		zp_company_job_info.last_update_time,
+						 		zp_company_job_info.is_delete,
+						 		
+								zp_company_job_demand_keys.key_id as k_key_id ,
+			        	
+						 		zp_company_job_demand_keys.job_id as k_job_id,
+			        	
+						 		zp_company_job_demand_keys.keyword as k_keyword,
+			        	
+						 		zp_company_job_demand_keys.proportion as  k_proportion
+			        	
 		FROM
-			zp_company_job_info
+			zp_company_job_info LEFT JOIN zp_company_job_demand_keys ON zp_company_job_info.job_id= zp_company_job_demand_keys.job_id
 		WHERE 
 		zp_company_job_info.job_id=#{jobId}
 		

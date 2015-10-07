@@ -143,8 +143,37 @@ function menuClick(){
 			<a class="MenuLevel4 projectManage" href="/project/list.action"> <img src="/images/bullet_sarrow.gif"/> &nbsp;&nbsp;<span <#if menuClass="projectManage">class="MenuLevel5"</#if>>项目管理</span></a>
 		</#if>
 		
-      	<a class="MenuLevel4 editPassword" href="/password.action"> <img src="/images/bullet_sarrow.gif"/> &nbsp;&nbsp;<span <#if menuClass="editPassword">class="MenuLevel5"</#if>>修改密码</span></a>
+      	<a class="MenuLevel4 editPassword" href="/password.action"> <img src="/images/bullet_sarrow.gif"/> &nbsp;&nbsp;<span <#if menuClass="editPassword">class="MenuLevel"</#if>>修改密码</span></a>
      </div>
+     
+      <!-- 邮件管理 -->
+     <div class="MenuLevel1"> 邮件管理 <span><img src="/images/<#if d>2<#else>1</#if>.gif" border="0"/></span></div>
+     <div class="<#if d>SubMenuLayerHidden</#if> SubMenu">
+      	<a class="MenuLevel4 editPassword" href="/zpEmalTemplate/list.action"> <img src="/images/bullet_sarrow.gif"/> &nbsp;&nbsp;<span <#if menuClass="editPassword">class=""</#if>>邮件模版</span></a>
+     </div>
+     
+     <!--qq客户管理 -->
+     <div class="MenuLevel1"> qq客户管理 <span><img src="/images/<#if d>2<#else>1</#if>.gif" border="0"/></span></div>
+     <div class="<#if d>SubMenuLayerHidden</#if> SubMenu">
+      	<a class="MenuLevel4 editPassword" href="/zpHrInfo/list.action"> <img src="/images/bullet_sarrow.gif"/> &nbsp;&nbsp;<span <#if menuClass="editPassword">class=""</#if>>qq客户管理</span></a>
+     </div>
+     
+     <!-- 简历管理 -->
+     <div class="MenuLevel1"> 简历管理 <span><img src="/images/<#if d>2<#else>1</#if>.gif" border="0"/></span></div>
+     <div class="<#if d>SubMenuLayerHidden</#if> SubMenu">
+      	<a class="MenuLevel4 editPassword" href="/zpJlInfo/list.action"> <img src="/images/bullet_sarrow.gif"/> &nbsp;&nbsp;<span <#if menuClass="editPassword">class=""</#if>>简历管理</span></a>
+     </div>
+     
+     <!-- 客户管理 -->
+     <div class="MenuLevel1"> 客户管理 <span><img src="/images/<#if d>2<#else>1</#if>.gif" border="0"/></span></div>
+     <div class="<#if d>SubMenuLayerHidden</#if> SubMenu">
+      	<a class="MenuLevel4 editPassword" href="/zpCompanyInfo/list.action"> <img src="/images/bullet_sarrow.gif"/> &nbsp;&nbsp;<span <#if menuClass="editPassword">class=""</#if>>客户管理</span></a>
+     	<a class="MenuLevel4 editPassword" href="/zpCompanyJobInfo/list.action"> <img src="/images/bullet_sarrow.gif"/> &nbsp;&nbsp;<span <#if menuClass="editPassword">class=""</#if>>职位管理</span></a>
+     	<a class="MenuLevel4 editPassword" href="/zpJobMatchingInfo/list.action"> <img src="/images/bullet_sarrow.gif"/> &nbsp;&nbsp;<span <#if menuClass="editPassword">class=""</#if>>职位匹配列表</span></a>
+     	
+     </div>
+     
+     
     </div>
 	</div>
    <#--主体内容-->

@@ -68,7 +68,7 @@ public class ZpJobMatchingInfoController {
     public Object matchBeforeCheck(@RequestParam(value = "jlId") Long jlId,
     	 ModelMap model) {
     	HashMap<String,Object> pMap = new HashMap<String, Object>();
-    	pMap.put("jobId", jlId);
+    	pMap.put("jlId", jlId);
     	try {
 			int count = this.zpJobMatchingInfoService.getZpJobMatchingInfoListCount(pMap);
 			if(count>0){
@@ -98,7 +98,7 @@ public class ZpJobMatchingInfoController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-    	return "redirect:/zpJobMatchingInfo/list.action?jobId="+jlId;
+    	return "redirect:/zpJobMatchingInfo/list.action?jlId="+jlId;
     }
     
 	

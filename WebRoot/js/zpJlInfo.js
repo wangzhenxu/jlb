@@ -6,6 +6,9 @@ var jlInfo ={
 			jlInfo.add();
 		});
 	},
+	toAdd : function (){
+		location.href="/zpJlInfo/toAdd.action";
+	},
 	add : function (){
 		var b = $('#addform').validationEngine('validate');
 		if(!b){
@@ -108,15 +111,15 @@ var jlInfo ={
 			url : "/zpJobMatchingInfo/matchCheck.action",
 			data : rData,// "st=2012-11-01 22:22:10",
 			success : function(resp) {
-				resp.s=-100;
+				//resp.s=-100;
 				if (resp.s > 0) {
-					location.href= "/zpJobMatchingInfo/list.action?jobId="+ jlId;
+					location.href= "/zpJobMatchingInfo/match.action?jlId="+ jlId;
 				}  else
 				if (resp.s == -100) {
 					common.openModal("match_job_pop","已经匹配过了");
 					//查看匹配结果
 					$("#selete_match_btn").click(function (){
-						location.href="/zpJobMatchingInfo/list.action?jobId="+jlId;
+						location.href="/zpJobMatchingInfo/list.action?jlId="+jlId;
 					});
 					//重新匹配职位
 					$("#match_job_btn").click(function (){

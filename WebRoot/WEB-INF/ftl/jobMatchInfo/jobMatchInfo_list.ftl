@@ -105,21 +105,31 @@
         <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>职位级别</strong></td>
         <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>薪水要求</strong></td>
          <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>学历</strong></td>
+         <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>专业</strong></td>
         <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>英语等级</strong></td>
         <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>性别</strong></td>
+        <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>婚否</strong></td>
        <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>年龄</strong></td>
        <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>工作年限</strong></td>
        <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>距离</strong></td>
+       <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>总关键字数</strong></td>
+       <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>已匹配</strong></td>
+              <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>匹配率</strong></td>
        
-        <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>操 作</strong></td>
+       <td height="37" style="display:none;" align="center" valign="middle" background="/images/erji_22.jpg"><strong>操 作</strong></td>
        </tr>
        <#list pager.data as c>
        
        <tr>
-        <td align="center" class="hui" title="${c.name!''}">时代领域</td>
-        <td align="center" class="hui" title="${c.address!''}">java工程师</td>
+        <td align="center" class="hui" title="${c.name!''}">${c.companyName!''}</td>
+        <td align="center" class="hui" title="${c.address!''}">${c.jobName!''}</td>
         <td align="center" class="hui">
       	  java
+        </td>
+        <td align="center" class="hui">
+      	  <#if c.jobPositionLevelIdStatus??> 
+	    		${JobMatchType.get(c.jobPositionLevelIdStatus).getTitle()}
+    	  </#if>
         </td>
         <td align="center" class="hui">
 	        <#if c.salaryRequireIdStatus??> 
@@ -133,6 +143,14 @@
     		${JobMatchType.get(c.educationIdStatus).getTitle()}
   	 	 </#if>
         </td>
+        
+         <td align="center" class="hui">
+        <#if c.topSpecialtyStatus??> 	
+    		${JobMatchType.get(c.topSpecialtyStatus).getTitle()}
+  	 	 </#if>
+        </td>
+        
+        
          <td align="center" class="hui">
 	         <#if c.englishLevelIdStatus??>
 	         	${JobMatchType.get(c.englishLevelIdStatus).getTitle()}
@@ -143,6 +161,13 @@
 	         	${JobMatchType.get(c.sexStatus).getTitle()}
 	 		</#if>
         </td>
+        
+        <td align="center" class="hui">
+	         <#if c.maritalIdStatus??>
+	         	${JobMatchType.get(c.maritalIdStatus).getTitle()}
+	 		</#if>
+        </td>
+        
         <td align="center" class="hui">
 	         <#if c.birthdayStatus??>
 	         	${JobMatchType.get(c.birthdayStatus).getTitle()}
@@ -158,8 +183,26 @@
 	         	${JobMatchType.get(c.distanceStatus).getTitle()}
 	 		</#if>
         </td>
+        <td align="center" class="hui">
+	         <#if c.keywordCount??>
+	         	${c.keywordCount!''}
+	 		</#if>
+        </td>
         
         <td align="center" class="hui">
+		     <#if c.keywordMatchCount??>
+		     	${c.keywordMatchCount!''}
+			</#if>
+        </td>
+        
+          <td align="center" class="hui">
+		     <#if c.keywordPercent??>
+		     	${c.keywordPercent!''}%
+			</#if>
+        </td>
+        
+        
+        <td align="center" class="hui" style="display:none;">
        			 <a  href="javascript:">详情</a>
         		 <a  href="javascript:">修改</a>
          		 <a  href="javascript:">删除</a>

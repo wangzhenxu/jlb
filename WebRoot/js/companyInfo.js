@@ -37,6 +37,9 @@ var companyInfo = {
 	toAdd : function (){
 		location.href="/zpCompanyInfo/toAdd.action";
 	},
+	toAddJob : function (companyId){
+		location.href="/zpCompanyJobInfo/toAdd.action?companyId="+companyId;
+	},
 	//公司信息 添加 
 	add : function (){
 			var b = $('#addform').validationEngine('validate');

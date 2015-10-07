@@ -44,6 +44,51 @@ public class JLBUtils {
 		return str;
 	}
 	
+	public static String dealExpectedYearMoney(Long start ,Long end){
+		String str="";
+		String startStr="";
+		String endStr="";
+		if(start!=null) {
+			startStr=String.valueOf(start/10000);
+		}
+		if(end!=null) {
+			endStr=String.valueOf(end/10000);
+		}
+		
+		if(start==null && end==null){
+			str = "无";
+		} else 
+		if(start!=null && end==null){
+			str = startStr+"万以上";
+		} else
+		if(start==null && end!=null){
+			str = endStr+"万以下";
+		}
+		else
+		if(start!=null && end!=null){
+			str = startStr+"-" +endStr +"万";
+		}
+		return str;
+	}
+	
+	public static String dealAgeRange(Integer start ,Integer end){
+		String str="";
+		if(start==null && end==null){
+			str = "无";
+		} else 
+		if(start!=null && end==null){
+			str = start+"岁以上";
+		} else
+		if(start==null && end!=null){
+			str = end+"岁以下";
+		}
+		else
+		if(start!=null && end!=null){
+			str = start+"-" +end +"岁";
+		}
+		return str;
+	}
+	
 	public static String dealWordTerm(Integer start, Integer end ){
 		String str="";
 		if(start==null && end==null){
@@ -125,16 +170,79 @@ public class JLBUtils {
 	  System.out.println("startMatchFlag:" + startMatchFlag);
 	  System.out.println("endMatchFlag:" + endMatchFlag);
 	  System.out.println("resultMatchFlag:" + resultMatchFlag);
-
+	}
+	
+	public static void testAGE(){
+		ZpJlInfo jl = new ZpJlInfo();
 		
+	   
+		ZpCompanyJobInfo job = new ZpCompanyJobInfo();
+		//job.setExpectedYearMoneyStart(14000d);
+		//job.setExpectedYearMoneyEnd(19000d);
 		
+		Integer ageS = job.getAgeStart();
+		Integer ageE = job.getAgeEnd();
+		String  startMatchFlag ="";
+		String  endMatchFlag="";
+		String resultMatchFlag="";
+		if(ageS!=null){
+			Integer jlageS=  12;
+			if(jlageS!=null){
+				 startMatchFlag="nomatch";
+				 if(ageS<=jlageS){
+					 startMatchFlag="match";
+				 } else {
+					 startMatchFlag="nomatch";
+				 }
+			}
+		}
 		
+		if(ageE!=null){
+			Integer jlageE= 20;
+			if(jlageE!=null){
+				endMatchFlag="nomatch";
+				 if(ageE>=jlageE){
+					 endMatchFlag="match";
+				 } else {
+					 endMatchFlag="nomatch";
+				 }
+			}
+		}
+		
+		if(ageS!=null && ageE!=null){
+			if(startMatchFlag.equals("match") &&  endMatchFlag.equals("match")){
+				resultMatchFlag="match"; 
+			} else {
+				resultMatchFlag="nomatch";
+			}
+		}else
+		if(ageS!=null){
+			if(startMatchFlag.equals("match")){
+				resultMatchFlag="match"; 
+			}else {
+				resultMatchFlag="nomatch";
+			}
+		}else
+		if(ageE!=null){
+			if(endMatchFlag.equals("match")){
+				resultMatchFlag="match"; 
+			}else {
+				resultMatchFlag="nomatch";
+			}
+		}
+		
+	  System.out.println("startMatchFlag:" + startMatchFlag);
+	  System.out.println("endMatchFlag:" + endMatchFlag);
+	  System.out.println("resultMatchFlag:" + resultMatchFlag);
 	}
 	
 	public static void main(String args[]) {
 		
 		//System.out.println(JLBUtils.dealYearMoney(500l));;
-		JLBUtils.testmoney();
+		String str1= JLBUtils.dealExpectedYearMoney(null, 250000l);
+		System.out.println(str1);
+		//System.out.println(JLBUtils.dealYearMoney(500l));
+		//JLBUtils.testmoney();
 	}
 	
 	

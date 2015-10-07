@@ -7,7 +7,7 @@
 	<resultMap type="ZpJobMatchingInfo" id="zpJobMatchingInfoMap">
 	        	<id  column="match_id" property="matchId"></id>
 	        	<result  column="job_id" property="jobId" />
-	        	<result  column="company_id" property="companyId" />
+	        	<result  column="jl_id" property="jlId" />
 	        	<result  column="sex_id" property="sexId" />
 	        	<result  column="sex_status" property="sexStatus" />
 	        	<result  column="job_position_id" property="jobPositionId" />
@@ -34,6 +34,25 @@
 	        	<result  column="distance_status" property="distanceStatus" />
 	        	<result  column="in_datetime" property="inDatetime" />
 	        	<result  column="in_person" property="inPerson" />
+	        	
+	        	<result  column="companyName" property="companyName" />
+	        	<result  column="jobName" property="jobName" />
+	        	
+	        	<result  column="keyword_percent" property="keywordPercent" />
+	        	<result  column="keyword_count" property="keywordCount" />
+	        	<result  column="keyword_match_count" property="keywordMatchCount" />
+	        	
+	        	
+	        	<collection ofType="ZpJobMatchingKeys" property="keys">
+		        	<id  column="k_key_id" property="keyId"></id>
+		        	<result  column="k_job_id" property="jobId" />
+		        	<result  column="k_jl_id" property="jlId" />
+		        	<result  column="k_keyword" property="keyword" />
+		        	<result  column="k_is_match" property="isMatch" />
+	        	</collection>
+	        	
+	        	
+	        	
 	</resultMap>
 	
 	<!-- 查询 职位匹配信息列表 -->
@@ -43,7 +62,7 @@
 			        	
 						 		zp_job_matching_info.job_id,
 			        	
-						 		zp_job_matching_info.company_id,
+						 		zp_job_matching_info.jl_id,
 			        	
 						 		zp_job_matching_info.sex_id,
 			        	
@@ -95,18 +114,34 @@
 			        	
 						 		zp_job_matching_info.in_datetime,
 			        	
-						 		zp_job_matching_info.in_person
+						 		zp_job_matching_info.in_person,
+						 		cj.`name` as jobName,
+					 			ci.`name` as companyName,
+					 			zp_job_matching_keys.key_id as k_key_id,
+						 		zp_job_matching_keys.job_id as k_job_id,
+						 		zp_job_matching_keys.jl_id as k_jl_id,
+						 		zp_job_matching_keys.keyword as k_keyword,
+						 		zp_job_matching_keys.is_match as k_is_match,
+						 		zp_job_matching_info.keyword_percent,
+						 		zp_job_matching_info.keyword_count,
+						 		zp_job_matching_info.keyword_match_count
+						 		
 			        	
 		FROM
 			zp_job_matching_info
+			 LEFT JOIN zp_company_job_info cj ON zp_job_matching_info.job_id = cj.job_id
+  			 LEFT JOIN zp_company_info ci ON cj.company_id =ci.company_id
+  			 LEFT JOIN zp_job_matching_keys ON zp_job_matching_info.jl_id= zp_job_matching_keys.jl_id
+  			 		   AND zp_job_matching_info.job_id = zp_job_matching_keys.job_id
+			
 		<where>
 							<if test="qtype != null and qtype=='like'">
 							</if>
 				        	<if test="jobId != null and jobId !='' ">
 				        		AND zp_job_matching_info.job_id=#{jobId} 
 				        	</if>
-				        	<if test="companyId != null and companyId !='' ">
-				        		AND zp_job_matching_info.company_id=#{companyId} 
+				        	<if test="jlId != null and jlId !='' ">
+				        		AND zp_job_matching_info.jl_id=#{jlId} 
 				        	</if>
 				        	<if test="sexId != null and sexId !='' ">
 				        		AND zp_job_matching_info.sex_id=#{sexId} 
@@ -206,8 +241,8 @@
 				        	<if test="jobId != null and jobId !=''">
 				        		AND zp_job_matching_info.job_id=#{jobId} 
 				        	</if>
-				        	<if test="companyId != null and companyId !=''">
-				        		AND zp_job_matching_info.company_id=#{companyId} 
+				        	<if test="jlId != null and jlId !=''">
+				        		AND zp_job_matching_info.jl_id=#{jlId} 
 				        	</if>
 				        	<if test="sexId != null and sexId !=''">
 				        		AND zp_job_matching_info.sex_id=#{sexId} 
@@ -298,8 +333,8 @@
 		        	<if test="jobId != null">
 		        		job_id,
 		        	</if>
-		        	<if test="companyId != null">
-		        		company_id,
+		        	<if test="jlId != null">
+		        		jl_id,
 		        	</if>
 		        	<if test="sexId != null">
 		        		sex_id,
@@ -379,13 +414,25 @@
 		        	<if test="inPerson != null">
 		        		in_person,
 		        	</if>
+		        	
+		        	<if test="keywordPercent != null">
+		        		keyword_percent,
+		        	</if>
+		        	
+		        	<if test="keywordCount != null">
+		        		keyword_count,
+		        	</if>
+		        	
+		        	<if test="keywordMatchCount != null">
+		        		keyword_match_count,
+		        	</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			        	<if test="jobId != null">
 			        		#{jobId},
 			        	</if>
-			        	<if test="companyId != null">
-			        		#{companyId},
+			        	<if test="jlId != null">
+			        		#{jlId},
 			        	</if>
 			        	<if test="sexId != null">
 			        		#{sexId},
@@ -465,6 +512,15 @@
 			        	<if test="inPerson != null">
 			        		#{inPerson},
 			        	</if>
+			        	<if test="keywordPercent != null">
+			        		#{keywordPercent},
+			        	</if>
+			        	<if test="keywordCount != null">
+			        		#{keywordCount},
+			        	</if>
+			        	<if test="keywordMatchCount != null">
+			        		#{keywordMatchCount},
+			        	</if>
 		</trim>
 	</insert>
 	
@@ -475,8 +531,8 @@
 			        	<if test="jobId != null">
 			        		job_id=#{jobId},
 			        	</if>
-			        	<if test="companyId != null">
-			        		company_id=#{companyId},
+			        	<if test="jlId != null">
+			        		jl_id=#{jlId},
 			        	</if>
 			        	<if test="sexId != null">
 			        		sex_id=#{sexId},
@@ -570,8 +626,8 @@
 				        	<if test="jobId != null">
 				        		AND job_id=#{jobId} 
 				        	</if>
-				        	<if test="companyId != null">
-				        		AND company_id=#{companyId} 
+				        	<if test="jlId != null">
+				        		AND jl_id=#{jlId} 
 				        	</if>
 				        	<if test="sexId != null">
 				        		AND sex_id=#{sexId} 
@@ -659,7 +715,7 @@
 		SELECT
 						 		ZpJobMatchingInfo.match_id,
 						 		ZpJobMatchingInfo.job_id,
-						 		ZpJobMatchingInfo.company_id,
+						 		ZpJobMatchingInfo.jl_id,
 						 		ZpJobMatchingInfo.sex_id,
 						 		ZpJobMatchingInfo.sex_status,
 						 		ZpJobMatchingInfo.job_position_id,
@@ -685,9 +741,24 @@
 						 		ZpJobMatchingInfo.distance,
 						 		ZpJobMatchingInfo.distance_status,
 						 		ZpJobMatchingInfo.in_datetime,
-						 		ZpJobMatchingInfo.in_person
+						 		ZpJobMatchingInfo.in_person,
+								cj.`name` as jobName,
+					 			ci.`name` as companyName,
+					 			zp_job_matching_keys.key_id as k_key_id,
+						 		zp_job_matching_keys.job_id as k_job_id,
+						 		zp_job_matching_keys.jl_id as k_jl_id,
+						 		zp_job_matching_keys.keyword as k_keyword,
+						 		zp_job_matching_keys.is_match as k_is_match,
+						 		zp_job_matching_info.keyword_percent,
+						 		zp_job_matching_info.keyword_count,
+						 		zp_job_matching_info.keyword_match_count
+			        	
 		FROM
 			zp_job_matching_info
+			 LEFT JOIN zp_company_job_info cj ON zp_job_matching_info.job_id = cj.job_id
+  			 LEFT JOIN zp_company_info ci ON cj.company_id =ci.company_id
+  			 LEFT JOIN zp_job_matching_keys ON zp_job_matching_info.jl_id= zp_job_matching_keys.jl_id
+  			 		   AND zp_job_matching_info.job_id = zp_job_matching_keys.job_id
 		WHERE 
 		zp_job_matching_info.match_id=#{matchId}
 		

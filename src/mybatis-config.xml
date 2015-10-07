@@ -77,6 +77,9 @@
 		<typeAlias type="com.loiot.baqi.pojo.ZpJlExpandInfo" alias="ZpJlExpandInfo" />
 		<typeAlias type="com.loiot.baqi.pojo.ZpJobMatchingInfo" alias="ZpJobMatchingInfo" />
 		<typeAlias type="com.loiot.baqi.pojo.ZpJlJobLevels" alias="ZpJlJobLevels" />
+		<typeAlias type="com.loiot.baqi.pojo.ZpCompanyJobDemandKeys" alias="ZpCompanyJobDemandKeys" />
+		<typeAlias type="com.loiot.baqi.pojo.ZpJobMatchingKeys" alias="ZpJobMatchingKeys" />
+		
 		
 		
 		

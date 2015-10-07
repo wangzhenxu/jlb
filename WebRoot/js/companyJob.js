@@ -37,6 +37,11 @@ var companyJob = {
 	 expectedYearMoneyEnd : $("#expectedYearMoneyEnd"),
 	 workTermStart: $("#workTermStart"),
 	 workTermEnd : $("#workTermEnd"),
+	 ageStart: $("#ageStart"), //年龄开始  
+	 ageEnd: $("#ageEnd"),   //年龄结束  
+	 maritalId: $("#maritalId"),   //婚否 
+
+	 
 
 
 	//初始化添加页面
@@ -73,8 +78,12 @@ var companyJob = {
 			if(!b){
 				return false;
 			}
-			this.expectedYearMoneyStart.val(parseFloat(this.expectedYearMoneyStart.val())*10000);
-			this.expectedYearMoneyEnd.val(parseFloat(this.expectedYearMoneyEnd.val())*10000);
+			if(this.expectedYearMoneyStart.val().length>0){
+				this.expectedYearMoneyStart.val(parseFloat(this.expectedYearMoneyStart.val())*10000);
+			}
+			if(this.expectedYearMoneyEnd.val().length>0){
+				this.expectedYearMoneyEnd.val(parseFloat(this.expectedYearMoneyEnd.val())*10000);
+			}
 
 			//this.expectedYearMoney.val(this.money1.val() + "-" + this.money2.val());
 			$("#desc").val(CKEDITOR.instances.desc1.getData());

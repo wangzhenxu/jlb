@@ -1,13 +1,15 @@
 package com.loiot.baqi.pojo;
 
+import java.util.List;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
- * 公司职位 实体类
+ * 公司职位信息 实体类
  * 
  * @author  wangzx 
- * @creation 2015-10-01
+ * @creation 2015-10-06
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -31,6 +33,9 @@ public class ZpCompanyJobInfo  implements java.io.Serializable{
 	    private java.lang.Long sex;  //要求性别 db_column: sex 
 	    private java.lang.Long educationId;  //要求学历 db_column: educationId 
 	    private java.lang.Long englishLevelId;  //要求英语等级 db_column: englishLevelId 
+	    private Integer ageStart;  //年龄开始 db_column: age_start 
+	    private Integer ageEnd;  //年龄结束 db_column: age_end 
+	    private java.lang.Long maritalId;  //婚否 db_column: marital_id 
 	    private java.lang.String topSpecialty;  //要求专业 db_column: topSpecialty 
 	    private java.lang.String jobTemptText;  //职位诱惑 db_column: job_tempt_text 
 	    private java.lang.String jobTemptItem;  //诱惑都好项,逗号分隔 db_column: job_tempt_item 
@@ -40,6 +45,8 @@ public class ZpCompanyJobInfo  implements java.io.Serializable{
 	    private java.util.Date inDatetime;  //录入时间 db_column: in_datetime 
 	    private java.util.Date lastUpdateTime;  //最后更新时间 db_column: last_update_time 
 	    private Integer isDelete;  //是否删除 db_column: is_delete 
+	    private List<ZpCompanyJobDemandKeys> keys;
+	    
 
 
 	public ZpCompanyJobInfo(){

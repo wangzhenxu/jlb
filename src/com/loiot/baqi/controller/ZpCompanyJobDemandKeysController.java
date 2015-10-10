@@ -84,7 +84,7 @@ public class ZpCompanyJobDemandKeysController {
     @ResponseBody
     public Object addZpCompanyJobDemandKeys(ZpCompanyJobDemandKeys p,HttpSession session,HttpServletRequest request) {
     	try {
-            Account account = (Account) session.getAttribute(Const.SESSION_USER_KEY);
+           /* Account account = (Account) session.getAttribute(Const.SESSION_USER_KEY);
     		//验证唯一性
         	HashMap<String,Object> pMap =new HashMap<String,Object>();
         	pMap.put("name", p.getName());
@@ -93,7 +93,7 @@ public class ZpCompanyJobDemandKeysController {
 		        return NAME_EXIST;
 			}
         	p.setInDatetime(new Date());
-    		p.setInPerson(account.getUsername());
+    		p.setInPerson(account.getUsername());*/
     		zpCompanyJobDemandKeysService.addZpCompanyJobDemandKeys(p);
     		// 添加成功
     		return AjaxResponse.OK;
@@ -127,7 +127,7 @@ public class ZpCompanyJobDemandKeysController {
     @ResponseBody
     public Object editZpCompanyJobDemandKeys(ZpCompanyJobDemandKeys p,HttpSession session,HttpServletRequest request) {
     	try {
-        // 获得账号
+       /* // 获得账号
         //Account account = (Account) session.getAttribute(Const.SESSION_USER_KEY);
     	//如果前端，没有改变编号，就不用验证
     	if(!p.getName().equals(p.getName())){
@@ -138,7 +138,7 @@ public class ZpCompanyJobDemandKeysController {
 	    	if(result>0){
 		        return NAME_EXIST;
 			}
-    	}
+    	}*/
         zpCompanyJobDemandKeysService.updateZpCompanyJobDemandKeys(p);
     	} catch (Exception e) {
 			  e.printStackTrace();

@@ -6,10 +6,10 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
- * 公司职位信息 实体类
+ * 客户信息 实体类
  * 
  * @author  wangzx 
- * @creation 2015-10-06
+ * @creation 2015-10-10
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -45,8 +45,12 @@ public class ZpCompanyJobInfo  implements java.io.Serializable{
 	    private java.util.Date inDatetime;  //录入时间 db_column: in_datetime 
 	    private java.util.Date lastUpdateTime;  //最后更新时间 db_column: last_update_time 
 	    private Integer isDelete;  //是否删除 db_column: is_delete 
-	    private List<ZpCompanyJobDemandKeys> keys;
+	    private java.lang.Long zpUrgencyStatusId;  //招聘紧急状态 db_column: zp_urgency_status_id 
+	    private java.lang.Long areaId;  //所在城区 db_column: area_id 
+	    private Long companyAreaId;
 	    
+	    
+	    List<ZpCompanyJobDemandKeys> keys;
 
 
 	public ZpCompanyJobInfo(){

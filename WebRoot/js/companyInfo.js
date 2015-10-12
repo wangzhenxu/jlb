@@ -13,11 +13,18 @@ var companyInfo = {
 	inPerson : $("#inPerson"), //录入人
 	lastUpdateTime : $("#lastUpdateTime"), //更新时间
 	isDelete : $("#isDelete"), //1 未删除  2 以删除
+	coordX : $("#coordX"), //坐标x
+	coordY : $("#coordY"), //坐标y
+	areaId : $("#areaId"), //公司所在城区
 
 	query : function(){
-		location.href="/zpCompanyInfo/list.action?scaleId="+this.scaleId.val()+"&financingLevelId="+this.financingLevelId.val()+"&companyNature="+this.companyNature.val()+"&industryId="+this.industryId.val()+"&name=" +this.name.val();
+		var serializeObj = common.serializeJson("queryForm");
+		var jsonStr = JSON.stringify(serializeObj)
+		location.href="/zpCompanyInfo/list.action?jsonParam="+jsonStr;
 	},
-
+	tolist : function (){
+		location.href="/zpCompanyInfo/list.action";
+	},
 	initAddPage : function (){
 		CKEDITOR.replace('desc1', {
 			height : 150,
@@ -46,8 +53,14 @@ var companyInfo = {
 			if(!b){
 				return false;
 			}
-			$("#desc").val(CKEDITOR.instances.desc1.getData());
-			$("#moreDesc").val(CKEDITOR.instances.desc2.getData());
+			var desc = CKEDITOR.instances.desc1.getData();
+			var desc2 =CKEDITOR.instances.desc2.getData();
+			if(desc.length==0 || desc==""){
+				common.alert("请填写公司介绍");
+				return;
+			}
+			$("#desc").val(desc);
+			$("#moreDesc").val(desc2);
 			
 			$('#addform').ajaxSubmit(function(resp) {
 			if (resp.s > 0) {
@@ -60,7 +73,11 @@ var companyInfo = {
 			}
 			});		
 		
-	}
+	},
+	
+   toEdit : function (id){
+		location.href="/zpCompanyInfo/toEdit.action?id=" + id;
+   }
 		
 }
 

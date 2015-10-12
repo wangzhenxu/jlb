@@ -24,7 +24,7 @@ join url地址与分页参数的连接字符,一般是?或是&
 	 		<#if pageIndex = 0>
 		 		<span class="disabled"> 上一页 </span>
 		 	<#else>
-		 		<a href="${url}${join}pi=${pageIndex-1}"> 上一页 </a>
+		 		<a href='${url}${join}pi=${pageIndex-1}'> 上一页 </a>
 		 	</#if>
 		 	
 	 		<#-- 页码 -->
@@ -34,7 +34,7 @@ join url地址与分页参数的连接字符,一般是?或是&
 	 		<#if pageIndex = pageCount-1>
 		 		<span class="disabled"> 下一页 </span>
 		 	<#else>
-		 		<a href="${url}${join}pi=${pageIndex+1}">下一页 </a>
+		 		<a href='${url}${join}pi=${pageIndex+1}'>下一页 </a>
 		 	</#if>
 		 	
 	 	</#if>
@@ -54,7 +54,7 @@ join url地址与分页参数的连接符,一般是?或是&
  		<#if pageIndex = i-1>
  			<span class="current">${i}</span>
  		<#else>
- 			<a href="${url}${join}pi=${i-1}">${i}</a>
+ 			<a href='${url}${join}pi=${i-1}'>${i}</a>
  		</#if>
  	</#list>
 </#macro>

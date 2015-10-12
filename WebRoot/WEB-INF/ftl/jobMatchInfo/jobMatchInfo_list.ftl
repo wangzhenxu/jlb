@@ -42,10 +42,10 @@
 	<body>
 	<div class="right">
     <div class="location">
-     <div class="location01">您现在的位置是：首页 &gt; <strong>hrQQ</strong></div>
+     <div class="location01">您现在的位置是：首页 &gt; <strong>职位匹配列表</strong></div>
     </div>
     <div class="sort">
-     <div class="sort1">产品分类</div>
+     <div class="sort1">职位匹配列表</div>
      <div class="query">
       <ul>
        <li style="width:22%">
@@ -94,7 +94,6 @@
     </div>
     <div class="form">
       <#if subject.isPermitted("productClass:add")>
-     	<div class="form1"><a href="javascript:void(0)"><img src="/images/erji_18.jpg" width="83" height="22" border="0"  name="addpro"  /></a></div>
      </#if>
      <div class="form2">
      <table width="100%"  border="1" align="left" cellpadding="0" cellspacing="0" bordercolor="#ffffff" style="border-collapse:collapse">
@@ -214,8 +213,6 @@
        </#
        <tr>
      	 <td colspan="10" valign="middle" class="d">
-     	 	<a href="javascript:emalModal.openTemplateModal();" class=""><img src="/images/del.jpg" width="74" height="26">
-     	 	</a>
      	 </td>
        </tr>
       </table>

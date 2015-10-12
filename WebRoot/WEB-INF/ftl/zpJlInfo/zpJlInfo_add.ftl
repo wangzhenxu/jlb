@@ -4,6 +4,7 @@
 	 left_menu_class_num=1;
 	 leftMenuNum=1;
 </script>
+<#include "../include/bootstrap.ftl"/>
 <script type="text/javascript" src="/js/source/c_jquery.validationEngine.js"></script>
 <script type="text/javascript" src="/js/source/c_jquery.validationEngine.min.js"></script>
 <link href="/css/c_validationEngine.jquery.css" rel="stylesheet" type="text/css" />
@@ -19,11 +20,11 @@
 <!-- 右侧 开始 -->
 <div class="right">
     <div class="location">
-     <div class="location01">您现在的位置是：首页 &gt; <a href="control.html">CMS发布管理</a> &gt; 系统发布 &gt;<strong> 增加系统</strong></div>
+     <div class="location01">您现在的位置是：首页 &gt; <a href="control.html">简历管理</a> &gt; <strong> 增加简历</strong></div>
     </div>
     <div class="nav">
      <div class="basic">
-	 <div class="basic01">系统发布</div>
+	 <div class="basic01">增加简历</div>
 	</div>
      <div class="query1">
        <table width="100%" border="0" align="left">
@@ -155,8 +156,9 @@
      </div>
     </div>
     <div class="anniu">
-	   <a href="javascript:void(0)"><img id="addBtn" src="/images/erji1_19.jpg" width="101" height="29" /></a>
-	   &nbsp;&nbsp;<a href="/cmsSolution/sub/list.action"><img   src="/images/gddc_05.jpg"  /></a>
+	    <button type="button" class="btn btn-default" id="addBtn">保 &nbsp;存</button>
+				  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	 	<button type="button" class="btn btn-default" onclick="jlInfo.tolist();">返&nbsp; 回</button>
     </div>
    </div>
 

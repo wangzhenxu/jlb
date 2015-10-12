@@ -1,5 +1,5 @@
 <#include "../include/comm_jlb_macro.ftl"/>
- <script type="text/javascript" src="/js/ckeditor/c_ckeditor.js"></script>			
+ <script type="text/javascript" src="/js/ckeditor/ckeditor.js"></script>			
 
 <!-- 
 	列表地址：/zpCompanyInfo/list.action
@@ -32,11 +32,11 @@
 <!-- 右侧 开始 -->
 <div class="right">
     <div class="location">
-     <div class="location01">您现在的位置是：首页 &gt; <a href="control.html">CMS发布管理</a> &gt; 系统发布 &gt;<strong> 增加系统</strong></div>
+     <div class="location01">您现在的位置是：首页 &gt; <a href="control.html">客户管理</a> &gt; 客户管理&gt;<strong> 添加客户</strong></div>
     </div>
     <div class="nav">
      <div class="basic">
-	 <div class="basic01">系统发布</div>
+	 <div class="basic01">添加客户</div>
 	</div>
      <div class="query1">
        <table width="100%" border="0" align="left">
@@ -46,19 +46,28 @@
          <tr>
            <td  align="right" class="hui1">公司名称：</td>
            <td  align="left" valign="middle">
-           	 <input name="name" id="name" type="text"  style="width: 230px;" class="inputa error-field" validate="validate[required]">
+           	 <input name="name" id="name" type="text"  style="width: 230px;" class="input validate[required]">
           </td>
            <td align="right" class="hui1">公司地址：</td>
           <td  align="left" valign="middle">
-          	 <input name="address" id="address"  style="width: 230px;" type="text" class="inputa error-field" validate="validate[required]">
+          	 <input name="address" id="address"  style="width: 230px;" type="text" class="input validate[required]">
           </td>
+         </tr>
+         
+         <tr>
+           <td  align="right" class="hui1">所在城区：</td>
+           <td  align="left" valign="middle" clospan="3">
+            	<#list DictionaryUtil.getTypes(DictionaryType.COMPANY_AREA.getCode()) as c>
+          	  	  <input  class="validate[required] radio" id="dsf" name="areaId"  type="radio" value="${c.dictionaryId}" > ${c.name!''} 
+          	 	</#list>
+           </td>
          </tr>
          
          <tr>
            <td  align="right" class="hui1">公司规模：</td>
            <td  align="left" valign="middle" clospan="3">
 	         <#list DictionaryUtil.getTypes(DictionaryType.COMPANY_SCALE.getCode()) as c>
-          	  	 <input class="radio" name="scaleId" type="radio" value="${c.dictionaryId}" > ${c.name!''} 
+          	  	 <input class="validate[required] radio" id="scaleId" name="scaleId" type="radio" value="${c.dictionaryId}" > ${c.name!''} 
           	 </#list>
           </td>
          </tr>
@@ -93,7 +102,7 @@
          <tr>
            <td  align="right" class="hui1">注册时间：</td>
            <td  align="left" valign="middle">
-	 			<input name="regtime2" id="regtime2" onClick="WdatePicker({dateFmt:'yyyy-MM'})" type="text" class="inputa error-field" validate="validate[required]">           </td>
+	 			<input name="regtime2" id="regtime2" onClick="WdatePicker({dateFmt:'yyyy-MM'})" type="text" readonly>  </td>
           <td align="right" class="hui1"></td>
           <td  align="left" valign="middle">
           </td>
@@ -118,8 +127,13 @@
      </div>
     </div>
     <div class="anniu">
-	   <a href="javascript:void(0)"><img id="addBtn" src="/images/erji1_19.jpg" width="101" height="29" /></a>
-	   &nbsp;&nbsp;<a href="/cmsSolution/sub/list.action"><img   src="/images/gddc_05.jpg"  /></a>
+	   	
+	   	<div class="btn-group">
+				 <button type="button" class="btn btn-default" id="addBtn">保 &nbsp;存</button>
+				  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		  		 <button type="button" class="btn btn-default" onclick="companyInfo.tolist();">返&nbsp; 回</button>
+      	</div>
+      
     </div>
    </div>
 

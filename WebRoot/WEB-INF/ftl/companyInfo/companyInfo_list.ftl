@@ -1,6 +1,6 @@
 <html>
 	<head>
-	<title>网站后台管理系统-产品分类</title>
+	<title>网站后台管理系统-客户管理</title>
 	<#include "../include/bootstrap.ftl"/>
 	<#include "../include/pager.ftl">
 	<script src="/js/source/jquery.validationEngine.js"></script>
@@ -19,11 +19,12 @@
 	<body>
 	<div class="right">
     <div class="location">
-     <div class="location01">您现在的位置是：首页 &gt; <strong>hrQQ</strong></div>
+     <div class="location01">您现在的位置是：首页 &gt; <strong>客户管理</strong></div>
     </div>
     <div class="sort">
-     <div class="sort1">产品分类</div>
+     <div class="sort1">客户管理</div>
      <div class="query">
+ 		<form id="queryForm" >
       <ul>
        <li style="width:22%">
        	<span class="classify">公司名称：</span>
@@ -31,47 +32,65 @@
        </li>
        <li style="width:15%">
        	<span class="classify">所属行业：</span>
-    	<select id="industryId">
+    	<select id="industryId" name="industryId">
     		 <option value="" > 请选择 </option>
     		 <#list DictionaryUtil.getTypes(DictionaryType.COMPANY_INDUSTRY.getCode()) as c>
-    		 	<option value="${c.dictionaryId}" <#if industryId??> <#if industryId==c.dictionaryId> selected </#if> </#if>  > ${c.name!''} </option>
+    		 	<option value="${c.dictionaryId}" <#if industryId??> <#if industryId==c.dictionaryId?string> selected </#if> </#if>  > ${c.name!''} </option>
  			 </#list>
     	</select>
        </li>
        <li style="width:20%">
        	<span class="classify">公司性质：</span>
-    	<select id="companyNature">
+    	<select id="companyNature" name="companyNature">
     		 <option value="" > 请选择 </option>
     		 <#list DictionaryUtil.getTypes(DictionaryType.COMPANY_NATURE.getCode()) as c>
-    		 	<option value="${c.dictionaryId}" <#if companyNature??> <#if companyNature==c.dictionaryId> selected </#if> </#if> > ${c.name!''} </option>
+    		 	<option value="${c.dictionaryId}" <#if companyNature??> <#if companyNature==c.dictionaryId?string> selected </#if> </#if> > ${c.name!''} </option>
  			 </#list>
     	</select>
        </li>
         <li style="width:20%">
        	<span class="classify">公司规模：</span>
-    	<select id="scaleId">
+    	<select id="scaleId" name="scaleId">
     		 <option value="" > 请选择 </option>
     		 <#list DictionaryUtil.getTypes(DictionaryType.COMPANY_SCALE.getCode()) as c>
-    		 	<option value="${c.dictionaryId}" <#if scaleId??> <#if scaleId==c.dictionaryId> selected </#if> </#if> > ${c.name!''} </option>
+    		 	<option value="${c.dictionaryId}" <#if scaleId??> <#if scaleId==c.dictionaryId?string> selected </#if> </#if> > ${c.name!''} </option>
  			 </#list>
     	</select>
        </li>
         <li style="width:15%">
        	<span class="classify">融资阶段：</span>
-    	<select id="financingLevelId">
+    	<select id="financingLevelId" name="financingLevelId">
     		 <option value="" > 请选择 </option>
     		 <#list DictionaryUtil.getTypes(DictionaryType.COMPANY_FINANCING_LEVEL.getCode()) as c>
-    		 	<option value="${c.dictionaryId}" <#if financingLevelId??> <#if financingLevelId==c.dictionaryId> selected </#if> </#if> > ${c.name!''} </option>
+    		 	<option value="${c.dictionaryId}" <#if financingLevelId??> <#if financingLevelId==c.dictionaryId?string> selected </#if> </#if> > ${c.name!''} </option>
  			 </#list>
     	</select>
        </li>
-       <li style="width:5%"><a href="javascript:void(0)"><img src="/images/erji_06.jpg" width="64" height="26" onclick="companyInfo.query();"/></a></li>
+       
+       
+       <li style="width:5%">
+   		 <button type="button" class="btn btn-default" onclick="companyInfo.query();">查&nbsp;询</button>
+   	   </li>
       </ul>
+      <ul>
+      	<li>
+	      	<span class="classify">所在城区：</span>
+	    	<select id="areaId" name="areaId" style="width: 160px;">
+	    		 <option value="" > 请选择 </option>
+	    		 <#list DictionaryUtil.getTypes(DictionaryType.COMPANY_AREA.getCode()) as c>
+	    		 	<option value="${c.dictionaryId}" <#if areaId??> <#if areaId==c.dictionaryId?string> selected </#if> </#if> > ${c.name!''} </option>
+	 			 </#list>
+	    	</select>
+      	</li>
+      </ul>
+      </form>
      </div>
     </div>
     <div class="form">
       <#if subject.isPermitted("productClass:add")>
-     	<div class="form1"><a href="javascript:void(0)"><img src="/images/erji_18.jpg" width="83" height="22" border="0"  name="addpro"  onclick="companyInfo.toAdd();"/></a></div>
+	      <div class="btn-group">
+			  <button type="button" class="btn btn-default"  onclick="companyInfo.toAdd();">增加客户</button>
+	      </div>
      </#if>
      <div class="form2">
      <table width="100%"  border="1" align="left" cellpadding="0" cellspacing="0" bordercolor="#ffffff" style="border-collapse:collapse">
@@ -81,7 +100,8 @@
         <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>所属行业</strong></td>
         <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>公司规模</strong></td>
         <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>公司性质</strong></td>
-         <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>融资规模</strong></td>
+        <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>融资规模</strong></td>
+        <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>所在城区</strong></td>
         <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>录入时间</strong></td>
         <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>操 作</strong></td>
        </tr>
@@ -109,31 +129,40 @@
     		${DictionaryUtil.getName(c.financingLevelId)}<#else>无
   	 	 </#if>
         </td>
+        
+        <td align="center" class="hui">
+	         <#if c.areaId??>
+	         	${DictionaryUtil.getName(c.areaId)}<#else>无
+	 		</#if>
+        </td>
+        
          <td align="center" class="hui">
 	         <#if c.lastUpdateTime??>
 	         	${c.lastUpdateTime?string("yyyy-MM-dd")}
 	 		</#if>
         </td>
         
-        <td align="center" class="hui">
-       			 <a  href="javascript:">详情</a>
-        		 <a  href="javascript:">修改</a>
-         		 <a  href="javascript:">删除</a>
-         		 <a  href="javascript:companyInfo.toAddJob('${c.companyId}')">发布职位</a>
-        </td>
-         		
+        <td align="center" class="hui" style="width:300px;"  >
+	       	<div class="btn-group">
+				  <button type="button" class="btn btn-default"  onclick="javascipt:void(0);">详情</button>
+				  <button type="button" class="btn btn-default"  onclick="companyInfo.toEdit('${c.companyId}')">修改</button>
+				  <button type="button" class="btn btn-default"  onclick="javascipt:void(0);">删除</button>
+				  <button type="button" class="btn btn-default"  onclick="companyInfo.toAddJob('${c.companyId}')">发布职位</button>
+	      	 </div>
+      	</td>
        </tr>
        </#list>
        <tr>
      	 <td colspan="10" valign="middle" class="d">
-     	 	<a href="javascript:emalModal.openTemplateModal();" class=""><img src="/images/del.jpg" width="74" height="26">
-     	 	</a>
+ 	 		<div class="btn-group" style="display:none;">
+			  <button type="button" class="btn btn-default"  onclick="javascipt:void(0);">删除</button>
+      	 	</div>
      	 </td>
        </tr>
       </table>
      </div>
 	 <#-- 分页栏 -->
-     <@pageBar pager=pager url="/zpCompanyInfo/list.action?name=${name!''}&scaleId=${scaleId!''}&financingLevelId=${financingLevelId!''}&industryId=${industryId!''}&companyNature=${companyNature!''}" join="&"></@pageBar>
+     <@pageBar pager=pager url="/zpCompanyInfo/list.action?jsonParam=${jsonParam!''}" join="&"></@pageBar>
     </div>
    </div>
   <!-- 弹窗 结束 -->

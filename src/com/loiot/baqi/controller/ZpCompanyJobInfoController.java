@@ -58,6 +58,7 @@ public class ZpCompanyJobInfoController {
      */
     @RequestMapping(value = "/list")
     public String list(@RequestParam(value = "pi", defaultValue = "0") int pageIndex,
+    		@RequestParam(value = "jsonParam", defaultValue = "{}") String jsonParam,
     	ZpCompanyJobInfo p, ModelMap model,HttpServletRequest request)throws Exception {
     	HashMap<String,Object> pMap = new HashMap<String,Object>();
     	pMap.put("qtype", "like");
@@ -68,6 +69,9 @@ public class ZpCompanyJobInfoController {
     	pMap.put("expectedYearMoneyEnd", p.getExpectedYearMoneyEnd());
     	pMap.put("workTermStart", p.getWorkTermStart());
     	pMap.put("workTermEnd", p.getWorkTermEnd());
+    	pMap.put("zpUrgencyStatusId", p.getZpUrgencyStatusId());
+    	pMap.put("areaId", p.getAreaId());
+    	
     	
     	//String expectedYearMoney=request.getParameter("expectedYearMoney");
 		/*if(!StringUtil.isBlank(expectedYearMoney)){
@@ -86,6 +90,8 @@ public class ZpCompanyJobInfoController {
         model.put("expectedYearMoneyEnd", p.getExpectedYearMoneyEnd());
         model.put("workTermStart", p.getWorkTermStart());
         model.put("workTermEnd", p.getWorkTermEnd());
+        model.put("zpUrgencyStatusId", p.getZpUrgencyStatusId());
+        model.put("areaId", p.getAreaId());
         return "/companyJob/companyJob_list";
     }
 

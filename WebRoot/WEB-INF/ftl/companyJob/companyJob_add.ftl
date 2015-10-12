@@ -23,6 +23,8 @@
 	    inDatetime;  //录入时间
 	    lastUpdateTime;  //最后更新时间
 	    isDelete;  //是否删除
+	    zpUrgencyStatusId : $("#zpUrgencyStatusId"), //招聘紧急状态
+		areaId : $("#areaId"), //所在城区
 -->
 <#include "../include/comm_jlb_macro.ftl"/>
 <@gmc_common_js from="add"/>
@@ -38,11 +40,11 @@
 <!-- 右侧 开始 -->
 <div class="right">
     <div class="location">
-     <div class="location01">您现在的位置是：首页 &gt; <a href="control.html">CMS发布管理</a> &gt; 系统发布 &gt;<strong> 增加系统</strong></div>
+     <div class="location01">您现在的位置是：首页 &gt; <a href="control.html">客户管理</a> &gt; 职位管理 &gt;<strong> 增加职位</strong></div>
     </div>
     <div class="nav">
      <div class="basic">
-	 <div class="basic01">系统发布</div>
+	 <div class="basic01">增加职位</div>
 	</div>
      <div class="query1">
        <table width="100%" border="0" align="left">
@@ -76,6 +78,15 @@
           	  	 <input class="radio" name="jobPositionLevelId" type="radio" value="${c.dictionaryId}" /> ${c.name!''} 
           	 </#list>
           </td>
+         </tr>
+         
+          <tr>
+           <td  align="right" class="hui1">所在城区：</td>
+           <td  align="left" valign="middle" clospan="3">
+            	<#list DictionaryUtil.getTypes(DictionaryType.COMPANY_AREA.getCode()) as c>
+          	  	  <input class="radio" name="areaId" type="radio" <#if company.areaId??> <#if company.areaId==c.dictionaryId> checked </#if> </#if> value="${c.dictionaryId}" > ${c.name!''} 
+          	 	</#list>
+           </td>
          </tr>
          
           <tr>
@@ -140,6 +151,20 @@
          </td>
          </tr>
          
+         
+         <tr>
+           <td  align="right" class="hui1">是否急招：</td>
+           <td  align="left" valign="middle">
+	          	 <#list DictionaryUtil.getTypes(DictionaryType.JOB_URGENCY.getCode()) as c>
+	          	 	<input class="radio" name="zpUrgencyStatusId" type="radio" value="${c.dictionaryId}" > ${c.showName!''} 
+	          	 </#list>
+           </td>
+          <td align="right" class="hui1"></td>
+          <td  align="left" valign="middle">
+ 				
+         </td>
+         </tr>
+         
          <tr>
            <td  align="right" class="hui1">专业：</td>
            <td  align="left" valign="middle">
@@ -196,8 +221,12 @@
      </div>
     </div>
     <div class="anniu">
-	   <a href="javascript:void(0)"><img id="addBtn" src="/images/erji1_19.jpg" width="101" height="29" /></a>
-	   &nbsp;&nbsp;<a href="/cmsSolution/sub/list.action"><img   src="/images/gddc_05.jpg"  /></a>
+    	<div class="btn-group">
+				 <button type="button" class="btn btn-default" id="addBtn">保 &nbsp;存</button>
+				  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		  		 <button type="button" class="btn btn-default" onclick="companyJob.tolist();">返&nbsp; 回</button>
+      	</div>
+	  
     </div>
    </div>
 <!-- 右侧 结束 -->

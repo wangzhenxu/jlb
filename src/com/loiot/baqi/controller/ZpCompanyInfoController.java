@@ -22,6 +22,7 @@ import com.loiot.baqi.constant.Const;
 import com.loiot.baqi.controller.response.AjaxResponse;
 import com.loiot.baqi.controller.response.Pager;
 import com.loiot.baqi.service.*;
+import com.loiot.commons.message.util.JsonUtil;
 import com.loiot.commons.utils.DateUtil;
 import com.timeloit.pojo.Account;
 
@@ -53,23 +54,37 @@ public class ZpCompanyInfoController {
      */
     @RequestMapping(value = "/list")
     public String list(@RequestParam(value = "pi", defaultValue = "0") int pageIndex,
-    		ZpCompanyInfo p, ModelMap model)throws Exception {
-    	HashMap<String,Object> pMap = new HashMap<String,Object>();
-    	pMap.put("qtype", "like");
-    	pMap.put("name", p.getName());
+    		@RequestParam(value = "jsonParam", defaultValue = "{}") String jsonParam,
+		ZpCompanyInfo p, ModelMap model)throws Exception {
+		HashMap<String,Object> paramMap = new HashMap<String,Object>();
+		paramMap =JsonUtil.toObject(jsonParam, HashMap.class);
+		Iterator iter = paramMap.entrySet().iterator();
+		while (iter.hasNext()) {
+		Map.Entry entry = (Map.Entry) iter.next();
+    		Object key = entry.getKey();
+    		Object val = entry.getValue();
+    		model.put(String.valueOf(key), val);
+		}
+    	
+    	paramMap.put("qtype", "like");
+    	/*pMap.put("name", p.getName());
     	pMap.put("scaleId", p.getScaleId());
     	pMap.put("financingLevelId", p.getFinancingLevelId());
     	pMap.put("industryId", p.getIndustryId());
     	pMap.put("companyNature", p.getCompanyNature());
+    	pMap.put("areaId", p.getAreaId());*/
+    	
+    	
 
-
-        Pager<ZpCompanyInfo> pager = zpCompanyInfoService.queryZpCompanyInfoListPage(pMap, pageIndex);
-        model.put("pager", pager);
-        model.put("name", p.getName());
+        Pager<ZpCompanyInfo> pager = zpCompanyInfoService.queryZpCompanyInfoListPage(paramMap, pageIndex);
+       model.put("pager", pager);
+       /*  model.put("name", p.getName());
         model.put("scaleId", p.getScaleId());
     	pMap.put("financingLevelId", p.getFinancingLevelId());
     	model.put("industryId", p.getIndustryId());
     	model.put("companyNature", p.getCompanyNature());
+    	model.put("areaId", p.getAreaId());*/
+        model.put("jsonParam", jsonParam);
         return "/companyInfo/companyInfo_list";
     }
 

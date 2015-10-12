@@ -24,6 +24,22 @@ var common = {
         	}
         }
        return str;
+	},
+	
+	serializeJson : function(formId){
+		var serializeObj={};
+		$($("#"+formId).serializeArray()).each(function(){
+			serializeObj[this.name]=this.value;
+		});
+		return serializeObj;
+	},
+	
+	alert : function (desc,millisecond){
+		if(millisecond){
+			hiOverAlert(desc,millisecond);
+		} else{
+			hiOverAlert(desc,1000);
+		}
 	}
 }
 
@@ -141,3 +157,5 @@ String.prototype.formatToDate = function(){
 		return newDate;
 	}
 }
+
+

@@ -1,7 +1,7 @@
 
 <html>
 	<head>
-	<title>网站后台管理系统-产品分类</title>
+	<title>网站后台管理系统-简历管理</title>
 	<#include "../include/bootstrap.ftl"/>
 	<#include "../include/pager.ftl">
 	<script src="/js/source/jquery.validationEngine.js"></script>
@@ -39,10 +39,10 @@ jQuery(document).ready(function(){
 	<body>
 	<div class="right">
     <div class="location">
-     <div class="location01">您现在的位置是：首页 &gt; <strong>hrQQ</strong></div>
+     <div class="location01">您现在的位置是：首页 &gt; <strong>简历管理</strong></div>
     </div>
     <div class="sort">
-     <div class="sort1">产品分类</div>
+     <div class="sort1">简历管理</div>
      <div class="query">
       <ul>
        <li style="width:20%">
@@ -64,13 +64,17 @@ jQuery(document).ready(function(){
     		<option value="2" <#if sendStatus??> <#if sendStatus=="2"> selected </#if> </#if>>发送失败</option>
     	</select>
        </li>
-       <li style="width:20%"><a href="javascript:void(0)"><img src="/images/erji_06.jpg" width="64" height="26" onclick="query();"/></a></li>
+       <li style="width:20%"><a href="javascript:void(0)">
+   		 <button type="button" class="btn btn-default" onclick="query()">查&nbsp;询</button>
+       </li>
       </ul>
      </div>
     </div>
     <div class="form">
       <#if subject.isPermitted("productClass:add")>
-     	<div class="form1"><a href="javascript:void(0)"><img src="/images/erji_18.jpg" width="83" height="22" border="0"  name="addpro"  onclick="jlInfo.toAdd();"/></a></div>
+	      <div class="btn-group">
+	   		 <button type="button" class="btn btn-default"  onclick="jlInfo.toAdd();" >增加简历</button>
+	      </div>
      </#if>
      <div class="form2">
      <table width="100%"  border="1" align="left" cellpadding="0" cellspacing="0" bordercolor="#ffffff" style="border-collapse:collapse">
@@ -135,16 +139,19 @@ jQuery(document).ready(function(){
         			 ${c.inTime?string("yyyy-MM-dd HH:mm:ss")}
  				</#if>
 	    </td>
-		 <td align="center" class="hui">
-	    	 <a  href="javascript:jlInfo.matchJob('${c.jlId!""}');">匹配职位</a>
+		<td align="center" class="hui" style="width:300px;">
+	    	<div class="btn-group">
+			  <button type="button" class="btn btn-default"  onclick="">详情</button>
+			  <button type="button" class="btn btn-default"  onclick="">修改</button>
+			  <button type="button" class="btn btn-default"  onclick="">删除</button>
+      		  <button type="button" class="btn btn-default"  onclick="jlInfo.matchJob('${c.jlId!""}');">匹配职位</button>
+      		 </div>
 	     </td>
 	    
        </tr>
        </#list>
        <tr>
      	 <td colspan="7" valign="middle" class="d">
-     	 	<a href="javascript:emalModal.openTemplateModal();" class=""><img src="/images/del.jpg" width="74" height="26">
-     	 	</a>
      	 </td>
        </tr>
       </table>

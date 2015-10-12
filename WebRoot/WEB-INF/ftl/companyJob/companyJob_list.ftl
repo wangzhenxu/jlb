@@ -23,6 +23,8 @@
 	    inDatetime;  //录入时间
 	    lastUpdateTime;  //最后更新时间
 	    isDelete;  //是否删除
+	      zpUrgencyStatusId : $("#zpUrgencyStatusId"), //招聘紧急状态
+		areaId : $("#areaId"), //所在城区
 -->
 <#include "../include/comm_jlb_macro.ftl"/>
 <html>
@@ -33,10 +35,10 @@
 	<body>
 	<div class="right">
     <div class="location">
-     <div class="location01">您现在的位置是：首页 &gt; <strong>hrQQ</strong></div>
+     <div class="location01">您现在的位置是：首页 &gt; <strong>职位管理</strong></div>
     </div>
     <div class="sort">
-     <div class="sort1">产品分类</div>
+     <div class="sort1">职位管理</div>
      <div class="query">
       <ul>
        <li style="width:22%">
@@ -76,7 +78,33 @@
     		万
        </li>
       
-       <li style="width:5%"><a href="javascript:void(0)"><img src="/images/erji_06.jpg" width="64" height="26" onclick="companyJob.query();"/></a></li>
+       <li style="width:5%"><a href="javascript:void(0)">
+  		 <button type="button" class="btn btn-default" onclick="companyJob.query();">查&nbsp;询</button>
+       </li>
+      </ul>
+      <ul>
+      	<li  style="width:22%">
+      		<span class="classify">是否急招：</span>
+      		
+      		<select id="zpUrgencyStatusId" style="width:160px;">
+    		 <option value="" > 请选择 </option>
+    		 <#list DictionaryUtil.getTypes(DictionaryType.JOB_URGENCY.getCode()) as c>
+    		 	<option value="${c.dictionaryId}" <#if zpUrgencyStatusId??> <#if zpUrgencyStatusId==c.dictionaryId> selected </#if> </#if> > ${c.showName!''} </option>
+ 			 </#list>
+    		</select>
+      	</li>
+      	
+      	<li  style="width:20%">
+      		<span class="classify">所在城区：</span>
+      		
+      		<select id="areaId">
+    		 <option value="" > 请选择 </option>
+    		 <#list DictionaryUtil.getTypes(DictionaryType.COMPANY_AREA.getCode()) as c>
+    		 	<option value="${c.dictionaryId}" <#if areaId??> <#if areaId==c.dictionaryId> selected </#if> </#if> > ${c.showName!''} </option>
+ 			 </#list>
+    		</select>
+    		
+      	</li>
       </ul>
      </div>
     </div>
@@ -93,11 +121,12 @@
         <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>职位级别</strong></td>
         <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>工作年限</strong></td>
         <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>预计年薪</strong></td>
-        
         <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>年龄</strong></td>
         <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>婚否</strong></td>
-        
         <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>招聘人数</strong></td>
+        <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>是否急招</strong></td>
+        <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>所在城区</strong></td>
+        
         <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>录入人</strong></td>
         <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>录入时间</strong></td>
         <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>操 作</strong></td>
@@ -134,6 +163,20 @@
         <td align="center" class="hui">
         	${c.zpPersonCount!'0'}人
         </td>
+        
+        
+           <td align="center" class="hui">
+       		<#if c.zpUrgencyStatusId??> 	
+    		 ${DictionaryUtil.getName(c.zpUrgencyStatusId)}
+  	 	 	</#if>	
+         </td>
+         
+            <td align="center" class="hui">
+       		<#if c.areaId??> 	
+    		 ${DictionaryUtil.getName(c.areaId)}
+  	 	 	</#if>	
+         </td>
+        
          <td align="center" class="hui">
 	        ${c.inPerson!''}
         </td>
@@ -143,25 +186,24 @@
  			</#if>
         </td>
         
-        <td align="center" class="hui">
-       			 <a  href="javascript:">详情</a>
-        		 <a  href="javascript:">修改</a>
-         		 <a  href="javascript:">删除</a>
-         		 <a  href="javascript:">发布职位</a>
-        </td>
+         <td align="center" class="hui" style="width:300px;"  >
+	       	<div class="btn-group">
+				  <button type="button" class="btn btn-default"  onclick="javascipt:void(0);">详情</button>
+				  <button type="button" class="btn btn-default"  onclick="javascipt:void(0);">修改</button>
+				  <button type="button" class="btn btn-default"  onclick="javascipt:void(0);">删除</button>
+	      	 </div>
+      	</td>
          		
        </tr>
        </#list>
        <tr>
      	 <td colspan="10" valign="middle" class="d">
-     	 	<a href="javascript:emalModal.openTemplateModal();" class=""><img src="/images/del.jpg" width="74" height="26">
-     	 	</a>
      	 </td>
        </tr>
       </table>
      </div>
 	 <#-- 分页栏 -->
-     <@pageBar pager=pager url="/zpCompanyJobInfo/list.action?name=${name!''}&typeId=${typeId!''}&jobPositionLevelId=${jobPositionLevelId!''}&expectedYearMoneyStart=${expectedYearMoneyStart!''}&expectedYearMoneyEnd=${expectedYearMoneyEnd!''}&workTermStart=${workTermStart!''}&workTermEnd=${workTermEnd!''}" join="&"></@pageBar>
+     <@pageBar pager=pager url="/zpCompanyJobInfo/list.action?name=${name!''}&typeId=${typeId!''}&jobPositionLevelId=${jobPositionLevelId!''}&expectedYearMoneyStart=${expectedYearMoneyStart!''}&expectedYearMoneyEnd=${expectedYearMoneyEnd!''}&workTermStart=${workTermStart!''}&workTermEnd=${workTermEnd!''}&zpUrgencyStatusId=${zpUrgencyStatusId!''}&areaId=${areaId!''}" join="&"></@pageBar>
     </div>
    </div>
   <!-- 弹窗 结束 -->

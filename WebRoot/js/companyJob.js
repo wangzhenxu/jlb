@@ -41,7 +41,8 @@ var companyJob = {
 	 ageEnd: $("#ageEnd"),   //年龄结束  
 	 maritalId: $("#maritalId"),   //婚否 
 
-	 
+	 zpUrgencyStatusId : $("#zpUrgencyStatusId"), //招聘紧急状态
+	 areaId : $("#areaId"), //所在城区
 
 
 	//初始化添加页面
@@ -51,6 +52,7 @@ var companyJob = {
 			companyJob.add();
 		});
 	},
+	
 	//列表查询
 	query : function(){
 		if(this.expectedYearMoneyStart.val().length>0){
@@ -64,8 +66,13 @@ var companyJob = {
 		"&workTermStart="+this.workTermStart.val()+
 		"&workTermEnd="+this.workTermEnd.val()+
 		"&expectedYearMoneyStart="+this.expectedYearMoneyStart.val()+
-		"&expectedYearMoneyEnd="+this.expectedYearMoneyEnd.val()
+		"&expectedYearMoneyEnd="+this.expectedYearMoneyEnd.val()+
+		"&zpUrgencyStatusId="+this.zpUrgencyStatusId.val()+
+		"&areaId="+this.areaId.val()
 		;
+	},
+	tolist:function (){
+		location.href=this.listUrl;
 	},
 	//跳转到添加页面
 	toAdd : function (){

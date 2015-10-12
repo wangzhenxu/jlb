@@ -6,6 +6,9 @@ var jlInfo ={
 			jlInfo.add();
 		});
 	},
+	tolist : function (){
+		location="/zpJlInfo/list.action";
+	},
 	toAdd : function (){
 		location.href="/zpJlInfo/toAdd.action";
 	},

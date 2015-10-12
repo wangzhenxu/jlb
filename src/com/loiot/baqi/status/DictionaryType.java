@@ -42,7 +42,13 @@ public enum DictionaryType {
 	
 	COMPANY_FINANCING_LEVEL(15, "融资阶段"),
 	
-	COMPANY_INDUSTRY(16, "所属行业");
+	COMPANY_INDUSTRY(16, "所属行业"),
+	
+	COMPANY_DISTANCE_REQUI(17, "是否距离要求"),
+	
+	JOB_URGENCY(18, "是否紧急"),
+
+	COMPANY_AREA(19, "所在城区");
 	
 	/**
 	 * 状态码

@@ -9,6 +9,7 @@ import java.util.regex.Pattern;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -91,19 +92,8 @@ public class ZpJlInfoService{
      	p1.setJlFilePath(p.getJlFilePath());
      	p1.setJlContent(p.getJlContent());
         zpJlExpandInfoDao.addZpJlExpandInfo(p1);
-        //添加职位
-        if(jobIds!=null && jobIds.length()>0){
-        	String args[]= jobIds.split(",");
-        	for(int i=0;i<args.length;i++){
-        		ZpJlJobLevels jobLevel = new ZpJlJobLevels();
-        		jobLevel.setJlId(p.getJlId());
-        		jobLevel.setJobLevelId(Long.parseLong(args[i]));
-        		this.zpJlJobLevelsDao.addZpJlJobLevels(jobLevel);
-        	}
-        }
         
-        
-        
+        this.addLevel(jobIds, p.getJlId());
     }
     
     /**
@@ -111,8 +101,32 @@ public class ZpJlInfoService{
      * 
      * @param p 参数对象
      */
-    public void updateZpJlInfo(ZpJlInfo p)throws Exception {
+    public void updateZpJlInfo(ZpJlInfo p,String jobIds)throws Exception {
         zpJlInfoDao.updateZpJlInfo(p);
+        
+        if(!StringUtils.isBlank(jobIds)){
+        	//先删除后，添加级别
+            ZpJlJobLevels pt = new ZpJlJobLevels();
+            pt.setJlId(p.getJlId());
+            this.zpJlJobLevelsDao.deleteZpJlJobLevels(pt);
+            
+            this.addLevel(jobIds, p.getJlId());
+        }
+        
+    }
+    
+    
+    public void addLevel(String jobIds,Long jlId) throws Exception{
+    	//添加职位
+        if(jobIds!=null && jobIds.length()>0){
+        	String args[]= jobIds.split(",");
+        	for(int i=0;i<args.length;i++){
+        		ZpJlJobLevels jobLevel = new ZpJlJobLevels();
+        		jobLevel.setJlId(jlId);
+        		jobLevel.setJobLevelId(Long.parseLong(args[i]));
+        		this.zpJlJobLevelsDao.addZpJlJobLevels(jobLevel);
+        	}
+        }
     }
     
     /**
@@ -185,7 +199,6 @@ public class ZpJlInfoService{
     
     public ZpJlInfo paseWord(File file,CommonsMultipartFile commonFile,String fileName) throws Exception{
 			String txt = WordUtils.getWordText(file.getPath(),fileName);
-			System.out.println("text:" + txt);
 			ZpJlInfo zp = this.regxWordKeyword(txt,file,commonFile,fileName);
 		  return zp;
     }
@@ -203,6 +216,10 @@ public class ZpJlInfoService{
     
     public  ZpJlInfo regxWordKeyword(String content,File file,CommonsMultipartFile commonFile,String fileName) throws Exception{
     	ZpJlInfo bean = new ZpJlInfo();
+    	//自定义异常（解析不了word2007）
+    	if(content.length()<10){
+    		throw  new java.lang.ClassNotFoundException();
+    	}
     	bean.setJlContent(content);
     	Matcher matcher=null;
     	String regexpStr=null;

@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -12,6 +13,11 @@ import org.apache.poi.POIXMLTextExtractor;
 import org.apache.poi.hwpf.extractor.WordExtractor;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
+import org.apache.poi.xwpf.usermodel.XWPFParagraph;
+import org.apache.poi.xwpf.usermodel.XWPFTable;
+import org.apache.poi.xwpf.usermodel.XWPFTableCell;
+import org.apache.poi.xwpf.usermodel.XWPFTableRow;
 
 /**
  * POI 读取 word 2003 和 word 2007 中文字内容的测试类<br />
@@ -49,8 +55,35 @@ public class WordUtils {
 		POIXMLTextExtractor extractor = new XWPFWordExtractor(opcPackage);
 		String text2007 = extractor.getText();
 		//System.out.println("2007:\br"+text2007);
+		
+		
+		
+		/*OPCPackage oPCPackage = POIXMLDocument.openPackage(filePath);
+        XWPFDocument xwpf = new XWPFDocument(oPCPackage);
+        POIXMLTextExtractor ex = new XWPFWordExtractor(xwpf);
+        System.out.print(ex.getText());*/
+		
+		
+		/*FileInputStream in = new FileInputStream(filePath);
+		XWPFDocument document = new XWPFDocument(in);
+		List<XWPFTable> tables = document.getTables();
+		System.out.println(tables.size());
+		XWPFTable table = tables.get(0);
+		for (int i = 0; i < table.getNumberOfRows(); i++) {
+		XWPFTableRow row = table.getRow(i);
+		List<XWPFTableCell> cells = row.getTableCells();
+		for (XWPFTableCell cell : cells) {
+		List<XWPFParagraph> paragraphs = cell.getParagraphs();
+		System.out.print(cell.getText() + " | ");
+		}
+		System.out.println();
+		}*/
+        
+        
 		return text2007;
 	}
+	
+	
 	
 	
 	

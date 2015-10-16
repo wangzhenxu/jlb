@@ -31,6 +31,7 @@ import com.loiot.baqi.controller.response.AjaxResponse;
 import com.loiot.baqi.controller.response.Pager;
 import com.loiot.baqi.service.*;
 import com.loiot.commons.utils.DateUtil;
+import com.loiot.commons.utils.JsonUtil;
 import com.timeloit.pojo.Account;
 
 /**
@@ -61,12 +62,22 @@ public class ZpJlInfoController {
      */
     @RequestMapping(value = "/list")
     public String list(@RequestParam(value = "pi", defaultValue = "0") int pageIndex,
-            @RequestParam(value = "name", defaultValue = "") String name, ModelMap model)throws Exception {
-    	HashMap<String,Object> pMap = new HashMap<String,Object>();
-    	pMap.put("qtype", "like");
-        Pager<ZpJlInfo> pager = zpJlInfoService.queryZpJlInfoListPage(pMap, pageIndex);
+    		@RequestParam(value = "jsonParam", defaultValue = "{}") String jsonParam,
+    	ZpJlInfo p, ModelMap model)throws Exception {
+    	HashMap<String,Object> paramMap = new HashMap<String,Object>();
+		paramMap =JsonUtil.toObject(jsonParam, HashMap.class);
+		Iterator iter = paramMap.entrySet().iterator();
+		while (iter.hasNext()) {
+		Map.Entry entry = (Map.Entry) iter.next();
+    		Object key = entry.getKey();
+    		Object val = entry.getValue();
+    		model.put(String.valueOf(key), val);
+		}
+    	paramMap.put("qtype", "like");
+
+        Pager<ZpJlInfo> pager = zpJlInfoService.queryZpJlInfoListPage(paramMap, pageIndex);
         model.put("pager", pager);
-        model.put("name", name);
+        model.put("jsonParam", jsonParam);
         return "/zpJlInfo/zpJlInfo_list";
     }
 
@@ -107,18 +118,12 @@ public class ZpJlInfoController {
     		}
     		//职位列表
     		String jobPositionLevelIds = request.getParameter("jobPositionLevelIds");
-    		
-    		
-    		
     		/*DiskFileItem fi = (DiskFileItem)file.getFileItem(); 
             File f = fi.getStoreLocation();*/
-    		/*//验证唯一性
-        	HashMap<String,Object> pMap =new HashMap<String,Object>();
-        	//pMap.put("name", p.getName);
-        	int result=zpJlInfoService.getZpJlInfoListCount(pMap);
-        	if(result>0){
-		        //return NAME_EXIST;
-			}*/
+    		//验证唯一性
+    		if(!this.validateUnique(p.getEmal(),p.getPhone())){
+            	return this.NAME_EXIST;
+            }
     		zpJlInfoService.addZpJlInfo(p,jobPositionLevelIds);
     		// 添加成功
     		return AjaxResponse.OK;
@@ -138,8 +143,9 @@ public class ZpJlInfoController {
      */
     @RequestMapping(value = "/toEdit")
     public String toEditZpJlInfo(@RequestParam(value = "id", required = true) java.lang.Long id, ModelMap model)throws Exception {
-        model.put("p",  zpJlInfoService.getZpJlInfoById(id));
-        return "/zpJlInfo/zpJlInfo_edit";
+        //model.put("p",  zpJlInfoService.getZpJlInfoById(id));
+    	model.put("pid",  id);
+        return "/zpJlInfo/zpJlInfo_add";
     }
 
     /**
@@ -150,21 +156,30 @@ public class ZpJlInfoController {
      */
     @RequestMapping(value = "/edit")
     @ResponseBody
-    public Object editZpJlInfo(ZpJlInfo p,HttpSession session) {
+    public Object editZpJlInfo(ZpJlInfo p,HttpSession session,HttpServletRequest request) {
     	try {
-        // 获得账号
-        //Account account = (Account) session.getAttribute(Const.SESSION_USER_KEY);
-    	//如果前端，没有改变编号，就不用验证
-    	if(!p.getName().equals(p.getName())){
-	    	//验证唯一性
-	    	HashMap<String,Object> pMap =new HashMap<String,Object>();
-	    	//pMap.put("name", p.getName);
-	    	int result=zpJlInfoService.getZpJlInfoListCount(pMap);
-	    	if(result>0){
-		        return NAME_EXIST;
-			}
+    	//email	
+		String onlyName=request.getParameter("onlyName");
+		String phoneT=request.getParameter("phoneT");
+    	if((!StringUtils.isBlank(phoneT) &&  !p.getPhone().equals(phoneT))  ){
+    		//验证唯一性
+    		if(!this.validateUnique(null,p.getPhone())){
+            	return this.NAME_EXIST;
+            }
     	}
-        zpJlInfoService.updateZpJlInfo(p);
+    	
+    	if((!StringUtils.isBlank(p.getEmal()) &&  !p.getEmal().equals(onlyName))  ){
+    		//验证唯一性
+    		if(!this.validateUnique(p.getEmal(),null)){
+            	return this.NAME_EXIST;
+            }
+    	}
+    	
+    	
+    		
+    		//职位列表
+		String jobPositionLevelIds = request.getParameter("jobPositionLevelIds");
+        zpJlInfoService.updateZpJlInfo(p,jobPositionLevelIds);
     	} catch (Exception e) {
 			  e.printStackTrace();
 			  return AjaxResponse.FAILED;
@@ -179,8 +194,9 @@ public class ZpJlInfoController {
      */
     @RequestMapping(value = "/toView")
     public String toViewZpJlInfo(@RequestParam(value = "id", required = true) java.lang.Long id, ModelMap model)throws Exception {
-        model.put("p", zpJlInfoService.getZpJlInfoById(id));
-        return "/zpJlInfo/zpJlInfo_view";
+        //model.put("p", zpJlInfoService.getZpJlInfoById(id));
+    	model.put("pid",  id);
+    	return "/zpJlInfo/zpJlInfo_add";
     }
 
     /**
@@ -226,7 +242,21 @@ public class ZpJlInfoController {
     	//response.setContentType("text/plain");
     	DiskFileItem fi = (DiskFileItem)file.getFileItem();
         File f = fi.getStoreLocation();
-        ZpJlInfo bi = this.zpJlInfoService.paseWord(f,file,fi.getName());
+        ZpJlInfo bi=null;
+        try {
+        	  bi = this.zpJlInfoService.paseWord(f,file,fi.getName());
+		} catch (java.lang.ClassNotFoundException e) {
+			// TODO: handle exception
+			return new AjaxResponse(-2, "无法解析此文档，请自行转换word2003格式");
+		} catch(java.io.IOException e){
+			return new AjaxResponse(-2, "无法解析此文档，请自行转换word2003格式");
+		}
+       
+        if(!this.validateUnique(bi.getEmal(),bi.getPhone())){
+        	return this.NAME_EXIST;
+        }
+        
+        
         System.out.println(bi);
         AjaxResponse result = AjaxResponse.OK(bi);
     	/*if(f.getSize()>1048576){
@@ -236,5 +266,56 @@ public class ZpJlInfoController {
         return result;
     }
     
-
+    /**
+     * ajax 根据id查询实体bean
+     * @return
+     */
+    @RequestMapping(value = "/getById")
+    @ResponseBody
+    public Object ajaxGetById(@RequestParam(value = "id", required = true) java.lang.Long id)throws Exception {
+    	ZpJlInfo p = zpJlInfoService.getZpJlInfoById(id);
+    	return AjaxResponse.OK(p);
+    }
+    
+    /**
+     * 更新 （停用、启用状态）
+     * 
+     * @param id 
+     */
+    @RequestMapping(value = "/modifyDeleteStatus")
+    public String modifyDeleteStatus(@RequestParam(value = "id", required = true) java.lang.Long id,
+    		@RequestParam(value = "deleteStatus", required = true) java.lang.Integer isDelete,
+    		HttpServletRequest request)throws Exception {
+    	ZpJlInfo p = new ZpJlInfo();
+    	p.setJlId(id);
+    	zpJlInfoService.updateZpJlInfo(p,null);
+        String s = request.getHeader("Referer");
+        String redirectStr = s.substring(s.indexOf("/zpJlInfo/"), s.length());
+        return "redirect:"+redirectStr;
+    }
+    
+    /**
+     * 验证 手机号 和邮箱是否存在
+     * @param bi
+     * @return
+     * @throws Exception
+     */
+    public boolean  validateUnique(String email,String iphone) throws Exception{
+    	
+    	boolean b = true;
+    	if(email ==null && iphone==null){
+    		return b;
+    	}
+    	//验证 手机号 和邮箱
+        HashMap<String,Object> pMap = new HashMap<String,Object>();
+        pMap.put("qtype","uniqueValidate");
+       
+        pMap.put("phoneT",iphone);
+        pMap.put("emalT",email);
+        int count = zpJlInfoService.getZpJlInfoListCount(pMap);
+        if(count>0){
+        	b=false;
+        }
+        return b;
+    }
 }

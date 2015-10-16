@@ -188,9 +188,16 @@
         
          <td align="center" class="hui" style="width:300px;"  >
 	       	<div class="btn-group">
-				  <button type="button" class="btn btn-default"  onclick="javascipt:void(0);">详情</button>
-				  <button type="button" class="btn btn-default"  onclick="javascipt:void(0);">修改</button>
-				  <button type="button" class="btn btn-default"  onclick="javascipt:void(0);">删除</button>
+				 <div class="btn-group">
+				  <button type="button" class="btn btn-default"  onclick=companyJob.toDetail('${c.jobId}')>详情</button>
+				  <button type="button" class="btn btn-default"  onclick=companyJob.toEdit('${c.jobId}')>修改</button>
+				  <#if c.isDelete??>
+				  	<button type="button" class="btn btn-default"  onclick="companyJob.modifyDeleteStatus('${c.jobId}', '${c.isDelete}' )" >
+				  	 	<#if c.isDelete==PauseStartType.START.getCode()> 暂停 </#if>
+				  	 	<#if c.isDelete==PauseStartType.PAUSE.getCode()> 启用 </#if>
+				  </button>	
+				  </#if>
+	      		</div>
 	      	 </div>
       	</td>
          		

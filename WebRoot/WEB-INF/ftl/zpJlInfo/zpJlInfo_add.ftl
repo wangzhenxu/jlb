@@ -5,14 +5,17 @@
 	 leftMenuNum=1;
 </script>
 <#include "../include/bootstrap.ftl"/>
-<script type="text/javascript" src="/js/source/c_jquery.validationEngine.js"></script>
-<script type="text/javascript" src="/js/source/c_jquery.validationEngine.min.js"></script>
+<script type="text/javascript" src="/js/source/jquery.validationEngine.js"></script>
+<script type="text/javascript" src="/js/source/jquery.validationEngine.min.js"></script>
 <link href="/css/c_validationEngine.jquery.css" rel="stylesheet" type="text/css" />
-<script src="/js/zpJlInfo.js"></script>
 <script src="/js/ajaxfileupload.js"></script>
 <script src="/js/my97/WdatePicker.js" type="text/javascript" > </script>
 
-<form id="addform" name="form" action="/zpJlInfo/add.action" method="post" enctype="multipart/form-data">
+<form id="addform" name="form"  method="post" enctype="multipart/form-data">
+<input type="hidden" name="jlId" id="jlId"  value="${pid!''}"  />
+<input type="hidden" name="onlyName" id="onlyName"/>
+<input type="hidden" name="phoneT" id="phoneT"/>
+
 <input type="hidden" name="jlFilePath" id="jlFilePath" />
 <input type="hidden" name="jlContent" id="jlContent" />
 <input type="hidden" name="jobPositionLevelIds" id="jobPositionLevelIds" />
@@ -20,11 +23,11 @@
 <!-- 右侧 开始 -->
 <div class="right">
     <div class="location">
-     <div class="location01">您现在的位置是：首页 &gt; <a href="control.html">简历管理</a> &gt; <strong> 增加简历</strong></div>
+     <div class="location01">您现在的位置是：首页 &gt; <a href="control.html">简历管理</a> &gt; <strong class="m_title"> 增加简历</strong></div>
     </div>
     <div class="nav">
      <div class="basic">
-	 <div class="basic01">增加简历</div>
+	 <div class="basic01 m_title" >增加简历</div>
 	</div>
      <div class="query1">
        <table width="100%" border="0" align="left">
@@ -32,7 +35,7 @@
            <td colspan="4" class="red">* 号为必填项</td>
          </tr>
          <tr>
-           <td  align="right" class="hui1">上传简历：</td>
+           <td  align="right" class="hui1"><span class="red">*</span>上传简历：</td>
            <td  align="left" valign="middle">
 	         <div class="uploadlay">
 	           <div id="ui-upload-holder">
@@ -45,13 +48,13 @@
          </tr>
          
          <tr>
-           <td  align="right" class="hui1">姓名：</td>
+           <td  align="right" class="hui1"><span class="red">*</span>姓名：</td>
            <td  align="left" valign="middle">
-          	 <input name="name" id="name" type="text" class="inputa error-field" validate="validate[required,custom[eightCha]]">
+          	 <input name="name" id="name" type="text" class="input validate[required]">
            </td>
-          <td align="right" class="hui1">电话：</td>
+          <td align="right" class="hui1"><span class="red">*</span>手机：</td>
           <td  align="left" valign="middle">
-          	 <input name="phone" id="phone" type="text" class="inputa error-field" validate="validate[required,custom[eightCha]]">
+          	 <input name="phone" id="phone" type="text" class="input validate[required,custom[phone]]">
           </td>
          </tr>
          
@@ -64,13 +67,13 @@
            </td>
           <td align="right" class="hui1">邮箱：</td>
           <td  align="left" valign="middle">
-          	 <input name="emal" id="emal" type="text" class="inputa error-field" validate="validate[required,custom[eightCha]]">
+          	 <input name="emal" id="emal" type="text" class="input validate[custom[email]]">
           </td>
          </tr>
           <tr>
            <td  align="right" class="hui1">身份证：</td>
            <td  align="left" valign="middle">
-          	 <input name="identityCard" id="identityCard" type="text" class="inputa error-field" validate="validate[required,custom[eightCha]]">
+          	 <input name="identityCard" id="identityCard" type="text" class="input">
            </td>
           <td align="right" class="hui1">婚否：</td>
           <td  align="left" valign="middle">
@@ -81,22 +84,23 @@
          </tr>
          
           <tr>
+          <td align="right" class="hui1">毕业学校：</td>
+          <td  align="left" valign="middle">
+          	 <input name="schoolTag" id="schoolTag" type="text" class="input" >
+          </td>
            <td  align="right" class="hui1">最高学历：</td>
            <td  align="left" valign="middle">
           	 <#list DictionaryUtil.getTypes(DictionaryType.EDUCATION.getCode()) as c>
 	          	 	<input class="radio" name="educationId" type="radio" value="${c.dictionaryId}" > ${c.name!''} 
           	 </#list> 
            </td>
-          <td align="right" class="hui1">学校名称：</td>
-          <td  align="left" valign="middle">
-          	 <input name="schoolTag" id="schoolTag" type="text" class="inputa error-field" validate="validate[required,custom[eightCha]]">
-          </td>
+          
          </tr>
          
          <tr>
            <td  align="right" class="hui1">专业：</td>
            <td  align="left" valign="middle">
-          	   <input name="topSpecialty" id="topSpecialty" type="text" class="inputa error-field" validate="validate[required,custom[eightCha]]">
+          	   <input name="topSpecialty" id="topSpecialty" type="text" class="input" >
            </td>
           <td align="right" class="hui1">英语等级：</td>
           <td  align="left" valign="middle">
@@ -106,31 +110,31 @@
 		  </td>
          </tr>
          
+         
           <tr>
-           <td  align="right" class="hui1">出生年月：</td>
+           <td  align="right" class="hui1"><span class="red">*</span>工作开始时间：</td>
            <td  align="left" valign="middle">
-          	 <input name="birthdayT" id="birthday" onClick="WdatePicker({dateFmt:'yyyy-MM'})" type="text" class="inputa error-field" validate="validate[required,custom[eightCha]]">
+          	 <input name="jobStartTimeT" class="input validate[required]" id="jobStartTimeT" onClick="WdatePicker({dateFmt:'yyyy-MM'})" type="text" >
            </td>
-          <td align="right" class="hui1"></td>
-          <td  align="left" valign="middle">
-          </td>
+         	<td  align="right" class="hui1">出生年月：</td>
+           	<td  align="left" valign="middle">
+          	 <input name="birthdayT" id="birthday" onClick="WdatePicker({dateFmt:'yyyy-MM'})" type="text" class="input error-field" validate="validate[required,custom[eightCha]]">
+           </td>
          </tr>
-          <tr>
-           <td  align="right" class="hui1">工作开始时间：</td>
-           <td  align="left" valign="middle">
-          	 <input name="jobStartTimeT" id="jobStartTimeT" onClick="WdatePicker({dateFmt:'yyyy-MM'})" type="text" class="inputa error-field" validate="validate[required,custom[eightCha]]">
-           </td>
+         
+         <tr>
+          
           <td align="right" class="hui1">现住址：</td>
-          <td  align="left" valign="middle">
-                       <input name="nowAddress" id="nowAddress" type="text" class="inputa error-field" validate="validate[required,custom[eightCha]]">
+          <td  align="left" valign="middle" colspan="3">
+                       <input name="nowAddress" id="nowAddress" type="text" class="input" style="width:400px;" >
           </td>
          </tr>
          
          <tr>
-           <td  align="right" class="hui1">职位：</td>
+           <td  align="right" class="hui1"><span class="red">*</span>职位：</td>
            <td  align="left" valign="middle" clospan="3">
 	         <#list DictionaryUtil.getTypes(DictionaryType.JOB_POSITION.getCode()) as c>
-          	  	 <input class="radio" name="jobPositionId" type="radio" value="${c.dictionaryId}" > ${c.name!''} 
+          	  	 <input class="radio validate[required]" id="jobPositionId" name="jobPositionId" type="radio" value="${c.dictionaryId}" > ${c.name!''} 
           	 </#list>
           </td>
          </tr>
@@ -144,13 +148,21 @@
          </tr>
          
           <tr>
-           <td  align="right" class="hui1">薪水要求：</td>
+           <td  align="right" class="hui1"><span class="red">*</span>薪水要求：</td>
            <td  align="left" valign="middle" clospan="3">
 			<#list DictionaryUtil.getTypes(DictionaryType.SALARY_REQUIRE.getCode()) as c>
-          	  	 <input class="radio" name="salaryRequireId" type="radio" value="${c.dictionaryId}" > ${c.name!''} 
+          	  	 <input  class="radio validate[required]"  name="salaryRequireId" id="salaryRequireId" type="radio" value="${c.dictionaryId}" > ${c.name!''} 
           	 </#list>
            </td>
          </tr>
+         
+         
+	 	<tr style="display:none;" class="_detail">
+           <td  align="right" class="hui1">录入时间：</td>
+           <td  align="left" valign="middle" colspan="3" id="inTime">
+           </td>
+         </tr>    
+         
          </table>
 
      </div>
@@ -161,12 +173,10 @@
 	 	<button type="button" class="btn btn-default" onclick="jlInfo.tolist();">返&nbsp; 回</button>
     </div>
    </div>
-
-
-
 <!-- 右侧 结束 -->
 </form>
-
+<#include "../include/deleteConfirmModal.ftl">
+<script src="/js/zpJlInfo.js"></script>
 <script>
-	jlInfo.initAddPage();
+	jlInfo.initPage();
 </script>

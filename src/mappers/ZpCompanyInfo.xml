@@ -303,7 +303,7 @@
 			        		address=#{address},
 			        	</if>
 			        	<if test="desc != null">
-			        		desc=#{desc},
+			        		`desc`=#{desc},
 			        	</if>
 			        	<if test="moreDesc != null">
 			        		more_desc=#{moreDesc},

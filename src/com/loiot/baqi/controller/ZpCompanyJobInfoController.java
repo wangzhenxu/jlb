@@ -144,8 +144,8 @@ public class ZpCompanyJobInfoController {
      */
     @RequestMapping(value = "/toEdit")
     public String toEditZpCompanyJobInfo(@RequestParam(value = "id", required = true) java.lang.Long id, ModelMap model)throws Exception {
-        model.put("p",  zpCompanyJobInfoService.getZpCompanyJobInfoById(id));
-        return "/companyJob/companyJob_edit";
+        model.put("pid",  id);
+        return "/companyJob/companyJob_add";
     }
 
     /**
@@ -158,7 +158,7 @@ public class ZpCompanyJobInfoController {
     @ResponseBody
     public Object editZpCompanyJobInfo(ZpCompanyJobInfo p,HttpSession session,HttpServletRequest request) {
     	try {
-        // 获得账号
+      /*  // 获得账号
         //Account account = (Account) session.getAttribute(Const.SESSION_USER_KEY);
     	//如果前端，没有改变编号，就不用验证
     	if(!p.getName().equals(p.getName())){
@@ -169,7 +169,7 @@ public class ZpCompanyJobInfoController {
 	    	if(result>0){
 		        return NAME_EXIST;
 			}
-    	}
+    	}*/
         zpCompanyJobInfoService.updateZpCompanyJobInfo(p);
     	} catch (Exception e) {
 			  e.printStackTrace();
@@ -185,8 +185,9 @@ public class ZpCompanyJobInfoController {
      */
     @RequestMapping(value = "/toView")
     public String toViewZpCompanyJobInfo(@RequestParam(value = "id", required = true) java.lang.Long id, ModelMap model)throws Exception {
-        model.put("p", zpCompanyJobInfoService.getZpCompanyJobInfoById(id));
-        return "/companyJob/companyJob_view";
+    	//model.put("p", zpCompanyJobInfoService.getZpCompanyJobInfoById(id));
+        model.put("pid",  id);
+        return "/companyJob/companyJob_add";
     }
 
     /**
@@ -220,5 +221,36 @@ public class ZpCompanyJobInfoController {
 		  return AjaxResponse.FAILED;
 		}
     }
+    
+    /**
+     * ajax 根据id查询实体bean
+     * @return
+     */
+    @RequestMapping(value = "/getById")
+    @ResponseBody
+    public Object ajaxGetById(@RequestParam(value = "id", required = true) java.lang.Long id)throws Exception {
+    	ZpCompanyJobInfo p = zpCompanyJobInfoService.getZpCompanyJobInfoById(id);
+    	return AjaxResponse.OK(p);
+    }
+    
+    /**
+     * 更新 （停用、启用状态）
+     * 
+     * @param id 
+     */
+    @RequestMapping(value = "/modifyDeleteStatus")
+    public String modifyDeleteStatus(@RequestParam(value = "id", required = true) java.lang.Long id,
+    		@RequestParam(value = "deleteStatus", required = true) java.lang.Integer isDelete,
+    		HttpServletRequest request)throws Exception {
+    	ZpCompanyJobInfo p = new ZpCompanyJobInfo();
+    	p.setJobId(id);
+    	p.setIsDelete(isDelete);
+    	zpCompanyJobInfoService.updateZpCompanyJobInfo(p);
+        String s = request.getHeader("Referer");
+        String redirectStr = s.substring(s.indexOf("/zpCompanyJobInfo/"), s.length());
+        return "redirect:"+redirectStr;
+    }
+    
+
 
 }

@@ -27,7 +27,7 @@ public class ZpCompanyInfo  implements java.io.Serializable{
 	    private java.lang.Long companyNature;  //公司性质 db_column: company_nature 
 	    private java.lang.String inPerson;  //录入人 db_column: in_person 
 	    private java.util.Date lastUpdateTime;  //更新时间 db_column: last_update_time 
-	    private Integer isDelete;  //1 未删除  2 以删除 db_column: is_delete 
+	    private java.lang.Integer isDelete;  //1 未删除  2 以删除 db_column: is_delete 
 	    private java.lang.String coordX;  //坐标x db_column: coord_x 
 	    private java.lang.String coordY;  //坐标y db_column: coord_y 
 	    private java.lang.Long areaId;  //公司所在城区 db_column: area_id 

@@ -24,19 +24,21 @@
 	    isDelete;  //1 未删除  2 以删除
 -->
 <@gmc_common_js from="add" />
-<script src="/js/companyInfo.js"></script>
-
-<form id="addform" name="form" action="/zpCompanyInfo/add.action" method="post">
+<form id="addform" name="form"  method="post">
 <input type="hidden" name="desc" id="desc" />
 <input type="hidden" name="moreDesc" id="moreDesc" /> 
+<input type="hidden" name="companyId" id="companyId" value="${pid!''}" />
+<input type="hidden" name="onlyName" id="onlyName"/>
+
+
 <!-- 右侧 开始 -->
 <div class="right">
     <div class="location">
-     <div class="location01">您现在的位置是：首页 &gt; <a href="control.html">客户管理</a> &gt; 客户管理&gt;<strong> 添加客户</strong></div>
+     <div class="location01">您现在的位置是：首页 &gt; <a href="control.html">客户管理</a> &gt;<strong class="m_title" tempAttrValue="客户"> 添加客户</strong></div>
     </div>
     <div class="nav">
      <div class="basic">
-	 <div class="basic01">添加客户</div>
+	 <div class="basic01 m_title" tempAttrValue="客户">添加客户</div>
 	</div>
      <div class="query1">
        <table width="100%" border="0" align="left">
@@ -44,18 +46,18 @@
            <td colspan="4" class="red">* 号为必填项</td>
          </tr>
          <tr>
-           <td  align="right" class="hui1">公司名称：</td>
+           <td  align="right" class="hui1"><span class="red">*</span>公司名称：</td>
            <td  align="left" valign="middle">
            	 <input name="name" id="name" type="text"  style="width: 230px;" class="input validate[required]">
           </td>
-           <td align="right" class="hui1">公司地址：</td>
+           <td align="right" class="hui1"><span class="red">*</span>公司地址：</td>
           <td  align="left" valign="middle">
           	 <input name="address" id="address"  style="width: 230px;" type="text" class="input validate[required]">
           </td>
          </tr>
          
          <tr>
-           <td  align="right" class="hui1">所在城区：</td>
+           <td  align="right" class="hui1"><span class="red">*</span>所在城区：</td>
            <td  align="left" valign="middle" clospan="3">
             	<#list DictionaryUtil.getTypes(DictionaryType.COMPANY_AREA.getCode()) as c>
           	  	  <input  class="validate[required] radio" id="dsf" name="areaId"  type="radio" value="${c.dictionaryId}" > ${c.name!''} 
@@ -64,7 +66,7 @@
          </tr>
          
          <tr>
-           <td  align="right" class="hui1">公司规模：</td>
+           <td  align="right" class="hui1"><span class="red">*</span>公司规模：</td>
            <td  align="left" valign="middle" clospan="3">
 	         <#list DictionaryUtil.getTypes(DictionaryType.COMPANY_SCALE.getCode()) as c>
           	  	 <input class="validate[required] radio" id="scaleId" name="scaleId" type="radio" value="${c.dictionaryId}" > ${c.name!''} 
@@ -109,7 +111,7 @@
          </tr>
          
           <tr>
-           <td  align="right" class="hui1">公司介绍：</td>
+           <td  align="right" class="hui1"><span class="red">*</span>公司介绍：</td>
            <td  align="left" valign="middle" clospan="3">
            		<textarea  cols="45" rows="5" class="input validate[required,length[1000] text-input mokuainr ckeditor" name="desc1"  id="desc1" ></textarea>
            </td>
@@ -120,6 +122,23 @@
            <td  align="left" valign="middle" clospan="3">
            		<textarea  cols="45" rows="5" class="input validate[required,length[1000] text-input mokuainr ckeditor" name="desc2"  id="desc2" ></textarea>
            </td>
+         </tr>
+         
+          <tr style="display:none;" class="_detail">
+           <td  align="right" class="hui1">录入人：</td>
+           <td  align="left" valign="middle"  colspan="3" id="inPerson">
+           </td>
+         </tr>
+	 	<tr style="display:none;" class="_detail">
+           <td  align="right" class="hui1">最后更新时间：</td>
+           <td  align="left" valign="middle" colspan="3" id="lastUpdateTime">
+           </td>
+         </tr>
+      <tr style="display:none;" class="_detail">
+             <td  align="right" class="hui1">是否停用：</td>
+             <td  align="left" valign="middle" colspan="3" id="isDelete">
+             
+             </td>
          </tr>
          
          </table>
@@ -141,7 +160,9 @@
 
 <!-- 右侧 结束 -->
 </form>
+<#include "../include/deleteConfirmModal.ftl">
+<script src="/js/companyInfo.js"></script>
 
 <script>
-	companyInfo.initAddPage();
+	companyInfo.initPage();
 </script>

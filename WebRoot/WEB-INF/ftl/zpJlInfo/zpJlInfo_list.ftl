@@ -8,7 +8,6 @@
 	<script src="/js/source/jquery.validationEngine.min.js"></script>
 	<link href="/js/source/validationEngine.jquery.css" rel="stylesheet" type="text/css" />
     <script src="/js/hiAlert/jquery.alert.js"></script>
-    <script type="text/javascript" src="http://www.loiot.com/c/ckeditor/ckeditor.js"></script>			
     <script src="/js/zpJlInfo.js"></script>
 	<link href="/css/alert.css" rel="stylesheet" type="text/css" />
 	<style type="text/css">
@@ -17,24 +16,6 @@
 			background-repeat: repeat-x;
 			}
 	</style>
-<script  language="javascript">
-jQuery(document).ready(function(){
-	jQuery("#addform,#updateform,#sendform").validationEngine({scroll:false});
-	$('#xin1').on('hidden.bs.modal', function (e) {
-		$("#addform").validationEngine("hide");
-	});
-	$('#xin2').on('hidden.bs.modal', function (e) {
-		$("#updateform").validationEngine("hide");
-	})
-	
-	$('#xin4').on('hidden.bs.modal', function (e) {
-		$("#sendform").validationEngine("hide");
-	})
-	
-	
-});
-
-</script>
 </head>
 	<body>
 	<div class="right">
@@ -44,6 +25,7 @@ jQuery(document).ready(function(){
     <div class="sort">
      <div class="sort1">简历管理</div>
      <div class="query">
+     <form id="queryForm" >
       <ul>
        <li style="width:20%">
        	<span class="classify">邮箱：</span>
@@ -65,9 +47,10 @@ jQuery(document).ready(function(){
     	</select>
        </li>
        <li style="width:20%"><a href="javascript:void(0)">
-   		 <button type="button" class="btn btn-default" onclick="query()">查&nbsp;询</button>
+   		 <button type="button" class="btn btn-default" onclick="companyInfo.query();" >查&nbsp;询</button>
        </li>
       </ul>
+      </form>
      </div>
     </div>
     <div class="form">
@@ -141,9 +124,8 @@ jQuery(document).ready(function(){
 	    </td>
 		<td align="center" class="hui" style="width:300px;">
 	    	<div class="btn-group">
-			  <button type="button" class="btn btn-default"  onclick="">详情</button>
-			  <button type="button" class="btn btn-default"  onclick="">修改</button>
-			  <button type="button" class="btn btn-default"  onclick="">删除</button>
+			   <button type="button" class="btn btn-default"  onclick="jlInfo.toDetail('${c.jlId}')">详情</button>
+			   <button type="button" class="btn btn-default"  onclick="jlInfo.toEdit('${c.jlId}')">修改</button>
       		  <button type="button" class="btn btn-default"  onclick="jlInfo.matchJob('${c.jlId!""}');">匹配职位</button>
       		 </div>
 	     </td>
@@ -157,7 +139,7 @@ jQuery(document).ready(function(){
       </table>
      </div>
 	 <#-- 分页栏 -->
-     <@pageBar pager=pager url="/zpHrInfo/list.action" join="&"></@pageBar>
+     <@pageBar   pager=pager url="/ZpJlInfo/list.action?jsonParam=${jsonParam!''}" join="&"> </@pageBar> 
     </div>
    </div>
   <!-- 弹窗 结束 -->

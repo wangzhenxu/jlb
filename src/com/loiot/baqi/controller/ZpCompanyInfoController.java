@@ -9,6 +9,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -139,8 +140,9 @@ public class ZpCompanyInfoController {
      */
     @RequestMapping(value = "/toEdit")
     public String toEditZpCompanyInfo(@RequestParam(value = "id", required = true) java.lang.Long id, ModelMap model)throws Exception {
-        model.put("p",  zpCompanyInfoService.getZpCompanyInfoById(id));
-        return "/companyInfo/companyInfo_edit";
+    	//ZpCompanyInfo p = zpCompanyInfoService.getZpCompanyInfoById(id);
+    	model.put("pid", id);
+        return "/companyInfo/companyInfo_add";
     }
 
     /**
@@ -156,7 +158,8 @@ public class ZpCompanyInfoController {
         // 获得账号
         //Account account = (Account) session.getAttribute(Const.SESSION_USER_KEY);
     	//如果前端，没有改变编号，就不用验证
-    	if(!p.getName().equals(p.getName())){
+    	String onlyName=request.getParameter("onlyName");
+    	if(!StringUtils.isBlank(onlyName) &&  !p.getName().equals(onlyName)){
 	    	//验证唯一性
 	    	HashMap<String,Object> pMap =new HashMap<String,Object>();
 	    	pMap.put("name", p.getName());
@@ -165,6 +168,7 @@ public class ZpCompanyInfoController {
 		        return NAME_EXIST;
 			}
     	}
+    	p.setRegtime(DateUtil.toDate(request.getParameter("regtime2")));
         zpCompanyInfoService.updateZpCompanyInfo(p);
     	} catch (Exception e) {
 			  e.printStackTrace();
@@ -180,18 +184,23 @@ public class ZpCompanyInfoController {
      */
     @RequestMapping(value = "/toView")
     public String toViewZpCompanyInfo(@RequestParam(value = "id", required = true) java.lang.Long id, ModelMap model)throws Exception {
-        model.put("p", zpCompanyInfoService.getZpCompanyInfoById(id));
-        return "/companyInfo/companyInfo_view";
+    	model.put("pid", id);
+        return "/companyInfo/companyInfo_add";
     }
 
     /**
-     * 删除  公司信息
+     * 更新 （停用、启用状态）
      * 
      * @param id ZpCompanyInfoID
      */
-    @RequestMapping(value = "/delete")
-    public String deleteZpCompanyInfo(@RequestParam(value = "id", required = true) java.lang.Long id,HttpServletRequest request)throws Exception {
-    	zpCompanyInfoService.deleteZpCompanyInfo(id);
+    @RequestMapping(value = "/modifyDeleteStatus")
+    public String modifyDeleteStatus(@RequestParam(value = "id", required = true) java.lang.Long id,
+    		@RequestParam(value = "deleteStatus", required = true) java.lang.Integer isDelete,
+    		HttpServletRequest request)throws Exception {
+    	ZpCompanyInfo p = new ZpCompanyInfo();
+    	p.setCompanyId(id);
+    	p.setIsDelete(isDelete);
+    	this.zpCompanyInfoService.updateZpCompanyInfo(p);
         String s = request.getHeader("Referer");
         String redirectStr = s.substring(s.indexOf("/zpCompanyInfo/"), s.length());
         return "redirect:"+redirectStr;
@@ -214,6 +223,17 @@ public class ZpCompanyInfoController {
 			e.printStackTrace();
 		  return AjaxResponse.FAILED;
 		}
+    }
+    
+    /**
+     * ajax 根据id查询实体bean
+     * @return
+     */
+    @RequestMapping(value = "/getById")
+    @ResponseBody
+    public Object ajaxGetById(@RequestParam(value = "id", required = true) java.lang.Long id)throws Exception {
+    	ZpCompanyInfo p = zpCompanyInfoService.getZpCompanyInfoById(id);
+    	return AjaxResponse.OK(p);
     }
 
 }

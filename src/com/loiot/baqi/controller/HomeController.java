@@ -54,6 +54,7 @@ public class HomeController {
 			return "redirect:/password.action";
 		}*/
 		//
+		
 		//return "redirect:/zpCompanyJobInfo/toAdd.action";
 		return "redirect:/zpJlInfo/list.action";
 

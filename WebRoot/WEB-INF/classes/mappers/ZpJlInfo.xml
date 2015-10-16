@@ -29,6 +29,8 @@
 	        	<result  column="birthday" property="birthday" />
 	        	<result  column="jlFilePath" property="jlFilePath" />
 	        	<result  column="jlContent" property="jlContent" />
+	        	<result  column="english_level_id" property="englishLevelId" />
+	        	
 	        	<!-- 职位列表 -->
 				<collection ofType="ZpJlJobLevels" property="zpJlJobLevels">
 						<id  column="t_jl_job_level_id" property="jlJobLevelId"></id>
@@ -181,6 +183,17 @@
 			zp_jl_info
 		<where>
 				<if test="qtype != null and qtype=='like'">
+				</if>
+				<if test="qtype != null and qtype=='uniqueValidate'">
+						<if test="phoneT != null and phoneT !='' and emalT != null and emalT !=''  ">
+				        		AND zp_jl_info.phone=#{phoneT}  OR zp_jl_info.emal=#{emalT}
+			        	</if>
+			        	<if test="(phoneT == null or phoneT !='') and emalT != null and emalT !='' ">
+				        		AND zp_jl_info.emal=#{emalT} 
+				        	</if>
+			          <if test="(phoneT != null and phoneT !='' ) and (emalT == null or emalT !='') ">
+			        		AND zp_jl_info.phone=#{phoneT} 
+		        	  </if>
 				</if>
 				        	<if test="name != null and name !=''">
 				        		AND zp_jl_info.name=#{name} 

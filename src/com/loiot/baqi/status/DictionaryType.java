@@ -48,7 +48,11 @@ public enum DictionaryType {
 	
 	JOB_URGENCY(18, "是否紧急"),
 
-	COMPANY_AREA(19, "所在城区");
+	COMPANY_AREA(19, "所在城区"),
+	
+	PAUSE_START(20, "暂停启用状态");
+	
+	
 	
 	/**
 	 * 状态码

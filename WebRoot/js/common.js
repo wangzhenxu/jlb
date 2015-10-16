@@ -11,6 +11,9 @@ var common = {
 			        return -($(this).width()/2);
 			    }
 			});
+			$("#delete_sure_a").click(function(){
+				$("#delete_cancle_a").click();
+			});
 	},
 	//获取复选框的值
 	getCheckbox : function(name){
@@ -40,7 +43,21 @@ var common = {
 		} else{
 			hiOverAlert(desc,1000);
 		}
-	}
+	},
+	 //获取当前页面标记
+   getCurrPageFlag: function(){
+		   var page = "";
+		   if(location.href.indexOf("/toEdit.action")!=-1){
+			   page="edit"; 
+		   }else
+		   if(location.href.indexOf("/toAdd.action")!=-1){
+			   page="add"; 
+		   } else
+		  if(location.href.indexOf("/toView.action")!=-1){
+			  page="detail"; 
+		  }
+		  return page;
+	   }
 }
 
 

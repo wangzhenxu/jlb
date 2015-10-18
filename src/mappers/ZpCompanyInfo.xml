@@ -26,100 +26,100 @@
 	<!-- 查询 客户信息列表 -->
 	<select id="queryZpCompanyInfoList" resultMap="zpCompanyInfoMap">
 		SELECT
-						 		zp_company_info.company_id,
+						 		ci.company_id,
 			        	
-						 		zp_company_info.name,
+						 		ci.name,
 			        	
-						 		zp_company_info.address,
+						 		ci.address,
 			        	
-						 		zp_company_info.desc,
+						 		ci.desc,
 			        	
-						 		zp_company_info.more_desc,
+						 		ci.more_desc,
 			        	
-						 		zp_company_info.scale_id,
+						 		ci.scale_id,
 			        	
-						 		zp_company_info.regtime,
+						 		ci.regtime,
 			        	
-						 		zp_company_info.financing_level_id,
+						 		ci.financing_level_id,
 			        	
-						 		zp_company_info.industry_id,
+						 		ci.industry_id,
 			        	
-						 		zp_company_info.company_nature,
+						 		ci.company_nature,
 			        	
-						 		zp_company_info.in_person,
+						 		ci.in_person,
 			        	
-						 		zp_company_info.last_update_time,
+						 		ci.last_update_time,
 			        	
-						 		zp_company_info.is_delete,
+						 		ci.is_delete,
 			        	
-						 		zp_company_info.coord_x,
+						 		ci.coord_x,
 			        	
-						 		zp_company_info.coord_y,
+						 		ci.coord_y,
 			        	
-						 		zp_company_info.area_id
+						 		ci.area_id
 			        	
 		FROM
-			zp_company_info
+			zp_company_info ci
 		<where>
 							<if test="qtype != null and qtype=='like'">
 									<if test="name != null and name !='' ">
-							        		AND zp_company_info.name like '%${name}%'
+							        		AND ci.name like '%${name}%'
 							        </if>
 							</if>
 							<if test="qtype == null and name != null and name !='' ">
-							        		AND zp_company_info.name =#{name}
+							        		AND ci.name =#{name}
 							</if>
 				        	<if test="address != null and address !='' ">
-				        		AND zp_company_info.address=#{address} 
+				        		AND ci.address=#{address} 
 				        	</if>
 				        	<if test="desc != null and desc !='' ">
-				        		AND zp_company_info.desc=#{desc} 
+				        		AND ci.desc=#{desc} 
 				        	</if>
 				        	<if test="moreDesc != null and moreDesc !='' ">
-				        		AND zp_company_info.more_desc=#{moreDesc} 
+				        		AND ci.more_desc=#{moreDesc} 
 				        	</if>
 				        	<if test="scaleId != null and scaleId !='' ">
-				        		AND zp_company_info.scale_id=#{scaleId} 
+				        		AND ci.scale_id=#{scaleId} 
 				        	</if>
 				        	<if test="regtime != null and regtime !='' ">
-				        		AND zp_company_info.regtime=#{regtime} 
+				        		AND ci.regtime=#{regtime} 
 				        	</if>
 				        	<if test="financingLevelId != null and financingLevelId !='' ">
-				        		AND zp_company_info.financing_level_id=#{financingLevelId} 
+				        		AND ci.financing_level_id=#{financingLevelId} 
 				        	</if>
 				        	<if test="industryId != null and industryId !='' ">
-				        		AND zp_company_info.industry_id=#{industryId} 
+				        		AND ci.industry_id=#{industryId} 
 				        	</if>
 				        	<if test="companyNature != null and companyNature !='' ">
-				        		AND zp_company_info.company_nature=#{companyNature} 
+				        		AND ci.company_nature=#{companyNature} 
 				        	</if>
 				        	<if test="inPerson != null and inPerson !='' ">
-				        		AND zp_company_info.in_person=#{inPerson} 
+				        		AND ci.in_person=#{inPerson} 
 				        	</if>
 				        	<if test="lastUpdateTime != null and lastUpdateTime !='' ">
-				        		AND zp_company_info.last_update_time=#{lastUpdateTime} 
+				        		AND ci.last_update_time=#{lastUpdateTime} 
 				        	</if>
 				        	<if test="isDelete != null and isDelete !='' ">
-				        		AND zp_company_info.is_delete=#{isDelete} 
+				        		AND ci.is_delete=#{isDelete} 
 				        	</if>
 				        	<if test="coordX != null and coordX !='' ">
-				        		AND zp_company_info.coord_x=#{coordX} 
+				        		AND ci.coord_x=#{coordX} 
 				        	</if>
 				        	<if test="coordY != null and coordY !='' ">
-				        		AND zp_company_info.coord_y=#{coordY} 
+				        		AND ci.coord_y=#{coordY} 
 				        	</if>
 				        	<if test="areaId != null and areaId !='' ">
-				        		AND zp_company_info.area_id=#{areaId} 
+				        		AND ci.area_id=#{areaId} 
 				        	</if>
 					
 					<if test="ids !=null">
-				         AND zp_company_info.company_id IN
+				         AND ci.company_id IN
 						    <foreach  item="item" collection="ids"  index="index" open="(" separator="," close=")"> 
 									 ${item} 
 							</foreach>
 			        </if>
 		</where>
-		ORDER BY zp_company_info.company_id desc 
+		ORDER BY ci.company_id desc 
 		<if test="skipResults!=null">
 				limit #{skipResults} ,#{maxResults}
 		</if>
@@ -131,60 +131,60 @@
 		SELECT
 			count(1)
 		FROM
-			zp_company_info
+			zp_company_info ci
 		<where>
 							<if test="qtype != null and qtype=='like'">
 									<if test="name != null and name !='' ">
-							        		AND zp_company_info.name like '%${name}%'
+							        		AND ci.name like '%${name}%'
 							        </if>
 							</if>
 							<if test="qtype == null and name != null and name !='' ">
-							        		AND zp_company_info.name =#{name}
+							        		AND ci.name =#{name}
 							</if>
 				        	<if test="address != null and address !=''">
-				        		AND zp_company_info.address=#{address} 
+				        		AND ci.address=#{address} 
 				        	</if>
 				        	<if test="desc != null and desc !=''">
-				        		AND zp_company_info.desc=#{desc} 
+				        		AND ci.desc=#{desc} 
 				        	</if>
 				        	<if test="moreDesc != null and moreDesc !=''">
-				        		AND zp_company_info.more_desc=#{moreDesc} 
+				        		AND ci.more_desc=#{moreDesc} 
 				        	</if>
 				        	<if test="scaleId != null and scaleId !=''">
-				        		AND zp_company_info.scale_id=#{scaleId} 
+				        		AND ci.scale_id=#{scaleId} 
 				        	</if>
 				        	<if test="regtime != null and regtime !=''">
-				        		AND zp_company_info.regtime=#{regtime} 
+				        		AND ci.regtime=#{regtime} 
 				        	</if>
 				        	<if test="financingLevelId != null and financingLevelId !=''">
-				        		AND zp_company_info.financing_level_id=#{financingLevelId} 
+				        		AND ci.financing_level_id=#{financingLevelId} 
 				        	</if>
 				        	<if test="industryId != null and industryId !=''">
-				        		AND zp_company_info.industry_id=#{industryId} 
+				        		AND ci.industry_id=#{industryId} 
 				        	</if>
 				        	<if test="companyNature != null and companyNature !=''">
-				        		AND zp_company_info.company_nature=#{companyNature} 
+				        		AND ci.company_nature=#{companyNature} 
 				        	</if>
 				        	<if test="inPerson != null and inPerson !=''">
-				        		AND zp_company_info.in_person=#{inPerson} 
+				        		AND ci.in_person=#{inPerson} 
 				        	</if>
 				        	<if test="lastUpdateTime != null and lastUpdateTime !=''">
-				        		AND zp_company_info.last_update_time=#{lastUpdateTime} 
+				        		AND ci.last_update_time=#{lastUpdateTime} 
 				        	</if>
 				        	<if test="isDelete != null and isDelete !=''">
-				        		AND zp_company_info.is_delete=#{isDelete} 
+				        		AND ci.is_delete=#{isDelete} 
 				        	</if>
 				        	<if test="coordX != null and coordX !=''">
-				        		AND zp_company_info.coord_x=#{coordX} 
+				        		AND ci.coord_x=#{coordX} 
 				        	</if>
 				        	<if test="coordY != null and coordY !=''">
-				        		AND zp_company_info.coord_y=#{coordY} 
+				        		AND ci.coord_y=#{coordY} 
 				        	</if>
 				        	<if test="areaId != null and areaId !=''">
-				        		AND zp_company_info.area_id=#{areaId} 
+				        		AND ci.area_id=#{areaId} 
 				        	</if>
 				<if test="ids !=null">
-				         AND zp_company_info.company_id IN
+				         AND ci.company_id IN
 						    <foreach  item="item" collection="ids"  index="index" open="(" separator="," close=")"> 
 									 ${item} 
 							</foreach>
@@ -403,26 +403,26 @@
 	<!-- 获得  客户信息 -->
 	<select id="getZpCompanyInfoById" resultMap="zpCompanyInfoMap">
 		SELECT
-						 		zp_company_info.company_id,
-						 		zp_company_info.name,
-						 		zp_company_info.address,
-						 		zp_company_info.desc,
-						 		zp_company_info.more_desc,
-						 		zp_company_info.scale_id,
-						 		zp_company_info.regtime,
-						 		zp_company_info.financing_level_id,
-						 		zp_company_info.industry_id,
-						 		zp_company_info.company_nature,
-						 		zp_company_info.in_person,
-						 		zp_company_info.last_update_time,
-						 		zp_company_info.is_delete,
-						 		zp_company_info.coord_x,
-						 		zp_company_info.coord_y,
-						 		zp_company_info.area_id
+						 		ci.company_id,
+						 		ci.name,
+						 		ci.address,
+						 		ci.desc,
+						 		ci.more_desc,
+						 		ci.scale_id,
+						 		ci.regtime,
+						 		ci.financing_level_id,
+						 		ci.industry_id,
+						 		ci.company_nature,
+						 		ci.in_person,
+						 		ci.last_update_time,
+						 		ci.is_delete,
+						 		ci.coord_x,
+						 		ci.coord_y,
+						 		ci.area_id
 		FROM
-			zp_company_info
+			zp_company_info ci
 		WHERE 
-		zp_company_info.company_id=#{companyId}
+		ci.company_id=#{companyId}
 		
 	</select>
 

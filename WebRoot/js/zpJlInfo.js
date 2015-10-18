@@ -81,7 +81,10 @@ var jlInfo ={
 			}else 
 			if(self.currPage=="detail"){
 				this.m_title.html(attrVal+"详情");
-			}
+			}else 
+			if(self.currPage=="list"){
+				this.m_title.html(attrVal+"管理");
+			}	
 		},
 		//列表查询
 		query : function(){

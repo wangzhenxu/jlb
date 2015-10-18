@@ -142,9 +142,9 @@
 	 		</#if>
         </td>
         
-        <td align="center" class="hui" style="width:300px;"  >
+        <td align="left" class="hui" style="width:300px;"  >
 	       	<div class="btn-group">
-				  <button type="button" class="btn btn-default"  onclick="companyInfo.toDetail('${c.companyId}')">详情</button>
+				  <button type="button" style="margin-left:15px;" class="btn btn-default"  onclick="companyInfo.toDetail('${c.companyId}')">详情</button>
 				  <button type="button" class="btn btn-default"  onclick="companyInfo.toEdit('${c.companyId}')">修改</button>
 				  <#if c.isDelete??>
 				  	<button type="button" class="btn btn-default"  onclick=companyInfo.modifyDeleteStatus('${c.companyId}','${c.isDelete!""}');>
@@ -152,7 +152,12 @@
 				  	 	<#if c.isDelete==PauseStartType.PAUSE.getCode()> 启用 </#if>
 				  </button>	
 				  </#if>
-				  <button type="button" class="btn btn-default"  onclick="companyInfo.toAddJob('${c.companyId}')">发布职位</button>
+				  
+				   <#if c.isDelete??>
+				  	 	<#if c.isDelete==PauseStartType.START.getCode()> 
+				  	 		<button type="button" class="btn btn-default"  onclick="companyInfo.toAddJob('${c.companyId}')">发布职位</button>
+				  	 	 </#if>
+				  </#if>
 	      	 </div>
       	</td>
        </tr>

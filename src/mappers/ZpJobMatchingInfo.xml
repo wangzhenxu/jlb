@@ -58,63 +58,63 @@
 	<!-- 查询 职位匹配信息列表 -->
 	<select id="queryZpJobMatchingInfoList" resultMap="zpJobMatchingInfoMap">
 		SELECT
-						 		zp_job_matching_info.match_id,
+						 		jmi.match_id,
 			        	
-						 		zp_job_matching_info.job_id,
+						 		jmi.job_id,
 			        	
-						 		zp_job_matching_info.jl_id,
+						 		jmi.jl_id,
 			        	
-						 		zp_job_matching_info.sex_id,
+						 		jmi.sex_id,
 			        	
-						 		zp_job_matching_info.sex_status,
+						 		jmi.sex_status,
 			        	
-						 		zp_job_matching_info.job_position_id,
+						 		jmi.job_position_id,
 			        	
-						 		zp_job_matching_info.job_position_id_status,
+						 		jmi.job_position_id_status,
 			        	
-						 		zp_job_matching_info.job_position_level_id,
+						 		jmi.job_position_level_id,
 			        	
-						 		zp_job_matching_info.job_position_level_id_status,
+						 		jmi.job_position_level_id_status,
 			        	
-						 		zp_job_matching_info.marital_id,
+						 		jmi.marital_id,
 			        	
-						 		zp_job_matching_info.marital_id_status,
+						 		jmi.marital_id_status,
 			        	
-						 		zp_job_matching_info.salary_require_id,
+						 		jmi.salary_require_id,
 			        	
-						 		zp_job_matching_info.salary_require_id_status,
+						 		jmi.salary_require_id_status,
 			        	
-						 		zp_job_matching_info.education_id,
+						 		jmi.education_id,
 			        	
-						 		zp_job_matching_info.education_id_status,
+						 		jmi.education_id_status,
 			        	
-						 		zp_job_matching_info.english_level_id,
+						 		jmi.english_level_id,
 			        	
-						 		zp_job_matching_info.english_level_id_status,
+						 		jmi.english_level_id_status,
 			        	
-						 		zp_job_matching_info.top_specialty,
+						 		jmi.top_specialty,
 			        	
-						 		zp_job_matching_info.top_specialty_status,
+						 		jmi.top_specialty_status,
 			        	
-						 		zp_job_matching_info.birthday,
+						 		jmi.birthday,
 			        	
-						 		zp_job_matching_info.birthday_status,
+						 		jmi.birthday_status,
 			        	
-						 		zp_job_matching_info.job_starttime,
+						 		jmi.job_starttime,
 			        	
-						 		zp_job_matching_info.job_starttime_status,
+						 		jmi.job_starttime_status,
 			        	
-						 		zp_job_matching_info.match_keword,
+						 		jmi.match_keword,
 			        	
-						 		zp_job_matching_info.no_match_keyword,
+						 		jmi.no_match_keyword,
 			        	
-						 		zp_job_matching_info.distance,
+						 		jmi.distance,
 			        	
-						 		zp_job_matching_info.distance_status,
+						 		jmi.distance_status,
 			        	
-						 		zp_job_matching_info.in_datetime,
+						 		jmi.in_datetime,
 			        	
-						 		zp_job_matching_info.in_person,
+						 		jmi.in_person,
 						 		cj.`name` as jobName,
 					 			ci.`name` as companyName,
 					 			zp_job_matching_keys.key_id as k_key_id,
@@ -122,107 +122,107 @@
 						 		zp_job_matching_keys.jl_id as k_jl_id,
 						 		zp_job_matching_keys.keyword as k_keyword,
 						 		zp_job_matching_keys.is_match as k_is_match,
-						 		zp_job_matching_info.keyword_percent,
-						 		zp_job_matching_info.keyword_count,
-						 		zp_job_matching_info.keyword_match_count
+						 		jmi.keyword_percent,
+						 		jmi.keyword_count,
+						 		jmi.keyword_match_count
 						 		
 			        	
 		FROM
-			zp_job_matching_info
-			 LEFT JOIN zp_company_job_info cj ON zp_job_matching_info.job_id = cj.job_id
+			zp_job_matching_info jmi
+			 LEFT JOIN zp_company_job_info cj ON jmi.job_id = cj.job_id
   			 LEFT JOIN zp_company_info ci ON cj.company_id =ci.company_id
-  			 LEFT JOIN zp_job_matching_keys ON zp_job_matching_info.jl_id= zp_job_matching_keys.jl_id
-  			 		   AND zp_job_matching_info.job_id = zp_job_matching_keys.job_id
+  			 LEFT JOIN zp_job_matching_keys ON jmi.jl_id= zp_job_matching_keys.jl_id
+  			 		   AND jmi.job_id = zp_job_matching_keys.job_id
 			
 		<where>
 							<if test="qtype != null and qtype=='like'">
 							</if>
 				        	<if test="jobId != null and jobId !='' ">
-				        		AND zp_job_matching_info.job_id=#{jobId} 
+				        		AND jmi.job_id=#{jobId} 
 				        	</if>
 				        	<if test="jlId != null and jlId !='' ">
-				        		AND zp_job_matching_info.jl_id=#{jlId} 
+				        		AND jmi.jl_id=#{jlId} 
 				        	</if>
 				        	<if test="sexId != null and sexId !='' ">
-				        		AND zp_job_matching_info.sex_id=#{sexId} 
+				        		AND jmi.sex_id=#{sexId} 
 				        	</if>
 				        	<if test="sexStatus != null and sexStatus !='' ">
-				        		AND zp_job_matching_info.sex_status=#{sexStatus} 
+				        		AND jmi.sex_status=#{sexStatus} 
 				        	</if>
 				        	<if test="jobPositionId != null and jobPositionId !='' ">
-				        		AND zp_job_matching_info.job_position_id=#{jobPositionId} 
+				        		AND jmi.job_position_id=#{jobPositionId} 
 				        	</if>
 				        	<if test="jobPositionIdStatus != null and jobPositionIdStatus !='' ">
-				        		AND zp_job_matching_info.job_position_id_status=#{jobPositionIdStatus} 
+				        		AND jmi.job_position_id_status=#{jobPositionIdStatus} 
 				        	</if>
 				        	<if test="jobPositionLevelId != null and jobPositionLevelId !='' ">
-				        		AND zp_job_matching_info.job_position_level_id=#{jobPositionLevelId} 
+				        		AND jmi.job_position_level_id=#{jobPositionLevelId} 
 				        	</if>
 				        	<if test="jobPositionLevelIdStatus != null and jobPositionLevelIdStatus !='' ">
-				        		AND zp_job_matching_info.job_position_level_id_status=#{jobPositionLevelIdStatus} 
+				        		AND jmi.job_position_level_id_status=#{jobPositionLevelIdStatus} 
 				        	</if>
 				        	<if test="maritalId != null and maritalId !='' ">
-				        		AND zp_job_matching_info.marital_id=#{maritalId} 
+				        		AND jmi.marital_id=#{maritalId} 
 				        	</if>
 				        	<if test="maritalIdStatus != null and maritalIdStatus !='' ">
-				        		AND zp_job_matching_info.marital_id_status=#{maritalIdStatus} 
+				        		AND jmi.marital_id_status=#{maritalIdStatus} 
 				        	</if>
 				        	<if test="salaryRequireId != null and salaryRequireId !='' ">
-				        		AND zp_job_matching_info.salary_require_id=#{salaryRequireId} 
+				        		AND jmi.salary_require_id=#{salaryRequireId} 
 				        	</if>
 				        	<if test="salaryRequireIdStatus != null and salaryRequireIdStatus !='' ">
-				        		AND zp_job_matching_info.salary_require_id_status=#{salaryRequireIdStatus} 
+				        		AND jmi.salary_require_id_status=#{salaryRequireIdStatus} 
 				        	</if>
 				        	<if test="educationId != null and educationId !='' ">
-				        		AND zp_job_matching_info.education_id=#{educationId} 
+				        		AND jmi.education_id=#{educationId} 
 				        	</if>
 				        	<if test="educationIdStatus != null and educationIdStatus !='' ">
-				        		AND zp_job_matching_info.education_id_status=#{educationIdStatus} 
+				        		AND jmi.education_id_status=#{educationIdStatus} 
 				        	</if>
 				        	<if test="englishLevelId != null and englishLevelId !='' ">
-				        		AND zp_job_matching_info.english_level_id=#{englishLevelId} 
+				        		AND jmi.english_level_id=#{englishLevelId} 
 				        	</if>
 				        	<if test="englishLevelIdStatus != null and englishLevelIdStatus !='' ">
-				        		AND zp_job_matching_info.english_level_id_status=#{englishLevelIdStatus} 
+				        		AND jmi.english_level_id_status=#{englishLevelIdStatus} 
 				        	</if>
 				        	<if test="topSpecialty != null and topSpecialty !='' ">
-				        		AND zp_job_matching_info.top_specialty=#{topSpecialty} 
+				        		AND jmi.top_specialty=#{topSpecialty} 
 				        	</if>
 				        	<if test="topSpecialtyStatus != null and topSpecialtyStatus !='' ">
-				        		AND zp_job_matching_info.top_specialty_status=#{topSpecialtyStatus} 
+				        		AND jmi.top_specialty_status=#{topSpecialtyStatus} 
 				        	</if>
 				        	<if test="birthday != null and birthday !='' ">
-				        		AND zp_job_matching_info.birthday=#{birthday} 
+				        		AND jmi.birthday=#{birthday} 
 				        	</if>
 				        	<if test="birthdayStatus != null and birthdayStatus !='' ">
-				        		AND zp_job_matching_info.birthday_status=#{birthdayStatus} 
+				        		AND jmi.birthday_status=#{birthdayStatus} 
 				        	</if>
 				        	<if test="jobStarttime != null and jobStarttime !='' ">
-				        		AND zp_job_matching_info.job_starttime=#{jobStarttime} 
+				        		AND jmi.job_starttime=#{jobStarttime} 
 				        	</if>
 				        	<if test="jobStarttimeStatus != null and jobStarttimeStatus !='' ">
-				        		AND zp_job_matching_info.job_starttime_status=#{jobStarttimeStatus} 
+				        		AND jmi.job_starttime_status=#{jobStarttimeStatus} 
 				        	</if>
 				        	<if test="matchKeword != null and matchKeword !='' ">
-				        		AND zp_job_matching_info.match_keword=#{matchKeword} 
+				        		AND jmi.match_keword=#{matchKeword} 
 				        	</if>
 				        	<if test="noMatchKeyword != null and noMatchKeyword !='' ">
-				        		AND zp_job_matching_info.no_match_keyword=#{noMatchKeyword} 
+				        		AND jmi.no_match_keyword=#{noMatchKeyword} 
 				        	</if>
 				        	<if test="distance != null and distance !='' ">
-				        		AND zp_job_matching_info.distance=#{distance} 
+				        		AND jmi.distance=#{distance} 
 				        	</if>
 				        	<if test="distanceStatus != null and distanceStatus !='' ">
-				        		AND zp_job_matching_info.distance_status=#{distanceStatus} 
+				        		AND jmi.distance_status=#{distanceStatus} 
 				        	</if>
 				        	<if test="inDatetime != null and inDatetime !='' ">
-				        		AND zp_job_matching_info.in_datetime=#{inDatetime} 
+				        		AND jmi.in_datetime=#{inDatetime} 
 				        	</if>
 				        	<if test="inPerson != null and inPerson !='' ">
-				        		AND zp_job_matching_info.in_person=#{inPerson} 
+				        		AND jmi.in_person=#{inPerson} 
 				        	</if>
 		</where>
-		ORDER BY zp_job_matching_info.match_id desc 
+		ORDER BY jmi.match_id desc 
 		<if test="skipResults!=null">
 				limit #{skipResults} ,#{maxResults}
 		</if>
@@ -234,93 +234,93 @@
 		SELECT
 			count(1)
 		FROM
-			zp_job_matching_info
+			zp_job_matching_info jmi
 		<where>
 							<if test="qtype != null and qtype=='like'">
 							</if>
 				        	<if test="jobId != null and jobId !=''">
-				        		AND zp_job_matching_info.job_id=#{jobId} 
+				        		AND jmi.job_id=#{jobId} 
 				        	</if>
 				        	<if test="jlId != null and jlId !=''">
-				        		AND zp_job_matching_info.jl_id=#{jlId} 
+				        		AND jmi.jl_id=#{jlId} 
 				        	</if>
 				        	<if test="sexId != null and sexId !=''">
-				        		AND zp_job_matching_info.sex_id=#{sexId} 
+				        		AND jmi.sex_id=#{sexId} 
 				        	</if>
 				        	<if test="sexStatus != null and sexStatus !=''">
-				        		AND zp_job_matching_info.sex_status=#{sexStatus} 
+				        		AND jmi.sex_status=#{sexStatus} 
 				        	</if>
 				        	<if test="jobPositionId != null and jobPositionId !=''">
-				        		AND zp_job_matching_info.job_position_id=#{jobPositionId} 
+				        		AND jmi.job_position_id=#{jobPositionId} 
 				        	</if>
 				        	<if test="jobPositionIdStatus != null and jobPositionIdStatus !=''">
-				        		AND zp_job_matching_info.job_position_id_status=#{jobPositionIdStatus} 
+				        		AND jmi.job_position_id_status=#{jobPositionIdStatus} 
 				        	</if>
 				        	<if test="jobPositionLevelId != null and jobPositionLevelId !=''">
-				        		AND zp_job_matching_info.job_position_level_id=#{jobPositionLevelId} 
+				        		AND jmi.job_position_level_id=#{jobPositionLevelId} 
 				        	</if>
 				        	<if test="jobPositionLevelIdStatus != null and jobPositionLevelIdStatus !=''">
-				        		AND zp_job_matching_info.job_position_level_id_status=#{jobPositionLevelIdStatus} 
+				        		AND jmi.job_position_level_id_status=#{jobPositionLevelIdStatus} 
 				        	</if>
 				        	<if test="maritalId != null and maritalId !=''">
-				        		AND zp_job_matching_info.marital_id=#{maritalId} 
+				        		AND jmi.marital_id=#{maritalId} 
 				        	</if>
 				        	<if test="maritalIdStatus != null and maritalIdStatus !=''">
-				        		AND zp_job_matching_info.marital_id_status=#{maritalIdStatus} 
+				        		AND jmi.marital_id_status=#{maritalIdStatus} 
 				        	</if>
 				        	<if test="salaryRequireId != null and salaryRequireId !=''">
-				        		AND zp_job_matching_info.salary_require_id=#{salaryRequireId} 
+				        		AND jmi.salary_require_id=#{salaryRequireId} 
 				        	</if>
 				        	<if test="salaryRequireIdStatus != null and salaryRequireIdStatus !=''">
-				        		AND zp_job_matching_info.salary_require_id_status=#{salaryRequireIdStatus} 
+				        		AND jmi.salary_require_id_status=#{salaryRequireIdStatus} 
 				        	</if>
 				        	<if test="educationId != null and educationId !=''">
-				        		AND zp_job_matching_info.education_id=#{educationId} 
+				        		AND jmi.education_id=#{educationId} 
 				        	</if>
 				        	<if test="educationIdStatus != null and educationIdStatus !=''">
-				        		AND zp_job_matching_info.education_id_status=#{educationIdStatus} 
+				        		AND jmi.education_id_status=#{educationIdStatus} 
 				        	</if>
 				        	<if test="englishLevelId != null and englishLevelId !=''">
-				        		AND zp_job_matching_info.english_level_id=#{englishLevelId} 
+				        		AND jmi.english_level_id=#{englishLevelId} 
 				        	</if>
 				        	<if test="englishLevelIdStatus != null and englishLevelIdStatus !=''">
-				        		AND zp_job_matching_info.english_level_id_status=#{englishLevelIdStatus} 
+				        		AND jmi.english_level_id_status=#{englishLevelIdStatus} 
 				        	</if>
 				        	<if test="topSpecialty != null and topSpecialty !=''">
-				        		AND zp_job_matching_info.top_specialty=#{topSpecialty} 
+				        		AND jmi.top_specialty=#{topSpecialty} 
 				        	</if>
 				        	<if test="topSpecialtyStatus != null and topSpecialtyStatus !=''">
-				        		AND zp_job_matching_info.top_specialty_status=#{topSpecialtyStatus} 
+				        		AND jmi.top_specialty_status=#{topSpecialtyStatus} 
 				        	</if>
 				        	<if test="birthday != null and birthday !=''">
-				        		AND zp_job_matching_info.birthday=#{birthday} 
+				        		AND jmi.birthday=#{birthday} 
 				        	</if>
 				        	<if test="birthdayStatus != null and birthdayStatus !=''">
-				        		AND zp_job_matching_info.birthday_status=#{birthdayStatus} 
+				        		AND jmi.birthday_status=#{birthdayStatus} 
 				        	</if>
 				        	<if test="jobStarttime != null and jobStarttime !=''">
-				        		AND zp_job_matching_info.job_starttime=#{jobStarttime} 
+				        		AND jmi.job_starttime=#{jobStarttime} 
 				        	</if>
 				        	<if test="jobStarttimeStatus != null and jobStarttimeStatus !=''">
-				        		AND zp_job_matching_info.job_starttime_status=#{jobStarttimeStatus} 
+				        		AND jmi.job_starttime_status=#{jobStarttimeStatus} 
 				        	</if>
 				        	<if test="matchKeword != null and matchKeword !=''">
-				        		AND zp_job_matching_info.match_keword=#{matchKeword} 
+				        		AND jmi.match_keword=#{matchKeword} 
 				        	</if>
 				        	<if test="noMatchKeyword != null and noMatchKeyword !=''">
-				        		AND zp_job_matching_info.no_match_keyword=#{noMatchKeyword} 
+				        		AND jmi.no_match_keyword=#{noMatchKeyword} 
 				        	</if>
 				        	<if test="distance != null and distance !=''">
-				        		AND zp_job_matching_info.distance=#{distance} 
+				        		AND jmi.distance=#{distance} 
 				        	</if>
 				        	<if test="distanceStatus != null and distanceStatus !=''">
-				        		AND zp_job_matching_info.distance_status=#{distanceStatus} 
+				        		AND jmi.distance_status=#{distanceStatus} 
 				        	</if>
 				        	<if test="inDatetime != null and inDatetime !=''">
-				        		AND zp_job_matching_info.in_datetime=#{inDatetime} 
+				        		AND jmi.in_datetime=#{inDatetime} 
 				        	</if>
 				        	<if test="inPerson != null and inPerson !=''">
-				        		AND zp_job_matching_info.in_person=#{inPerson} 
+				        		AND jmi.in_person=#{inPerson} 
 				        	</if>
 		</where>
 	</select>
@@ -749,18 +749,18 @@
 						 		zp_job_matching_keys.jl_id as k_jl_id,
 						 		zp_job_matching_keys.keyword as k_keyword,
 						 		zp_job_matching_keys.is_match as k_is_match,
-						 		zp_job_matching_info.keyword_percent,
-						 		zp_job_matching_info.keyword_count,
-						 		zp_job_matching_info.keyword_match_count
+						 		jmi.keyword_percent,
+						 		jmi.keyword_count,
+						 		jmi.keyword_match_count
 			        	
 		FROM
-			zp_job_matching_info
-			 LEFT JOIN zp_company_job_info cj ON zp_job_matching_info.job_id = cj.job_id
+			zp_job_matching_info jmi
+			 LEFT JOIN zp_company_job_info cj ON jmi.job_id = cj.job_id
   			 LEFT JOIN zp_company_info ci ON cj.company_id =ci.company_id
-  			 LEFT JOIN zp_job_matching_keys ON zp_job_matching_info.jl_id= zp_job_matching_keys.jl_id
-  			 		   AND zp_job_matching_info.job_id = zp_job_matching_keys.job_id
+  			 LEFT JOIN zp_job_matching_keys ON jmi.jl_id= zp_job_matching_keys.jl_id
+  			 		   AND jmi.job_id = zp_job_matching_keys.job_id
 		WHERE 
-		zp_job_matching_info.match_id=#{matchId}
+		jmi.match_id=#{matchId}
 		
 	</select>
 

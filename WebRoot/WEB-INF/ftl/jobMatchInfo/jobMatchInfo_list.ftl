@@ -46,8 +46,8 @@
     </div>
     <div class="sort">
      <div class="sort1">职位匹配列表</div>
-     <div class="query">
-      <ul>
+     <div class="query" >
+      <ul style="display:none;">
        <li style="width:22%">
        	<span class="classify">公司名称：</span>
     	<input name="name" type="text"  class="input"  id="name" value=""/>

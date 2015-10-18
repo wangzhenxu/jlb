@@ -24,32 +24,78 @@
     </div>
     <div class="sort">
      <div class="sort1">简历管理</div>
-     <div class="query">
+     <div class="query">	
      <form id="queryForm" >
-      <ul>
-       <li style="width:20%">
-       	<span class="classify">邮箱：</span>
-    	<input name="name" type="text"  class="input"  id="name" value="${qqNumber!}"/>
-       </li>
-       
-       <li style="width:20%">
-       	<span class="classify">姓名：</span>
-    	<input name="q_qqName" type="text"  class="input"  id="q_qqName" value="${qqName!}"/>
-       </li>
-       
-        <li style="width:20%">
-       	<span class="classify">发送状态：</span>
-    	<select id="sendStatus">
-    		<option value="">全部</option>
-    		<option value="0" <#if sendStatus??> <#if sendStatus=="0"> selected </#if> </#if> >未发送</option>
-    		<option value="1" <#if sendStatus??> <#if sendStatus=="1"> selected </#if> </#if>>已成功发送</option>
-    		<option value="2" <#if sendStatus??> <#if sendStatus=="2"> selected </#if> </#if>>发送失败</option>
-    	</select>
-       </li>
-       <li style="width:20%"><a href="javascript:void(0)">
-   		 <button type="button" class="btn btn-default" onclick="companyInfo.query();" >查&nbsp;询</button>
-       </li>
+     <ul>
+			 <li style="width:22%">
+		       	<span class="classify">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;姓名：</span>
+		    	<input name="name" type="text"   class="input"  id="name" value=""/>
+		      </li>
+			        <li style="width:15%">
+				       	<span class="classify">职位：</span>
+				    	<select id="jobPositionId" name="jobPositionId">
+			    		 <option value="" > 请选择 </option>
+			    		    <#list DictionaryUtil.getTypes(DictionaryType.JOB_POSITION.getCode()) as c>
+			    		 		 <option value="${c.dictionaryId}" <#if  jobPositionId?? && jobPositionId!=''> <#if jobPositionId?number==c.dictionaryId> selected </#if> </#if>  > ${c.name!''} </option>
+			 			 	</#list>
+			    		  </select>
+				       </li>
+				       <li style="width:15%">
+				       	<span class="classify">职位级别：</span>
+				    	<select id="jobPositionLevelId" name="jobPositionLevelId">
+			    		 <option value="" > 请选择 </option>
+			    		    <#list DictionaryUtil.getTypes(DictionaryType.JOB_POSITION_LEVE.getCode()) as c>
+			    		 		 <option value="${c.dictionaryId}" <#if  jobPositionLevelId?? && jobPositionLevelId!='' > <#if jobPositionLevelId?number==c.dictionaryId> selected </#if> </#if>  > ${c.name!''} </option>
+			 			 	</#list>
+			    		  </select>
+				       </li>
+				       <li style="width:15%">
+			       	<span class="classify">婚否：</span>
+			    	<select id="maritalId" name="maritalId">
+			    		 <option value="" > 请选择 </option>
+			    		    <#list DictionaryUtil.getTypes(DictionaryType.IS_MARRY.getCode()) as c>
+			    		 		 <option value="${c.dictionaryId}" <#if  maritalId?? && maritalId!=''> <#if maritalId?number==c.dictionaryId> selected </#if> </#if>  > ${c.name!''} </option>
+			 			 	</#list>
+			    	</select>
+			       </li>
+			        <li style="width:15%">
+			       	<span class="classify">性别：</span>
+			    	<select id="sex" name="sex">
+			    		 <option value="" > 请选择 </option>
+			    		    <#list DictionaryUtil.getTypes(DictionaryType.SEX.getCode()) as c>
+			    		 		 <option value="${c.dictionaryId}" <#if  sex?? && sex!=''> <#if sex?number==c.dictionaryId> selected </#if> </#if>  > ${c.name!''} </option>
+			 			 	</#list>
+			    	</select>
+			       </li>
+				      <li style="width:5%"><a href="javascript:void(0)">
+  				 		<button type="button" class="btn btn-default" onclick="jlInfo.query();">查&nbsp;询</button>
+       				</a></li>
       </ul>
+      
+      	<ul>
+      	 			
+			       <li style="width:22%">
+			       	<span class="classify">薪水要求：</span>
+			    	<select id="salaryRequireId" name="salaryRequireId" style="width:160px;">
+			    		 <option value="" > 请选择 </option>
+			    		    <#list DictionaryUtil.getTypes(DictionaryType.SALARY_REQUIRE.getCode()) as c>
+			    		 		 <option value="${c.dictionaryId}" <#if  salaryRequireId?? && salaryRequireId!=""> <#if salaryRequireId?number==c.dictionaryId> selected </#if> </#if>  > ${c.name!''} </option>
+			 			 	</#list>
+			    	</select>
+			       </li>
+      	
+			       
+			       <li style="width:15%">
+			       	<span class="classify">学历：</span>
+			    	<select id="educationId" name="educationId">
+		    		 <option value="" > 请选择 </option>
+		    		    <#list DictionaryUtil.getTypes(DictionaryType.EDUCATION.getCode()) as c>
+		    		 		 <option value="${c.dictionaryId}" <#if  educationId?? && educationId!=""> <#if educationId?number==c.dictionaryId> selected </#if> </#if>  > ${c.name!''} </option>
+		 			 	</#list>
+		    		  </select>
+			       </li>
+				      
+      	</ul>
       </form>
      </div>
     </div>
@@ -139,7 +185,7 @@
       </table>
      </div>
 	 <#-- 分页栏 -->
-     <@pageBar   pager=pager url="/ZpJlInfo/list.action?jsonParam=${jsonParam!''}" join="&"> </@pageBar> 
+     <@pageBar   pager=pager url="/zpJlInfo/list.action?jsonParam=${jsonParam!''}" join="&"> </@pageBar> 
     </div>
    </div>
   <!-- 弹窗 结束 -->

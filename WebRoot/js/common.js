@@ -55,9 +55,29 @@ var common = {
 		   } else
 		  if(location.href.indexOf("/toView.action")!=-1){
 			  page="detail"; 
+		  }else
+		  if(location.href.indexOf("/list.action")!=-1){
+			  page="list"; 
 		  }
 		  return page;
-	   }
+	   },
+	   //初始化页面标题
+		initPageTitle : function (){
+			var self = this;
+			var attrVal = self._title_val;
+			if(self.currPage=="edit"){
+				this.m_title.html("修改"+attrVal+"信息");
+			} else 
+			if(self.currPage=="add"){
+				this.m_title.html("添加"+attrVal);
+			}else 
+			if(self.currPage=="detail"){
+				this.m_title.html(attrVal+"详情");
+			}else 
+			if(self.currPage=="list"){
+				this.m_title.html(attrVal+"管理");
+			}	
+		}
 }
 
 

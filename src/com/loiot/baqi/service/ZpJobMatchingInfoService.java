@@ -21,6 +21,7 @@ import com.loiot.baqi.dao.ZpJobMatchingKeysDao;
 import com.loiot.baqi.service.ZpJobMatchingInfoService;
 import com.loiot.baqi.status.JobMatchType;
 import com.loiot.baqi.status.MatchKeywordType;
+import com.loiot.baqi.status.PauseStartType;
 import com.loiot.baqi.utils.RegexpUtils;
 import com.loiot.baqi.pojo.ZpCompanyJobDemandKeys;
 import com.loiot.baqi.pojo.ZpCompanyJobInfo;
@@ -189,6 +190,9 @@ public class ZpJobMatchingInfoService{
     		List<Long> ids = getIds(jl.getZpJlJobLevels());
     		pMap.put("ids",ids);
     	}
+    	pMap.put("isDelete",PauseStartType.START.getCode());
+    	
+    	
     	List<ZpCompanyJobInfo> JobList = this.zpCompanyJobInfoDao.queryZpCompanyJobInfoList(pMap);
     	 matchJob(jl, JobList);
     }

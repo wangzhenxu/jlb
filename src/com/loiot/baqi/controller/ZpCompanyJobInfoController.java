@@ -24,6 +24,7 @@ import com.loiot.baqi.constant.DictionaryUtil;
 import com.loiot.baqi.controller.response.AjaxResponse;
 import com.loiot.baqi.controller.response.Pager;
 import com.loiot.baqi.service.*;
+import com.loiot.baqi.status.PauseStartType;
 import com.loiot.commons.utils.StringUtil;
 import com.timeloit.pojo.Account;
 
@@ -71,6 +72,7 @@ public class ZpCompanyJobInfoController {
     	pMap.put("workTermEnd", p.getWorkTermEnd());
     	pMap.put("zpUrgencyStatusId", p.getZpUrgencyStatusId());
     	pMap.put("areaId", p.getAreaId());
+
     	
     	
     	//String expectedYearMoney=request.getParameter("expectedYearMoney");

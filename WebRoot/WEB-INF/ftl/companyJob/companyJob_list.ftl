@@ -40,6 +40,7 @@
     <div class="sort">
      <div class="sort1">职位管理</div>
      <div class="query">
+      <form id="queryForm" >
       <ul>
        <li style="width:22%">
        	<span class="classify">职位名称：</span>
@@ -65,21 +66,21 @@
        </li>
        <li style="width:20%">
        		<span class="classify">工作年限：</span>
-    	    <input name="workTermStart" type="text" style="width: 50px;"  class="input"  id="workTermStart" value="${workTermStart!''}"/>
+    	    <input name="workTermStart" type="text" style="width: 50px;" class="input validate[custom[number]]"   id="workTermStart" value="${workTermStart!''}"/>
     	    	至
-    	    <input name="workTermEnd" type="text" style="width: 50px;"  class="input"  id="workTermEnd" value="${workTermEnd!''}"/>
+    	    <input name="workTermEnd" type="text" style="width: 50px;"  class="input validate[custom[number]]"   id="workTermEnd" value="${workTermEnd!''}"/>
     		年
        </li>
         <li style="width:20%">
        		<span class="classify">薪水要求：</span>
-    	    <input name="expectedYearMoneyStart" id="expectedYearMoneyStart" type="text" style="width: 50px;"  class="input"   value="${JLBUtils.dealYearMoney(expectedYearMoneyStart)}"/>
+    	    <input name="expectedYearMoneyStart" id="expectedYearMoneyStart" type="text" style="width: 50px;"  class="input validate[custom[number]]"    value="${JLBUtils.dealYearMoney(expectedYearMoneyStart)}"/>
     	    	至
-    	    <input name="expectedYearMoneyEnd" id="expectedYearMoneyEnd" type="text" style="width: 50px;"  class="input" value="${JLBUtils.dealYearMoney(expectedYearMoneyEnd)}"/>
+    	    <input name="expectedYearMoneyEnd" id="expectedYearMoneyEnd" type="text" style="width: 50px;"  class="input validate[custom[number]]"  value="${JLBUtils.dealYearMoney(expectedYearMoneyEnd)}"/>
     		万
        </li>
       
        <li style="width:5%"><a href="javascript:void(0)">
-  		 <button type="button" class="btn btn-default" onclick="companyJob.query();">查&nbsp;询</button>
+  		 <button type="button" class="btn btn-default" id="queryBtn" >查&nbsp;询</button>
        </li>
       </ul>
       <ul>
@@ -106,6 +107,7 @@
     		
       	</li>
       </ul>
+      </form>
      </div>
     </div>
     <div class="form">
@@ -218,4 +220,6 @@
 	
     <script src="/js/companyJob.js"></script>
 </html>
-
+<script>
+	companyJob.initPage();
+</script>

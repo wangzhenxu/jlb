@@ -51,61 +51,61 @@
 	<!-- 查询 公司职位信息列表 -->
 	<select id="queryZpCompanyJobInfoList" resultMap="zpCompanyJobInfoMap">
 		SELECT
-						 		zp_company_job_info.job_id,
+						 		cji.job_id,
 			        	
-						 		zp_company_job_info.company_id,
+						 		cji.company_id,
 			        	
-						 		zp_company_job_info.typeId,
+						 		cji.typeId,
 			        	
-						 		zp_company_job_info.name,
+						 		cji.name,
 			        	
-						 		zp_company_job_info.report_object,
+						 		cji.report_object,
 			        	
-						 		zp_company_job_info.jobPositionLevelId,
+						 		cji.jobPositionLevelId,
 			        	
-						 		zp_company_job_info.zp_person_count,
+						 		cji.zp_person_count,
 			        	
-						 		zp_company_job_info.expected_year_money_start,
+						 		cji.expected_year_money_start,
 			        	
-						 		zp_company_job_info.expected_year_money_end,
+						 		cji.expected_year_money_end,
 			        	
-						 		zp_company_job_info.work_term_start,
+						 		cji.work_term_start,
 			        	
-						 		zp_company_job_info.work_term_end,
+						 		cji.work_term_end,
 			        	
-						 		zp_company_job_info.down_team_person_count,
+						 		cji.down_team_person_count,
 			        	
-						 		zp_company_job_info.zp_require,
+						 		cji.zp_require,
 			        	
-						 		zp_company_job_info.sex,
+						 		cji.sex,
 			        	
-						 		zp_company_job_info.educationId,
+						 		cji.educationId,
 			        	
-						 		zp_company_job_info.englishLevelId,
+						 		cji.englishLevelId,
 			        	
-						 		zp_company_job_info.age_start,
+						 		cji.age_start,
 			        	
-						 		zp_company_job_info.age_end,
+						 		cji.age_end,
 			        	
-						 		zp_company_job_info.marital_id,
+						 		cji.marital_id,
 			        	
-						 		zp_company_job_info.topSpecialty,
+						 		cji.topSpecialty,
 			        	
-						 		zp_company_job_info.job_tempt_text,
+						 		cji.job_tempt_text,
 			        	
-						 		zp_company_job_info.job_tempt_item,
+						 		cji.job_tempt_item,
 			        	
-						 		zp_company_job_info.desc,
+						 		cji.desc,
 			        	
-						 		zp_company_job_info.more_desc,
+						 		cji.more_desc,
 			        	
-						 		zp_company_job_info.in_person,
+						 		cji.in_person,
 			        	
-						 		zp_company_job_info.in_datetime,
+						 		cji.in_datetime,
 			        	
-						 		zp_company_job_info.last_update_time,
+						 		cji.last_update_time,
 			        	
-						 		zp_company_job_info.is_delete,
+						 		cji.is_delete,
 						 		
 						 		zp_company_job_demand_keys.key_id as k_key_id ,
 			        	
@@ -115,116 +115,118 @@
 			        	
 						 		zp_company_job_demand_keys.proportion as  k_proportion,
 						 		
-						 		zp_company_job_info.zp_urgency_status_id,
+						 		cji.zp_urgency_status_id,
 			        	
-						 		zp_company_job_info.area_id
+						 		cji.area_id
 			        	
 		FROM
-			zp_company_job_info LEFT JOIN zp_company_job_demand_keys ON zp_company_job_info.job_id= zp_company_job_demand_keys.job_id
+			zp_company_job_info cji LEFT JOIN zp_company_job_demand_keys ON cji.job_id= zp_company_job_demand_keys.job_id
+		    INNER JOIN  zp_company_info ci ON cji.company_id =  ci.company_id 
 		<where>
+							1=1  AND ci.is_delete=1
+		
 							<if test="qtype != null and qtype=='like'">
 									<if test="name != null and name !='' ">
-						        		AND zp_company_job_info.name like '%${name}' 
+						        		AND cji.name like '%${name}' 
 						        	</if>
 						        	 
 								     <if test="expectedYearMoneyStart != null and expectedYearMoneyStart !='' ">
-						        		<![CDATA[ AND zp_company_job_info.expected_year_money_start>=#{expectedYearMoneyStart}]]> 
+						        		<![CDATA[ AND cji.expected_year_money_start>=#{expectedYearMoneyStart}]]> 
 						        	</if>
 						        	<if test="expectedYearMoneyEnd != null and expectedYearMoneyEnd !='' ">
-						        		<![CDATA[ AND zp_company_job_info.expected_year_money_end<=#{expectedYearMoneyEnd} ]]> 
+						        		<![CDATA[ AND cji.expected_year_money_end<=#{expectedYearMoneyEnd} ]]> 
 						        	</if>
 						        	<if test="workTermStart != null and workTermStart !='' ">
-						        		<![CDATA[ AND zp_company_job_info.work_term_start>=#{workTermStart}  ]]>
+						        		<![CDATA[ AND cji.work_term_start>=#{workTermStart}  ]]>
 						        	</if>
 						        	<if test="workTermEnd != null and workTermEnd !='' ">
-						        		<![CDATA[ AND zp_company_job_info.work_term_end<=#{workTermEnd}  ]]>
+						        		<![CDATA[ AND cji.work_term_end<=#{workTermEnd}  ]]>
 						        	</if>
 							</if>
 				        	<if test="companyId != null and companyId !='' ">
-				        		AND zp_company_job_info.company_id=#{companyId} 
+				        		AND cji.company_id=#{companyId} 
 				        	</if>
 				        	<if test="typeId != null and typeId !='' ">
-				        		AND zp_company_job_info.typeId=#{typeId} 
+				        		AND cji.typeId=#{typeId} 
 				        	</if>
 				        	<if test="qtype == null and name != null and name !='' ">
-				        		AND zp_company_job_info.name=#{name} 
+				        		AND cji.name=#{name} 
 				        	</if>
 				        	<if test="reportObject != null and reportObject !='' ">
-				        		AND zp_company_job_info.report_object=#{reportObject} 
+				        		AND cji.report_object=#{reportObject} 
 				        	</if>
 				        	<if test="jobPositionLevelId != null and jobPositionLevelId !='' ">
-				        		AND zp_company_job_info.jobPositionLevelId=#{jobPositionLevelId} 
+				        		AND cji.jobPositionLevelId=#{jobPositionLevelId} 
 				        	</if>
 				        	<if test="zpPersonCount != null and zpPersonCount !='' ">
-				        		AND zp_company_job_info.zp_person_count=#{zpPersonCount} 
+				        		AND cji.zp_person_count=#{zpPersonCount} 
 				        	</if>
 				        	<if test="downTeamPersonCount != null and downTeamPersonCount !='' ">
-				        		AND zp_company_job_info.down_team_person_count=#{downTeamPersonCount} 
+				        		AND cji.down_team_person_count=#{downTeamPersonCount} 
 				        	</if>
 				        	<if test="zpRequire != null and zpRequire !='' ">
-				        		AND zp_company_job_info.zp_require=#{zpRequire} 
+				        		AND cji.zp_require=#{zpRequire} 
 				        	</if>
 				        	<if test="sex != null and sex !='' ">
-				        		AND zp_company_job_info.sex=#{sex} 
+				        		AND cji.sex=#{sex} 
 				        	</if>
 				        	<if test="educationId != null and educationId !='' ">
-				        		AND zp_company_job_info.educationId=#{educationId} 
+				        		AND cji.educationId=#{educationId} 
 				        	</if>
 				        	<if test="englishLevelId != null and englishLevelId !='' ">
-				        		AND zp_company_job_info.englishLevelId=#{englishLevelId} 
+				        		AND cji.englishLevelId=#{englishLevelId} 
 				        	</if>
 				        	<if test="ageStart != null and ageStart !='' ">
-				        		AND zp_company_job_info.age_start=#{ageStart} 
+				        		AND cji.age_start=#{ageStart} 
 				        	</if>
 				        	<if test="ageEnd != null and ageEnd !='' ">
-				        		AND zp_company_job_info.age_end=#{ageEnd} 
+				        		AND cji.age_end=#{ageEnd} 
 				        	</if>
 				        	<if test="maritalId != null and maritalId !='' ">
-				        		AND zp_company_job_info.marital_id=#{maritalId} 
+				        		AND cji.marital_id=#{maritalId} 
 				        	</if>
 				        	<if test="topSpecialty != null and topSpecialty !='' ">
-				        		AND zp_company_job_info.topSpecialty=#{topSpecialty} 
+				        		AND cji.topSpecialty=#{topSpecialty} 
 				        	</if>
 				        	<if test="jobTemptText != null and jobTemptText !='' ">
-				        		AND zp_company_job_info.job_tempt_text=#{jobTemptText} 
+				        		AND cji.job_tempt_text=#{jobTemptText} 
 				        	</if>
 				        	<if test="jobTemptItem != null and jobTemptItem !='' ">
-				        		AND zp_company_job_info.job_tempt_item=#{jobTemptItem} 
+				        		AND cji.job_tempt_item=#{jobTemptItem} 
 				        	</if>
 				        	<if test="desc != null and desc !='' ">
-				        		AND zp_company_job_info.desc=#{desc} 
+				        		AND cji.desc=#{desc} 
 				        	</if>
 				        	<if test="moreDesc != null and moreDesc !='' ">
-				        		AND zp_company_job_info.more_desc=#{moreDesc} 
+				        		AND cji.more_desc=#{moreDesc} 
 				        	</if>
 				        	<if test="inPerson != null and inPerson !='' ">
-				        		AND zp_company_job_info.in_person=#{inPerson} 
+				        		AND cji.in_person=#{inPerson} 
 				        	</if>
 				        	<if test="inDatetime != null and inDatetime !='' ">
-				        		AND zp_company_job_info.in_datetime=#{inDatetime} 
+				        		AND cji.in_datetime=#{inDatetime} 
 				        	</if>
 				        	<if test="lastUpdateTime != null and lastUpdateTime !='' ">
-				        		AND zp_company_job_info.last_update_time=#{lastUpdateTime} 
+				        		AND cji.last_update_time=#{lastUpdateTime} 
 				        	</if>
 				        	<if test="isDelete != null and isDelete !='' ">
-				        		AND zp_company_job_info.is_delete=#{isDelete} 
+				        		AND cji.is_delete=#{isDelete} 
 				        	</if>
 				        	
 				        	<if test="zpUrgencyStatusId != null and zpUrgencyStatusId !=''">
-				        		AND zp_company_job_info.zp_urgency_status_id=#{zpUrgencyStatusId} 
+				        		AND cji.zp_urgency_status_id=#{zpUrgencyStatusId} 
 				        	</if>
 				        	<if test="areaId != null and areaId !=''">
-				        		AND zp_company_job_info.area_id=#{areaId} 
+				        		AND cji.area_id=#{areaId} 
 				        	</if>
-					
 					<if test="ids !=null">
-				         AND zp_company_job_info.job_id IN
+				         AND cji.job_id IN
 						    <foreach  item="item" collection="ids"  index="index" open="(" separator="," close=")"> 
 									 ${item} 
 							</foreach>
 			        </if>
 		</where>
-		ORDER BY zp_company_job_info.job_id desc 
+		ORDER BY cji.job_id desc 
 		<if test="skipResults!=null">
 				limit #{skipResults} ,#{maxResults}
 		</if>
@@ -236,104 +238,106 @@
 		SELECT
 			count(1)
 		FROM
-			zp_company_job_info
+			zp_company_job_info cji
+		   INNER JOIN  zp_company_info ci ON cji.company_id =  ci.company_id 
 		<where>
+							1=1  AND ci.is_delete=1
 							<if test="qtype != null and qtype=='like'">
 									<if test="name != null and name !='' ">
-						        		AND zp_company_job_info.name like '%${name}' 
+						        		AND cji.name like '%${name}' 
 						        	</if>
 						        	 
 								     <if test="expectedYearMoneyStart != null and expectedYearMoneyStart !='' ">
-						        		<![CDATA[ AND zp_company_job_info.expected_year_money_start>=#{expectedYearMoneyStart}]]> 
+						        		<![CDATA[ AND cji.expected_year_money_start>=#{expectedYearMoneyStart}]]> 
 						        	</if>
 						        	<if test="expectedYearMoneyEnd != null and expectedYearMoneyEnd !='' ">
-						        		<![CDATA[ AND zp_company_job_info.expected_year_money_end<=#{expectedYearMoneyEnd} ]]> 
+						        		<![CDATA[ AND cji.expected_year_money_end<=#{expectedYearMoneyEnd} ]]> 
 						        	</if>
 						        	<if test="workTermStart != null and workTermStart !='' ">
-						        		<![CDATA[ AND zp_company_job_info.work_term_start>=#{workTermStart}  ]]>
+						        		<![CDATA[ AND cji.work_term_start>=#{workTermStart}  ]]>
 						        	</if>
 						        	<if test="workTermEnd != null and workTermEnd !='' ">
-						        		<![CDATA[ AND zp_company_job_info.work_term_end<=#{workTermEnd}  ]]>
+						        		<![CDATA[ AND cji.work_term_end<=#{workTermEnd}  ]]>
 						        	</if>
 							</if>
 				        	<if test="companyId != null and companyId !=''">
-				        		AND zp_company_job_info.company_id=#{companyId} 
+				        		AND cji.company_id=#{companyId} 
 				        	</if>
 				        	<if test="typeId != null and typeId !=''">
-				        		AND zp_company_job_info.typeId=#{typeId} 
+				        		AND cji.typeId=#{typeId} 
 				        	</if>
 				        	<if test="qtype == null and name != null and name !=''">
-				        		AND zp_company_job_info.name=#{name} 
+				        		AND cji.name=#{name} 
 				        	</if>
 				        	<if test="reportObject != null and reportObject !=''">
-				        		AND zp_company_job_info.report_object=#{reportObject} 
+				        		AND cji.report_object=#{reportObject} 
 				        	</if>
 				        	<if test="jobPositionLevelId != null and jobPositionLevelId !=''">
-				        		AND zp_company_job_info.jobPositionLevelId=#{jobPositionLevelId} 
+				        		AND cji.jobPositionLevelId=#{jobPositionLevelId} 
 				        	</if>
 				        	<if test="zpPersonCount != null and zpPersonCount !=''">
-				        		AND zp_company_job_info.zp_person_count=#{zpPersonCount} 
+				        		AND cji.zp_person_count=#{zpPersonCount} 
 				        	</if>
 				      
 				        	<if test="downTeamPersonCount != null and downTeamPersonCount !=''">
-				        		AND zp_company_job_info.down_team_person_count=#{downTeamPersonCount} 
+				        		AND cji.down_team_person_count=#{downTeamPersonCount} 
 				        	</if>
 				        	<if test="zpRequire != null and zpRequire !=''">
-				        		AND zp_company_job_info.zp_require=#{zpRequire} 
+				        		AND cji.zp_require=#{zpRequire} 
 				        	</if>
 				        	<if test="sex != null and sex !=''">
-				        		AND zp_company_job_info.sex=#{sex} 
+				        		AND cji.sex=#{sex} 
 				        	</if>
 				        	<if test="educationId != null and educationId !=''">
-				        		AND zp_company_job_info.educationId=#{educationId} 
+				        		AND cji.educationId=#{educationId} 
 				        	</if>
 				        	<if test="englishLevelId != null and englishLevelId !=''">
-				        		AND zp_company_job_info.englishLevelId=#{englishLevelId} 
+				        		AND cji.englishLevelId=#{englishLevelId} 
 				        	</if>
 				        	<if test="ageStart != null and ageStart !=''">
-				        		AND zp_company_job_info.age_start=#{ageStart} 
+				        		AND cji.age_start=#{ageStart} 
 				        	</if>
 				        	<if test="ageEnd != null and ageEnd !=''">
-				        		AND zp_company_job_info.age_end=#{ageEnd} 
+				        		AND cji.age_end=#{ageEnd} 
 				        	</if>
 				        	<if test="maritalId != null and maritalId !=''">
-				        		AND zp_company_job_info.marital_id=#{maritalId} 
+				        		AND cji.marital_id=#{maritalId} 
 				        	</if>
 				        	<if test="topSpecialty != null and topSpecialty !=''">
-				        		AND zp_company_job_info.topSpecialty=#{topSpecialty} 
+				        		AND cji.topSpecialty=#{topSpecialty} 
 				        	</if>
 				        	<if test="jobTemptText != null and jobTemptText !=''">
-				        		AND zp_company_job_info.job_tempt_text=#{jobTemptText} 
+				        		AND cji.job_tempt_text=#{jobTemptText} 
 				        	</if>
 				        	<if test="jobTemptItem != null and jobTemptItem !=''">
-				        		AND zp_company_job_info.job_tempt_item=#{jobTemptItem} 
+				        		AND cji.job_tempt_item=#{jobTemptItem} 
 				        	</if>
 				        	<if test="desc != null and desc !=''">
-				        		AND zp_company_job_info.desc=#{desc} 
+				        		AND cji.desc=#{desc} 
 				        	</if>
 				        	<if test="moreDesc != null and moreDesc !=''">
-				        		AND zp_company_job_info.more_desc=#{moreDesc} 
+				        		AND cji.more_desc=#{moreDesc} 
 				        	</if>
 				        	<if test="inPerson != null and inPerson !=''">
-				        		AND zp_company_job_info.in_person=#{inPerson} 
+				        		AND cji.in_person=#{inPerson} 
 				        	</if>
 				        	<if test="inDatetime != null and inDatetime !=''">
-				        		AND zp_company_job_info.in_datetime=#{inDatetime} 
+				        		AND cji.in_datetime=#{inDatetime} 
 				        	</if>
 				        	<if test="lastUpdateTime != null and lastUpdateTime !=''">
-				        		AND zp_company_job_info.last_update_time=#{lastUpdateTime} 
+				        		AND cji.last_update_time=#{lastUpdateTime} 
 				        	</if>
 				        	<if test="isDelete != null and isDelete !=''">
-				        		AND zp_company_job_info.is_delete=#{isDelete} 
+				        		AND cji.is_delete=#{isDelete} 
 				        	</if>
 				        	<if test="zpUrgencyStatusId != null and zpUrgencyStatusId !=''">
-				        		AND zp_company_job_info.zp_urgency_status_id=#{zpUrgencyStatusId} 
+				        		AND cji.zp_urgency_status_id=#{zpUrgencyStatusId} 
 				        	</if>
 				        	<if test="areaId != null and areaId !=''">
-				        		AND zp_company_job_info.area_id=#{areaId} 
+				        		AND cji.area_id=#{areaId} 
 				        	</if>
 				<if test="ids !=null">
-				         AND zp_company_job_info.job_id IN
+				         AND cji.job_id IN
 						    <foreach  item="item" collection="ids"  index="index" open="(" separator="," close=")"> 
 									 ${item} 
 							</foreach>
@@ -721,34 +725,34 @@
 	<!-- 获得  公司职位信息 -->
 	<select id="getZpCompanyJobInfoById" resultMap="zpCompanyJobInfoMap">
 		SELECT
-						 		zp_company_job_info.job_id,
-						 		zp_company_job_info.company_id,
-						 		zp_company_job_info.typeId,
-						 		zp_company_job_info.name,
-						 		zp_company_job_info.report_object,
-						 		zp_company_job_info.jobPositionLevelId,
-						 		zp_company_job_info.zp_person_count,
-						 		zp_company_job_info.expected_year_money_start,
-						 		zp_company_job_info.expected_year_money_end,
-						 		zp_company_job_info.work_term_start,
-						 		zp_company_job_info.work_term_end,
-						 		zp_company_job_info.down_team_person_count,
-						 		zp_company_job_info.zp_require,
-						 		zp_company_job_info.sex,
-						 		zp_company_job_info.educationId,
-						 		zp_company_job_info.englishLevelId,
-						 		zp_company_job_info.age_start,
-						 		zp_company_job_info.age_end,
-						 		zp_company_job_info.marital_id,
-						 		zp_company_job_info.topSpecialty,
-						 		zp_company_job_info.job_tempt_text,
-						 		zp_company_job_info.job_tempt_item,
-						 		zp_company_job_info.desc,
-						 		zp_company_job_info.more_desc,
-						 		zp_company_job_info.in_person,
-						 		zp_company_job_info.in_datetime,
-						 		zp_company_job_info.last_update_time,
-						 		zp_company_job_info.is_delete,
+						 		cji.job_id,
+						 		cji.company_id,
+						 		cji.typeId,
+						 		cji.name,
+						 		cji.report_object,
+						 		cji.jobPositionLevelId,
+						 		cji.zp_person_count,
+						 		cji.expected_year_money_start,
+						 		cji.expected_year_money_end,
+						 		cji.work_term_start,
+						 		cji.work_term_end,
+						 		cji.down_team_person_count,
+						 		cji.zp_require,
+						 		cji.sex,
+						 		cji.educationId,
+						 		cji.englishLevelId,
+						 		cji.age_start,
+						 		cji.age_end,
+						 		cji.marital_id,
+						 		cji.topSpecialty,
+						 		cji.job_tempt_text,
+						 		cji.job_tempt_item,
+						 		cji.desc,
+						 		cji.more_desc,
+						 		cji.in_person,
+						 		cji.in_datetime,
+						 		cji.last_update_time,
+						 		cji.is_delete,
 						 		
 								zp_company_job_demand_keys.key_id as k_key_id ,
 			        	
@@ -758,18 +762,18 @@
 			        	
 						 		zp_company_job_demand_keys.proportion as  k_proportion,
 						 		
-						 		zp_company_job_info.zp_urgency_status_id,
+						 		cji.zp_urgency_status_id,
 			        	
-						 		zp_company_job_info.area_id,
+						 		cji.area_id,
 						 		
 						 		zp_company_info.company_id AS companyAreaId
 			        	
 		FROM
-			zp_company_job_info LEFT JOIN zp_company_job_demand_keys ON zp_company_job_info.job_id= zp_company_job_demand_keys.job_id
-			LEFT JOIN zp_company_info ON zp_company_job_info.company_id =zp_company_info.company_id
+			zp_company_job_info cji LEFT JOIN zp_company_job_demand_keys ON cji.job_id= zp_company_job_demand_keys.job_id
+			LEFT JOIN zp_company_info ON cji.company_id =zp_company_info.company_id
 		
 		WHERE 
-		zp_company_job_info.job_id=#{jobId}
+		cji.job_id=#{jobId}
 		
 	</select>
 

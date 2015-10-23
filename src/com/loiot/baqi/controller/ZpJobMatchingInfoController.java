@@ -25,6 +25,8 @@ import com.loiot.baqi.constant.Const;
 import com.loiot.baqi.controller.response.AjaxResponse;
 import com.loiot.baqi.controller.response.Pager;
 import com.loiot.baqi.service.*;
+import com.loiot.baqi.status.AccountType;
+import com.loiot.baqi.utils.UserSessionUtils;
 import com.timeloit.pojo.Account;
 
 /**
@@ -113,6 +115,10 @@ public class ZpJobMatchingInfoController {
     	HashMap<String,Object> pMap = new HashMap<String,Object>();
     	pMap.put("qtype", "like");
     	pMap.put("jobId", p.getJobId());
+    	//用户数据过滤
+    	if(UserSessionUtils.getAccountType()==AccountType.HR.getCode() || UserSessionUtils.getAccountType()==AccountType.JOB_HUNTER.getCode() || UserSessionUtils.getAccountType()==AccountType.TECHICAL_AUDIT.getCode()  ){
+    		pMap.put("inPerson", UserSessionUtils.getAccount().getAccountId());
+    	}
         Pager<ZpJobMatchingInfo> pager = zpJobMatchingInfoService.queryZpJobMatchingInfoListPage(pMap, pageIndex);
         model.put("pager", pager);
         //model.put("name", name);
@@ -149,7 +155,7 @@ public class ZpJobMatchingInfoController {
 		        return NAME_EXIST;
 			}*/
         	p.setInDatetime(new Date());
-    		p.setInPerson(account.getUsername());
+    		p.setInPerson(account.getAccountId());
     		zpJobMatchingInfoService.addZpJobMatchingInfo(p);
     		// 添加成功
     		return AjaxResponse.OK;

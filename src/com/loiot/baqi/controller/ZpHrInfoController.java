@@ -119,7 +119,7 @@ public class ZpHrInfoController {
 			}
         	// 获得账号
             Account account = (Account) session.getAttribute(Const.SESSION_USER_KEY);
-            p.setInPerson(account.getUsername());
+            p.setInPerson(account.getAccountId());
             p.setInTime(new Date());
         	zpHrInfoService.addZpHrInfo(p);
 		} catch (Exception e) {

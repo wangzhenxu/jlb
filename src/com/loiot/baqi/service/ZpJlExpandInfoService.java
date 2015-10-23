@@ -1,5 +1,6 @@
 package com.loiot.baqi.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -14,12 +15,14 @@ import com.loiot.baqi.controller.response.Pager;
 import com.loiot.baqi.dao.ZpJlExpandInfoDao;
 import com.loiot.baqi.service.ZpJlExpandInfoService;
 import com.loiot.baqi.pojo.ZpJlExpandInfo;
+import com.loiot.baqi.pojo.ZpJlJobLevels;
+
 
 /**
  * 简历扩展信息 逻辑类。
  * 
  * @author  wangzx 
- * @creation 2015-10-02
+ * @creation 2015-10-23
  */
 @Service("zpJlExpandInfoService")
 @Transactional
@@ -58,8 +61,8 @@ public class ZpJlExpandInfoService{
      * 
      * @param p 参数对象
      */
-    public void addZpJlExpandInfo(ZpJlExpandInfo p)throws Exception {
-        zpJlExpandInfoDao.addZpJlExpandInfo(p);
+    public ZpJlExpandInfo addZpJlExpandInfo(ZpJlExpandInfo p)throws Exception {
+       return  zpJlExpandInfoDao.addZpJlExpandInfo(p);
     }
     
     /**
@@ -103,6 +106,27 @@ public class ZpJlExpandInfoService{
     /**
      * 获得  简历扩展信息
      * 
+     * @param id 简历扩展信息Id
+     * 
+     * @return 返回与ID匹配的简历扩展信息
+     */
+    public ZpJlExpandInfo getZpJlExpandInfoById(java.lang.Long id,Long accountId)throws Exception {
+        return  zpJlExpandInfoDao.getZpJlExpandInfoById(id,accountId);
+    }
+    
+    
+    /**
+     * 获得  简历扩展信息
+     * 
+     * @param id 简历扩展信息Id
+     * 
+     */
+    public ZpJlExpandInfo getZpJlExpandInfo(HashMap<String,Object> pMap)throws Exception {
+    	return (ZpJlExpandInfo) zpJlExpandInfoDao.getZpJlExpandInfo(pMap);
+    }
+    /**
+     * 获得  简历扩展信息
+     * 
      * @param name 简历扩展信息名称
      * 
      * @return 返回与NAME匹配的简历扩展信息
@@ -137,5 +161,19 @@ public class ZpJlExpandInfoService{
     public int getZpJlExpandInfoListCount(HashMap<String,Object> pMap)throws Exception {
         return  zpJlExpandInfoDao.getZpJlExpandInfoListCount(pMap);
     }
-	
+    
+    /**
+     * 查询id集合
+     * @return
+     */
+    public List<Long> getIds(List<ZpJlExpandInfo> list) {
+    	List<Long> idsList = null;
+        if(list!=null && list.size()>0) {
+        	idsList = new ArrayList<Long>();
+        	for (ZpJlExpandInfo b : list) {
+            	idsList.add(null);
+            }
+        }
+        return idsList;
+    }
 }

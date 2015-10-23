@@ -17,7 +17,7 @@
 	        	<result  column="famous_company_update_status" property="famousCompanyUpdateStatus" />
 	        	<result  column="education_id" property="educationId" />
 	        	<result  column="SchoolTag" property="schoolTag" />
-	        	<result  column="in_persion" property="inPersion" />
+	        	<result  column="in_person" property="inPerson" />
 	        	<result  column="in_time" property="inTime" />
 	        	<result  column="last_operator_time" property="lastOperatorTime" />
 	        	<result  column="job_start_time" property="jobStartTime" />
@@ -30,6 +30,11 @@
 	        	<result  column="jlFilePath" property="jlFilePath" />
 	        	<result  column="jlContent" property="jlContent" />
 	        	<result  column="english_level_id" property="englishLevelId" />
+	        	<result  column="jl_expand_id" property="jlExpandId"/>
+	        	<result  column="technician_audit_person" property="technicianAuditPerson" />
+	        	<result  column="technician_audit_time" property="technicianAuditTime" />
+	        	<result  column="technician_audit_person_name" property="technicianAuditPersonName" />
+	        	<result  column="audit_type_id" property="auditTypeId" />
 	        	
 	        	<!-- 职位列表 -->
 				<collection ofType="ZpJlJobLevels" property="zpJlJobLevels">
@@ -67,7 +72,7 @@
 			        	
 						 		ji.SchoolTag,
 			        	
-						 		ji.in_persion,
+						 		ji.in_person,
 			        	
 						 		ji.in_time,
 			        	
@@ -95,14 +100,23 @@
 						 		
 						 		zp_jl_job_levels.job_level_id as t_job_level_id,
 						 		
-						 		zp_jl_expand_info.jl_file_path as jlFilePath,
+						 		jei.jl_file_path as jlFilePath,
+						 		jei.jl_content as jlContent,
+						 		jei.jl_expand_id,
+						 		jei.technician_audit_person,			 		
+						 		jei.technician_audit_time,
+						 		jei.audit_type_id,
+						 		a.username as technician_audit_person_name
 						 		
-						 		zp_jl_expand_info.jl_content as jlContent
 		FROM
 			zp_jl_info ji LEFT JOIN zp_jl_job_levels  ON ji.jl_id = zp_jl_job_levels.jl_id 
-			LEFT JOIN zp_jl_expand_info ON ji.jl_id = zp_jl_expand_info.jl_id
+			LEFT JOIN zp_jl_expand_info jei ON ji.jl_id = jei.jl_id
+			left join account a on a.account_id = jei.technician_audit_person
 		<where>
 				<if test="qtype != null and qtype=='like'">
+						<if test="nameT != null and nameT !='' ">
+				        		AND ji.name like '%${nameT}%'
+			        	</if>
 				</if>
 				        	<if test="name != null and name !='' ">
 				        		AND ji.name=#{name} 
@@ -137,8 +151,8 @@
 				        	<if test="schoolTag != null and schoolTag !='' ">
 				        		AND ji.SchoolTag=#{schoolTag} 
 				        	</if>
-				        	<if test="inPersion != null and inPersion !='' ">
-				        		AND ji.in_persion=#{inPersion} 
+				        	<if test="inPerson != null and inPerson !='' ">
+				        		AND ji.in_person=#{inPerson} 
 				        	</if>
 				        	<if test="inTime != null and inTime !='' ">
 				        		AND ji.in_time=#{inTime} 
@@ -167,6 +181,14 @@
 				        	<if test="topSpecialty != null and topSpecialty !='' ">
 				        		AND ji.top_specialty=#{topSpecialty} 
 				        	</if>
+				        	
+				        	<if test="technicianAuditPerson != null and technicianAuditPerson !='' ">
+				        		AND jei.technician_audit_person=#{technicianAuditPerson} 
+				        	</if>
+				        	<if test="auditTypeId != null and auditTypeId !='' ">
+				        		AND jei.audit_type_id=#{auditTypeId} 
+				        	</if>
+				        	
 		</where>
 		ORDER BY ji.jl_id desc 
 		<if test="skipResults!=null">
@@ -181,20 +203,31 @@
 			count(1)
 		FROM
 			zp_jl_info ji
+		 	LEFT JOIN zp_jl_expand_info jei ON ji.jl_id = jei.jl_id
+			
 		<where>
 				<if test="qtype != null and qtype=='like'">
+						<if test="nameT != null and nameT !='' ">
+				        		AND ji.name like '%${nameT}%'
+			        	</if>
 				</if>
 				<if test="qtype != null and qtype=='uniqueValidate'">
-						<if test="phoneT != null and phoneT !='' and emalT != null and emalT !=''  ">
-				        		AND ji.phone=#{phoneT}  OR ji.emal=#{emalT}
-			        	</if>
-			        	<if test="(phoneT == null or phoneT !='') and emalT != null and emalT !='' ">
-				        		AND ji.emal=#{emalT} 
-				        	</if>
-			          <if test="(phoneT != null and phoneT !='' ) and (emalT == null or emalT !='') ">
-			        		AND ji.phone=#{phoneT} 
-		        	  </if>
+			           <choose>
+			              	<when test="phoneT != null and phoneT !='' and emalT != null and emalT !=''  ">
+				        		AND ( ji.phone=#{phoneT}  OR ji.emal=#{emalT})
+			        		</when>
+				        	<when test="(phoneT == null or phoneT !='') and emalT != null and emalT !='' ">
+					        		AND ji.emal=#{emalT} 
+				        	</when>
+				           <when test="(phoneT != null and phoneT !='' ) and (emalT == null or emalT !='') ">
+				        		AND ji.phone=#{phoneT} 
+			        	   </when>
+		               </choose>
 				</if>
+				<!-- 非自己，唯一验证 -->
+				<if test="notId != null and notId !=''">
+				        		AND ji.jl_id !=#{notId} 
+	        	</if>
 				        	<if test="name != null and name !=''">
 				        		AND ji.name=#{name} 
 				        	</if>
@@ -228,8 +261,8 @@
 				        	<if test="schoolTag != null and schoolTag !=''">
 				        		AND ji.SchoolTag=#{schoolTag} 
 				        	</if>
-				        	<if test="inPersion != null and inPersion !=''">
-				        		AND ji.in_persion=#{inPersion} 
+				        	<if test="inPerson != null and inPerson !=''">
+				        		AND ji.in_person=#{inPerson} 
 				        	</if>
 				        	<if test="inTime != null and inTime !=''">
 				        		AND ji.in_time=#{inTime} 
@@ -257,6 +290,12 @@
 				        	</if>
 				        	<if test="topSpecialty != null and topSpecialty !=''">
 				        		AND ji.top_specialty=#{topSpecialty} 
+				        	</if>
+				        	<if test="technicianAuditPerson != null and technicianAuditPerson !='' ">
+				        		AND jei.technician_audit_person=#{technicianAuditPerson} 
+				        	</if>
+				        	<if test="auditTypeId != null and auditTypeId !='' ">
+				        		AND jei.audit_type_id=#{auditTypeId} 
 				        	</if>
 		</where>
 	</select>
@@ -299,8 +338,8 @@
 		        	<if test="schoolTag != null">
 		        		SchoolTag,
 		        	</if>
-		        	<if test="inPersion != null">
-		        		in_persion,
+		        	<if test="inPerson != null">
+		        		in_person,
 		        	</if>
 		        	<if test="inTime != null">
 		        		in_time,
@@ -367,8 +406,8 @@
 			        	<if test="schoolTag != null">
 			        		#{schoolTag},
 			        	</if>
-			        	<if test="inPersion != null">
-			        		#{inPersion},
+			        	<if test="inPerson != null">
+			        		#{inPerson},
 			        	</if>
 			        	<if test="inTime != null">
 			        		#{inTime},
@@ -440,8 +479,8 @@
 			        	<if test="schoolTag != null">
 			        		SchoolTag=#{schoolTag},
 			        	</if>
-			        	<if test="inPersion != null">
-			        		in_persion=#{inPersion},
+			        	<if test="inPerson != null">
+			        		in_person=#{inPerson},
 			        	</if>
 			        	<if test="inTime != null">
 			        		in_time=#{inTime},
@@ -514,8 +553,8 @@
 				        	<if test="schoolTag != null">
 				        		AND SchoolTag=#{schoolTag} 
 				        	</if>
-				        	<if test="inPersion != null">
-				        		AND in_persion=#{inPersion} 
+				        	<if test="inPerson != null">
+				        		AND in_person=#{inPerson} 
 				        	</if>
 				        	<if test="inTime != null">
 				        		AND in_time=#{inTime} 
@@ -562,7 +601,7 @@
 						 		ji.famous_company_update_status,
 						 		ji.education_id,
 						 		ji.SchoolTag,
-						 		ji.in_persion,
+						 		ji.in_person,
 						 		ji.in_time,
 						 		ji.last_operator_time,
 						 		ji.job_start_time,
@@ -576,14 +615,24 @@
 						 		zp_jl_job_levels.jl_job_level_id as t_jl_job_level_id,
 						 		zp_jl_job_levels.jl_id as t_jl_id,
 						 		zp_jl_job_levels.job_level_id as t_job_level_id,
-						 		zp_jl_expand_info.jl_file_path as jlFilePath,
-						 		zp_jl_expand_info.jl_content as jlContent
+						 		jei.jl_file_path as jlFilePath,
+						 		jei.jl_content as jlContent,
+						 		jei.jl_expand_id,
+						 		jei.technician_audit_person,			 		
+						 		jei.technician_audit_time,
+						 		jei.audit_type_id,
+						 		a.username as technician_audit_person_name
+						 		
 		FROM
 			zp_jl_info ji LEFT JOIN zp_jl_job_levels  ON ji.jl_id = zp_jl_job_levels.jl_id 
-			LEFT JOIN zp_jl_expand_info ON ji.jl_id = zp_jl_expand_info.jl_id
+			LEFT JOIN zp_jl_expand_info jei ON ji.jl_id = jei.jl_id
+			left join account a on a.account_id = jei.technician_audit_person
 		WHERE 
 		ji.jl_id=#{jlId}
-		
+		<if test="inPerson != null and inPerson !='' ">
+        		AND ji.in_person=#{inPerson} 
+       	</if>
 	</select>
+	
 
 </mapper>

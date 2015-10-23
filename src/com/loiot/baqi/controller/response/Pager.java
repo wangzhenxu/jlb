@@ -1,5 +1,6 @@
 package com.loiot.baqi.controller.response;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import lombok.Data;
@@ -29,6 +30,8 @@ public class Pager<T> {
      * 分页数据
      */
     private List<T> data;
+    
+    private List<Long> idList;
 
     /**
      * 总记录数，默认是0
@@ -44,6 +47,26 @@ public class Pager<T> {
         setTotalResults(totalResults);
         setPageIndex(pageIndex);
     }
+    
+    /**
+	 * 构造一个分页器。
+	 * 
+	 * @param totalResults
+	 *            总条数
+	 * @param pageIndex
+	 *            起始索引
+	 * @param data
+	 *           数据
+	 */
+	public Pager(int totalResults, int pageIndex, int pageSize,List<T> data) {
+		this.pageSize = pageSize;
+		setTotalResults(totalResults);
+		setPageIndex(pageIndex);
+		setData(data);
+	}
+
+    
+   
 
     /**
      * 设置总记录数
@@ -87,4 +110,21 @@ public class Pager<T> {
     public int getMaxResults() {
         return pageSize;
     };
+    
+  //得到当前指定页的数据
+  	public List<T> getCurrentPageData(){
+  		List<T> result = new ArrayList<T>();
+  		int endIndex = this.getSkipResults() + this.pageSize;
+  		if (this.getData().size() < this.getSkipResults() + this.pageSize) {
+  			endIndex = this.getData().size();
+  		}
+  		
+  		System.out.println("getSkipResults==="+this.getSkipResults()+"===pageSize===="+this.pageSize+"==this.getData().size()=="+this.getData().size());
+  		if (this.getSkipResults() >= 0 && this.getData().size() > 0) {
+  			for (int i = this.getSkipResults(); i < endIndex; i++) {
+  				result.add(this.getData().get(i));
+  			}
+  		}
+  		return result;
+  	}
 }

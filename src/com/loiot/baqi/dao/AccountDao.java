@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.timeloit.pojo.Account;
 
+
 /**
  * 账号数据访问层。
  * 
@@ -146,6 +147,10 @@ public class AccountDao extends SqlSessionDaoSupport {
         }
 
         return getSqlSession().selectList("Account.getAccountList", params);
+    }
+    
+    public List<Account> queryAccountList(HashMap<String,Object> pMap){
+    	 return getSqlSession().selectList("Account.getAccountList", pMap);
     }
 
     /**

@@ -87,7 +87,7 @@
      </div>
     </div>
     <div class="form">
-      <#if subject.isPermitted("productClass:add")>
+      <#if subject.isPermitted("zpCompanyInfo:add")>
 	      <div class="btn-group">
 			  <button type="button" class="btn btn-default"  onclick="companyInfo.toAdd();">增加客户</button>
 	      </div>
@@ -144,20 +144,28 @@
         
         <td align="left" class="hui" style="width:300px;"  >
 	       	<div class="btn-group">
+			    <#if subject.isPermitted("zpCompanyInfo:detail")>
 				  <button type="button" style="margin-left:15px;" class="btn btn-default"  onclick="companyInfo.toDetail('${c.companyId}')">详情</button>
+				 </#if>
+			<#if subject.isPermitted("zpCompanyInfo:edit")>
 				  <button type="button" class="btn btn-default"  onclick="companyInfo.toEdit('${c.companyId}')">修改</button>
+		     </#if>
+		      <#if subject.isPermitted("zpCompanyInfo:disableAndEnabled")>
 				  <#if c.isDelete??>
 				  	<button type="button" class="btn btn-default"  onclick=companyInfo.modifyDeleteStatus('${c.companyId}','${c.isDelete!""}');>
 				  	 	<#if c.isDelete==PauseStartType.START.getCode()> 暂停 </#if>
 				  	 	<#if c.isDelete==PauseStartType.PAUSE.getCode()> 启用 </#if>
 				  </button>	
 				  </#if>
-				  
+			</#if>
+				
+				<#if subject.isPermitted("zpCompanyJobInfo:add")>
 				   <#if c.isDelete??>
 				  	 	<#if c.isDelete==PauseStartType.START.getCode()> 
 				  	 		<button type="button" class="btn btn-default"  onclick="companyInfo.toAddJob('${c.companyId}')">发布职位</button>
 				  	 	 </#if>
 				  </#if>
+				</#if>
 	      	 </div>
       	</td>
        </tr>
@@ -179,5 +187,8 @@
 	<#include "../include/deleteConfirmModal.ftl">
 	
     <script src="/js/companyInfo.js"></script>
+     <script>
+    		common.initLeftMenuSelected("zpCompanyInfo_list");
+    </script>
 </html>
 

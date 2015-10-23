@@ -21,70 +21,6 @@
 		<property name="unauthorizedUrl" value="/login.action" />
 		<property name="filterChainDefinitions">
 			<value>
-				/app/auditapplist.action = perms["app:auditAppList"]
-				/app/Initialapp.action = perms["app:firstCheck"]
-				/app/firstreject.action = perms["app:firstCheck"]
-				/app/recheck.action = perms["app:secondCheck"]
-				/app/recheckreject.action = perms["app:secondCheck"]
-				/app/deleteapp.action = perms["app:delete"]
-				/app/updateappdeploystatus.action = perms["app:publish"]
-				/app/getAppList.action = perms["app:appList"]
-				/app/getAppLog.action = perms["app:appLog"]
-				/app/getDisplayList.action = perms["app:publishAppList"]
-				/app/cancelAppDeploy.action = perms["app:cancelAppDeploy"]
-				/app/toUpdate.action = perms["app:updateAppDeploy"]
-
-				/app/check.action = perms["app:check"]
-				/app/logCheck.action = perms["app:logCheck"]
-				/app/identityCheck.action = perms["app:identityCheck"]
-				/app/maintenanceLogCheck.action = perms["app:maintenanceLogCheck"]
-				/app/getAppUserLogList.action = perms["app:getAppUserLogList"]
-				
-				/scene/list.action = perms["scene:list"]
-				/scene/detail.action = perms["scene:detail"]
-				
-				/cmsSolution/class/list.action = perms["cmsSolution:list"]
-				/cmsSolution/class/add.action = perms["cmsSolution:add"]
-				/cmsSolution/class/delete.action = perms["cmsSolution:delete"]
-				/cmsSolution/class/update.action = perms["cmsSolution:update"]
-				
-				/productApp/class/list.action = perms["productApp:list"]
-				/productApp/class/add.action = perms["productApp:add"]
-				/productApp/class/delete.action = perms["productApp:delete"]
-				/productApp/class/update.action = perms["productApp:update"]
-
-				/productApp/sub/list.action = perms["productPublish:list"]
-				/productApp/sub/toAdd.action = perms["productPublish:add"]
-				/productApp/sub/detail.action = perms["productPublish:list"]
-				/productApp/sub/toEdit.action = perms["productPublish:edit"]
-				/productApp/sub/delete.action = perms["productPublish:delete"]
-				/upload/cms/productDetail/*.html = perms["productPublish:list"]
-				/productApp/sub/modifyPublishType.action = perms["productPublishType:edit"]
-
-				/cmsSolution/sub/list.action = perms["systemPublish:list"]
-				/cmsSolution/sub/toAdd.action = perms["systemPublish:add"]
-				/cmsSolution/sub/detail.action = perms["systemPublish:list"]
-				/cmsSolution/sub/delete.action = perms["systemPublish:delete"]
-				/cmsSolution/sub/toEdit.action = perms["systemPublish:update"]
-				/cmsSolution/sub/modifyPublishType.action = perms["systemPublishType:update"]
-				/upload/cms/systemDetail/*.html = perms["systemPublish:list"]
-				
-				/product/class/toadd.action = perms["productClass:add"]
-				/product/class/add.action = perms["productClass:add"]
-				/product/class/delete.action = perms["productClass:delete"]
-				/product/class/toupdate.action = perms["productClass:edit"]
-				/product/class/update.action = perms["productClass:edit"]
-				/product/class/list.action = perms["productClass:list"]
-				/product/management/toadd.action = perms["product:add"]
-				/product/management/add.action = perms["product:add"]
-				/product/management/delete.action = perms["product:delete"]
-				/product/management/toupdate.action = perms["product:edit"]
-				/product/management/update.action = perms["product:edit"]
-				/product/management/list.action = perms["product:list"]
-				/product/management/check.action = perms["product:list"]
-				/product/serialnumber/create.action = perms["sn:generate"]
-				/product/serialnumber/downLoadSN.action = perms["sn:download"]
-				/product/serialnumber/list.action = perms["sn:list"]
 				/account/toAddAccount.action = perms["account:add"]
 				/account/add.action = perms["account:add"]
 				/account/delete.action = perms["account:delete"]
@@ -97,13 +33,48 @@
 				/account/role/edit.action = perms["role:edit"]
 				/account/role/list.action = perms["role:list"]
 				/account/role/get.action = perms["role:list"]
+				/account/modifyDeleteStatus.action=perms["account:disableAndEnabled"]
+				
 
-                /mps/list.action = perms["mpCustomer:list"]
-                /mps/detail.action = perms["mpCustomer:list"]
-                /mps/grantedLs.action  = perms["mpCustomer:grantedList"]
-                /mps/disabled.action  = perms["mpCustomer:disabled"]
-                /mps/rules.action= perms["mpRule:list"]
-                /mps/opls.action= perms["mpOps:list"]
+				<!-- 简历 -->
+               /zpJlInfo/list.action=perms["zpJlInfo:list"]
+               /zpJlInfo/add.action=perms["zpJlInfo:add"]
+               /zpJlInfo/toAdd.action=perms["zpJlInfo:add"]
+               /zpJlInfo/delete.action=perms["zpJlInfo:delete"]
+               /zpJlInfo/edit.action=perms["zpJlInfo:edit"]
+               /zpJlInfo/toEdit.action=perms["zpJlInfo:edit"]
+               /zpJlInfo/toView.action=perms["zpJlInfo:detail"]
+               /zpJlInfo/toDown.action=perms["zpJlInfo:down"]
+               /zpJlInfo/assignAuditPerson.action=perms["zpJlInfo:assignAuditPerson"]
+               
+               
+               <!-- 客户 -->
+               /zpCompanyInfo/list.action=perms["zpCompanyInfo:list"]
+               /zpCompanyInfo/add.action=perms["zpCompanyInfo:add"]
+               /zpCompanyInfo/toAdd.action=perms["zpCompanyInfo:add"]
+               /zpCompanyInfo/modifyDeleteStatus.action=perms["zpCompanyInfo:disableAndEnabled"]
+               /zpCompanyInfo/edit.action=perms["zpCompanyInfo:edit"]
+               /zpCompanyInfo/toEdit.action=perms["zpCompanyInfo:edit"]
+               /zpCompanyInfo/toView.action=perms["zpCompanyInfo:detail"]
+               
+                <!-- 职位 -->
+               /zpCompanyJobInfo/list.action=perms["zpCompanyJobInfo:list"]
+               /zpCompanyJobInfo/add.action=perms["zpCompanyJobInfo:add"]
+               /zpCompanyJobInfo/toAdd.action=perms["zpCompanyJobInfo:add"]
+               /zpCompanyJobInfo/modifyDeleteStatus.action=perms["zpCompanyJobInfo:disableAndEnabled"]
+               /zpCompanyJobInfo/edit.action=perms["zpCompanyJobInfo:edit"]
+               /zpCompanyJobInfo/toEdit.action=perms["zpCompanyJobInfo:edit"]
+               /zpCompanyJobInfo/toView.action=perms["zpCompanyJobInfo:detail"]
+               
+                <!-- 简历匹配 -->
+               /zpJobMatchingInfo/list.action=perms["zpJobMatchingInfo:list"]
+               /zpJobMatchingInfo/matchCheck.action=perms["zpJobMatchingInfo:add"]
+               /zpJobMatchingInfo/match.action=perms["zpJobMatchingInfo:add"]
+               /zpJobMatchingInfo/toView.action=perms["zpJobMatchingInfo:detail"]
+               
+                 <!-- 评审管理 -->
+               /zpJlInfo/auditList.action=perms["zpJlInfo:auditList"]
+               
 
 				/user/**.action = perms["user:list"]
 				

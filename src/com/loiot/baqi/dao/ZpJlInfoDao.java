@@ -64,7 +64,23 @@ public class ZpJlInfoDao extends SqlSessionDaoSupport{
      * @return 返回与ID匹配的简历信息
      */
     public ZpJlInfo getZpJlInfoById(java.lang.Long id)throws Exception {
-        return (ZpJlInfo) getSqlSession().selectOne("ZpJlInfo.getZpJlInfoById", id);
+    	HashMap<String, Object> pMap = new HashMap<String, Object>();
+    	pMap.put("jlId", id);
+        return (ZpJlInfo) getSqlSession().selectOne("ZpJlInfo.getZpJlInfoById", pMap);
+    }
+    
+    /**
+     * 获得  简历信息
+     * 
+     * @param id 简历信息Id
+     * 
+     * @return 返回与ID匹配的简历信息
+     */
+    public ZpJlInfo getZpJlInfoById(java.lang.Long id,Long accountId)throws Exception {
+    	HashMap<String, Object> pMap = new HashMap<String, Object>();
+    	pMap.put("jlId", id);
+    	pMap.put("inPerson", accountId);
+    	return (ZpJlInfo) getSqlSession().selectOne("ZpJlInfo.getZpJlInfoById", pMap);
     }
     
     /**

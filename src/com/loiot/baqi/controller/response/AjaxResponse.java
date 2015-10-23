@@ -18,6 +18,8 @@ public class AjaxResponse implements Serializable {
     public static final AjaxResponse OK = new AjaxResponse(1, "ok");
     public static final AjaxResponse FAILED = new AjaxResponse(-1, "系统繁忙，请您稍后再试");
     public static final AjaxResponse SYSTEM_BUSY = new AjaxResponse(-100000, "系统繁忙，请您稍后再试");
+    public static final AjaxResponse NOEXITS = new AjaxResponse(-1000, "信息不存在");
+
 
     /**
      * 状态码

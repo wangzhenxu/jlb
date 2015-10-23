@@ -29,7 +29,7 @@
      <ul>
 			 <li style="width:22%">
 		       	<span class="classify">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;姓名：</span>
-		    	<input name="name" type="text"   class="input"  id="name" value=""/>
+		    	<input name="name" type="text"   class="input"  id="name" value="${name!''}"/>
 		      </li>
 			        <li style="width:15%">
 				       	<span class="classify">职位：</span>
@@ -100,7 +100,7 @@
      </div>
     </div>
     <div class="form">
-      <#if subject.isPermitted("productClass:add")>
+      <#if subject.isPermitted("zpJlInfo:add")>
 	      <div class="btn-group">
 	   		 <button type="button" class="btn btn-default"  onclick="jlInfo.toAdd();" >增加简历</button>
 	      </div>
@@ -120,16 +120,17 @@
         <td  height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>年龄</strong></td>
         <td  height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>性别</strong></td>
         <td  height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>最高学历</strong></td>
+        <td  height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>评审人</strong></td>
         <td  height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>录入时间</strong></td>
         <td  height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>操 作</strong></td>
        </tr>
        <#list pager.data as c>
        <tr>
-       <td align="center" class="hui"><input type="checkbox" name="checkbox" value="${c.hrId!''}" class="check"></td>
+       <td align="center" class="hui"><input type="checkbox" name="checkbox" value="${c.jlId!''}" postionAttr="${c.jobPositionId!''}" class="check"></td>
         <td align="center" class="hui">${c.name!''}</td>
         <td align="center" class="hui">${c.phone!''}</td>
         <td align="center" class="hui">
-        	 ${emal!''}
+        	 ${c.emal!''}
         </td>
         <td align="center" class="hui">
         <#if c.jobPositionId??>
@@ -162,17 +163,34 @@
 	    		${DictionaryUtil.getName(c.educationId)}
 	    	 </#if>
 	    </td>
-	    
+	     <td align="center" class="hui">
+	     <span class="label label-info">
+	    	    ${c.technicianAuditPersonName!'待选择'}
+		 </span>	    
+	    </td>
 	    <td align="center" class="hui">
 	    	     <#if c.inTime??>
         			 ${c.inTime?string("yyyy-MM-dd HH:mm:ss")}
  				</#if>
 	    </td>
+	   
+	    
 		<td align="center" class="hui" style="width:300px;">
 	    	<div class="btn-group">
+	    	  <#if subject.isPermitted("zpJlInfo:detail")>
 			   <button type="button" class="btn btn-default"  onclick="jlInfo.toDetail('${c.jlId}')">详情</button>
+			  </#if>
+			    <#if subject.isPermitted("zpJlInfo:edit")>
 			   <button type="button" class="btn btn-default"  onclick="jlInfo.toEdit('${c.jlId}')">修改</button>
-      		  <button type="button" class="btn btn-default"  onclick="jlInfo.matchJob('${c.jlId!""}');">匹配职位</button>
+      		   </#if>
+      		    <#if subject.isPermitted("zpJobMatchingInfo:add")>
+      		   <button type="button" class="btn btn-default"  onclick="jlInfo.matchJob('${c.jlId!""}');">匹配职位</button>
+      		    </#if>
+      		    <#if subject.isPermitted("zpJlInfo:down")>
+      		  	  <#if c.jlFilePath??>
+      		   		<button type="button" class="btn btn-default"  onclick="jlInfo.downJl('${ApplicationConst.UPLOAD_JL_URL}${c.jlFilePath}')">下载</button>
+      		 	  </#if>
+      		 	</#if>
       		 </div>
 	     </td>
 	    
@@ -180,6 +198,9 @@
        </#list>
        <tr>
      	 <td colspan="7" valign="middle" class="d">
+     	        <#if subject.isPermitted("zpJlInfo:assignAuditPerson")>
+     	   		 	<button type="button" class="btn btn-default"  onclick="jlInfo.selectAuditPerson()">选择评审</button>
+     	 		</#if>
      	 </td>
        </tr>
       </table>
@@ -205,6 +226,52 @@
     </ul>
 </div>
 </div>
-<!-- 删除弹窗 结束 -->
 
+
+<!-- 选择技术评pop 开始 -->
+<div class="pop_sure modal hide fade" id="auditPersonPop">
+	  <div class="content">
+	 <div class="quanxian">
+	  <div class="quanxian1">
+	   <div class="whitea">评审列表</div>
+	   <div class="close"><img src="/images/xinjian_03.gif" width="18" height="18" data-dismiss="modal"/></div>
+	  </div>
+	  <div class="quanxian2">
+	   <div class="czrz">
+	     <table id="" width="100%"  border="1" align="left" cellpadding="0" cellspacing="0" bordercolor="#ffffff" style="border-collapse:collapse">
+	       <tr class="lan">
+	       	 <td width="3%" height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong></strong></td>
+	         <td width="12%" height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>评审经理</strong></td>
+	         <td width="13%" height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>已评审数量</strong></td>
+	         <td width="11%" height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>等待评审数量</strong></td>
+	         <td width="10%" align="center" valign="middle" background="/images/erji_22.jpg"><strong>最后评审时间</strong></td>
+	       </tr>
+	     </table>
+	   </div>
+	   
+	   <div class="anniu">
+	   		<div class="btn-group">
+				 <button type="button" class="btn btn-default" id="addAuditBtn">确&nbsp;定</button>
+				  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		  		 <button type="button" class="btn btn-default" data-dismiss="modal">取&nbsp;消</button>
+      		</div>
+    	</div>
+    
+	   
+	  </div>
+	 </div>
+	 </div>
+</div>
+
+
+
+
+
+
+
+
+
+<script>
+	common.initLeftMenuSelected(jlInfo.left_menu_selected_id);
+</script>
 </html>

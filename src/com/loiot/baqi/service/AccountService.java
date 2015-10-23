@@ -1,5 +1,6 @@
 package com.loiot.baqi.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -12,6 +13,8 @@ import org.springframework.stereotype.Service;
 import com.loiot.baqi.constant.Const;
 import com.loiot.baqi.controller.response.Pager;
 import com.loiot.baqi.dao.AccountDao;
+import com.loiot.baqi.dao.AccountExpandInfoDao;
+import com.loiot.baqi.pojo.AccountExpandInfo;
 import com.loiot.baqi.security.shiro.PasswordWrongException;
 import com.loiot.baqi.security.shiro.UsernameExistException;
 import com.loiot.baqi.utils.MD5Util;
@@ -33,6 +36,9 @@ public class AccountService {
      */
     @Resource
     private AccountDao accountDao;
+    
+    @Resource
+	private AccountExpandInfoDao accountExpandInfoDao;
 
     /**
      * 获得账户
@@ -93,8 +99,9 @@ public class AccountService {
      * 添加后台账号
      * 
      * @param account 后台账号
+     * @throws Exception 
      */
-    public void addAccount(Account account) throws UsernameExistException {
+    public void addAccount(Account account) throws Exception {
 
         // 打印account信息
         log.debug("account [{}]", account);
@@ -109,7 +116,15 @@ public class AccountService {
 
         // 添加后台账号
         accountDao.addAccount(account);
-
+        
+        //扩展信息
+        AccountExpandInfo expandInfo = new AccountExpandInfo();
+        expandInfo.setAccountId(account.getAccountId());
+        expandInfo.setInPerson(account.getAccountId());
+        expandInfo.setInTime(account.getInTime());
+        expandInfo.setAuditPositionId(account.getAuditPositionId());
+        accountExpandInfoDao.addAccountExpandInfo(expandInfo);
+        
         // 添加角色
         accountDao.addAccountRole(account.getAccountId(), account.getRole().getRoleId());
     }
@@ -193,6 +208,10 @@ public class AccountService {
 
         // 删除账号
         accountDao.deleteAccount(accountId);
+    }
+    
+    public List<Account> queryAccountList(HashMap<String,Object> pMap){
+    	return accountDao.queryAccountList(pMap);
     }
 
 }

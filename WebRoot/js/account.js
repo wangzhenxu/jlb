@@ -64,6 +64,14 @@ function addAccount() {
 	$("[name=username]").blur();
 	$("[name=password]").blur();
 	$("[name=retryPassword]").blur();
+	$("[name=retryPassword]").blur();
+	$("[name=type]").blur();
+	if($("[name=type]:checked").val()==2){
+		if($("#auditPositionId").val()==""){
+			common.alert("请选择评审职位");
+			return;
+		}
+	}
 	if($(".error-field").size()){
 	}else{
 	// 提交form表单
@@ -106,4 +114,12 @@ function editAccount() {
 			alert(resp.d);
 		}
 	});
+}
+
+function accountTypeSelected(obj){
+	if(obj.value==2){
+		$("#auditPostion_id").show();
+	}else{
+		$("#auditPostion_id").hide();
+	}
 }

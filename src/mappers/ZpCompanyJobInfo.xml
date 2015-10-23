@@ -107,20 +107,20 @@
 			        	
 						 		cji.is_delete,
 						 		
-						 		zp_company_job_demand_keys.key_id as k_key_id ,
+						 		cjdk.key_id as k_key_id ,
 			        	
-						 		zp_company_job_demand_keys.job_id as k_job_id,
+						 		cjdk.job_id as k_job_id,
 			        	
-						 		zp_company_job_demand_keys.keyword as k_keyword,
+						 		cjdk.keyword as k_keyword,
 			        	
-						 		zp_company_job_demand_keys.proportion as  k_proportion,
+						 		cjdk.proportion as  k_proportion,
 						 		
 						 		cji.zp_urgency_status_id,
 			        	
 						 		cji.area_id
 			        	
 		FROM
-			zp_company_job_info cji LEFT JOIN zp_company_job_demand_keys ON cji.job_id= zp_company_job_demand_keys.job_id
+			zp_company_job_info cji LEFT JOIN zp_company_job_demand_keys cjdk ON cji.job_id= cjdk.job_id
 		    INNER JOIN  zp_company_info ci ON cji.company_id =  ci.company_id 
 		<where>
 							1=1  AND ci.is_delete=1
@@ -220,7 +220,7 @@
 				        		AND cji.area_id=#{areaId} 
 				        	</if>
 					<if test="ids !=null">
-				         AND cji.job_id IN
+				         AND cji.jobPositionLevelId IN
 						    <foreach  item="item" collection="ids"  index="index" open="(" separator="," close=")"> 
 									 ${item} 
 							</foreach>
@@ -754,13 +754,13 @@
 						 		cji.last_update_time,
 						 		cji.is_delete,
 						 		
-								zp_company_job_demand_keys.key_id as k_key_id ,
+								cjdk.key_id as k_key_id ,
 			        	
-						 		zp_company_job_demand_keys.job_id as k_job_id,
+						 		cjdk.job_id as k_job_id,
 			        	
-						 		zp_company_job_demand_keys.keyword as k_keyword,
+						 		cjdk.keyword as k_keyword,
 			        	
-						 		zp_company_job_demand_keys.proportion as  k_proportion,
+						 		cjdk.proportion as  k_proportion,
 						 		
 						 		cji.zp_urgency_status_id,
 			        	
@@ -769,7 +769,7 @@
 						 		zp_company_info.company_id AS companyAreaId
 			        	
 		FROM
-			zp_company_job_info cji LEFT JOIN zp_company_job_demand_keys ON cji.job_id= zp_company_job_demand_keys.job_id
+			zp_company_job_info cji LEFT JOIN zp_company_job_demand_keys cjdk ON cji.job_id= cjdk.job_id
 			LEFT JOIN zp_company_info ON cji.company_id =zp_company_info.company_id
 		
 		WHERE 

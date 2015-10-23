@@ -26,18 +26,19 @@ public class HomeController {
 	@RequestMapping(value = "/welcome")
 	public String welcome() {
 		Subject subject = SecurityUtils.getSubject();
-		/*if (subject.isPermitted("productClass:list")) {
-			// 产品分类
-			return "redirect:/product/class/list.action";
-		} else if (subject.isPermitted("product:list")) {
-			// 产品管理
-			return "redirect:/product/management/list.action";
-		} else if (subject.isPermitted("sn:list")) {
-			// 序列号管理
-			return "redirect:/product/serialnumber/list.action";
-		} else if (subject.isPermitted("user:list")) {
-			// 网站用户
-			return "redirect:/user/list.action";
+		
+		if (subject.isPermitted("zpJlInfo:list")) {
+			//简历管理
+            return "redirect:/zpJlInfo/list.action";
+		} else if (subject.isPermitted("zpCompanyInfo:list")) {
+			//客户管理
+			return "redirect:/zpCompanyInfo/list.action";
+		}else if (subject.isPermitted("zpCompanyJobInfo:list")) {
+			//职位管理
+			return "redirect:/zpCompanyJobInfo/list.action";
+		}else if (subject.isPermitted("zpJobMatchingInfo:list")) {
+			//职位匹配
+			return "redirect:/zpJobMatchingInfo/list.action";
 		} else if (subject.isPermitted("role:list")) {
 			// 后台角色
 			return "redirect:/account/role/list.action";
@@ -45,18 +46,14 @@ public class HomeController {
 			// 后台账号
 			return "redirect:/account/list.action";
 		}
-		else if (subject.isPermitted("customer:list")) {
-            //客户帐号
-            return "redirect:/customer/list.action";
-        }
+		else if (subject.isPermitted("zpJlInfo:auditList")) {
+			// 评审管理
+			return "redirect:/account/list.action";
+		}
 		else {
 			// 什么角色都没有就到密码修改，一般没有这个情况
 			return "redirect:/password.action";
-		}*/
-		//
-		
-		//return "redirect:/zpCompanyJobInfo/toAdd.action";
-		return "redirect:/zpJlInfo/list.action";
+		}
 
 	}
 }

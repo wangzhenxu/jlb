@@ -2,6 +2,7 @@ package com.loiot.baqi.utils;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
@@ -10,6 +11,7 @@ import java.util.regex.Pattern;
 
 import org.apache.poi.POIXMLDocument;
 import org.apache.poi.POIXMLTextExtractor;
+import org.apache.poi.hwpf.HWPFDocument;
 import org.apache.poi.hwpf.extractor.WordExtractor;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
@@ -27,33 +29,53 @@ import org.apache.poi.xwpf.usermodel.XWPFTableRow;
 public class WordUtils {
 	
 	
-	public static String getWordText(String filePath,String fileName)throws Exception{
-		if(fileName.endsWith("docx")){
-			return paseWord2007(filePath);
+	public static String getWordText(String filePath,String fileName) throws Exception{
+		/*if(fileName.endsWith("docx")){
+			 
 		}else
 		if(fileName.endsWith("doc")){
 			return paseWord2003(filePath);
-		} 
+		} */
 		//return paseWord2007(filePath);
-		return null;
+		String text = "";
+		try{
+			text = paseWord2007(filePath);
+		} catch(Exception e){
+			text=paseWord2003(filePath);
+		}
+		
+		return text;
 	}
 	
 	
-	public static String paseWord2003(String filePath) throws Exception{
+	public static String paseWord2003(String filePath) throws Exception {
 				////word 2003： 图片不会被读取
-				InputStream is = new FileInputStream(new File(filePath));
-				WordExtractor ex = new WordExtractor(is);//is是WORD文件的InputStream 
-				String text2003 = ex.getText();
-				//System.out.println("2003:\br"+text2003);
-		return text2003;
+				
+			InputStream is;
+			is = new FileInputStream(new File(filePath));
+			WordExtractor ex = new WordExtractor(is);//is是WORD文件的InputStream 
+			String text2003 = ex.getText();
+			return text2003;
+		
+		  /* InputStream is = new FileInputStream(filePath);  
+	      HWPFDocument doc = new HWPFDocument(is); 
+	      System.out.println(doc.getDocumentText());  
+					
+		  return doc.getDocumentText();*/
+				
+
 	}
 	
 	
-	public static String paseWord2007(String filePath) throws Exception{
-		//word 2007 图片不会被读取， 表格中的数据会被放在字符串的最后
-		OPCPackage opcPackage = POIXMLDocument.openPackage(filePath);
-		POIXMLTextExtractor extractor = new XWPFWordExtractor(opcPackage);
-		String text2007 = extractor.getText();
+	public static String paseWord2007(String filePath) throws Exception {
+		//word 2007 图片不会被读取， 表格中的数据会被放在字符串的最后		
+			OPCPackage opcPackage;
+			opcPackage = POIXMLDocument.openPackage(filePath);
+			POIXMLTextExtractor extractor = new XWPFWordExtractor(opcPackage);
+			String text2007 = extractor.getText();
+			return text2007;
+		
+		
 		//System.out.println("2007:\br"+text2007);
 		
 		
@@ -78,9 +100,6 @@ public class WordUtils {
 		}
 		System.out.println();
 		}*/
-        
-        
-		return text2007;
 	}
 	
 	

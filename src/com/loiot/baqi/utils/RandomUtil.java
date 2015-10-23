@@ -29,9 +29,9 @@ public class RandomUtil {
 
             str.append(tmpStr);
         }
-
         return str.toString();
     }
+    
     
     public static String getRandomStr(int length,long... seed) {
         java.util.Random rand = null; // 设置随机种子
@@ -52,4 +52,9 @@ public class RandomUtil {
 
         return str.toString();
     }
+    
+    public static void main(String[] args) {
+      System.out.println(); 
+
+	}
 }

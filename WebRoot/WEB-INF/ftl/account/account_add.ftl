@@ -41,6 +41,32 @@
 					          <span class='tip'></span>
 					         </td>
 					      </tr>
+					      
+					      <tr>
+					        <td align="right" class="hui1">用户类型：</td>
+					        <td align="left" valign="middle">
+					          		<#list AccountType.values() as type>
+              							<input class="radio" validate="validate[required]"  onchange="accountTypeSelected(this)" name="type" id="type" type="radio" value="${type.code}" > ${type.title}
+ 									</#list>
+					          <span class='tip'></span>
+					         </td>
+					      </tr>
+					      
+					       <tr id="auditPostion_id" style="display:none">
+					        <td align="right" class="hui1">评审职位：</td>
+					        <td align="left" valign="middle">
+					        	<select id="auditPositionId" name="auditPositionId">
+			    		 			<option value="" > 请选择 </option>
+			    		    		<#list DictionaryUtil.getTypes(DictionaryType.JOB_POSITION.getCode()) as c>
+			    		 				 <option value="${c.dictionaryId}" <#if  jobPositionId?? && jobPositionId!=''> <#if jobPositionId?number==c.dictionaryId> selected </#if> </#if>  > ${c.name!''} </option>
+			 			 			</#list>
+			    		  		</select>
+					          <span class='tip'></span>
+					         </td>
+					      </tr>
+					      
+					      
+					      
 		      		</table>
 		    	</div>
 	   		</div>

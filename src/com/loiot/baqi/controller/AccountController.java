@@ -1,6 +1,9 @@
 package com.loiot.baqi.controller;
 
+import java.util.Date;
+
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -11,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.loiot.baqi.constant.Const;
 import com.loiot.baqi.controller.response.AjaxResponse;
 import com.loiot.baqi.controller.response.Pager;
 import com.loiot.baqi.security.shiro.UsernameExistException;
@@ -80,20 +84,25 @@ public class AccountController {
      */
     @RequestMapping(value = "/add")
     @ResponseBody
-    public Object add(Account account) {
-
+    public Object add(Account account,HttpSession session) {
+         
         // 数据不合格，返回系统繁忙
         if (StringUtils.isBlank(account.getUsername()) || account.getRole() == null
                 || account.getRole().getRoleId() == null) {
             return AjaxResponse.SYSTEM_BUSY;
         }
-
         try {
+            Account accoun = (Account) session.getAttribute(Const.SESSION_USER_KEY);
+            account.setInPerson(accoun.getAccountId());
+            account.setInTime(new Date());
             accountService.addAccount(account);
         } catch (UsernameExistException ex) {
             // 用户名已经存在
             log.debug("username is exist", ex);
             return ACCOUNT_USERNAME_EXIST;
+        }  catch (Exception e){
+        	e.printStackTrace();
+        	return AjaxResponse.FAILED;
         }
 
         // 添加成功

@@ -31,7 +31,7 @@ public class ZpJlInfo  implements java.io.Serializable{
 	    private Integer famousCompanyUpdateStatus;  //知名企业分析状态 db_column: famous_company_update_status 
 	    private java.lang.Long educationId;  //学历id db_column: education_id 
 	    private java.lang.String schoolTag;  //最高毕业学校 db_column: SchoolTag 
-	    private java.lang.String inPersion;  //录入人 db_column: in_persion 
+	    private java.lang.Long inPerson;  //录入人 db_column: in_persion 
 	    private java.util.Date inTime;  //录入时间 db_column: in_time 
 	    private java.util.Date lastOperatorTime;  //最后更新时间 db_column: last_operator_time 
 	    private java.util.Date jobStartTime;  //工作开始时间 db_column: job_start_time 
@@ -45,6 +45,15 @@ public class ZpJlInfo  implements java.io.Serializable{
 	    //扩展信息
 	    private java.lang.String jlFilePath;  //简历存放路径 db_column: jl_file_path 
 	    private java.lang.String jlContent;  //简历内容 db_column: jl_content
+	    
+	    
+	    private java.lang.Long jlExpandId;  //简历扩展id db_column: jl_expand_id 
+	    private java.lang.Long technicianAuditPerson;  //创建技术评审人 db_column: technician_audit_person 
+	    private java.lang.String technicianAuditPersonName;  //创建技术评审名称 
+	    private java.util.Date technicianAuditTime;  //创建技术评审时间 db_column: technician_audit_time 
+	    private java.lang.Integer auditTypeId;  //评审状态 db_column: audit_type_id 
+
+	    
 	    
 		private List<ZpJlJobLevels> zpJlJobLevels; //职位列表
 

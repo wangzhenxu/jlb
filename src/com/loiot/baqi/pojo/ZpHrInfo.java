@@ -19,7 +19,7 @@ public class ZpHrInfo  implements java.io.Serializable{
 	    private java.lang.String qqName;  //qq名称 db_column: qq_name 
 	    private java.lang.String qqNumber;  //qq号 db_column: qq_number 
 	    private java.lang.Long addressId;  //addressId db_column: address_id 
-	    private java.lang.String inPerson;  //录入人 db_column: in_person 
+	    private java.lang.Long inPerson;  //录入人 db_column: in_person 
 	    private java.util.Date inTime;  //录入时间 db_column: in_time
 	    private Integer sendStatus;		//0 等待发送 1已发送成功 2发送失败'
 	    private java.util.Date lastSendTime;  //最后发送时间

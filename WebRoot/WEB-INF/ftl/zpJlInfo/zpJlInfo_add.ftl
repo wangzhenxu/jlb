@@ -18,7 +18,9 @@
 
 <input type="hidden" name="jlFilePath" id="jlFilePath" />
 <input type="hidden" name="jlContent" id="jlContent" />
+<input type="hidden" name="oldFilePath" id="oldFilePath" />
 <input type="hidden" name="jobPositionLevelIds" id="jobPositionLevelIds" />
+
 
 <!-- 右侧 开始 -->
 <div class="right">
@@ -114,7 +116,7 @@
           <tr>
            <td  align="right" class="hui1"><span class="red">*</span>工作开始时间：</td>
            <td  align="left" valign="middle">
-          	 <input name="jobStartTimeT" class="input validate[required]" id="jobStartTimeT" onClick="WdatePicker({dateFmt:'yyyy-MM'})" type="text" >
+          	 <input name="jobStartTimeT" class="input validate[required]" id="jobStartTimeT" onClick="WdatePicker({dateFmt:'yyyy-MM',maxDate:'%y-%M'})" type="text" >
            </td>
          	<td  align="right" class="hui1">出生年月：</td>
            	<td  align="left" valign="middle">

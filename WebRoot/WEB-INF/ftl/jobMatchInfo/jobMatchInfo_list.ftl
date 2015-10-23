@@ -98,6 +98,8 @@
      <div class="form2">
      <table width="100%"  border="1" align="left" cellpadding="0" cellspacing="0" bordercolor="#ffffff" style="border-collapse:collapse">
       <tr class="lan">
+      
+        <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>姓名</strong></td>
         <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>公司名称</strong></td>
         <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>职位名称</strong></td>
         <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>职位类型</strong></td>
@@ -120,6 +122,9 @@
        <#list pager.data as c>
        
        <tr>
+       
+       
+        <td align="center" class="hui">${c.jlName!''}</td>
         <td align="center" class="hui" title="${c.name!''}">${c.companyName!''}</td>
         <td align="center" class="hui" title="${c.address!''}">${c.jobName!''}</td>
         <td align="center" class="hui">
@@ -225,5 +230,8 @@
   <!-- 弹窗 结束 -->
 	<#include "../include/deleteConfirmModal.ftl">
     <script src="/js/jobMatchInfo.js"></script>
+    <script>
+    		common.initLeftMenuSelected("zpJobMatchingInfo_list");
+    </script>
 </html>
 

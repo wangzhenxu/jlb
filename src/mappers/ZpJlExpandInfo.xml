@@ -9,35 +9,56 @@
 	        	<result  column="jl_id" property="jlId" />
 	        	<result  column="jl_file_path" property="jlFilePath" />
 	        	<result  column="jl_content" property="jlContent" />
+	        	<result  column="technician_audit_person" property="technicianAuditPerson" />
+	        	<result  column="technician_audit_time" property="technicianAuditTime" />
+	        	<result  column="audit_type_id" property="auditTypeId" />
 	</resultMap>
 	
 	<!-- 查询 简历扩展信息列表 -->
 	<select id="queryZpJlExpandInfoList" resultMap="zpJlExpandInfoMap">
 		SELECT
-						 		zp_jl_expand_info.jl_expand_id,
-			        	
-						 		zp_jl_expand_info.jl_id,
-			        	
-						 		zp_jl_expand_info.jl_file_path,
-			        	
-						 		zp_jl_expand_info.jl_content
-			        	
+						 		jei.jl_expand_id,
+						 		jei.jl_id,
+						 		jei.jl_file_path,
+						 		jei.jl_content,
+						 		jei.technician_audit_person,
+						 		jei.technician_audit_time,
+						 		jei.audit_type_id
 		FROM
-			zp_jl_expand_info
+			zp_jl_expand_info  jei
 		<where>
-							<if test="qtype != null and qtype=='like'">
-							</if>
+					<if test="qtype != null and qtype=='like'">
+						<if test="nameT != null and nameT !='' ">
+				        		AND jei.name like '%${nameT}%' 
+			        	</if>
+					</if>
 				        	<if test="jlId != null and jlId !='' ">
-				        		AND zp_jl_expand_info.jl_id=#{jlId} 
+				        		AND jei.jl_id=#{jlId} 
 				        	</if>
 				        	<if test="jlFilePath != null and jlFilePath !='' ">
-				        		AND zp_jl_expand_info.jl_file_path=#{jlFilePath} 
+				        		AND jei.jl_file_path=#{jlFilePath} 
 				        	</if>
 				        	<if test="jlContent != null and jlContent !='' ">
-				        		AND zp_jl_expand_info.jl_content=#{jlContent} 
+				        		AND jei.jl_content=#{jlContent} 
 				        	</if>
+				        	<if test="technicianAuditPerson != null and technicianAuditPerson !='' ">
+				        		AND jei.technician_audit_person=#{technicianAuditPerson} 
+				        	</if>
+				        	<if test="technicianAuditTime != null and technicianAuditTime !='' ">
+				        		AND jei.technician_audit_time=#{technicianAuditTime} 
+				        	</if>
+				        	<if test="auditTypeId != null and auditTypeId !='' ">
+				        		AND jei.audit_type_id=#{auditTypeId} 
+				        	</if>
+					
+					<if test="ids !=null">
+				         AND jei.jl_expand_id IN
+						    <foreach  item="item" collection="ids"  index="index" open="(" separator="," close=")"> 
+									 ${item} 
+							</foreach>
+			        </if>
 		</where>
-		ORDER BY zp_jl_expand_info.jl_expand_id desc 
+		ORDER BY jei.jl_expand_id desc 
 		<if test="skipResults!=null">
 				limit #{skipResults} ,#{maxResults}
 		</if>
@@ -49,19 +70,43 @@
 		SELECT
 			count(1)
 		FROM
-			zp_jl_expand_info
+			zp_jl_expand_info  jei
 		<where>
-							<if test="qtype != null and qtype=='like'">
-							</if>
+						<if test="qtype != null and qtype=='like'">
+								<if test="nameT != null and nameT !='' ">
+					        		 AND jei.name like  '%${nameT}%' 
+					        	</if>
+						</if>
+							
+							<!-- 非自己，唯一验证 -->
+							<if test="notId != null and notId !=''">
+			        			AND jei.jl_expand_id  !=#{notId} 
+				        	</if>
+							
 				        	<if test="jlId != null and jlId !=''">
-				        		AND zp_jl_expand_info.jl_id=#{jlId} 
+				        		AND jei.jl_id=#{jlId} 
 				        	</if>
 				        	<if test="jlFilePath != null and jlFilePath !=''">
-				        		AND zp_jl_expand_info.jl_file_path=#{jlFilePath} 
+				        		AND jei.jl_file_path=#{jlFilePath} 
 				        	</if>
 				        	<if test="jlContent != null and jlContent !=''">
-				        		AND zp_jl_expand_info.jl_content=#{jlContent} 
+				        		AND jei.jl_content=#{jlContent} 
 				        	</if>
+				        	<if test="technicianAuditPerson != null and technicianAuditPerson !=''">
+				        		AND jei.technician_audit_person=#{technicianAuditPerson} 
+				        	</if>
+				        	<if test="technicianAuditTime != null and technicianAuditTime !=''">
+				        		AND jei.technician_audit_time=#{technicianAuditTime} 
+				        	</if>
+				        	<if test="auditTypeId != null and auditTypeId !=''">
+				        		AND jei.audit_type_id=#{auditTypeId} 
+				        	</if>
+				<if test="ids !=null">
+				         AND jei.jl_expand_id IN
+						    <foreach  item="item" collection="ids"  index="index" open="(" separator="," close=")"> 
+									 ${item} 
+							</foreach>
+			        </if>
 		</where>
 	</select>
 	
@@ -79,6 +124,15 @@
 		        	<if test="jlContent != null">
 		        		jl_content,
 		        	</if>
+		        	<if test="technicianAuditPerson != null">
+		        		technician_audit_person,
+		        	</if>
+		        	<if test="technicianAuditTime != null">
+		        		technician_audit_time,
+		        	</if>
+		        	<if test="auditTypeId != null">
+		        		audit_type_id,
+		        	</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			        	<if test="jlId != null">
@@ -89,6 +143,15 @@
 			        	</if>
 			        	<if test="jlContent != null">
 			        		#{jlContent},
+			        	</if>
+			        	<if test="technicianAuditPerson != null">
+			        		#{technicianAuditPerson},
+			        	</if>
+			        	<if test="technicianAuditTime != null">
+			        		#{technicianAuditTime},
+			        	</if>
+			        	<if test="auditTypeId != null">
+			        		#{auditTypeId},
 			        	</if>
 		</trim>
 	</insert>
@@ -105,6 +168,15 @@
 			        	</if>
 			        	<if test="jlContent != null">
 			        		jl_content=#{jlContent},
+			        	</if>
+			        	<if test="technicianAuditPerson != null">
+			        		technician_audit_person=#{technicianAuditPerson},
+			        	</if>
+			        	<if test="technicianAuditTime != null">
+			        		technician_audit_time=#{technicianAuditTime},
+			        	</if>
+			        	<if test="auditTypeId != null">
+			        		audit_type_id=#{auditTypeId},
 			        	</if>
 		</trim>
 		WHERE jl_expand_id=#{jlExpandId}
@@ -126,21 +198,34 @@
 				        	<if test="jlContent != null">
 				        		AND jl_content=#{jlContent} 
 				        	</if>
+				        	<if test="technicianAuditPerson != null">
+				        		AND technician_audit_person=#{technicianAuditPerson} 
+				        	</if>
+				        	<if test="technicianAuditTime != null">
+				        		AND technician_audit_time=#{technicianAuditTime} 
+				        	</if>
+				        	<if test="auditTypeId != null">
+				        		AND audit_type_id=#{auditTypeId} 
+				        	</if>
 		</where>
 	</delete>
 	
 	<!-- 获得  简历扩展信息 -->
 	<select id="getZpJlExpandInfoById" resultMap="zpJlExpandInfoMap">
 		SELECT
-						 		ZpJlExpandInfo.jl_expand_id,
-						 		ZpJlExpandInfo.jl_id,
-						 		ZpJlExpandInfo.jl_file_path,
-						 		ZpJlExpandInfo.jl_content
+						 		jei.jl_expand_id,
+						 		jei.jl_id,
+						 		jei.jl_file_path,
+						 		jei.jl_content,
+						 		jei.technician_audit_person,
+						 		jei.technician_audit_time,
+						 		jei.audit_type_id
 		FROM
-			zp_jl_expand_info
+			zp_jl_expand_info  jei
 		WHERE 
-		zp_jl_expand_info.jl_expand_id=#{jlExpandId}
+		jei.jl_expand_id=#{jlExpandId}
 		
 	</select>
 
 </mapper>
+

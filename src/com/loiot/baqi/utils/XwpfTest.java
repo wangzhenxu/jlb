@@ -11,6 +11,8 @@ import org.apache.poi.xwpf.usermodel.XWPFTable;
 import org.apache.poi.xwpf.usermodel.XWPFTableCell;
 import org.apache.poi.xwpf.usermodel.XWPFTableRow;
 
+import com.loiot.commons.utils.StringUtil;
+
 public class XwpfTest {  
    
    /** 
@@ -62,7 +64,11 @@ public class XwpfTest {
    
    public static void main(String[] args) {
 	  try {
-		new XwpfTest().testReadByDoc();
+		//new XwpfTest().testReadByDoc();
+		  //String testS ="http://www.jlb.com/upfile/jl/2015-10-19/Android开发工程师-5年-马兵.doc";
+  	    List ff=StringUtil.splitToString("211", ",");
+
+		  
 	} catch (Exception e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();

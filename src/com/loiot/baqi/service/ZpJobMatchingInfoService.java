@@ -23,6 +23,7 @@ import com.loiot.baqi.status.JobMatchType;
 import com.loiot.baqi.status.MatchKeywordType;
 import com.loiot.baqi.status.PauseStartType;
 import com.loiot.baqi.utils.RegexpUtils;
+import com.loiot.baqi.utils.UserSessionUtils;
 import com.loiot.baqi.pojo.ZpCompanyJobDemandKeys;
 import com.loiot.baqi.pojo.ZpCompanyJobInfo;
 import com.loiot.baqi.pojo.ZpJlInfo;
@@ -67,17 +68,48 @@ public class ZpJobMatchingInfoService{
      * @return
      */
     public Pager<ZpJobMatchingInfo> queryZpJobMatchingInfoListPage(HashMap<String,Object> pMap, int pageIndex)throws Exception {
-
-        // 查询职位匹配信息列表总条数
-        int totalResults = zpJobMatchingInfoDao.getZpJobMatchingInfoListCount(pMap);
-
-        // 构造一个分页器
-        Pager<ZpJobMatchingInfo> pager = new Pager<ZpJobMatchingInfo>(totalResults, pageIndex);
-
+    	//假分页
+    	Pager<ZpJobMatchingInfo> pager = this.setPkList(pMap,pageIndex);
         // 查询职位匹配信息列表
-        List<ZpJobMatchingInfo> zpJobMatchingInfoList = zpJobMatchingInfoDao.queryZpJobMatchingInfoList(pMap, pager.getSkipResults(),
-                pager.getMaxResults());
+        List<ZpJobMatchingInfo> zpJobMatchingInfoList = zpJobMatchingInfoDao.queryZpJobMatchingInfoList(pMap);
         pager.setData(zpJobMatchingInfoList);
+        return pager;
+    }
+    
+    /**
+     * 查询 职位匹配信息列表（假）分页
+     * 
+     * @param name 职位匹配信息名称
+     * @param pageIndex 页索引
+     * @return
+     */
+    public Pager<ZpJobMatchingInfo> queryFlasePageList(HashMap<String,Object> pMap, int pageIndex)throws Exception {
+    	//假分页
+    	Pager<ZpJobMatchingInfo> pager = this.setPkList(pMap,pageIndex);
+        // 查询职位匹配信息列表
+        List<ZpJobMatchingInfo> zpJobMatchingInfoList = zpJobMatchingInfoDao.queryZpJobMatchingInfoList(pMap);
+        pager.setData(zpJobMatchingInfoList);
+        return pager;
+    }
+    
+    
+    
+    
+    /**
+     * 设置 假分页id集合到Map中
+     * @param pMap
+     * @param pageIndex
+     * @return
+     * @throws Exception
+     */
+    public Pager<ZpJobMatchingInfo> setPkList(HashMap<String,Object> pMap,int pageIndex) throws Exception{
+    	  // 查询职位匹配信息列表总条数
+        List<ZpJobMatchingInfo> list = zpJobMatchingInfoDao.queryZpJobMatchingInfoList(pMap);
+        // 构造一个分页器
+        Pager<ZpJobMatchingInfo> pager = new Pager<ZpJobMatchingInfo>(list.size(), pageIndex, 5,list);
+        List<ZpJobMatchingInfo> idsList = pager.getCurrentPageData();
+        List<Long> ids =this.getMatchingIds(idsList);
+        pMap.put("ids", ids);
         return pager;
     }
 	
@@ -184,14 +216,13 @@ public class ZpJobMatchingInfoService{
     	//以下匹配职位信息
     	ZpJlInfo jl = zpJlInfoDao.getZpJlInfoById(jlId);
     	HashMap<String, Object> pMap  = new  HashMap<String, Object>();
-    	//pMap.put("typeId", jl.getJobPositionId());
+    	pMap.put("typeId", jl.getJobPositionId());
     	
     	if(jl.getZpJlJobLevels()!=null){
     		List<Long> ids = getIds(jl.getZpJlJobLevels());
     		pMap.put("ids",ids);
     	}
     	pMap.put("isDelete",PauseStartType.START.getCode());
-    	
     	
     	List<ZpCompanyJobInfo> JobList = this.zpCompanyJobInfoDao.queryZpCompanyJobInfoList(pMap);
     	 matchJob(jl, JobList);
@@ -208,6 +239,21 @@ public class ZpJobMatchingInfoService{
         	idsList = new ArrayList<Long>();
         	for (ZpJlJobLevels b : list) {
             	idsList.add(b.getJobLevelId());
+            }
+        }
+        return idsList;
+    }
+    
+    /**
+     * 查询id集合
+     * @return
+     */
+    public List<Long> getMatchingIds(List<ZpJobMatchingInfo> list) {
+    	List<Long> idsList = null;
+        if(list!=null && list.size()>0) {
+        	idsList = new ArrayList<Long>();
+        	for (ZpJobMatchingInfo b : list) {
+            	idsList.add(b.getMatchId());
             }
         }
         return idsList;
@@ -280,6 +326,7 @@ public class ZpJobMatchingInfoService{
     		//matchBean.setJobPositionIdStatus((int)JobMatchType.NO_SETTING_CONDITION.getCode());
     		
     	
+    		matchBean.setInPerson(UserSessionUtils.getAccount().getAccountId());
     		//保存匹配结果
     		this.zpJobMatchingInfoDao.addZpJobMatchingInfo(matchBean);
     		//newList.add(matchBean);

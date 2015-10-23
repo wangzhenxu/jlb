@@ -19,7 +19,7 @@ var companyJob = {
 		queryfrom :jQuery("#queryForm"), //查询form
 		addBtn : $("#addBtn"),//添加按钮
 		queryBtn : $("#queryBtn"),//查询按钮
-		
+		left_menu_selected_id : "zpCompanyJobInfo_list",   
 	//属性
 	
 	jobId : $("#jobId"), //职位id
@@ -63,6 +63,7 @@ var companyJob = {
 			self.currPage = common.getCurrPageFlag();
 			//初始化标题
 			common.initPageTitle();
+			common.initLeftMenuSelected(self.left_menu_selected_id);
 			//列表页面
 			if(self.currPage!="list"){
 				self.addform.validationEngine({scroll:false});

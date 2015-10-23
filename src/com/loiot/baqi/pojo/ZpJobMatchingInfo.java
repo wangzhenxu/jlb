@@ -45,7 +45,7 @@ public class ZpJobMatchingInfo  implements java.io.Serializable{
 	    private java.lang.String distance;  //distance db_column: distance 
 	    private Integer distanceStatus;  //distanceStatus db_column: distance_status 
 	    private java.util.Date inDatetime;  //录入时间 db_column: in_datetime 
-	    private java.lang.String inPerson;  //录入人 db_column: in_person
+	    private java.lang.Long inPerson;  //录入人 db_column: in_person
 	    
 	    private String companyName; //公司名称
 	    private String jobName;//职位名称
@@ -53,6 +53,9 @@ public class ZpJobMatchingInfo  implements java.io.Serializable{
 	    private Double keywordPercent; //匹配关键字比例
 	    private Integer keywordCount;//要求匹配的关键字数量
 	    private Integer keywordMatchCount; //以匹配数
+	    private String jlName; //简历姓名
+
+	    
 	    
 	   
 	    

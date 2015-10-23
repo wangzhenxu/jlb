@@ -1,3 +1,4 @@
+
 package com.loiot.baqi.dao;
 
 import java.util.HashMap;
@@ -14,7 +15,7 @@ import com.loiot.baqi.pojo.ZpJlExpandInfo;
  * 简历扩展信息 访问层。
  * 
  * @author  wangzx 
- * @creation 2015-10-02
+ * @creation 2015-10-23
  */
 @Repository("zpJlExpandInfoDao")
 public class ZpJlExpandInfoDao extends SqlSessionDaoSupport{
@@ -24,8 +25,9 @@ public class ZpJlExpandInfoDao extends SqlSessionDaoSupport{
      * 
      * @param p 参数对象
      */
-    public void addZpJlExpandInfo(ZpJlExpandInfo p)throws Exception {
+    public ZpJlExpandInfo addZpJlExpandInfo(ZpJlExpandInfo p)throws Exception {
         this.getSqlSession().insert("ZpJlExpandInfo.addZpJlExpandInfo", p);
+        return p;
     }
     
     /**
@@ -63,7 +65,33 @@ public class ZpJlExpandInfoDao extends SqlSessionDaoSupport{
      * @return 返回与ID匹配的简历扩展信息
      */
     public ZpJlExpandInfo getZpJlExpandInfoById(java.lang.Long id)throws Exception {
-        return (ZpJlExpandInfo) getSqlSession().selectOne("ZpJlExpandInfo.getZpJlExpandInfoById", id);
+    	HashMap<String, Object> pMap = new HashMap<String, Object>();
+    	pMap.put("jlExpandId", id);
+    	return (ZpJlExpandInfo) getSqlSession().selectOne("ZpJlExpandInfo.getZpJlExpandInfoById", pMap);
+    }
+    
+    /**
+     * 获得  简历扩展信息
+     * 
+     * @param id 简历扩展信息Id
+     * 
+     * @return 返回与ID匹配的简历扩展信息
+     */
+    public ZpJlExpandInfo getZpJlExpandInfoById(java.lang.Long id,Long accountId)throws Exception {
+    	HashMap<String, Object> pMap = new HashMap<String, Object>();
+    	pMap.put("jlExpandId", id);
+    	pMap.put("inPerson", accountId);
+    	return (ZpJlExpandInfo) getSqlSession().selectOne("ZpJlExpandInfo.getZpJlExpandInfoById", pMap);
+    }
+    
+    /**
+     * 获得  简历扩展信息
+     * 
+     * @param id 简历扩展信息Id
+     * 
+     */
+    public ZpJlExpandInfo getZpJlExpandInfo(HashMap<String,Object> pMap)throws Exception {
+    	return (ZpJlExpandInfo) getSqlSession().selectOne("ZpJlExpandInfo.queryZpJlExpandInfoList", pMap);
     }
     
     /**

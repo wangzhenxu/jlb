@@ -41,7 +41,7 @@ public class ZpCompanyJobInfo  implements java.io.Serializable{
 	    private java.lang.String jobTemptItem;  //诱惑都好项,逗号分隔 db_column: job_tempt_item 
 	    private java.lang.String desc;  //职位描述 db_column: desc 
 	    private java.lang.String moreDesc;  //更多描述 db_column: more_desc 
-	    private java.lang.String inPerson;  //录入人 db_column: in_person 
+	    private java.lang.Long inPerson;  //录入人 db_column: in_person 
 	    private java.util.Date inDatetime;  //录入时间 db_column: in_datetime 
 	    private java.util.Date lastUpdateTime;  //最后更新时间 db_column: last_update_time 
 	    private Integer isDelete;  //是否删除 db_column: is_delete 

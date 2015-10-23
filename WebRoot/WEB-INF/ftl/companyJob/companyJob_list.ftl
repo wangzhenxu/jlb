@@ -111,9 +111,7 @@
      </div>
     </div>
     <div class="form">
-      <#if subject.isPermitted("productClass:add")>
-     	<div style="display:none;" class="form1"><a href="javascript:void(0)"><img src="/images/erji_18.jpg" width="83" height="22" border="0"  name="addpro"  onclick="companyJob.toAdd();"/></a></div>
-     </#if>
+      
      <div class="form2">
      <table width="100%"  border="1" align="left" cellpadding="0" cellspacing="0" bordercolor="#ffffff" style="border-collapse:collapse">
       <tr class="lan">
@@ -191,14 +189,20 @@
          <td align="center" class="hui" style="width:300px;"  >
 	       	<div class="btn-group">
 				 <div class="btn-group">
+				 <#if subject.isPermitted("zpCompanyJobInfo:detail")>
 				  <button type="button" class="btn btn-default"  onclick=companyJob.toDetail('${c.jobId}')>详情</button>
+				 </#if>
+				 <#if subject.isPermitted("zpCompanyJobInfo:edit")>
 				  <button type="button" class="btn btn-default"  onclick=companyJob.toEdit('${c.jobId}')>修改</button>
+				</#if>
+				 <#if subject.isPermitted("zpCompanyJobInfo:disableAndEnabled")>
 				  <#if c.isDelete??>
 				  	<button type="button" class="btn btn-default"  onclick="companyJob.modifyDeleteStatus('${c.jobId}', '${c.isDelete}' )" >
 				  	 	<#if c.isDelete==PauseStartType.START.getCode()> 暂停 </#if>
 				  	 	<#if c.isDelete==PauseStartType.PAUSE.getCode()> 启用 </#if>
 				  </button>	
 				  </#if>
+				</#if>
 	      		</div>
 	      	 </div>
       	</td>

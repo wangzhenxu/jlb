@@ -9,6 +9,11 @@ var jlInfo ={
 		toViewUrl:"/zpJlInfo/toView.action?id=", //详细页面地址
 		getByIdUrl : "/zpJlInfo/getById.action", //根据id查询对象
 		modifyDeleteStatusUrl:"/zpJlInfo/modifyDeleteStatus.action", //停用 或启用
+		getAuditPersonsUrl:"/zpJlInfo/getAuditPersons.action", //获取评审列表
+		assignAuditPersonUrl:"/zpJlInfo/assignAuditPerson.action", //设置评审人
+
+		
+
 
 		onlyName :  $("#onlyName"), //修改，唯一验证时需要添加此属性
 		phoneT :  $("#phoneT"), //phone
@@ -19,7 +24,7 @@ var jlInfo ={
 		addform : jQuery("#addform"), //添加form
 		queryfrom :jQuery("#queryForm"), //查询form
 		addBtn : $("#addBtn"),//添加按钮
-	    
+		left_menu_selected_id : "zpJlInfo_list",    
 		//属性
 		
 		jlId : $("#jlId"), //jlId
@@ -48,10 +53,13 @@ var jlInfo ={
 		isDistanceRequired : $("#isDistanceRequired"), //距离要求
 		inTime : $("#inTime"), //录入时间
 		inPersion : $("#inPersion"), //录入人
+		
+		oldFilePath : $("#oldFilePath"), //原来的文件路径
 		//页面初始化
 		initPage : function (){
 			var self = this;
 			self.currPage = common.getCurrPageFlag();
+			common.initLeftMenuSelected(self.left_menu_selected_id);
 			self.addform.validationEngine({scroll:false});
 			self.addBtn.click(function(){
 				self.add();
@@ -122,7 +130,10 @@ var jlInfo ={
 						$("input").attr("disabled",true);
 						self.addBtn.hide();
 						$("._detail").show();
-					}  
+					}  //不存在
+					else if (result.s==-1000) {
+						location.href = common.notFindUrl;
+					}
 					else {
 						common.alert(result.d);
 					}
@@ -171,7 +182,11 @@ var jlInfo ={
 			self.getById(this.jlId.val(),function (result){
 				if (result.s > 0) {
 					self.setForm(result.data);
-				}  
+				} else
+				//不存在
+				if (result.s==-1000) {
+					location.href = common.notFindUrl;
+				}	
 				else {
 					common.alert(resp.d);
 				}
@@ -220,6 +235,7 @@ var jlInfo ={
 		    //唯一验证时需要记录原来的名称
 		   self.onlyName.val(obj.emal);
 		   self.phoneT.val(obj.phone);
+		   self.oldFilePath.val(obj.jlFilePath);
 		   
 		   //赋值
 			self.jlId.val(obj.jlId); //jlId
@@ -278,26 +294,26 @@ var jlInfo ={
 		}
 		 var oldForm=$(sender).closest("form");
 		   $.ajaxFileUpload({
-			url:'/zpJlInfo/paseWord.action', //需要链接到服务器地址
+			url:'/zpJlInfo/paseWord.action?jlId='+this.jlId.val(), //需要链接到服务器地址
 			type:"POST",
 			async:false,
 			secureuri:false,
 		 	fileElementId:'ui-upload-input', //文件选择框的id属性
-			oldForm:oldForm,// 原formID
+			//oldForm:oldForm,// 原formID
 			success:function(result,status){ //相当于java中try语句块的用法 data是从服务器返回来的值 
 				//{"data":{"name":null,"inTime":null,"jlId":null,"sex":1,"jobId":null,"emal":null,"phone":null,"maritalId":null,"schoolTag":null,"inPersion":null,"identityCard":"130221199102064850","salaryRequireId":null,"famousCompanyUpdateStatus":null,"educationId":null,"lastOperatorTime":null,"jobStartTime":null,"importStatus":null,"jobPositionId":null,"jobPositionLevelId":null},"s":1,"d":"ok"}
 				/*if(!result || result.length==0){
 					common.alert("无法解析此文档，请另存为word2003，在上传",2000);
 					return;
 				}*/
-					try{
+					/*try{
 					eval('(' +$(result.body).html()+ ')');
 					} catch(error){
 						//alert(error);
 						common.alert("此文档不是标准文档，解析不了",2000);
 
 						return;
-					}
+					}*/
 				result= eval('(' +$(result.body).html()+ ')');
 				var st=result.s;
 				var sd=result.d;
@@ -387,6 +403,83 @@ var jlInfo ={
 				}
 			}
 		});
+	},
+	downJl : function (path){
+		window.open(path);
+	},
+	
+	selectAuditPerson: function(){
+		var self = this;
+		if($(".check:checked").length==0){
+			common.alert("请先选择简历");
+			return;
+		}
+		var jls = $(".check:checked").get();
+		var idsArr =[];
+		var postionArr=[];
+		
+		for(i=0;i<jls.length;i++){
+			idsArr.push(jls[i].value);
+			postionArr.push($(jls[i]).attr("postionAttr"));
+		}
+		
+		var newArray =postionArr.unique();
+		if(newArray.length>1){
+			common.alert("请选择一个职位");
+			return;
+		}
+		
+		$.get(self.getAuditPersonsUrl,{"jobPositionId":postionArr.join(",")},function(result){
+			if (result.s > 0) {
+				if(result.data.length==0){
+					return;
+				}
+				$("#auditPersonPop table tr:not(:first)").remove()
+				for(var i=0;i<result.data.length;i++){
+					var obj =result.data[i];
+					if(obj.lastAuditTime && obj.lastAuditTime>0){
+						obj.lastAuditTime = new Date(obj.lastAuditTime).format("yyyy-MM-dd");
+					}
+					var tr=
+					'<tr>'
+					+'<td align="center" class="hui"><input type="radio" class="radio" name="auditPerson" value="'+obj.auditPerson+'" /></td>'
+					+'<td align="center" class="hui">'+obj.auditPersonName+'</td>'
+					+'<td align="center" class="hui">'+obj.auditCount+'</td>'
+					+'<td align="center" class="hui">'+obj.waitAuditCount+'</td>'
+					+'<td align="center" class="hui">'+obj.lastAuditTime+'</td>'
+				   +'</tr>';
+					$("#auditPersonPop table").append(tr);
+				}
+			}else {
+				hiOverAlert(resp.d,1000);
+			}
+	    });
+		
+		 $("#auditPersonPop").modal().css({
+             'width':'798px',
+             'margin-top': '-150px',	                
+             'margin-left': function () {
+            	 return -($(this).width()/2);
+             }
+		});
+		 
+		$("#addAuditBtn").unbind("click").click(function (){
+			if($('[name=auditPerson]:checked').length==0){
+				common.alert("请选择技术评审");
+				return;
+			}
+			self.assignAuditPerson(idsArr.join(","),$('[name=auditPerson]:checked').val());
+		}); 
+	},
+	
+	assignAuditPerson : function (jlIds,auditPerson){
+		var self =this;
+		$.post(self.assignAuditPersonUrl,{jlIds:jlIds,auditPerson:auditPerson},function(result){
+			if (result.s > 0) {
+				location.reload();
+			}else {
+				hiOverAlert(result.d,1000);
+			}
+	    });
 	}
-
 }

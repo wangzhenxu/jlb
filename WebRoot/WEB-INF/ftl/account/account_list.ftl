@@ -59,7 +59,8 @@
      <table width="100%"  border="1" align="left" cellpadding="0" cellspacing="0" bordercolor="#ffffff" style="border-collapse:collapse">
        <tr class="lan">
         <td width="14%" height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>序列号</strong></td>
-        <td width="37%" height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>管理用户名</strong></td>
+        <td width="27%" height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>用户名</strong></td>
+        <td width="10%" height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>用户类型</strong></td>
         <td width="25%" height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>角色</strong></td>
         <td width="24%" align="center" valign="middle" background="/images/erji_22.jpg"><strong>操 作</strong></td>
        </tr>
@@ -67,6 +68,11 @@
 	       <tr>
 	        <td align="center" class="hui">${account.accountId}</td>
 	        <td align="center" class="hui">${account.username}</td>
+	        <td align="center" class="hui">
+	           <#if account.type??>
+	        		${AccountType.get(account.type).getTitle()}
+	           </#if>
+	        </td>
 	        <td align="center" class="hui">
 	        	<#if account.role??>
 	        		${account.role.roleName}

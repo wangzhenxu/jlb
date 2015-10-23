@@ -1,4 +1,5 @@
 var common = {
+	notFindUrl : "/404",
 	//bt弹出
 	openModal : function (id,title){
 			if(title){
@@ -77,6 +78,11 @@ var common = {
 			if(self.currPage=="list"){
 				this.m_title.html(attrVal+"管理");
 			}	
+		},
+		initLeftMenuSelected:function(menuId){
+			 if($("#"+menuId)){
+				 $("#"+menuId).addClass("MenuLevel5");		 	
+			 }
 		}
 }
 
@@ -193,6 +199,21 @@ String.prototype.formatToDate = function(){
 		var newDate = new Date(this.replace(/-/g,"/")+"/01 00:00:00");
 		return newDate;
 	}
+}
+
+/*数组去重复*/
+Array.prototype.unique=function(){
+    var newArr=this.concat();
+    for(var i=0,len=newArr.length;i<len;i++) {
+        for(var j=i+1,len=newArr.length;j<len;j++) {
+            //注意 ===
+            if(newArr[i]===newArr[j]) {
+                newArr.splice(j,1);
+                j--;
+            }
+        }
+    }
+    return newArr;
 }
 
 

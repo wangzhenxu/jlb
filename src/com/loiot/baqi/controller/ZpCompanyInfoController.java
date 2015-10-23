@@ -119,7 +119,7 @@ public class ZpCompanyInfoController {
 		        return NAME_EXIST;
 			}
         	p.setRegtime(DateUtil.toDate(request.getParameter("regtime2")));
-        	p.setInPerson(account.getUsername());
+        	p.setInPerson(account.getAccountId());
         	p.setLastUpdateTime(new Date());
     		zpCompanyInfoService.addZpCompanyInfo(p);
     		// 添加成功

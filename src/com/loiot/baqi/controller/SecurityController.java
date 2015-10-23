@@ -94,12 +94,16 @@ public class SecurityController {
             log.error("login error happend.", ex);
             return AjaxResponse.SYSTEM_BUSY;
         }
+        
          
         session.removeAttribute(Const.SESSION_USER_KEY);
         session.removeAttribute(Const.SESSION_SUBJECT);
         // 保存会话
         session.setAttribute(Const.SESSION_SUBJECT, subject); // shiro已登录用户
-        session.setAttribute(Const.SESSION_USER_KEY, accountService.getAccountByUsername(username));// 登陆用户
+        Account account = accountService.getAccountByUsername(username);
+        session.setAttribute(Const.SESSION_USER_KEY,account );// 登陆用户
+        //放到shiro容器中
+        subject.getSession().setAttribute(Const.SESSION_USER_KEY, account);
 
         IndexInfoSingleTon indexInfo = IndexInfoSingleTon.getInstance();
 		Map<String, List> infoMap = indexInfo.getIndexInfoMap();  //  得到Map集合

@@ -161,6 +161,17 @@ public class ZpJlInfoService{
     /**
      * 获得  简历信息
      * 
+     * @param id 简历信息Id
+     * 
+     * @return 返回与ID匹配的简历信息
+     */
+    public ZpJlInfo getZpJlInfoById(java.lang.Long id,Long accountId)throws Exception {
+        return  zpJlInfoDao.getZpJlInfoById(id,accountId);
+    }
+    
+    /**
+     * 获得  简历信息
+     * 
      * @param name 简历信息名称
      * 
      * @return 返回与NAME匹配的简历信息
@@ -220,7 +231,7 @@ public class ZpJlInfoService{
     	if(content.length()<10){
     		throw  new java.lang.ClassNotFoundException();
     	}
-    	bean.setJlContent(content);
+    	//bean.setJlContent(content);
     	Matcher matcher=null;
     	String regexpStr=null;
     	List<String> matchs =null;
@@ -289,21 +300,31 @@ public class ZpJlInfoService{
 			matcherString=matchs.get(0);
     		bean.setPhone(matcherString);
 		}
-		//最高学校
+		//学校名称
 		matchs = instance.matchGroupB(getJlRegexp(ResumeMatchingRegexpType.SCHOOLTAG_REGEXP.getTitle()), content);
-		if(matchs.size()==1){
-			matcherString=matchs.get(0);
-    		bean.setSchoolTag(matcherString);
-    		if(matcherString.equals("大学")){
-    			Long v = DictionaryUtil.getCode(DictionaryType.EDUCATION.getCode(),JLBUtils.dealDeEducation(matcherString));
-    			bean.setEducationId(v);
-    		}
+		if(matchs.size()>=1){
+			for(int i =0;i<matchs.size();i++){
+				matcherString=matchs.get(i);
+	    		bean.setSchoolTag(matcherString);
+	    		if(matcherString.indexOf("大学")!=-1){
+	    			matcherString="本科";
+	    			Long v = DictionaryUtil.getCode(DictionaryType.EDUCATION.getCode(),JLBUtils.dealDeEducation(matcherString));
+	    			bean.setEducationId(v);
+	    			break;
+	    		}else if(matcherString.indexOf("学院")!=-1){
+	    			matcherString="专科";
+	    			Long v = DictionaryUtil.getCode(DictionaryType.EDUCATION.getCode(),JLBUtils.dealDeEducation(matcherString));
+	    			bean.setEducationId(v);
+	    		}
+			}
+			
 		}
 		if(bean.getEducationId()==null){
-			//学历
+			//最高学历
 			matchs = instance.matchGroupB(getJlRegexp(ResumeMatchingRegexpType.TOP_SCHOOLTAG_REGEXP.getTitle()), content);
 			if(matchs.size()>0){
 				matcherString=matchs.get(0);
+				System.out.println("最高学历:" +matcherString );
 				Long v = DictionaryUtil.getCode(DictionaryType.EDUCATION.getCode(),JLBUtils.dealDeEducation(matcherString));
 				bean.setEducationId(v);
 			}
@@ -337,12 +358,14 @@ public class ZpJlInfoService{
     		bean.setJobStartTime(new2);
 		}
 		
-		String file1Path="/jl/"+DateUtil.toString(new Date(), "yyyy-MM-dd")+"/"+fileName;
+		//DictionaryUtil.getName(code);
+		//String filePath = fileName.substring(fileName.lastIndexOf("."));
+		String file1Path="/temp/"+fileName;
      	File newFile1;
         newFile1 = FileUtil.createFile(ApplicationConst.UPLOAD_JL_PATH+file1Path);
          //将文件写到新的文件当中
         commonFile.getFileItem().write(newFile1);
-        file1Path = ApplicationConst.UPLOAD_JL_URL+file1Path;
+        //file1Path = ApplicationConst.UPLOAD_JL_URL+file1Path;
         bean.setJlFilePath(file1Path);
          
 		return bean;

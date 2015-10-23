@@ -52,8 +52,6 @@ public enum DictionaryType {
 	
 	PAUSE_START(20, "暂停启用状态");
 	
-	
-	
 	/**
 	 * 状态码
 	 */

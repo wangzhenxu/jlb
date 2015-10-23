@@ -62,7 +62,7 @@
 			zp_company_info ci
 		<where>
 							<if test="qtype != null and qtype=='like'">
-									<if test="name != null and name !='' ">
+									<if test="nameT != null and nameT !='' ">
 							        		AND ci.name like '%${name}%'
 							        </if>
 							</if>

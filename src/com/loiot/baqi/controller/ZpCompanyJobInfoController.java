@@ -126,7 +126,7 @@ public class ZpCompanyJobInfoController {
     	try {
             Account account = (Account) session.getAttribute(Const.SESSION_USER_KEY);
             p.setInDatetime(new Date());
-    		p.setInPerson(account.getUsername());
+    		p.setInPerson(account.getAccountId());
     		zpCompanyJobInfoService.addZpCompanyJobInfo(p);
     		// 添加成功
     		return AjaxResponse.OK;

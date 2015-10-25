@@ -107,17 +107,16 @@
         <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>薪水要求</strong></td>
          <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>学历</strong></td>
          <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>专业</strong></td>
-        <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>英语等级</strong></td>
-        <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>性别</strong></td>
-        <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>婚否</strong></td>
-       <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>年龄</strong></td>
+        <td height="37" align="center" valign="middle" background="/images/erji_22.jpg" style="display:none;"><strong>英语等级</strong></td>
+        <td height="37" align="center" valign="middle" background="/images/erji_22.jpg" style="display:none;"><strong>性别</strong></td>
+        <td height="37" align="center" valign="middle" background="/images/erji_22.jpg" style="display:none;"><strong>婚否</strong></td>
+       <td height="37" align="center" valign="middle" background="/images/erji_22.jpg" style="display:none;"><strong>年龄</strong></td>
        <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>工作年限</strong></td>
        <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>距离</strong></td>
        <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>总关键字数</strong></td>
        <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>已匹配</strong></td>
-              <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>匹配率</strong></td>
-       
-       <td height="37" style="display:none;" align="center" valign="middle" background="/images/erji_22.jpg"><strong>操 作</strong></td>
+       <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>匹配率</strong></td>
+       <td height="37"  align="center" valign="middle" background="/images/erji_22.jpg"><strong>操 作</strong></td>
        </tr>
        <#list pager.data as c>
        
@@ -155,24 +154,24 @@
         </td>
         
         
-         <td align="center" class="hui">
+         <td align="center" class="hui" style="display:none;">
 	         <#if c.englishLevelIdStatus??>
 	         	${JobMatchType.get(c.englishLevelIdStatus).getTitle()}
 	 		</#if>
         </td>
-        <td align="center" class="hui">
+        <td align="center" class="hui" style="display:none;">
 	         <#if c.sexStatus??>
 	         	${JobMatchType.get(c.sexStatus).getTitle()}
 	 		</#if>
         </td>
         
-        <td align="center" class="hui">
+        <td align="center" class="hui" style="display:none;">
 	         <#if c.maritalIdStatus??>
 	         	${JobMatchType.get(c.maritalIdStatus).getTitle()}
 	 		</#if>
         </td>
         
-        <td align="center" class="hui">
+        <td align="center" class="hui" style="display:none;">
 	         <#if c.birthdayStatus??>
 	         	${JobMatchType.get(c.birthdayStatus).getTitle()}
 	 		</#if>
@@ -206,11 +205,28 @@
         </td>
         
         
-        <td align="center" class="hui" style="display:none;">
-       			 <a  href="javascript:">详情</a>
-        		 <a  href="javascript:">修改</a>
-         		 <a  href="javascript:">删除</a>
-         		 <a  href="javascript:">发布职位</a>
+        <td align="center" class="hui" >
+   			 <div class="btn-group" style=";">
+			 <#assign match = "">  
+			 <#assign noMatch = "">   
+	         <#list c.keys as k>
+	         	<#if k.isMatch==MatchKeywordType.ALREADY_MATCH.getCode()>
+	         	 	<#if match=="">
+	         	 			<#assign match =k.keyword > 
+	         	 		<#else>
+	         	 			<#assign match =match+","+k.keyword > 
+	         	 	</#if>
+	         	 <#else>
+	         	  	<#if noMatch=="">
+	         	 			<#assign noMatch =k.keyword > 
+	         	 		<#else>
+	         	 			<#assign noMatch =noMatch+","+k.keyword > 
+	         	 	</#if>
+	         	</#if>
+   			 </#list>
+   			 
+   			   <button type="button" class="btn btn-default"  title="已匹配关键字：${match} &#10;未匹配关键字：${noMatch}">关键字</button>
+      	 	 </div>
         </td>
          		
        </tr>

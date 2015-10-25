@@ -63,6 +63,14 @@ public class AccountDao extends SqlSessionDaoSupport {
 
         getSqlSession().update("Account.updatePassword", params);
     }
+    
+    public void updateDeleteStatus(Long accountId,Integer isDelete){
+    	 Map<String, Object> params = new HashMap<String, Object>();
+         params.put("accountId", accountId);
+         params.put("isDelete", isDelete);
+        getSqlSession().update("Account.updateDeleteStatus", params);
+
+    }
 
     /**
      * 为账户添加角色
@@ -103,6 +111,18 @@ public class AccountDao extends SqlSessionDaoSupport {
         getSqlSession().insert("Account.addAccount", account);
         return account;
     }
+    
+    /**
+     * 更新type
+     * 
+     * @param account 后台账号
+     * @return 返回新增后台账号的ID
+     */
+    public void updateAccountType(Account account) {
+        getSqlSession().update("Account.updateType", account);
+    }
+    
+    
 
     /**
      * 删除后台账号

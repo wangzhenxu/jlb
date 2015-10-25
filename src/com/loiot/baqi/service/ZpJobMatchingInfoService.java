@@ -523,6 +523,13 @@ public class ZpJobMatchingInfoService{
     public void dealMatchKeys(List<ZpCompanyJobDemandKeys> keys,ZpJlInfo jl,ZpJobMatchingInfo matchBean) throws Exception{
     	matchBean.setKeywordCount(keys.size());
     	
+    	//先删除，以前匹配的关键字
+    	if(keys.size()>0){
+	    	ZpJobMatchingKeys delKeyBean = new ZpJobMatchingKeys();
+	    	delKeyBean.setJlId(jl.getJlId());
+	    	delKeyBean.setJobId(keys.get(0).getJobId());
+	        this.zpJobMatchingKeysDao.deleteZpJobMatchingKeys(delKeyBean);
+    	}
     	int matchCount = 0;
     	if(jl.getJlContent()!=null && jl.getJlContent().length()>0){
     		for(ZpCompanyJobDemandKeys key : keys){
@@ -530,6 +537,7 @@ public class ZpJobMatchingInfoService{
         		ZpJobMatchingKeys jmk = new ZpJobMatchingKeys();
         		jmk.setJlId(jl.getJlId());
         		jmk.setJobId(key.getJobId());
+        		jmk.setInPerson(UserSessionUtils.getAccount().getAccountId());
         		jmk.setKeyword(key.getKeyword());
         		if(b){
         			matchCount++;

@@ -48,7 +48,7 @@ public class ZpCompanyJobInfo  implements java.io.Serializable{
 	    private java.lang.Long zpUrgencyStatusId;  //招聘紧急状态 db_column: zp_urgency_status_id 
 	    private java.lang.Long areaId;  //所在城区 db_column: area_id 
 	    private Long companyAreaId;
-	    
+	    private java.lang.String inPersonName;
 	    
 	    List<ZpCompanyJobDemandKeys> keys;
 

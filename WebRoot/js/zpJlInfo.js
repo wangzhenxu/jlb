@@ -53,6 +53,8 @@ var jlInfo ={
 		isDistanceRequired : $("#isDistanceRequired"), //距离要求
 		inTime : $("#inTime"), //录入时间
 		inPersion : $("#inPersion"), //录入人
+		inPersonName : $("#inPersonName"), //录入人
+		jlContent2 :$("#jlContent2"),
 		
 		oldFilePath : $("#oldFilePath"), //原来的文件路径
 		//页面初始化
@@ -285,7 +287,10 @@ var jlInfo ={
 			}
 				
 			//其它属性
-			self.inPersion.val(obj.inPersion); //录入人
+			self.inPersonName.html(obj.inPersonName); //录入人
+			if(obj.jlContent && obj.jlContent.length>0){
+				self.jlContent2.html(obj.jlContent);
+			}
 	   },
 	upload :function (sender){
 		if(!sender.value.endWith("doc") && !sender.value.endWith("docx") ){

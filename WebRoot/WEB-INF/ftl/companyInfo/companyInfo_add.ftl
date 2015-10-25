@@ -126,7 +126,7 @@
          
           <tr style="display:none;" class="_detail">
            <td  align="right" class="hui1">录入人：</td>
-           <td  align="left" valign="middle"  colspan="3" id="inPerson">
+           <td  align="left" valign="middle"  colspan="3" id="inPersonName">
            </td>
          </tr>
 	 	<tr style="display:none;" class="_detail">

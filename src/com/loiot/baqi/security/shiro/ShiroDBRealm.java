@@ -10,6 +10,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
+import org.apache.shiro.authc.DisabledAccountException;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.AuthorizationInfo;
@@ -20,6 +21,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.loiot.baqi.dao.AccountDao;
+import com.loiot.baqi.status.PauseStartType;
 import com.timeloit.pojo.Account;
 
 /**
@@ -53,6 +55,7 @@ public class ShiroDBRealm extends AuthorizingRealm {
         // 根据账户名获得账户
         Account account = accountDao.getAccountByUsername(token.getUsername());
 
+        
         // 当账号密码不存在
         if (account == null) {
             log.debug("account not exist.");
@@ -63,6 +66,12 @@ public class ShiroDBRealm extends AuthorizingRealm {
         if (!StringUtils.equals(account.getPassword(), new String(token.getPassword()))) {
             log.debug("password not equals.");
             throw new PasswordWrongException();
+        }
+        
+        // 当账号停用
+        if (account.getIsDelete()==PauseStartType.PAUSE.getCode()) {
+            log.debug("account is stop ");
+            throw new DisabledAccountException();
         }
 
         return new SimpleAuthenticationInfo(account.getUsername(), account.getPassword(), getName());

@@ -1,13 +1,14 @@
+
 package com.loiot.baqi.pojo;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
- * 职位匹配关键字 实体类
+ * 职位匹配关键字信息 实体类
  * 
  * @author  wangzx 
- * @creation 2015-10-06
+ * @creation 2015-10-25
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -20,7 +21,9 @@ public class ZpJobMatchingKeys  implements java.io.Serializable{
 	    private java.lang.Long jlId;  //简历id db_column: jl_id 
 	    private java.lang.String keyword;  //关键字 db_column: keyword 
 	    private Integer isMatch;  //是否匹配 db_column: is_match 
+	    private java.lang.Long inPerson;  //录入人 db_column: in_person 
 
+	  private java.lang.String inPersonName;
 
 	public ZpJobMatchingKeys(){
 	}

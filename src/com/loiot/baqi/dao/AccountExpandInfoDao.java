@@ -39,6 +39,15 @@ public class AccountExpandInfoDao extends SqlSessionDaoSupport{
     }
     
     /**
+     * 修改 用户扩展信息
+     * 
+     * @param p 参数对象
+     */
+    public void updatePostionInfo(AccountExpandInfo p)throws Exception {
+        this.getSqlSession().update("AccountExpandInfo.updatePostionInfo", p);
+    }
+    
+    /**
      * 删除  用户扩展信息
      * 
      * @param id 主键

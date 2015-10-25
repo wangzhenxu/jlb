@@ -29,6 +29,8 @@ var companyInfo = {
 	coordX : $("#coordX"), //坐标x
 	coordY : $("#coordY"), //坐标y
 	areaId : $("#areaId"), //公司所在城区
+	inPersonName : $("#inPersonName"), //录入人
+
 	query : function(){
 		var serializeObj = common.serializeJson("queryForm");
 		var jsonStr = JSON.stringify(serializeObj)
@@ -217,7 +219,9 @@ var companyInfo = {
 		$("input[name='areaId'][value='"+obj.areaId+"']").attr("checked",true); //公司所在城区
 		
 		//用户详情显示信息
-		this.inPerson.html(obj.inPerson);
+		//this.inPerson.html(obj.inPerson);
+		this.inPersonName.html(obj.inPersonName); //录入人
+
 		if(obj.lastUpdateTime && obj.lastUpdateTime>0){
 		  var new1 = new Date(obj.lastUpdateTime).format("yyyy-MM-dd HH:mm");
 		  this.lastUpdateTime.html(new1); //更新时间

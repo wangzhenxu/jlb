@@ -104,7 +104,13 @@ function editAccount() {
 		$password.next().text("请您输入用户密码");
 		return;
 	}
-
+	
+	if($("[name=type]:checked").val()==2){
+		if($("#auditPositionId").val()==""){
+			common.alert("请选择评审职位");
+			return;
+		}
+	}
 	// 提交form表单
 	$form.ajaxSubmit(function(resp) {
 		if (resp.s > 0) {
@@ -122,4 +128,25 @@ function accountTypeSelected(obj){
 	}else{
 		$("#auditPostion_id").hide();
 	}
+}
+
+modifyDeleteStatusUrl="/account/modifyDeleteStatus.action" //停用 或启用
+
+modifyDeleteStatus = function (id,status){
+	   var self = this;
+	   var delTitle = "";
+	   if(status==1){
+		   status=2;
+		   delTitle="确定停用账号？此账号将不能登陆哦";
+	   } else 
+	   if(status==2){
+		   status=1;
+		   delTitle="确定启用吗？";
+	   }
+	   
+	  var f= window.confirm(delTitle);
+	  if(f){
+		  location.href= modifyDeleteStatusUrl+"?id="+id+"&deleteStatus="+status;
+	  }
+	  
 }

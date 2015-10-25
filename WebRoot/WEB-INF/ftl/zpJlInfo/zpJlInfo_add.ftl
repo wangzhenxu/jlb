@@ -10,6 +10,7 @@
 <link href="/css/c_validationEngine.jquery.css" rel="stylesheet" type="text/css" />
 <script src="/js/ajaxfileupload.js"></script>
 <script src="/js/my97/WdatePicker.js" type="text/javascript" > </script>
+ <script type="text/javascript" src="/js/ckeditor/ckeditor.js"></script>			
 
 <form id="addform" name="form"  method="post" enctype="multipart/form-data">
 <input type="hidden" name="jlId" id="jlId"  value="${pid!''}"  />
@@ -163,7 +164,20 @@
            <td  align="right" class="hui1">录入时间：</td>
            <td  align="left" valign="middle" colspan="3" id="inTime">
            </td>
-         </tr>    
+         </tr>
+         
+         <tr style="display:none;" class="_detail">
+           <td  align="right" class="hui1">录入人：</td>
+           <td  align="left" valign="middle" colspan="3" id="inPersonName">
+           </td>
+         </tr>  
+         
+          <tr style="display:none;" class="_detail">
+           <td  align="right" class="hui1">简历内容：</td>
+           <td  align="left" valign="middle" colspan="3" >
+            <textarea id="jlContent2"  cols="130" style="font-size: 15px;" rows="150" ></textarea>
+           </td>
+         </tr>     
          
          </table>
 

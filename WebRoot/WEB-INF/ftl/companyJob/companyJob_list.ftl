@@ -178,7 +178,7 @@
          </td>
         
          <td align="center" class="hui">
-	        ${c.inPerson!''}
+	        ${c.inPersonName!''}
         </td>
          <td align="center" class="hui">
         	 <#if c.inDatetime??>

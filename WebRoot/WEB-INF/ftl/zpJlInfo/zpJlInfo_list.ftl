@@ -117,10 +117,19 @@
         <td  height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>职位</strong></td>
         <td  height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>级别</strong></td>
         <td  height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>薪水要求</strong></td>
-        <td  height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>年龄</strong></td>
-        <td  height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>性别</strong></td>
+        
+      
+        <!-- hr角色隐藏吧列太多 -->
+        <#if Session[Const.SESSION_USER_KEY].type!=AccountType.HR.getCode()>
+	        <td  height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>年龄 </strong></td>
+	        <td  height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>性别</strong></td>
+        </#if>
         <td  height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>最高学历</strong></td>
         <td  height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>评审人</strong></td>
+         <!-- hr角色隐藏吧列太多 -->
+        <#if Session[Const.SESSION_USER_KEY].type!=AccountType.HR.getCode()>
+        	<td  height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>录入人</strong></td>
+        </#if>
         <td  height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>录入时间</strong></td>
         <td  height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>操 作</strong></td>
        </tr>
@@ -148,16 +157,22 @@
 	    		${DictionaryUtil.getName(c.salaryRequireId)}
 	    	 </#if>
 	    </td>
-	    <td align="center" class="hui">
-	    	<#if c.birthday??>
-	   		 	${DateUtil.compareDate(DateUtil.toString(c.getBirthday(), DateUtil.DEFAULT_SHORT_FORMAT), null, 2)}岁 <#else> 无
-	    	</#if>
-	    </td>
-	    <td align="center" class="hui">
-	    	 <#if c.sex??>
-	    		${DictionaryUtil.getName(c.sex)}
-	    	 </#if>
-	    </td>
+	    
+	      <!-- hr角色隐藏吧列太多 -->
+        <#if Session[Const.SESSION_USER_KEY].type!=AccountType.HR.getCode()>
+		        <td align="center" class="hui">
+			    	<#if c.birthday??>
+			   		 	${DateUtil.compareDate(DateUtil.toString(c.getBirthday(), DateUtil.DEFAULT_SHORT_FORMAT), null, 2)}岁 <#else> 无
+			    	</#if>
+			    </td>
+			    <td align="center" class="hui">
+			    	 <#if c.sex??>
+			    		${DictionaryUtil.getName(c.sex)}
+			    	 </#if>
+			    </td>
+	    </#if>
+	    
+	   
 	     <td align="center" class="hui">
 	    	 <#if c.educationId??>
 	    		${DictionaryUtil.getName(c.educationId)}
@@ -166,8 +181,16 @@
 	     <td align="center" class="hui">
 	     <span class="label label-info">
 	    	    ${c.technicianAuditPersonName!'待选择'}
-		 </span>	    
+		 </span>
 	    </td>
+	     <!-- hr角色隐藏吧列太多 -->
+        <#if Session[Const.SESSION_USER_KEY].type!=AccountType.HR.getCode()>
+			<td align="center" class="hui">
+				 ${c.inPersonName!''}
+			</td>
+       </#if>
+	     
+	    
 	    <td align="center" class="hui">
 	    	     <#if c.inTime??>
         			 ${c.inTime?string("yyyy-MM-dd HH:mm:ss")}

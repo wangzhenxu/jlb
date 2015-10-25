@@ -3,6 +3,7 @@ package com.loiot.baqi.controller;
 import java.util.Date;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringUtils;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.loiot.baqi.constant.Const;
 import com.loiot.baqi.controller.response.AjaxResponse;
 import com.loiot.baqi.controller.response.Pager;
+import com.loiot.baqi.pojo.ZpCompanyInfo;
 import com.loiot.baqi.security.shiro.UsernameExistException;
 import com.loiot.baqi.service.AccountService;
 import com.loiot.baqi.service.RoleService;
@@ -126,10 +128,11 @@ public class AccountController {
      * 
      * @param account 账户
      * @return ajax响应
+     * @throws Exception 
      */
     @RequestMapping(value = "/edit")
     @ResponseBody
-    public Object edit(Account account) {
+    public Object edit(Account account) throws Exception {
         accountService.updateAccount(account);
         return AjaxResponse.OK;
     }
@@ -155,70 +158,21 @@ public class AccountController {
         accountService.deleteAccount(accountId);
         return "redirect:/account/list.action";
     }
-
-    //
-    // @RequestMapping(value = "/view")
-    // public String viewRole(@RequestParam(value = "roleId", required = true) Long roleId) {
-    // return null;
-    // }
-    //
-    // /**
-    // * 保存角色,当角色ID存在时，进行更新。当角色ID不存在时，进行新增。
-    // *
-    // * @param role 角色
-    // * @return
-    // */
-    // @RequestMapping(value = "/save")
-    // @ResponseBody
-    // public Object save(Role role) {
-    //
-    // // 当角色名称为空时
-    // if (StringUtils.isEmpty(role.getRoleName())) {
-    // log.debug("role name is empty.");
-    // return ROLE_NAME_IS_EMPTY;
-    // }
-    //
-    // // 当权限列表为空时
-    // if (CollectionUtils.isEmpty(role.getPermissionList())) {
-    // log.debug("role permission list is empty.");
-    // return ROLE_PERMISSION_LIST_IS_EMPTY;
-    // }
-    //
-    // if (role.getRoleId() != null) {
-    // // 修改角色
-    // accountService.updateRole(role);
-    // } else {
-    // // 插入数据
-    // accountService.addRole(role);
-    // }
-    //
-    // return AjaxResponse.OK;
-    // }
-    //
-    // /**
-    // * 获得角色
-    // *
-    // * @param roleId 角色ID
-    // * @return
-    // */
-    // @RequestMapping(value = "/get")
-    // @ResponseBody
-    // public Object get(@RequestParam(value = "roleId", required = true) Long roleId) {
-    //
-    // // 当角色ID为空时
-    // if (roleId == null) {
-    // log.debug("role id is empty.");
-    // return AjaxResponse.SYSTEM_BUSY;
-    // }
-    //
-    // // 获得角色
-    // Role role = accountService.getRole(roleId);
-    //
-    // if (role != null) {
-    // return AjaxResponse.OK(role);
-    // } else {
-    // return AjaxResponse.SYSTEM_BUSY;
-    // }
-    //
-    // }
+    
+    /**
+     * 更新 （停用、启用状态）
+     * 
+     * @param id ZpCompanyInfoID
+     */
+    @RequestMapping(value = "/modifyDeleteStatus")
+    public String modifyDeleteStatus(@RequestParam(value = "id", required = true) java.lang.Long id,
+    		@RequestParam(value = "deleteStatus", required = true) java.lang.Integer isDelete,
+    		HttpServletRequest request)throws Exception {
+    	this.accountService.updateDeleteStatus(id, isDelete);
+    	  String s = request.getHeader("Referer");
+          String redirectStr = s.substring(s.indexOf("/account/"), s.length());
+          return "redirect:"+redirectStr;
+      
+    }
+    
 }

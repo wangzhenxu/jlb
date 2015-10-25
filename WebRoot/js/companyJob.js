@@ -57,6 +57,8 @@ var companyJob = {
 	 zpUrgencyStatusId : $("#zpUrgencyStatusId"), //招聘紧急状态
 	 areaId : $("#areaId"), //所在城区
 	 
+	 inPersonName : $("#inPersonName"), //录入人
+	 
 	 //页面初始化
 	 initPage : function (){
 			var self = this;
@@ -311,7 +313,11 @@ var companyJob = {
 			}
 		$("input[name='zpUrgencyStatusId'][value='"+obj.zpUrgencyStatusId+"']").attr("checked",true); //招聘紧急状态
 		$("input[name='areaId'][value='"+obj.areaId+"']").attr("checked",true); //所在城区
-	   }
+		
+		self.inPersonName.html(obj.inPersonName); //录入人
+
+   }
+	   
 	  
 		
 }

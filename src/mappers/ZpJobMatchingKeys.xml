@@ -10,85 +10,31 @@
 	        	<result  column="jl_id" property="jlId" />
 	        	<result  column="keyword" property="keyword" />
 	        	<result  column="is_match" property="isMatch" />
+	        	<result  column="in_person" property="inPerson" />
+			<result  column="inPersonName" property="inPersonName" />
 	</resultMap>
 	
-	<!-- 查询 职位匹配关键字列表 -->
+	<!-- 查询 职位匹配关键字信息列表 -->
 	<select id="queryZpJobMatchingKeysList" resultMap="zpJobMatchingKeysMap">
 		SELECT
-						 		zp_job_matching_keys.key_id,
-			        	
-						 		zp_job_matching_keys.job_id,
-			        	
-						 		zp_job_matching_keys.jl_id,
-			        	
-						 		zp_job_matching_keys.keyword,
-			        	
-						 		zp_job_matching_keys.is_match
-			        	
-		FROM
-			zp_job_matching_keys
-		<where>
-							<if test="qtype != null and qtype=='like'">
-							</if>
-				        	<if test="jobId != null and jobId !='' ">
-				        		AND zp_job_matching_keys.job_id=#{jobId} 
-				        	</if>
-				        	<if test="jlId != null and jlId !='' ">
-				        		AND zp_job_matching_keys.jl_id=#{jlId} 
-				        	</if>
-				        	<if test="keyword != null and keyword !='' ">
-				        		AND zp_job_matching_keys.keyword=#{keyword} 
-				        	</if>
-				        	<if test="isMatch != null and isMatch !='' ">
-				        		AND zp_job_matching_keys.is_match=#{isMatch} 
-				        	</if>
-					
-					<if test="ids !=null">
-				         AND zp_job_matching_keys.key_id IN
-						    <foreach  item="item" collection="ids"  index="index" open="(" separator="," close=")"> 
-									 ${item} 
-							</foreach>
-			        </if>
-		</where>
-		ORDER BY zp_job_matching_keys.key_id desc 
+			<include refid="getParamSQL"></include>
+			<include refid="getListSQL"></include>
+		ORDER BY jmk.key_id desc 
 		<if test="skipResults!=null">
 				limit #{skipResults} ,#{maxResults}
 		</if>
 		
 	</select>
 	
-	<!-- 查询 职位匹配关键字列表条数 -->
+	<!-- 查询 职位匹配关键字信息列表条数 -->
 	<select id="getZpJobMatchingKeysListCount" resultType="int">
 		SELECT
 			count(1)
-		FROM
-			zp_job_matching_keys
-		<where>
-							<if test="qtype != null and qtype=='like'">
-							</if>
-				        	<if test="jobId != null and jobId !=''">
-				        		AND zp_job_matching_keys.job_id=#{jobId} 
-				        	</if>
-				        	<if test="jlId != null and jlId !=''">
-				        		AND zp_job_matching_keys.jl_id=#{jlId} 
-				        	</if>
-				        	<if test="keyword != null and keyword !=''">
-				        		AND zp_job_matching_keys.keyword=#{keyword} 
-				        	</if>
-				        	<if test="isMatch != null and isMatch !=''">
-				        		AND zp_job_matching_keys.is_match=#{isMatch} 
-				        	</if>
-				<if test="ids !=null">
-				         AND zp_job_matching_keys.key_id IN
-						    <foreach  item="item" collection="ids"  index="index" open="(" separator="," close=")"> 
-									 ${item} 
-							</foreach>
-			        </if>
-		</where>
+			<include refid="getListSQL"></include>
 	</select>
 	
 	
-	<!-- 添加 职位匹配关键字 -->
+	<!-- 添加 职位匹配关键字信息 -->
 	<insert id="addZpJobMatchingKeys" flushCache="true" useGeneratedKeys="true" keyProperty="keyId">
 		INSERT INTO zp_job_matching_keys
 		<trim prefix="(" suffix=")" suffixOverrides=",">
@@ -104,6 +50,9 @@
 		        	<if test="isMatch != null">
 		        		is_match,
 		        	</if>
+		        	<if test="inPerson != null">
+		        		in_person,
+		        	</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			        	<if test="jobId != null">
@@ -118,10 +67,13 @@
 			        	<if test="isMatch != null">
 			        		#{isMatch},
 			        	</if>
+			        	<if test="inPerson != null">
+			        		#{inPerson},
+			        	</if>
 		</trim>
 	</insert>
 	
-	<!-- 修改 职位匹配关键字 -->
+	<!-- 修改 职位匹配关键字信息 -->
 	<update id="updateZpJobMatchingKeys" >
 		UPDATE  zp_job_matching_keys
 		<trim prefix="set" suffixOverrides=",">
@@ -137,11 +89,14 @@
 			        	<if test="isMatch != null">
 			        		is_match=#{isMatch},
 			        	</if>
+			        	<if test="inPerson != null">
+			        		in_person=#{inPerson},
+			        	</if>
 		</trim>
 		WHERE key_id=#{keyId}
 	</update>
 
-	<!-- 删除  职位匹配关键字 -->
+	<!-- 删除  职位匹配关键字信息 -->
 	<delete id="deleteZpJobMatchingKeys">
 		DELETE FROM zp_job_matching_keys 
 		<where>
@@ -160,22 +115,69 @@
 				        	<if test="isMatch != null">
 				        		AND is_match=#{isMatch} 
 				        	</if>
+				        	<if test="inPerson != null">
+				        		AND in_person=#{inPerson} 
+				        	</if>
 		</where>
 	</delete>
 	
-	<!-- 获得  职位匹配关键字 -->
+	<!-- 获得  职位匹配关键字信息 -->
 	<select id="getZpJobMatchingKeysById" resultMap="zpJobMatchingKeysMap">
 		SELECT
-						 		zp_job_matching_keys.key_id,
-						 		zp_job_matching_keys.job_id,
-						 		zp_job_matching_keys.jl_id,
-						 		zp_job_matching_keys.keyword,
-						 		zp_job_matching_keys.is_match
-		FROM
-			zp_job_matching_keys
-		WHERE 
-		zp_job_matching_keys.key_id=#{keyId}
+			<include refid="getParamSQL"></include>
+			<include refid="getListSQL"></include>
 		
 	</select>
+	
+	<!-- getListSQL -->
+	<sql id="getListSQL">
+			FROM
+			zp_job_matching_keys  jmk
+			LEFT JOIN account a ON a.account_id =jmk.in_person
+		<where>
+					<if test="qtype != null and qtype=='like'">
+						<if test="nameT != null and nameT !='' ">
+				        		AND jmk.name like '%${nameT}%' 
+			        	</if>
+					</if>
+				        	<if test="keyId != null and keyId !='' ">
+				        		AND jmk.key_id=#{keyId} 
+				        	</if>
+				        	<if test="jobId != null and jobId !='' ">
+				        		AND jmk.job_id=#{jobId} 
+				        	</if>
+				        	<if test="jlId != null and jlId !='' ">
+				        		AND jmk.jl_id=#{jlId} 
+				        	</if>
+				        	<if test="keyword != null and keyword !='' ">
+				        		AND jmk.keyword=#{keyword} 
+				        	</if>
+				        	<if test="isMatch != null and isMatch !='' ">
+				        		AND jmk.is_match=#{isMatch} 
+				        	</if>
+				        	<if test="inPerson != null and inPerson !='' ">
+				        		AND jmk.in_person=#{inPerson} 
+				        	</if>
+					
+					<if test="ids !=null">
+				         AND jmk.key_id IN
+						    <foreach  item="item" collection="ids"  index="index" open="(" separator="," close=")"> 
+									 ${item} 
+							</foreach>
+			        </if>
+		</where>
+	</sql>
+	
+	<!-- sql 参数 -->
+	<sql id="getParamSQL">
+						 		jmk.key_id,
+						 		jmk.job_id,
+						 		jmk.jl_id,
+						 		jmk.keyword,
+						 		jmk.is_match,
+						 		jmk.in_person
+								,a.username as inPersonName
+	</sql>
 
 </mapper>
+

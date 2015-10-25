@@ -3,6 +3,7 @@ package com.timeloit.pojo;
 
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import lombok.Data;
@@ -59,6 +60,7 @@ public class Account implements java.io.Serializable, BaseLoiotPojo {
     private java.lang.String paymentCode;  //支付内容 db_column: payment_code 
     private java.util.Date inTime;  //录入时间 db_column: in_time 
     private java.lang.Long inPerson;  //录入人 db_column: in_person 
+    private Date lastLoginTime; //最后登陆时间
     /**
      * 账号角色
      */

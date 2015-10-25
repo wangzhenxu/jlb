@@ -22,6 +22,30 @@
       		</#if>
          </td>
       </tr>
+      
+       <tr>
+	        <td align="right" class="hui1">用户类型：</td>
+	        <td align="left" valign="middle">
+	          		<#list AccountType.values() as type>
+						<input class="radio" <#if account.type??> <#if account.type==type.code> checked </#if> </#if> validate="validate[required]"  onchange="accountTypeSelected(this)" name="type" id="type" type="radio" value="${type.code}" > ${type.title}
+					</#list>
+	          <span class='tip'></span>
+	         </td>
+	      </tr>
+	      
+	       <tr id="auditPostion_id" <#if account.type??> <#if account.type==AccountType.TECHICAL_AUDIT.getCode()><#else> style="display:none;" </#if> </#if>   >
+	        <td align="right" class="hui1">评审职位：</td>
+	        <td align="left" valign="middle">
+	        	<select id="auditPositionId" name="auditPositionId">
+		 			<option value="" > 请选择 </option>
+		    		<#list DictionaryUtil.getTypes(DictionaryType.JOB_POSITION.getCode()) as c>
+		 				 <option value="${c.dictionaryId}" <#if  account.auditPositionId??> <#if account.auditPositionId==c.dictionaryId> selected </#if> </#if>  > ${c.name!''} </option>
+		 			</#list>
+		  		</select>
+	          <span class='tip'></span>
+	         </td>
+	      </tr>
+	      
       </table>
     </div>
    </div>

@@ -22,6 +22,8 @@
        	<result  column="payment_code" property="paymentCode" />
        	<result  column="in_time" property="inTime" />
        	<result  column="in_person" property="inPerson" />
+     	<result  column="last_login_time" property="lastLoginTime" />
+       	
 	</resultMap>
 
 	<resultMap type="Account" id="accountRole">
@@ -41,6 +43,7 @@
        	<result  column="payment_code" property="paymentCode" />
        	<result  column="in_time" property="inTime" />
        	<result  column="in_person" property="inPerson" />
+     	<result  column="last_login_time" property="lastLoginTime" />
 		
 		<association property="role" javaType="Role">
 			<id column="role_id" property="roleId" />
@@ -66,6 +69,7 @@
        	<result  column="payment_code" property="paymentCode" />
        	<result  column="in_time" property="inTime" />
        	<result  column="in_person" property="inPerson" />
+     	<result  column="last_login_time" property="lastLoginTime" />
        	
 		<association property="role" javaType="Role">
 			<id column="role_id" property="roleId" />
@@ -93,7 +97,8 @@
  		ei.payment_type_id,
  		ei.payment_code,
  		ei.in_time,
- 		ei.in_person
+ 		ei.in_person,
+ 		ei.last_login_time
 		from
 		account a
 		left join account_role ar on a.account_id=ar.account_id
@@ -125,6 +130,18 @@
 	<update id="updatePassword" parameterType="map">
 		update account set
 		password=#{password} where username=#{username} 
+	</update>
+	
+	<!-- 更新type -->
+	<update id="updateType">
+		update account set
+		type=#{type} where account_id=#{accountId} 
+	</update>
+	
+		<!-- 更新删除状态 -->
+	<update id="updateDeleteStatus" parameterType="map">
+		update account set
+		is_delete=#{isDelete} where account_id=#{accountId} 
 	</update>
 
 	<!-- 新增后台账号 -->
@@ -169,7 +186,9 @@
  		ei.payment_type_id,
  		ei.payment_code,
  		ei.in_time,
- 		ei.in_person
+ 		ei.in_person,
+ 		ei.last_login_time
+ 		
 		from
 		account a
 		left join account_role ar on a.account_id=ar.account_id
@@ -193,9 +212,11 @@
  		ei.payment_type_id,
  		ei.payment_code,
  		ei.in_time,
- 		ei.in_person
+ 		ei.in_person,
+ 		ei.last_login_time
+ 		
 		<include refid="getAccountListSQL" />
-		order by a.account_id desc
+		order by ei.last_login_time desc
 		<if test="skipResults!=null">
 				limit #{skipResults} ,#{maxResults}
 		</if>

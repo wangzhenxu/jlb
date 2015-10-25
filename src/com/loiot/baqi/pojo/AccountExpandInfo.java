@@ -4,10 +4,10 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
- * 用户扩展信息 实体类
+ * 账号扩展信息 实体类
  * 
  * @author  wangzx 
- * @creation 2015-10-21
+ * @creation 2015-10-24
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -26,6 +26,7 @@ public class AccountExpandInfo  implements java.io.Serializable{
 	    private java.lang.String paymentCode;  //支付内容 db_column: payment_code 
 	    private java.util.Date inTime;  //录入时间 db_column: in_time 
 	    private java.lang.Long inPerson;  //录入人 db_column: in_person 
+	    private java.util.Date lastLoginTime;  //最后登录时间 db_column: last_login_time 
 
 
 	public AccountExpandInfo(){

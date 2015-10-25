@@ -36,7 +36,7 @@
 	        	<result  column="zp_urgency_status_id" property="zpUrgencyStatusId" />
 	        	<result  column="area_id" property="areaId" />
 	        	<result  column="companyAreaId" property="companyAreaId" />
-	        	
+        	    <result  column="inPersonName" property="inPersonName" />
 	        	<!-- 职位要求关键字列表 -->
 				<collection ofType="ZpCompanyJobDemandKeys" property="keys">
 						<id  column="k_key_id" property="keyId"></id>
@@ -117,11 +117,14 @@
 						 		
 						 		cji.zp_urgency_status_id,
 			        	
-						 		cji.area_id
+						 		cji.area_id,
+						 		a.username as inPersonName
 			        	
 		FROM
 			zp_company_job_info cji LEFT JOIN zp_company_job_demand_keys cjdk ON cji.job_id= cjdk.job_id
 		    INNER JOIN  zp_company_info ci ON cji.company_id =  ci.company_id 
+		    left join account a on a.account_id = cji.in_person
+		    
 		<where>
 							1=1  AND ci.is_delete=1
 		
@@ -766,11 +769,12 @@
 			        	
 						 		cji.area_id,
 						 		
-						 		zp_company_info.company_id AS companyAreaId
-			        	
+						 		zp_company_info.company_id AS companyAreaId,
+			        			a.username as inPersonName
 		FROM
 			zp_company_job_info cji LEFT JOIN zp_company_job_demand_keys cjdk ON cji.job_id= cjdk.job_id
 			LEFT JOIN zp_company_info ON cji.company_id =zp_company_info.company_id
+			Left join account a on a.account_id = cji.in_person
 		
 		WHERE 
 		cji.job_id=#{jobId}

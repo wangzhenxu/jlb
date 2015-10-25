@@ -59,9 +59,11 @@
      <table width="100%"  border="1" align="left" cellpadding="0" cellspacing="0" bordercolor="#ffffff" style="border-collapse:collapse">
        <tr class="lan">
         <td width="14%" height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>序列号</strong></td>
-        <td width="27%" height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>用户名</strong></td>
+        <td width="17%" height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>用户名</strong></td>
         <td width="10%" height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>用户类型</strong></td>
-        <td width="25%" height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>角色</strong></td>
+        <td width="15%" height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>角色</strong></td>
+        <td width="10%" height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>账号状态</strong></td>
+        <td width="20%" height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>最后登陆时间</strong></td>
         <td width="24%" align="center" valign="middle" background="/images/erji_22.jpg"><strong>操 作</strong></td>
        </tr>
        <#list pager.data as account>
@@ -78,14 +80,36 @@
 	        		${account.role.roleName}
 	        	</#if>
 	        </td>
+	        
+	        <td align="center" class="hui">
+	        	<#if account.isDelete??>
+    		        <#if account.isDelete==PauseStartType.START.getCode()> 启用 </#if>
+			  	 	<#if account.isDelete==PauseStartType.PAUSE.getCode()> 停用 </#if>
+				</#if>
+	        </td>
+	        
+	         <td align="center" class="hui">
+	        	<#if account.lastLoginTime??>
+	         		${account.lastLoginTime?string("yyyy-MM-dd HH:mm:ss")}
+	 			</#if>
+	        </td>
+	        
 	        <td align="center" class="hui">
 	        	<a href="javascript:toViewAccount(${account.accountId});"> 查看</a>&nbsp;&nbsp; 
 				<#if subject.isPermitted("account:edit")>
 	        		<a href="javascript:toEditAccount(${account.accountId});">修改</a> &nbsp;&nbsp;
 	        	</#if>
-				<#if subject.isPermitted("account:delete")>
+				<#if subject.isPermitted("account:delete222")>
 	        		<a href="javascript:deleteaccount(${account.accountId})">删除</a>
 	        	</#if>
+	        	<#if subject.isPermitted("account:disableAndEnabled")>
+	        	 <#if account.isDelete??>
+	        	 	<a href=javascript:modifyDeleteStatus('${account.accountId}','${account.isDelete!""}') >
+				  	 	<#if account.isDelete==PauseStartType.START.getCode()> 停用 </#if>
+				  	 	<#if account.isDelete==PauseStartType.PAUSE.getCode()> 启用 </#if>
+				  	</a>	
+				  </#if>
+			  	</#if>
 	        </td>
 	       </tr>
        </#list>
@@ -109,5 +133,8 @@ href="javascript:void(0)"  data-dismiss="modal"><span>取消</span></a></li>
     </ul>
 </div>
 <!-- 弹窗 结束 -->
+
+ <!-- 弹窗 结束 -->
+  <#include "../include/deleteConfirmModal.ftl">
 </body>
 </html>

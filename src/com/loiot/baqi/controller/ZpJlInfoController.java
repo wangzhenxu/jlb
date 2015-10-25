@@ -412,9 +412,9 @@ public class ZpJlInfoController {
     public Object getAuditPersons(@RequestParam(value = "jobPositionId", required = true) java.lang.Long jobPositionId,
     		HttpServletRequest request)throws Exception {
     		HashMap<String,Object> pMap = new HashMap<String,Object>();
-    		//pMap.put("auditPositionId",jobPositionId);
-    		//pMap.put("type", AccountType.TECHICAL_AUDIT.getCode());
-    		//pMap.put("isDelete",PauseStartType.START.getCode() );
+    		pMap.put("auditPositionId",jobPositionId);
+    		pMap.put("type", AccountType.TECHICAL_AUDIT.getCode());
+    		pMap.put("isDelete",PauseStartType.START.getCode() );
     		List<Account> accoutList = accountService.queryAccountList(pMap);
     		
     		List<JlAuditPersonList>  apList= new ArrayList<JlAuditPersonList>();

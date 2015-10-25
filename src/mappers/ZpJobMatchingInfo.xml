@@ -515,8 +515,10 @@
 			zp_job_matching_info jmi
 			 LEFT JOIN zp_company_job_info cj ON jmi.job_id = cj.job_id
   			 LEFT JOIN zp_company_info ci ON cj.company_id =ci.company_id
-  			 LEFT JOIN zp_job_matching_keys ON jmi.jl_id= zp_job_matching_keys.jl_id
-  			 		   AND jmi.job_id = zp_job_matching_keys.job_id
+  			 LEFT JOIN zp_job_matching_keys 
+  			 			ON jmi.jl_id= zp_job_matching_keys.jl_id
+  			 		   AND jmi.job_id = zp_job_matching_keys.job_id 
+  			 		   AND jmi.in_person= zp_job_matching_keys.in_person
   			 LEFT JOIN zp_jl_info ji ON jmi.jl_id= ji.jl_id
 			
 		<where>

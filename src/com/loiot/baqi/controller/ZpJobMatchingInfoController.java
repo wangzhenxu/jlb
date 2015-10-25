@@ -114,7 +114,7 @@ public class ZpJobMatchingInfoController {
     	ZpJobMatchingInfo p, ModelMap model)throws Exception {
     	HashMap<String,Object> pMap = new HashMap<String,Object>();
     	pMap.put("qtype", "like");
-    	pMap.put("jobId", p.getJobId());
+    	pMap.put("jlId", p.getJlId());
     	//用户数据过滤
     	if(UserSessionUtils.getAccountType()==AccountType.HR.getCode() || UserSessionUtils.getAccountType()==AccountType.JOB_HUNTER.getCode() || UserSessionUtils.getAccountType()==AccountType.TECHICAL_AUDIT.getCode()  ){
     		pMap.put("inPerson", UserSessionUtils.getAccount().getAccountId());

@@ -2,6 +2,7 @@ package com.loiot.baqi.service;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -17,6 +18,7 @@ import com.loiot.baqi.dao.AccountExpandInfoDao;
 import com.loiot.baqi.pojo.AccountExpandInfo;
 import com.loiot.baqi.security.shiro.PasswordWrongException;
 import com.loiot.baqi.security.shiro.UsernameExistException;
+import com.loiot.baqi.status.AccountType;
 import com.loiot.baqi.utils.MD5Util;
 import com.timeloit.pojo.Account;
 
@@ -133,8 +135,9 @@ public class AccountService {
      * 修改后台账号
      * 
      * @param account 后台账号
+     * @throws Exception 
      */
-    public void updateAccount(Account account) {
+    public void updateAccount(Account account) throws Exception {
 
         // 打印account信息
         log.debug("account [{}]", account);
@@ -154,7 +157,23 @@ public class AccountService {
             // 新增角色
             accountDao.addAccountRole(account.getAccountId(), account.getRole().getRoleId());
         }
+        
+        //扩展信息
+        AccountExpandInfo expandInfo = new AccountExpandInfo();
+        expandInfo.setAccountId(account.getAccountId());
+        if(account.getType()!=AccountType.TECHICAL_AUDIT.getCode()){
+        	expandInfo.setAuditPositionId(null);
+        }else{
+        	expandInfo.setAuditPositionId(account.getAuditPositionId());
+        }
+        accountExpandInfoDao.updatePostionInfo(expandInfo);
+        
+        this.accountDao.updateAccountType(account);
     }
+    
+    public void updateDeleteStatus(Long accountId,Integer isDelete){
+    	this.accountDao.updateDeleteStatus(accountId, isDelete);
+   }
 
     /**
      * 查询后台账号列表分页

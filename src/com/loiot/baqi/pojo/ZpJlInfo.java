@@ -53,6 +53,8 @@ public class ZpJlInfo  implements java.io.Serializable{
 	    private java.util.Date technicianAuditTime;  //创建技术评审时间 db_column: technician_audit_time 
 	    private java.lang.Integer auditTypeId;  //评审状态 db_column: audit_type_id 
 
+	    private java.lang.String inPersonName;   
+
 	    
 	    
 		private List<ZpJlJobLevels> zpJlJobLevels; //职位列表

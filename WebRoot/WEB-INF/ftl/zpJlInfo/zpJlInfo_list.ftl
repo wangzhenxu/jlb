@@ -36,7 +36,7 @@
 				    	<select id="jobPositionId" name="jobPositionId">
 			    		 <option value="" > 请选择 </option>
 			    		    <#list DictionaryUtil.getTypes(DictionaryType.JOB_POSITION.getCode()) as c>
-			    		 		 <option value="${c.dictionaryId}" <#if  jobPositionId?? && jobPositionId!=''> <#if jobPositionId?number==c.dictionaryId> selected </#if> </#if>  > ${c.name!''} </option>
+			    		 		 <option value="${c.dictionaryId}" <#if  jobPositionId?? && jobPositionId!=''> <#if jobPositionId?number==c.dictionaryId> selected </#if> </#if>  > ${c.showName!''} </option>
 			 			 	</#list>
 			    		  </select>
 				       </li>
@@ -45,7 +45,7 @@
 				    	<select id="jobPositionLevelId" name="jobPositionLevelId">
 			    		 <option value="" > 请选择 </option>
 			    		    <#list DictionaryUtil.getTypes(DictionaryType.JOB_POSITION_LEVE.getCode()) as c>
-			    		 		 <option value="${c.dictionaryId}" <#if  jobPositionLevelId?? && jobPositionLevelId!='' > <#if jobPositionLevelId?number==c.dictionaryId> selected </#if> </#if>  > ${c.name!''} </option>
+			    		 		 <option value="${c.dictionaryId}" <#if  jobPositionLevelId?? && jobPositionLevelId!='' > <#if jobPositionLevelId?number==c.dictionaryId> selected </#if> </#if>  > ${c.showName!''} </option>
 			 			 	</#list>
 			    		  </select>
 				       </li>
@@ -54,7 +54,7 @@
 			    	<select id="maritalId" name="maritalId">
 			    		 <option value="" > 请选择 </option>
 			    		    <#list DictionaryUtil.getTypes(DictionaryType.IS_MARRY.getCode()) as c>
-			    		 		 <option value="${c.dictionaryId}" <#if  maritalId?? && maritalId!=''> <#if maritalId?number==c.dictionaryId> selected </#if> </#if>  > ${c.name!''} </option>
+			    		 		 <option value="${c.dictionaryId}" <#if  maritalId?? && maritalId!=''> <#if maritalId?number==c.dictionaryId> selected </#if> </#if>  > ${c.showName!''} </option>
 			 			 	</#list>
 			    	</select>
 			       </li>
@@ -63,7 +63,7 @@
 			    	<select id="sex" name="sex">
 			    		 <option value="" > 请选择 </option>
 			    		    <#list DictionaryUtil.getTypes(DictionaryType.SEX.getCode()) as c>
-			    		 		 <option value="${c.dictionaryId}" <#if  sex?? && sex!=''> <#if sex?number==c.dictionaryId> selected </#if> </#if>  > ${c.name!''} </option>
+			    		 		 <option value="${c.dictionaryId}" <#if  sex?? && sex!=''> <#if sex?number==c.dictionaryId> selected </#if> </#if>  > ${c.showName!''} </option>
 			 			 	</#list>
 			    	</select>
 			       </li>
@@ -79,7 +79,7 @@
 			    	<select id="salaryRequireId" name="salaryRequireId" style="width:160px;">
 			    		 <option value="" > 请选择 </option>
 			    		    <#list DictionaryUtil.getTypes(DictionaryType.SALARY_REQUIRE.getCode()) as c>
-			    		 		 <option value="${c.dictionaryId}" <#if  salaryRequireId?? && salaryRequireId!=""> <#if salaryRequireId?number==c.dictionaryId> selected </#if> </#if>  > ${c.name!''} </option>
+			    		 		 <option value="${c.dictionaryId}" <#if  salaryRequireId?? && salaryRequireId!=""> <#if salaryRequireId?number==c.dictionaryId> selected </#if> </#if>  > ${c.showName!''} </option>
 			 			 	</#list>
 			    	</select>
 			       </li>
@@ -90,7 +90,7 @@
 			    	<select id="educationId" name="educationId">
 		    		 <option value="" > 请选择 </option>
 		    		    <#list DictionaryUtil.getTypes(DictionaryType.EDUCATION.getCode()) as c>
-		    		 		 <option value="${c.dictionaryId}" <#if  educationId?? && educationId!=""> <#if educationId?number==c.dictionaryId> selected </#if> </#if>  > ${c.name!''} </option>
+		    		 		 <option value="${c.dictionaryId}" <#if  educationId?? && educationId!=""> <#if educationId?number==c.dictionaryId> selected </#if> </#if>  > ${c.showName!''} </option>
 		 			 	</#list>
 		    		  </select>
 			       </li>
@@ -112,20 +112,21 @@
 			<input type="checkbox" style="vertical-align:middle " onclick="if(this.checked){$('.check').attr('checked',true)}else $('.check').attr('checked',false)  ">
 		</td>
         <td  height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>姓名</strong></td>
-        <td  height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>手机</strong></td>
-        <td  height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>邮箱</strong></td>
-        <td  height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>职位</strong></td>
+       	<td  height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>职位</strong></td>
         <td  height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>级别</strong></td>
         <td  height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>薪水要求</strong></td>
+        <td  height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>最高学历</strong></td>
         
-      
         <!-- hr角色隐藏吧列太多 -->
         <#if Session[Const.SESSION_USER_KEY].type!=AccountType.HR.getCode()>
 	        <td  height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>年龄 </strong></td>
 	        <td  height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>性别</strong></td>
         </#if>
-        <td  height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>最高学历</strong></td>
+        <td  height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>手机</strong></td>
+        <td  height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>邮箱</strong></td>
         <td  height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>评审人</strong></td>
+        <td  height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>评审状态</strong></td>
+         
          <!-- hr角色隐藏吧列太多 -->
         <#if Session[Const.SESSION_USER_KEY].type!=AccountType.HR.getCode()>
         	<td  height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>录入人</strong></td>
@@ -135,12 +136,9 @@
        </tr>
        <#list pager.data as c>
        <tr>
-       <td align="center" class="hui"><input type="checkbox" name="checkbox" value="${c.jlId!''}" postionAttr="${c.jobPositionId!''}" class="check"></td>
+       <td align="center" class="hui"><input type="checkbox" name="checkbox" value="${c.jlId!''}" postionAttr="${c.jobPositionId!''}" auditTypeAttr="${c.auditTypeId!''}" nameAttr="${c.name!''}" class="check"></td>
         <td align="center" class="hui">${c.name!''}</td>
-        <td align="center" class="hui">${c.phone!''}</td>
-        <td align="center" class="hui">
-        	 ${c.emal!''}
-        </td>
+      
         <td align="center" class="hui">
         <#if c.jobPositionId??>
         	${DictionaryUtil.getName(c.jobPositionId)}
@@ -152,9 +150,15 @@
 	        </#list>
 	    	 
 	    </td>
+	    
 	    <td align="center" class="hui">
 	    	 <#if c.salaryRequireId??>
 	    		${DictionaryUtil.getName(c.salaryRequireId)}
+	    	 </#if>
+	    </td>
+	    <td align="center" class="hui">
+	    	 <#if c.educationId??>
+	    		${DictionaryUtil.getName(c.educationId)}
 	    	 </#if>
 	    </td>
 	    
@@ -173,15 +177,23 @@
 	    </#if>
 	    
 	   
-	     <td align="center" class="hui">
-	    	 <#if c.educationId??>
-	    		${DictionaryUtil.getName(c.educationId)}
-	    	 </#if>
-	    </td>
+	     
+	    
+	      <td align="center" class="hui">${c.phone!''}</td>
+        <td align="center" class="hui">
+        	 ${c.emal!''}
+        </td>
+        
 	     <td align="center" class="hui">
 	     <span class="label label-info">
 	    	    ${c.technicianAuditPersonName!'待选择'}
 		 </span>
+	    </td>
+	    
+	     <td align="center" class="hui">
+	       <#if c.auditTypeId??>
+	       	  	${JlAuditType.get(c.auditTypeId).getTitle()}
+	       </#if>
 	    </td>
 	     <!-- hr角色隐藏吧列太多 -->
         <#if Session[Const.SESSION_USER_KEY].type!=AccountType.HR.getCode()>
@@ -265,8 +277,9 @@
 	       <tr class="lan">
 	       	 <td width="3%" height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong></strong></td>
 	         <td width="12%" height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>评审经理</strong></td>
-	         <td width="13%" height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>已评审数量</strong></td>
+	         <td width="12%" height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>可评审数量</strong></td>
 	         <td width="11%" height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>等待评审数量</strong></td>
+	         <td width="13%" height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>总评审数量</strong></td>
 	         <td width="10%" align="center" valign="middle" background="/images/erji_22.jpg"><strong>最后评审时间</strong></td>
 	       </tr>
 	     </table>

@@ -145,7 +145,6 @@ public class AccountDao extends SqlSessionDaoSupport {
         if (!StringUtils.isEmpty(username)) {
             params.put("username", username);
         }
-
         return (Integer) getSqlSession().selectOne("Account.getAccountListCount", params);
     }
 
@@ -165,11 +164,20 @@ public class AccountDao extends SqlSessionDaoSupport {
         if (!StringUtils.isEmpty(username)) {
             params.put("username", username);
         }
-
         return getSqlSession().selectList("Account.getAccountList", params);
     }
     
-    public List<Account> queryAccountList(HashMap<String,Object> pMap){
+    public int queryAccountListCount(HashMap<String,Object> pMap){
+     return (Integer) getSqlSession().selectOne("Account.getAccountListCount", pMap);
+   }
+    
+   public List<Account> queryAccountList(HashMap<String,Object> pMap, int skipResults, int maxResults){
+		pMap.put("skipResults", skipResults);
+		pMap.put("maxResults", maxResults);
+	   return getSqlSession().selectList("Account.getAccountList", pMap);
+   }
+   
+   public List<Account> queryAccountList(HashMap<String,Object> pMap){
     	 return getSqlSession().selectList("Account.getAccountList", pMap);
     }
 

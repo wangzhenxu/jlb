@@ -34,7 +34,7 @@
 <!-- 右侧 开始 -->
 <div class="right">
     <div class="location">
-     <div class="location01">您现在的位置是：首页 &gt; <a href="control.html">客户管理</a> &gt;<strong class="m_title" tempAttrValue="客户"> 添加客户</strong></div>
+     <div class="location01">您现在的位置是：首页 &gt; <a href="javascript:companyInfo.tolist();">客户管理</a> &gt;<strong class="m_title" tempAttrValue="客户"> 添加客户</strong></div>
     </div>
     <div class="nav">
      <div class="basic">
@@ -60,7 +60,7 @@
            <td  align="right" class="hui1"><span class="red">*</span>所在城区：</td>
            <td  align="left" valign="middle" clospan="3">
             	<#list DictionaryUtil.getTypes(DictionaryType.COMPANY_AREA.getCode()) as c>
-          	  	  <input  class="validate[required] radio" id="dsf" name="areaId"  type="radio" value="${c.dictionaryId}" > ${c.name!''} 
+          	  	  <input  class="validate[required] radio" id="dsf" name="areaId"  type="radio" value="${c.dictionaryId}" > ${c.showName!''} 
           	 	</#list>
            </td>
          </tr>
@@ -69,7 +69,7 @@
            <td  align="right" class="hui1"><span class="red">*</span>公司规模：</td>
            <td  align="left" valign="middle" clospan="3">
 	         <#list DictionaryUtil.getTypes(DictionaryType.COMPANY_SCALE.getCode()) as c>
-          	  	 <input class="validate[required] radio" id="scaleId" name="scaleId" type="radio" value="${c.dictionaryId}" > ${c.name!''} 
+          	  	 <input class="validate[required] radio" id="scaleId" name="scaleId" type="radio" value="${c.dictionaryId}" > ${c.showName!''} 
           	 </#list>
           </td>
          </tr>
@@ -78,7 +78,7 @@
            <td  align="right" class="hui1">融资阶段：</td>
            <td  align="left" valign="middle" clospan="3">
 	         <#list DictionaryUtil.getTypes(DictionaryType.COMPANY_FINANCING_LEVEL.getCode()) as c>
-          	  	 <input class="radio" name="financingLevelId" type="radio" value="${c.dictionaryId}" > ${c.name!''} 
+          	  	 <input class="radio" name="financingLevelId" type="radio" value="${c.dictionaryId}" > ${c.showName!''} 
           	 </#list>
           </td>
          </tr>
@@ -87,7 +87,7 @@
            <td  align="right" class="hui1">所属行业：</td>
            <td  align="left" valign="middle" clospan="3">
 	         <#list DictionaryUtil.getTypes(DictionaryType.COMPANY_INDUSTRY.getCode()) as c>
-          	  	 <input class="radio" name="industryId" type="radio" value="${c.dictionaryId}" > ${c.name!''} 
+          	  	 <input class="radio" name="industryId" type="radio" value="${c.dictionaryId}" > ${c.showName!''} 
           	 </#list>
           </td>
          </tr>
@@ -96,7 +96,7 @@
            <td  align="right" class="hui1">公司性质：</td>
            <td  align="left" valign="middle" clospan="3">
 	         <#list DictionaryUtil.getTypes(DictionaryType.COMPANY_NATURE.getCode()) as c>
-          	  	 <input class="radio" name="companyNature" type="radio" value="${c.dictionaryId}" > ${c.name!''} 
+          	  	 <input class="radio" name="companyNature" type="radio" value="${c.dictionaryId}" > ${c.showName!''} 
           	 </#list>
           </td>
          </tr>

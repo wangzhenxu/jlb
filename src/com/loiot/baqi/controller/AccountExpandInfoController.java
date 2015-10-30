@@ -6,6 +6,7 @@ import java.util.*;
 import com.loiot.baqi.pojo.*;
 import com.loiot.baqi.dao.*;
 import com.loiot.baqi.service.*;
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -29,6 +30,7 @@ import com.loiot.baqi.constant.Const;
 import com.loiot.baqi.controller.response.AjaxResponse;
 import com.loiot.baqi.controller.response.Pager;
 import com.loiot.baqi.service.*;
+import com.loiot.baqi.utils.UserSessionUtils;
 import com.loiot.commons.message.util.JsonUtil;
 import com.timeloit.pojo.Account;
 
@@ -52,6 +54,12 @@ public class AccountExpandInfoController {
 	private AccountExpandInfoService accountExpandInfoService;
 	
 	private AccountExpandInfo accountExpandInfo;
+	
+	 /**
+     * 后台用户业务逻辑
+     */
+    @Resource
+    private AccountService accountService;
 	
 	/**
      * 跳转  用户扩展信息列表页
@@ -146,7 +154,7 @@ public class AccountExpandInfoController {
     public String toEditAccountExpandInfo(@RequestParam(value = "id", required = true) java.lang.Long id, ModelMap model)throws Exception {
         //model.put("p", accountExpandInfoService.getAccountExpandInfoById(id));
     	model.put("pid",  id);
-        return "/accountexpandInfo/accountexpandInfo_add";
+        return "/accountExpandInfo/accountExpandInfo_add";
     }
 
     /**
@@ -158,12 +166,12 @@ public class AccountExpandInfoController {
     @RequestMapping(value = "/edit")
     @ResponseBody
     public Object editAccountExpandInfo(AccountExpandInfo p,HttpSession session,HttpServletRequest request) {
-    /*	try {
-        // 获得账号
-        //Account account = (Account) session.getAttribute(Const.SESSION_USER_KEY);
+    	try {
+    		// 获得账号
+    		//Account account = (Account) session.getAttribute(Const.SESSION_USER_KEY);
     		//如果前端，没有改变编号，就不用验证
-        	String onlyName=request.getParameter("onlyName");
-        	if(!StringUtils.isBlank(onlyName) &&  !p.getName().equals(onlyName)){
+        	//String onlyName=request.getParameter("onlyName");
+        	/*if(!StringUtils.isBlank(onlyName) &&  !p.getName().equals(onlyName)){
 	    	//验证唯一性
 	    	HashMap<String,Object> pMap =new HashMap<String,Object>();
 	    	pMap.put("name", p.getName());
@@ -171,14 +179,15 @@ public class AccountExpandInfoController {
 	    	if(result>0){
 		        return NAME_EXIST;
 			}
-    	}
+    	}*/
         accountExpandInfoService.updateAccountExpandInfo(p);
+        Account newAccount = this.accountService.getAccountById(UserSessionUtils.getAccount().getAccountId());
+    	UserSessionUtils.resetAccount(session, newAccount);
     	} catch (Exception e) {
 			  e.printStackTrace();
 			  return AjaxResponse.FAILED;
 		}
-        return AjaxResponse.OK;*/
-    	return null;
+        return AjaxResponse.OK;
     }
 
     /**

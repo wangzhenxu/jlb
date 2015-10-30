@@ -50,7 +50,14 @@ public enum DictionaryType {
 
 	COMPANY_AREA(19, "所在城区"),
 	
-	PAUSE_START(20, "暂停启用状态");
+	PAUSE_START(20, "暂停启用状态"),
+	
+	ACCEPT_AUDIT(22, "暂停开启状态"),
+	
+	PAY_TYPE(23, "支付方式");
+	
+	
+
 	
 	/**
 	 * 状态码

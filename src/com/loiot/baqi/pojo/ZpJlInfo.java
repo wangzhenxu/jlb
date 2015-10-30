@@ -55,7 +55,8 @@ public class ZpJlInfo  implements java.io.Serializable{
 
 	    private java.lang.String inPersonName;   
 
-	    
+	    private java.lang.String coordX;  //坐标x db_column: coord_x 
+	    private java.lang.String coordY;  //坐标y db_column: coord_y 
 	    
 		private List<ZpJlJobLevels> zpJlJobLevels; //职位列表
 

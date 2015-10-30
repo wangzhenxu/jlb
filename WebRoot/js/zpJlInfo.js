@@ -153,16 +153,17 @@ var jlInfo ={
 				$("#jobPositionLevelIds").val(jobPositionLevelIds);
 				//$("#desc").val(CKEDITOR.instances.desc1.getData());
 				//$("#moreDesc").val(CKEDITOR.instances.desc2.getData());
+				//设置坐标信息
 				if(self.currPage=="edit"){
 					   common.openModal("delete_sure","确定修改信息吗？");
 					   $("#delete_sure_a").click(function(){
 						   self.ajaxSubmitForm();
 					   });
 				} else {
-					    if($("#jlFilePath").val().length==0){
-					    	common.alert("请先上传简历");
-					    	return;
-					    }
+				    if($("#jlFilePath").val().length==0){
+				    	common.alert("请先上传简历");
+				    	return;
+				}
 						self.ajaxSubmitForm();
 			    }
 		},
@@ -424,36 +425,48 @@ var jlInfo ={
 		var postionArr=[];
 		
 		for(i=0;i<jls.length;i++){
+			if($(jls).attr("auditTypeAttr")==2){
+				common.alert($(jls).attr("nameAttr")+"已经评审过了",2000);
+				return;
+			}
 			idsArr.push(jls[i].value);
 			postionArr.push($(jls[i]).attr("postionAttr"));
 		}
 		
 		var newArray =postionArr.unique();
 		if(newArray.length>1){
-			common.alert("请选择一个职位");
+			common.alert("请选择相同的职位",2000);
 			return;
 		}
 		
 		$.get(self.getAuditPersonsUrl,{"jobPositionId":postionArr.join(",")},function(result){
 			if (result.s > 0) {
-				if(result.data.length==0){
+				if(result.data==null || result.data.length==0){
 					return;
 				}
 				$("#auditPersonPop table tr:not(:first)").remove()
 				for(var i=0;i<result.data.length;i++){
 					var obj =result.data[i];
 					if(obj.lastAuditTime && obj.lastAuditTime>0){
-						obj.lastAuditTime = new Date(obj.lastAuditTime).format("yyyy-MM-dd");
+						obj.lastAuditTime = new Date(obj.lastAuditTime).format("yy-MM-dd HH:mm");
+					} else {
+						obj.lastAuditTime="无";
 					}
+					//obj.allowAuditCount=0;
 					var tr=
 					'<tr>'
 					+'<td align="center" class="hui"><input type="radio" class="radio" name="auditPerson" value="'+obj.auditPerson+'" /></td>'
 					+'<td align="center" class="hui">'+obj.auditPersonName+'</td>'
-					+'<td align="center" class="hui">'+obj.auditCount+'</td>'
+					+'<td align="center" class="hui">'+obj.allowAuditCount+'</td>'
 					+'<td align="center" class="hui">'+obj.waitAuditCount+'</td>'
+					+'<td align="center" class="hui">'+obj.auditCount+'</td>'
 					+'<td align="center" class="hui">'+obj.lastAuditTime+'</td>'
 				   +'</tr>';
 					$("#auditPersonPop table").append(tr);
+					//已满
+					if(obj.allowAuditCount==0){
+						$("#auditPersonPop table tr").last().find("input").hide();
+					}
 				}
 			}else {
 				hiOverAlert(resp.d,1000);
@@ -486,5 +499,30 @@ var jlInfo ={
 				hiOverAlert(result.d,1000);
 			}
 	    });
+	},
+	setLgltInfo : function (val){
+		var self =this
+		if(val.length==0){
+			self.coordX.val("");
+			self.coordY.val("");
+		}else {
+				geocoder(val,function(status, result){
+					if (status === 'complete' && result.info === 'OK')
+					{
+						  var geocode = new Array();
+						    geocode = result.geocodes;
+						    for (var i = 0; i < geocode.length; i++) {
+						    	self.coordX.val(geocode[i].location.getLng());
+						        self.coordY.val(geocode[i].location.getLat());
+						        addmarker(i, geocode[i]);
+						    }
+						    map.setFitView();
+		            }else 
+	            	if(status === 'no_data'){
+	            		self.coordX.val("");
+	        			self.coordY.val("");
+		            }
+				});
+		}
 	}
 }

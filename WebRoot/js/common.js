@@ -63,20 +63,19 @@ var common = {
 		  return page;
 	   },
 	   //初始化页面标题
-		initPageTitle : function (){
+		initPageTitle : function (model,to){
 			var self = this;
-			var attrVal = self._title_val;
-			if(self.currPage=="edit"){
-				this.m_title.html("修改"+attrVal+"信息");
+			if(self.getCurrPageFlag()=="edit"){
+				to.html("修改"+model+"信息");
 			} else 
-			if(self.currPage=="add"){
-				this.m_title.html("添加"+attrVal);
+			if(self.getCurrPageFlag()=="add"){
+				to.html("添加"+model);
 			}else 
-			if(self.currPage=="detail"){
-				this.m_title.html(attrVal+"详情");
+			if(self.getCurrPageFlag()=="detail"){
+				to.html(model+"详情");
 			}else 
-			if(self.currPage=="list"){
-				this.m_title.html(attrVal+"管理");
+			if(self.getCurrPageFlag()=="list"){
+				to.html(model+"管理");
 			}	
 		},
 		initLeftMenuSelected:function(menuId){

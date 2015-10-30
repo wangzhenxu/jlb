@@ -35,7 +35,7 @@
     	<select id="industryId" name="industryId">
     		 <option value="" > 请选择 </option>
     		 <#list DictionaryUtil.getTypes(DictionaryType.COMPANY_INDUSTRY.getCode()) as c>
-    		 	<option value="${c.dictionaryId}" <#if industryId??> <#if industryId==c.dictionaryId?string> selected </#if> </#if>  > ${c.name!''} </option>
+    		 	<option value="${c.dictionaryId}" <#if industryId??> <#if industryId==c.dictionaryId?string> selected </#if> </#if>> ${c.showName!''} </option>
  			 </#list>
     	</select>
        </li>
@@ -44,7 +44,7 @@
     	<select id="companyNature" name="companyNature">
     		 <option value="" > 请选择 </option>
     		 <#list DictionaryUtil.getTypes(DictionaryType.COMPANY_NATURE.getCode()) as c>
-    		 	<option value="${c.dictionaryId}" <#if companyNature??> <#if companyNature==c.dictionaryId?string> selected </#if> </#if> > ${c.name!''} </option>
+    		 	<option value="${c.dictionaryId}" <#if companyNature??> <#if companyNature==c.dictionaryId?string> selected </#if> </#if> > ${c.showName!''} </option>
  			 </#list>
     	</select>
        </li>
@@ -53,7 +53,7 @@
     	<select id="scaleId" name="scaleId">
     		 <option value="" > 请选择 </option>
     		 <#list DictionaryUtil.getTypes(DictionaryType.COMPANY_SCALE.getCode()) as c>
-    		 	<option value="${c.dictionaryId}" <#if scaleId??> <#if scaleId==c.dictionaryId?string> selected </#if> </#if> > ${c.name!''} </option>
+    		 	<option value="${c.dictionaryId}" <#if scaleId??> <#if scaleId==c.dictionaryId?string> selected </#if> </#if> > ${c.showName!''} </option>
  			 </#list>
     	</select>
        </li>
@@ -62,7 +62,7 @@
     	<select id="financingLevelId" name="financingLevelId">
     		 <option value="" > 请选择 </option>
     		 <#list DictionaryUtil.getTypes(DictionaryType.COMPANY_FINANCING_LEVEL.getCode()) as c>
-    		 	<option value="${c.dictionaryId}" <#if financingLevelId??> <#if financingLevelId==c.dictionaryId?string> selected </#if> </#if> > ${c.name!''} </option>
+    		 	<option value="${c.dictionaryId}" <#if financingLevelId??> <#if financingLevelId==c.dictionaryId?string> selected </#if> </#if> > ${c.showName!''} </option>
  			 </#list>
     	</select>
        </li>
@@ -78,7 +78,7 @@
 	    	<select id="areaId" name="areaId" style="width: 160px;">
 	    		 <option value="" > 请选择 </option>
 	    		 <#list DictionaryUtil.getTypes(DictionaryType.COMPANY_AREA.getCode()) as c>
-	    		 	<option value="${c.dictionaryId}" <#if areaId??> <#if areaId==c.dictionaryId?string> selected </#if> </#if> > ${c.name!''} </option>
+	    		 	<option value="${c.dictionaryId}" <#if areaId??> <#if areaId==c.dictionaryId?string> selected </#if> </#if> > ${c.showName!''} </option>
 	 			 </#list>
 	    	</select>
       	</li>

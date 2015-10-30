@@ -116,7 +116,7 @@ public class ZpJlExpandInfoController {
     public Object addZpJlExpandInfo(ZpJlExpandInfo p,HttpSession session,HttpServletRequest request) {
     	try {
             Account account = (Account) session.getAttribute(Const.SESSION_USER_KEY);
-    		//验证唯一性
+    		/*//验证唯一性
         	HashMap<String,Object> pMap =new HashMap<String,Object>();
         	pMap.put("name", p.getName());
         	int result=zpJlExpandInfoService.getZpJlExpandInfoListCount(pMap);
@@ -124,7 +124,7 @@ public class ZpJlExpandInfoController {
 		        return NAME_EXIST;
 			}
         	p.setInDatetime(new Date());
-    		p.setInPerson(account.getUsername());
+    		p.setInPerson(account.getUsername());*/
     		zpJlExpandInfoService.addZpJlExpandInfo(p);
     		// 添加成功
     		return AjaxResponse.OK;
@@ -163,7 +163,7 @@ public class ZpJlExpandInfoController {
         //Account account = (Account) session.getAttribute(Const.SESSION_USER_KEY);
     		//如果前端，没有改变编号，就不用验证
         	String onlyName=request.getParameter("onlyName");
-        	if(!StringUtils.isBlank(onlyName) &&  !p.getName().equals(onlyName)){
+        	/*if(!StringUtils.isBlank(onlyName) &&  !p.getName().equals(onlyName)){
 	    	//验证唯一性
 	    	HashMap<String,Object> pMap =new HashMap<String,Object>();
 	    	pMap.put("name", p.getName());
@@ -171,7 +171,7 @@ public class ZpJlExpandInfoController {
 	    	if(result>0){
 		        return NAME_EXIST;
 			}
-    	}
+    	}*/
         zpJlExpandInfoService.updateZpJlExpandInfo(p);
     	} catch (Exception e) {
 			  e.printStackTrace();
@@ -247,7 +247,7 @@ public class ZpJlExpandInfoController {
     		HttpServletRequest request)throws Exception {
     	ZpJlExpandInfo p = new ZpJlExpandInfo();
     	p.setJlExpandId(id);
-    	p.setIsDelete(isDelete);
+    	//p.setIsDelete(isDelete);
     	zpJlExpandInfoService.updateZpJlExpandInfo(p);
         String s = request.getHeader("Referer");
         String redirectStr = s.substring(s.indexOf("/zpJlExpandInfo/"), s.length());

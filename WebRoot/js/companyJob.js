@@ -2,7 +2,7 @@
 var companyJob = {
 		//请求url
 		listUrl:"/zpCompanyJobInfo/list.action", //列表地址
-		toAddUrl:"/zpCompanyJobInfo/toAdd.action", //去添加页面地址
+		toAddUrl:"/zpCompanyJobInfo/toAdd.action", //去添加页面地址initPage
 		addUrl:"/zpCompanyJobInfo/add.action", //添加地址
 		toEditUrl:"/zpCompanyJobInfo/toEdit.action?id=", //去修改页面地址
 		editUrl:"/zpCompanyJobInfo/edit.action", //去修改页面地址
@@ -58,6 +58,11 @@ var companyJob = {
 	 areaId : $("#areaId"), //所在城区
 	 
 	 inPersonName : $("#inPersonName"), //录入人
+	 companyName : $("#companyName"),
+	 
+	 coordX : $("#coordX"), //坐标x
+	 coordY : $("#coordY"), //坐标y
+	 address : 	$("#address"), //工作地点
 	 
 	 //页面初始化
 	 initPage : function (){
@@ -147,6 +152,10 @@ var companyJob = {
 				common.alert("请填写职位描述");
 				return;
 			}
+			if(self.coordX.val().length==0){
+				common.alert("工作地点无效");
+				return;
+			}
 			if(this.expectedYearMoneyStart.val().length>0){
 				this.expectedYearMoneyStart.val(parseFloat(this.expectedYearMoneyStart.val())*10000);
 			}
@@ -167,6 +176,7 @@ var companyJob = {
 	//初始化添加页面
 	initAddPage : function (){
 		var self = this;
+		self.address.blur();
 		self.addform.attr("action",self.addUrl);
 	},
 	//初始化详情页面数据
@@ -175,9 +185,11 @@ var companyJob = {
 			self.getById(self.jobId.val(),function (result){
 				if (result.s > 0) {
 					self.setForm(result.data);
+					self.address.blur();
 					$("input").attr("disabled",true);
 					self.addBtn.hide();
 					$("._detail").show();
+					
 				}  
 				else {
 					common.alert(result.d);
@@ -204,6 +216,7 @@ var companyJob = {
 			self.getById(this.jobId.val(),function (result){
 				if (result.s > 0) {
 					self.setForm(result.data);
+					self.address.blur();
 				}  
 				else {
 					common.alert(resp.d);
@@ -315,8 +328,41 @@ var companyJob = {
 		$("input[name='areaId'][value='"+obj.areaId+"']").attr("checked",true); //所在城区
 		
 		self.inPersonName.html(obj.inPersonName); //录入人
+		self.companyName.html(obj.companyName);
+		
+		self.coordX.val(obj.coordX); //坐标x
+		self.coordY.val(obj.coordY); //坐标y
+		self.address.val(obj.address);//所在地
+		
 
-   }
+   },
+   setLgltInfo : function (val){
+		var self =this
+		if(val.length==0){
+			self.coordX.val("");
+			self.coordY.val("");
+	}else {
+			geocoder(val,function(status, result){
+				if (status === 'complete' && result.info === 'OK')
+				{
+					  var geocode = new Array();
+					    geocode = result.geocodes;
+					    for (var i = 0; i < geocode.length; i++) {
+					    	self.coordX.val(geocode[i].location.getLng());
+					        self.coordY.val(geocode[i].location.getLat());
+					        addmarker(i, geocode[i]);
+					    }
+					    map.setFitView();
+	            }else 
+            	if(status === 'no_data'){
+            		self.coordX.val("");
+        			self.coordY.val("");
+        			common.alert("工作地点无效");
+    				return;
+	            }
+			});
+	}
+	}
 	   
 	  
 		

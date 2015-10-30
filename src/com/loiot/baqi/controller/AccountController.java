@@ -1,6 +1,9 @@
 package com.loiot.baqi.controller;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -22,6 +25,10 @@ import com.loiot.baqi.pojo.ZpCompanyInfo;
 import com.loiot.baqi.security.shiro.UsernameExistException;
 import com.loiot.baqi.service.AccountService;
 import com.loiot.baqi.service.RoleService;
+import com.loiot.baqi.status.AccountType;
+import com.loiot.baqi.status.PauseStartType;
+import com.loiot.baqi.utils.UserSessionUtils;
+import com.loiot.commons.utils.JsonUtil;
 import com.timeloit.pojo.Account;
 
 /**
@@ -58,13 +65,41 @@ public class AccountController {
      */
     @RequestMapping(value = "/list")
     public String list(@RequestParam(value = "pi", defaultValue = "0") int pageIndex,
-            @RequestParam(value = "username", defaultValue = "") String username, ModelMap model) {
-
-        Pager<Account> pager = accountService.getAccountListPage(username, pageIndex);
-        model.put("pager", pager);
-        model.put("username", username);
+            @RequestParam(value = "jsonParam", defaultValue = "{}") String jsonParam,
+            Account p, ModelMap model
+    		) {
+    	HashMap<String,Object> paramMap=this.getParaMap(jsonParam, model);
+    	paramMap.put("qtype", "like");
+    	Pager<Account> pager = accountService.getAccountListPage(paramMap, pageIndex);
+    	model.put("pager", pager);
+        model.put("jsonParam", jsonParam);
+        
         model.put("menuClass", "accountManage");
         return "/account/account_list";
+    }
+    
+    /**
+     * 获取查询条件
+     * @param jsonParam
+     * @param model
+     * @return
+     */
+    public HashMap<String,Object> getParaMap(String jsonParam,ModelMap model){
+    	HashMap<String,Object> newParamMap = newParamMap =  new HashMap<String,Object>();
+    	 HashMap<String,Object> paramMap =JsonUtil.toObject(jsonParam, HashMap.class);
+		Iterator iter = paramMap.entrySet().iterator();
+		while (iter.hasNext()) {
+		Map.Entry entry = (Map.Entry) iter.next();
+    		Object key = entry.getKey();
+    		Object val = entry.getValue();
+    		if(key.toString().equals("name")){
+    			newParamMap.put("nameT", val);
+    		}else{
+    			newParamMap.put(String.valueOf(key), val);
+    		}
+    		model.put(String.valueOf(key), val);
+		}
+		return newParamMap;
     }
 
     /**
@@ -97,10 +132,11 @@ public class AccountController {
             Account accoun = (Account) session.getAttribute(Const.SESSION_USER_KEY);
             account.setInPerson(accoun.getAccountId());
             account.setInTime(new Date());
+            account.setIsDelete((int)PauseStartType.START.getCode());
             accountService.addAccount(account);
         } catch (UsernameExistException ex) {
             // 用户名已经存在
-            log.debug("username is exist", ex);
+            log.debug("username is exist");
             return ACCOUNT_USERNAME_EXIST;
         }  catch (Exception e){
         	e.printStackTrace();
@@ -132,8 +168,10 @@ public class AccountController {
      */
     @RequestMapping(value = "/edit")
     @ResponseBody
-    public Object edit(Account account) throws Exception {
+    public Object edit(Account account,HttpSession session) throws Exception {
         accountService.updateAccount(account);
+        Account newAccount = this.accountService.getAccountById(UserSessionUtils.getAccount().getAccountId());
+    	UserSessionUtils.resetAccount(session, newAccount);
         return AjaxResponse.OK;
     }
 

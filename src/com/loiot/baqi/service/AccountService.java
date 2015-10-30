@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.loiot.baqi.constant.Const;
+import com.loiot.baqi.constant.DictionaryUtil;
 import com.loiot.baqi.controller.response.Pager;
 import com.loiot.baqi.dao.AccountDao;
 import com.loiot.baqi.dao.AccountExpandInfoDao;
@@ -19,6 +20,7 @@ import com.loiot.baqi.pojo.AccountExpandInfo;
 import com.loiot.baqi.security.shiro.PasswordWrongException;
 import com.loiot.baqi.security.shiro.UsernameExistException;
 import com.loiot.baqi.status.AccountType;
+import com.loiot.baqi.status.DictionaryType;
 import com.loiot.baqi.utils.MD5Util;
 import com.timeloit.pojo.Account;
 
@@ -125,6 +127,11 @@ public class AccountService {
         expandInfo.setInPerson(account.getAccountId());
         expandInfo.setInTime(account.getInTime());
         expandInfo.setAuditPositionId(account.getAuditPositionId());
+        
+        //如果是选择技术评审类型，需要添加，技术评审开启状态
+        if(account.getType()==AccountType.TECHICAL_AUDIT.getCode()){
+            expandInfo.setIsAcceptAudit(DictionaryUtil.getCode(DictionaryType.ACCEPT_AUDIT.getCode(), "start"));
+        }
         accountExpandInfoDao.addAccountExpandInfo(expandInfo);
         
         // 添加角色
@@ -195,6 +202,28 @@ public class AccountService {
                 pager.getMaxResults());
         pager.setData(accountList);
 
+        return pager;
+    }
+    
+    /**
+     * 查询后台账号列表分页
+     * 
+     * @param accountName 后台账号名
+     * @param pageIndex 页索引
+     * @return
+     */
+    public Pager<Account> getAccountListPage(HashMap<String,Object> pMap, int pageIndex) {
+
+    	 // 查询后台账号列表总条数
+        int totalResults = accountDao.queryAccountListCount(pMap);
+
+        // 构造一个分页器
+        Pager<Account> pager = new Pager<Account>(totalResults, pageIndex);
+
+        // 查询后台账号列表
+        List<Account> accountList = accountDao.queryAccountList(pMap, pager.getSkipResults(),
+                pager.getMaxResults());
+        pager.setData(accountList);
         return pager;
     }
 

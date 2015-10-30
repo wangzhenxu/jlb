@@ -18,6 +18,9 @@ public class Const {
 	 * 会话中的用户KEY
 	 */
 	public static final String SESSION_USER_KEY = "com.loiot.baqi.session_user_key";
+	
+	public static final String SHIRO_SESSION_USER_KEY = "com.loiot.baqi.shiro_session_user_key";
+
 	/**
 	 * 会话中字典集合
 	 */

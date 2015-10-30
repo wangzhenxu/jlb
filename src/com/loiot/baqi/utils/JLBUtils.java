@@ -5,9 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
+
 import com.loiot.baqi.pojo.ZpCompanyJobInfo;
 import com.loiot.baqi.pojo.ZpJlInfo;
 import com.loiot.baqi.status.JobMatchType;
+import com.loiot.commons.utils.StringUtil;
 
 
 public class JLBUtils {
@@ -236,13 +239,40 @@ public class JLBUtils {
 	  System.out.println("resultMatchFlag:" + resultMatchFlag);
 	}
 	
+	public static String dealDistance(String distance){
+		String result="无";
+		if(!StringUtils.isBlank(distance)){
+			int kmps=Integer.parseInt(distance)/1000;
+			result=kmps+"公里";
+		}
+		return result;
+	}
+	
+	public static String dealduration(String duration){
+		String result="无";
+		if(!StringUtils.isBlank(duration)){
+			int second=Integer.parseInt(duration);
+			int minute=second/60;
+			//minute=80;
+			if(minute>60){
+				int hour=minute/60;
+				int residue=minute%60;
+				result=hour+"小时"+residue+"分";
+			}else{
+				result=minute+"分";
+			}	
+		}
+		return result;
+	}
+	
 	public static void main(String args[]) {
 		
 		//System.out.println(JLBUtils.dealYearMoney(500l));;
-		String str1= JLBUtils.dealExpectedYearMoney(null, 250000l);
-		System.out.println(str1);
+		//String str1= JLBUtils.dealExpectedYearMoney(null, 250000l);
+		//System.out.println(str1);
 		//System.out.println(JLBUtils.dealYearMoney(500l));
 		//JLBUtils.testmoney();
+		System.out.println(JLBUtils.dealduration("8088"));
 	}
 	
 	

@@ -1,11 +1,14 @@
 package com.loiot.baqi.controller;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.loiot.baqi.utils.UserSessionUtils;
 
 /**
  * 欢迎页处理器。
@@ -27,6 +30,10 @@ public class HomeController {
 	public String welcome() {
 		Subject subject = SecurityUtils.getSubject();
 		
+		//没有补充个人信息
+		if(StringUtils.isBlank(UserSessionUtils.getAccount().getIphone())){
+			return "redirect:/accountExpandInfo/toEdit.action?id="+UserSessionUtils.getAccount().getExpandId();
+		}else
 		if (subject.isPermitted("zpJlInfo:list")) {
 			//简历管理
             return "redirect:/zpJlInfo/list.action";

@@ -21,7 +21,7 @@ public class Pager<T> {
     /**
      * 每页的记录容量,默认是10.
      */
-    private int pageSize = 5;
+    private int pageSize = 10;
     /**
      * 总页数
      */

@@ -35,7 +35,7 @@
 				    	<select id="jobPositionLevelId" name="jobPositionLevelId">
 			    		 <option value="" > 请选择 </option>
 			    		    <#list DictionaryUtil.getTypes(DictionaryType.JOB_POSITION_LEVE.getCode()) as c>
-			    		 		 <option value="${c.dictionaryId}" <#if  jobPositionLevelId?? && jobPositionLevelId!='' > <#if jobPositionLevelId?number==c.dictionaryId> selected </#if> </#if>  > ${c.name!''} </option>
+			    		 		 <option value="${c.dictionaryId}" <#if  jobPositionLevelId?? && jobPositionLevelId!='' > <#if jobPositionLevelId?number==c.dictionaryId> selected </#if> </#if>  > ${c.showName!''} </option>
 			 			 	</#list>
 			    		  </select>
 				       </li>
@@ -44,7 +44,7 @@
 			    	<select id="maritalId" name="maritalId">
 			    		 <option value="" > 请选择 </option>
 			    		    <#list DictionaryUtil.getTypes(DictionaryType.IS_MARRY.getCode()) as c>
-			    		 		 <option value="${c.dictionaryId}" <#if  maritalId?? && maritalId!=''> <#if maritalId?number==c.dictionaryId> selected </#if> </#if>  > ${c.name!''} </option>
+			    		 		 <option value="${c.dictionaryId}" <#if  maritalId?? && maritalId!=''> <#if maritalId?number==c.dictionaryId> selected </#if> </#if>  > ${c.showName!''} </option>
 			 			 	</#list>
 			    	</select>
 			       </li>
@@ -53,7 +53,7 @@
 			    	<select id="sex" name="sex">
 			    		 <option value="" > 请选择 </option>
 			    		    <#list DictionaryUtil.getTypes(DictionaryType.SEX.getCode()) as c>
-			    		 		 <option value="${c.dictionaryId}" <#if  sex?? && sex!=''> <#if sex?number==c.dictionaryId> selected </#if> </#if>  > ${c.name!''} </option>
+			    		 		 <option value="${c.dictionaryId}" <#if  sex?? && sex!=''> <#if sex?number==c.dictionaryId> selected </#if> </#if>  > ${c.showName!''} </option>
 			 			 	</#list>
 			    	</select>
 			       </li>
@@ -69,7 +69,7 @@
 			    	<select id="salaryRequireId" name="salaryRequireId" style="width:160px;">
 			    		 <option value="" > 请选择 </option>
 			    		    <#list DictionaryUtil.getTypes(DictionaryType.SALARY_REQUIRE.getCode()) as c>
-			    		 		 <option value="${c.dictionaryId}" <#if  salaryRequireId?? && salaryRequireId!=""> <#if salaryRequireId?number==c.dictionaryId> selected </#if> </#if>  > ${c.name!''} </option>
+			    		 		 <option value="${c.dictionaryId}" <#if  salaryRequireId?? && salaryRequireId!=""> <#if salaryRequireId?number==c.dictionaryId> selected </#if> </#if>  > ${c.showName!''} </option>
 			 			 	</#list>
 			    	</select>
 			       </li>
@@ -80,7 +80,17 @@
 			    	<select id="educationId" name="educationId">
 		    		 <option value="" > 请选择 </option>
 		    		    <#list DictionaryUtil.getTypes(DictionaryType.EDUCATION.getCode()) as c>
-		    		 		 <option value="${c.dictionaryId}" <#if  educationId?? && educationId!=""> <#if educationId?number==c.dictionaryId> selected </#if> </#if>  > ${c.name!''} </option>
+		    		 		 <option value="${c.dictionaryId}" <#if  educationId?? && educationId!=""> <#if educationId?number==c.dictionaryId> selected </#if> </#if>  > ${c.showName!''} </option>
+		 			 	</#list>
+		    		  </select>
+			       </li>
+			       
+			        <li style="width:15%">
+			       	<span class="classify">评审状态：</span>
+			    	<select id="auditTypeId" name="auditTypeId">
+		    		 <option value="" > 请选择 </option>
+		    		    <#list JlAuditType.values() as c>
+		    		 		 <option value="${c.code}" <#if  auditTypeId?? && auditTypeId!=""> <#if auditTypeId?number==c.code> selected </#if> </#if>  > ${c.title!''} </option>
 		 			 	</#list>
 		    		  </select>
 			       </li>
@@ -103,31 +113,40 @@
 		</td>
         <td  height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>姓名</strong></td>
         <td  height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>评审状态</strong></td>
+         
+         <#if Session[Const.SESSION_USER_KEY].type!=AccountType.TECHICAL_AUDIT.getCode()>
+	      	<td  height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>评审人</strong></td>
+         </#if>
         
-        <td  height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>手机</strong></td>
-        <td  height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>邮箱</strong></td>
         <td  height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>职位</strong></td>
         <td  height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>级别</strong></td>
         <td  height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>薪水要求</strong></td>
         <td  height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>年龄</strong></td>
         <td  height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>性别</strong></td>
         <td  height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>最高学历</strong></td>
+        <td  height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>猎人</strong></td>
         <td  height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>录入时间</strong></td>
         <td  height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>操 作</strong></td>
        </tr>
        <#list pager.data as c>
        <tr>
        <td  style="display:none;" align="center" class="hui"><input type="checkbox" name="checkbox" value="${c.jlId!''}" postionAttr="${c.jobPositionId!''}" class="check"></td>
-        <td align="center" class="hui">${c.name!''}</td>
+        <td align="center" class="hui">${c.name!''}${c.auditTypeId!''}</td>
          <td align="center" class="hui">
 	          <#if c.auditTypeId??>
 	       	  	${JlAuditType.get(c.auditTypeId).getTitle()}
 	       	 </#if>
          </td>
-        <td align="center" class="hui">${c.phone!''}</td>
-        <td align="center" class="hui">
-        	 ${c.emal!''}
-        </td>
+         
+         <#if Session[Const.SESSION_USER_KEY].type!=AccountType.TECHICAL_AUDIT.getCode()>
+	         <td align="center" class="hui">
+		          ${c.technicianAuditPersonName!''}
+	         </td>
+         </#if>
+         
+         
+        
+        
         <td align="center" class="hui">
         <#if c.jobPositionId??>
         	${DictionaryUtil.getName(c.jobPositionId)}
@@ -159,6 +178,11 @@
 	    		${DictionaryUtil.getName(c.educationId)}
 	    	 </#if>
 	    </td>
+	    
+	      <td align="center" class="hui">
+        	${c.inPersonName!''}
+	    </td>
+	   
 	    <td align="center" class="hui">
 	    	     <#if c.inTime??>
         			 ${c.inTime?string("yyyy-MM-dd HH:mm:ss")}
@@ -170,7 +194,22 @@
 	    	<div class="btn-group">
       		    <#if subject.isPermitted("zpJobMatchingInfo:add")>
       		   		<button type="button" class="btn btn-default"  onclick="jlInfo.matchJob('${c.jlId!""}');">匹配职位</button>
-      		    </#if>
+      		   	</#if>
+	   			<#if subject.isPermitted("zpJlInfo:toAuditJlDetail")>
+      		   		 	&nbsp;&nbsp;&nbsp;&nbsp;
+      		   		<button type="button" class="btn btn-default"  onclick="jlInfo.toAuditJlDetail('${c.jlId!""}');">个人信息</button>
+	     		</#if>
+	     		&nbsp;&nbsp;&nbsp;&nbsp;
+	     		<button type="button"  
+		     		 <#if c.auditTypeId??>
+		       	  		<#if JlAuditType.AUDIT_OK.getCode()==c.auditTypeId>
+		       	  			class="btn btn-default disabled"
+		       	  		</#if>
+		       	  		<#if JlAuditType.WAIT_AUDIT.getCode()==c.auditTypeId>
+		       	  			class="btn btn-default "  onclick="jlInfo.auditOk('${c.jlId!""}');"
+		       	  		</#if>
+		       	 	</#if>
+	     		>已评审</button>
       		 </div>
 	     </td>
 	    

@@ -36,6 +36,8 @@
 	        	<result  column="technician_audit_person_name" property="technicianAuditPersonName" />
 	        	<result  column="audit_type_id" property="auditTypeId" />
  		        <result  column="inPersonName" property="inPersonName" />
+ 		        <result  column="coord_x" property="coordX" />
+	        	<result  column="coord_y" property="coordY" />
 	        	
 	        	<!-- 职位列表 -->
 				<collection ofType="ZpJlJobLevels" property="zpJlJobLevels">
@@ -94,6 +96,10 @@
 						 		ji.top_specialty,
 						 		
 						 		ji.birthday,
+					 			
+					 			ji.coord_x,
+						 		
+						 		ji.coord_y,
 						 		
 						 		zp_jl_job_levels.jl_job_level_id as t_jl_job_level_id,
 						 		
@@ -122,6 +128,9 @@
 				        		AND ji.name like '%${nameT}%'
 			        	</if>
 				</if>
+							<if test="jlId != null and jlId !='' ">
+				        		AND ji.jl_id=#{jlId} 
+				        	</if>
 				        	<if test="name != null and name !='' ">
 				        		AND ji.name=#{name} 
 				        	</if>
@@ -375,6 +384,12 @@
 		        	<if test="birthday != null">
 		        		birthday,
 		        	</if>
+		        	<if test="coordX != null">
+		        		coord_x,
+		        	</if>
+		        	<if test="coordY != null">
+		        		coord_y,
+		        	</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			        	<if test="name != null">
@@ -442,6 +457,12 @@
 			        	</if>
 			        	<if test="birthday != null">
 			        		#{birthday},
+			        	</if>
+			        	<if test="coordX != null">
+				        	#{coordX},
+			        	</if>
+			        	<if test="coordY != null">
+			        		#{coordY},
 			        	</if>
 		</trim>
 	</insert>
@@ -512,6 +533,12 @@
 			        	</if>
 			        	<if test="topSpecialty != null">
 			        		top_specialty=#{topSpecialty},
+			        	</if>
+			        	<if test="coordX != null">
+			        		coord_x=#{coordX},
+			        	</if>
+			        	<if test="coordY != null">
+			        		coord_y=#{coordY},
 			        	</if>
 		</trim>
 		WHERE jl_id=#{jlId}
@@ -616,6 +643,8 @@
 						 		ji.english_level_id,
 						 		ji.top_specialty,
 						 		ji.birthday,
+						 		ji.coord_x,
+						 		ji.coord_y,
 						 		zp_jl_job_levels.jl_job_level_id as t_jl_job_level_id,
 						 		zp_jl_job_levels.jl_id as t_jl_id,
 						 		zp_jl_job_levels.job_level_id as t_job_level_id,

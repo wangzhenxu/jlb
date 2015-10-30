@@ -11,9 +11,10 @@ var jlInfo ={
 		modifyDeleteStatusUrl:"/zpJlInfo/modifyDeleteStatus.action", //停用 或启用
 		getAuditPersonsUrl:"/zpJlInfo/getAuditPersons.action", //获取评审列表
 		assignAuditPersonUrl:"/zpJlInfo/assignAuditPerson.action", //设置评审人
+		toAuditJlDetailUrl : "/zpJlInfo/toAuditJlDetail.action?id=",
+		auditOkUrl : "/zpJlInfo/auditOk.action?jlId=",
 
 		
-
 
 		onlyName :  $("#onlyName"), //修改，唯一验证时需要添加此属性
 		phoneT :  $("#phoneT"), //phone
@@ -115,6 +116,9 @@ var jlInfo ={
 	   //跳转详情页面
 	   toDetail : function (id){
 			location.href=this.toViewUrl+id;
+		},
+		toAuditJlDetail : function (id){
+			window.open("/zpJlInfo/toAuditJlDetail.action?id="+id);
 		},
 		//初始化添加页面
 		initAddPage : function (){
@@ -481,5 +485,14 @@ var jlInfo ={
 				hiOverAlert(result.d,1000);
 			}
 	    });
+	},
+	//评审通过
+	auditOk : function (jlId){
+		var self =this
+		common.openModal("delete_sure","确定评审通过？");
+		$("#delete_sure_a").unbind("click").click(function (){
+			location.href=self.auditOkUrl+jlId;
+		});
+		
 	}
 }

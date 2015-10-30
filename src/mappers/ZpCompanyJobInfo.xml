@@ -37,6 +37,12 @@
 	        	<result  column="area_id" property="areaId" />
 	        	<result  column="companyAreaId" property="companyAreaId" />
         	    <result  column="inPersonName" property="inPersonName" />
+        	     <result  column="companyName" property="companyName" />
+        	     <result  column="coord_x" property="coordX" />
+	        	<result  column="coord_y" property="coordY" />
+        		<result  column="address" property="address" />
+
+	        	
 	        	<!-- 职位要求关键字列表 -->
 				<collection ofType="ZpCompanyJobDemandKeys" property="keys">
 						<id  column="k_key_id" property="keyId"></id>
@@ -116,13 +122,16 @@
 						 		cjdk.proportion as  k_proportion,
 						 		
 						 		cji.zp_urgency_status_id,
-			        	
+						 		cji.coord_x,
+						 		cji.coord_y,
+			        			cji.address,
 						 		cji.area_id,
-						 		a.username as inPersonName
+						 		a.username as inPersonName,
+						 		ci.name as companyName
 			        	
 		FROM
 			zp_company_job_info cji LEFT JOIN zp_company_job_demand_keys cjdk ON cji.job_id= cjdk.job_id
-		    INNER JOIN  zp_company_info ci ON cji.company_id =  ci.company_id 
+		    LEFT JOIN  zp_company_info ci ON cji.company_id =  ci.company_id 
 		    left join account a on a.account_id = cji.in_person
 		    
 		<where>
@@ -130,7 +139,7 @@
 		
 							<if test="qtype != null and qtype=='like'">
 									<if test="name != null and name !='' ">
-						        		AND cji.name like '%${name}' 
+						        		AND ci.name like '%${name}' 
 						        	</if>
 						        	 
 								     <if test="expectedYearMoneyStart != null and expectedYearMoneyStart !='' ">
@@ -247,7 +256,7 @@
 							1=1  AND ci.is_delete=1
 							<if test="qtype != null and qtype=='like'">
 									<if test="name != null and name !='' ">
-						        		AND cji.name like '%${name}' 
+						        		AND ci.name like '%${name}' 
 						        	</if>
 						        	 
 								     <if test="expectedYearMoneyStart != null and expectedYearMoneyStart !='' ">
@@ -440,6 +449,15 @@
 		        	<if test="areaId != null">
 		        		area_id,
 		        	</if>
+		        	<if test="coordX != null">
+		        		coord_x,
+		        	</if>
+		        	<if test="coordY != null">
+		        		coord_y,
+		        	</if>
+		        	<if test="address != null">
+		        		address,
+		        	</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			        	<if test="companyId != null">
@@ -529,6 +547,15 @@
 			        	<if test="areaId != null">
 			        		#{areaId},
 			        	</if>
+			        	<if test="coordY != null">
+			        		#{coordY},
+			        	</if>
+			        	<if test="areaId != null">
+			        		#{areaId},
+			        	</if>
+			        	<if test="address != null">
+		        			#{address},
+		        		</if>
 		</trim>
 	</insert>
 	
@@ -623,6 +650,15 @@
 			        	<if test="areaId != null">
 			        		area_id=#{areaId},
 			        	</if>
+			        	<if test="coordX != null">
+			        		coord_x=#{coordX},
+			        	</if>
+			        	<if test="coordY != null">
+			        		coord_y=#{coordY},
+			        	</if>
+			        	<if test="address != null">
+		        			address=#{address},
+		        		</if>
 		</trim>
 		WHERE job_id=#{jobId}
 	</update>
@@ -766,14 +802,17 @@
 						 		cjdk.proportion as  k_proportion,
 						 		
 						 		cji.zp_urgency_status_id,
-			        	
+						 		cji.coord_x,
+						 		cji.coord_y,
+			        			cji.address,
 						 		cji.area_id,
 						 		
-						 		zp_company_info.company_id AS companyAreaId,
-			        			a.username as inPersonName
+						 		ci.company_id AS companyAreaId,
+			        			a.username as inPersonName,
+						 		ci.name as companyName
 		FROM
 			zp_company_job_info cji LEFT JOIN zp_company_job_demand_keys cjdk ON cji.job_id= cjdk.job_id
-			LEFT JOIN zp_company_info ON cji.company_id =zp_company_info.company_id
+			LEFT JOIN zp_company_info ci ON cji.company_id =ci.company_id
 			Left join account a on a.account_id = cji.in_person
 		
 		WHERE 

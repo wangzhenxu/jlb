@@ -33,10 +33,12 @@ import com.loiot.baqi.pojo.*;
 import com.loiot.baqi.constant.ApplicationConst;
 import com.loiot.baqi.constant.Const;
 import com.loiot.baqi.constant.DictionaryUtil;
+import com.loiot.baqi.constant.URLConst;
 import com.loiot.baqi.controller.response.AjaxResponse;
 import com.loiot.baqi.controller.response.Pager;
 import com.loiot.baqi.service.*;
 import com.loiot.baqi.status.AccountType;
+import com.loiot.baqi.status.DictionaryType;
 import com.loiot.baqi.status.JlAuditType;
 import com.loiot.baqi.status.PauseStartType;
 import com.loiot.baqi.utils.UserSessionUtils;
@@ -67,6 +69,8 @@ public class ZpJlInfoController {
     @Resource
 	private ZpJlInfoService zpJlInfoService;
     
+    private HashMap<String,Object> pmap = new HashMap<String,Object>();
+    
     
     /**
      * 后台用户业务逻辑
@@ -92,7 +96,7 @@ public class ZpJlInfoController {
     	HashMap<String,Object> paramMap=this.getParaMap(jsonParam, model);
     	paramMap.put("qtype", "like");
     	//用户数据过滤
-    	if(UserSessionUtils.getAccountType()==AccountType.HR.getCode() || UserSessionUtils.getAccountType()==AccountType.JOB_HUNTER.getCode() ){
+    	if(UserSessionUtils.getAccountType()==AccountType.HR.getCode() || UserSessionUtils.getAccountType()==AccountType.JOB_HUNTER.getCode() ||  UserSessionUtils.getAccountType()==AccountType.TECHICAL_AUDIT.getCode()){
     		paramMap.put("inPerson", UserSessionUtils.getAccount().getAccountId());
     	}
         Pager<ZpJlInfo> pager = zpJlInfoService.queryZpJlInfoListPage(paramMap, pageIndex);
@@ -170,6 +174,9 @@ public class ZpJlInfoController {
             	return this.NAME_EXIST;
             }
   		    this.genNewFile(p);
+  		    
+  		    
+  		    
   		    zpJlInfoService.addZpJlInfo(p,jobPositionLevelIds);
     		// 添加成功
     		return AjaxResponse.OK;
@@ -312,15 +319,16 @@ public class ZpJlInfoController {
     	//response.setContentType("text/plain");
     	DiskFileItem fi = (DiskFileItem)file.getFileItem();
         File f = fi.getStoreLocation();
+        // TODO
         ZpJlInfo bi=null;
         try {
         	  bi = this.zpJlInfoService.paseWord(f,file,fi.getName());
 		} catch (java.lang.ClassNotFoundException e) {
-			//e.printStackTrace();
+			e.printStackTrace();
 			// TODO: handle exception
 			return new AjaxResponse(-2, "无法解析此文档，请自行转换word2003格式");
 		} catch(java.io.IOException e){
-			//e.printStackTrace();
+			e.printStackTrace();
 			return new AjaxResponse(-2, "无法解析此文档，请自行转换word2003格式");
 		}
         //修改时需要验证（如果有简历id，代表修改）
@@ -337,6 +345,11 @@ public class ZpJlInfoController {
         return result;
     }
     
+    private File saveFile(String fileName,File uploadFile){
+    	// TODO
+    	return null;
+    }
+    
     /**
      * ajax 根据id查询实体bean
      * @return
@@ -346,7 +359,7 @@ public class ZpJlInfoController {
     public Object ajaxGetById(@RequestParam(value = "id", required = true) java.lang.Long id)throws Exception {
     	 ZpJlInfo p=null;
     	//用户数据过滤
-    	if(UserSessionUtils.getAccountType()==AccountType.HR.getCode() || UserSessionUtils.getAccountType()==AccountType.JOB_HUNTER.getCode() ){
+     	if(UserSessionUtils.getAccountType()==AccountType.HR.getCode() || UserSessionUtils.getAccountType()==AccountType.JOB_HUNTER.getCode() ||  UserSessionUtils.getAccountType()==AccountType.TECHICAL_AUDIT.getCode()){
     		  p = zpJlInfoService.getZpJlInfoById(id, UserSessionUtils.getAccount().getAccountId());
     	} else {
   		      p = zpJlInfoService.getZpJlInfoById(id);
@@ -356,6 +369,9 @@ public class ZpJlInfoController {
     	}
     	return AjaxResponse.OK(p);
     }
+    
+    
+    
     
     /**
      * 更新 （停用、启用状态）
@@ -415,23 +431,10 @@ public class ZpJlInfoController {
     		pMap.put("auditPositionId",jobPositionId);
     		pMap.put("type", AccountType.TECHICAL_AUDIT.getCode());
     		pMap.put("isDelete",PauseStartType.START.getCode() );
+    		pMap.put("isAcceptAudit", DictionaryUtil.getCode(DictionaryType.ACCEPT_AUDIT.getCode(), "start"));
+
     		List<Account> accoutList = accountService.queryAccountList(pMap);
-    		
-    		List<JlAuditPersonList>  apList= new ArrayList<JlAuditPersonList>();
-    		int count =0;
-    		for(Account a:accoutList){
-    			count++;
-    			if(count==5){
-    				break;
-    			}
-    			JlAuditPersonList ap = new JlAuditPersonList();
-    			ap.setAuditPerson(a.getAccountId());
-    			ap.setAuditPersonName(a.getUsername());
-    			ap.setAuditCount(10);
-    			ap.setWaitAuditCount(2);
-    			ap.setLastAuditTime(new Date());
-    			apList.add(ap);
-    		}
+    		List<JlAuditPersonList> apList = this.zpJlExpandInfoService.auditPersonStatistics(accoutList);
     	    return AjaxResponse.OK(apList);
     }
     
@@ -485,7 +488,7 @@ public class ZpJlInfoController {
     		paramMap.put("inPerson", UserSessionUtils.getAccount().getAccountId());
     	} else if(UserSessionUtils.getAccountType()==AccountType.TECHICAL_AUDIT.getCode()){
     		paramMap.put("technicianAuditPerson", UserSessionUtils.getAccount().getAccountId());
-    		paramMap.put("auditTypeId", JlAuditType.WAIT_AUDIT.getCode());
+    		//paramMap.put("auditTypeId", JlAuditType.WAIT_AUDIT.getCode());
     	}
         Pager<ZpJlInfo> pager = zpJlInfoService.queryZpJlInfoListPage(paramMap, pageIndex);
         model.put("pager", pager);
@@ -493,6 +496,52 @@ public class ZpJlInfoController {
         
         return "/zpJlInfo/zpJlAudit_list";
     }
+    
+    /**
+     * 跳转到编辑页面
+     * 
+     * @return
+     */
+    @RequestMapping(value = "/toAuditJlDetail")
+    public String toJlDetail(@RequestParam(value = "id", required = true) java.lang.Long id, ModelMap model)throws Exception {
+    	HashMap<String,Object> pMap=new HashMap<String,Object>();
+    	//用户数据过滤
+    	pMap.put("technicianAuditPerson", UserSessionUtils.getAccount().getAccountId());
+		pMap.put("jlId", id);
+		List<ZpJlInfo> list = this.zpJlInfoService.queryZpJlInfoList(pMap);
+		if(list.size()>0){
+			model.put("p",list.get(0));
+		}
+        return "/zpJlInfo/auditJl_detail";
+    }
+    
+    
+    /**
+     * 评审完成
+     * 
+     * @return
+     */
+    @RequestMapping(value = "/auditOk")
+    public String auditOk(@RequestParam(value = "jlId",required = true) java.lang.Long jlId, ModelMap model)throws Exception {
+    	if(jlId==null){
+    		return URLConst.ERROR_URL;
+    	}
+    	pmap.put("jlId", jlId);
+    	pmap.put("qtype", "one");
+    	pmap.put("auditTypeId", JlAuditType.AUDIT_OK.getCode());
+    	//技术评审
+    	if(UserSessionUtils.getAccountType()==AccountType.TECHICAL_AUDIT.getCode() ){
+    		pmap.put("technicianAuditPerson", UserSessionUtils.getAccount().getAccountId());
+    		this.zpJlExpandInfoService.updateZpJlExpandInfo(pmap);
+    	}else 
+    	//管理员
+    	if(UserSessionUtils.getAccountType()==AccountType.ADMIN.getCode() ){
+    		this.zpJlExpandInfoService.updateZpJlExpandInfo(pmap);
+    	}
+    	return "redirect:/zpJlInfo/auditList.action";
+    }
+    
+    
     
     
 }

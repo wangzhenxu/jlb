@@ -2,7 +2,9 @@ package com.loiot.baqi.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -22,6 +24,8 @@ import com.loiot.baqi.service.ZpJobMatchingInfoService;
 import com.loiot.baqi.status.JobMatchType;
 import com.loiot.baqi.status.MatchKeywordType;
 import com.loiot.baqi.status.PauseStartType;
+import com.loiot.baqi.utils.GaoDeUtils;
+import com.loiot.baqi.utils.HttpRequest;
 import com.loiot.baqi.utils.RegexpUtils;
 import com.loiot.baqi.utils.UserSessionUtils;
 import com.loiot.baqi.pojo.ZpCompanyJobDemandKeys;
@@ -30,7 +34,9 @@ import com.loiot.baqi.pojo.ZpJlInfo;
 import com.loiot.baqi.pojo.ZpJlJobLevels;
 import com.loiot.baqi.pojo.ZpJobMatchingInfo;
 import com.loiot.baqi.pojo.ZpJobMatchingKeys;
+import com.loiot.commons.message.util.JsonUtil;
 import com.loiot.commons.utils.DateUtil;
+import com.loiot.commons.utils.HttpUtil;
 
 /**
  * 职位匹配信息 逻辑类。
@@ -106,7 +112,7 @@ public class ZpJobMatchingInfoService{
     	  // 查询职位匹配信息列表总条数
         List<ZpJobMatchingInfo> list = zpJobMatchingInfoDao.queryZpJobMatchingInfoList(pMap);
         // 构造一个分页器
-        Pager<ZpJobMatchingInfo> pager = new Pager<ZpJobMatchingInfo>(list.size(), pageIndex, 5,list);
+        Pager<ZpJobMatchingInfo> pager = new Pager<ZpJobMatchingInfo>(list.size(), pageIndex, 10,list);
         List<ZpJobMatchingInfo> idsList = pager.getCurrentPageData();
         List<Long> ids =this.getMatchingIds(idsList);
         pMap.put("ids", ids);
@@ -264,6 +270,7 @@ public class ZpJobMatchingInfoService{
     public void matchJob(ZpJlInfo jl,List<ZpCompanyJobInfo> JobList) throws Exception{
     	ZpJobMatchingInfo matchBean = null;
 
+    	List<ZpJobMatchingInfo> newList = new ArrayList<ZpJobMatchingInfo>();
     	for(ZpCompanyJobInfo job : JobList){
     		matchBean = new ZpJobMatchingInfo();
         	matchBean.setJobId(job.getJobId());
@@ -325,18 +332,58 @@ public class ZpJobMatchingInfoService{
     	
     		//matchBean.setJobPositionIdStatus((int)JobMatchType.NO_SETTING_CONDITION.getCode());
     		
+    		
     	
     		matchBean.setInPerson(UserSessionUtils.getAccount().getAccountId());
+    		matchBean.setCoordX(job.getCoordX());
+    		matchBean.setCoordY(job.getCoordY());
+    		newList.add(matchBean);
     		//保存匹配结果
-    		this.zpJobMatchingInfoDao.addZpJobMatchingInfo(matchBean);
+    		//this.zpJobMatchingInfoDao.addZpJobMatchingInfo(matchBean);
     		//newList.add(matchBean);
     	}
-    	
+		if(!StringUtils.isBlank(jl.getCoordX()) && !StringUtils.isBlank(jl.getCoordY())){
+			setDistanceAndDurationInfo(newList,jl.getCoordX(),jl.getCoordY());
+		}
+		
+		//存储
+		for(ZpJobMatchingInfo p :newList){
+			this.zpJobMatchingInfoDao.addZpJobMatchingInfo(p);
+		}
     	//System.out.println("matchBean:" + matchBean.getJobStarttimeStatus());
     	//System.out.println("matchBean:" + matchBean);
     	//HashMap<String,Object> pMap = new HashMap<String, Object>();
     	//pMap.put("jobId", matchBean.getJobId());		
     	//return this.queryZpJobMatchingInfoList(pMap);
+    }
+    
+    /**
+     * 设置距离信息
+     * @param newList
+     */
+    public void setDistanceAndDurationInfo(List<ZpJobMatchingInfo> newList,String coordx,String coordy){
+    	GaoDeUtils gdUtils = new GaoDeUtils();
+		gdUtils.setKey("f3ea3f66d49194f6b7777567fe3936b0");
+		gdUtils.setUrl("http://restapi.amap.com/v3/distance");
+		for(ZpJobMatchingInfo ne:newList){
+			Object obj[] = new Object [2];
+			obj[0]=ne.getCoordX();
+			obj[1]=ne.getCoordY();
+			gdUtils.pushf(obj);
+		}
+		String StirngParam =gdUtils.getDistanceParam(coordx, coordy);
+		String responseContent=HttpRequest.sendGet(gdUtils.getUrl(), StirngParam);
+		HashMap map =JsonUtil.toObject(responseContent, HashMap.class);
+		if(map!=null && map.get("status").equals("1")){
+			List list =(List)map.get("results");
+			for(int i=0;i<list.size();i++){
+				 Map map2 = (LinkedHashMap)list.get(i);
+				 String distance =String.valueOf(map2.get("distance"));
+				 String duration =String.valueOf(map2.get("duration"));
+				 newList.get(i).setDistance(distance);
+				 newList.get(i).setDuration(duration);
+			}
+		}
     }
     
     /**

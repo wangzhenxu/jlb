@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.util.WebUtils;
 
 import com.loiot.baqi.constant.Const;
 import com.loiot.baqi.constant.URLConst;
@@ -104,11 +105,13 @@ public class SecurityController {
             return AjaxResponse.SYSTEM_BUSY;
         }
         
-         
-        session.removeAttribute(Const.SESSION_USER_KEY);
-        session.removeAttribute(Const.SESSION_SUBJECT);
-        // 保存会话
-        session.setAttribute(Const.SESSION_SUBJECT, subject); // shiro已登录用户
+        if(session.getAttribute(Const.SESSION_USER_KEY)!=null){
+        	session.removeAttribute(Const.SESSION_USER_KEY);
+        }
+        if(session.getAttribute(Const.SESSION_SUBJECT)!=null){
+        	session.removeAttribute(Const.SESSION_SUBJECT);
+        }
+        
         Account account = accountService.getAccountByUsername(username);
         
         AccountExpandInfo exp = new AccountExpandInfo();
@@ -116,13 +119,16 @@ public class SecurityController {
         exp.setLastLoginTime(new java.util.Date());
         accountExpandInfoService.updateAccountExpandInfo(exp);
         
-        
+        // 保存会话
+        session.setAttribute(Const.SESSION_SUBJECT, subject); // shiro已登录用户
         session.setAttribute(Const.SESSION_USER_KEY,account );// 登陆用户
+        
         //放到shiro容器中
-        subject.getSession().setAttribute(Const.SESSION_USER_KEY, account);
-
         
-        
+        if(subject.getSession().getAttribute(Const.SHIRO_SESSION_USER_KEY)!=null){
+        	subject.getSession().removeAttribute(Const.SHIRO_SESSION_USER_KEY);
+        }
+        subject.getSession().setAttribute(Const.SHIRO_SESSION_USER_KEY, account);
         IndexInfoSingleTon indexInfo = IndexInfoSingleTon.getInstance();
 		Map<String, List> infoMap = indexInfo.getIndexInfoMap();  //  得到Map集合
 		infoMap.put(Const.SESSION_DICTIONARYS_KEY, zpDictionaryInfoService.queryZpDictionaryInfoList(new HashMap()));

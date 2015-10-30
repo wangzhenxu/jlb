@@ -38,14 +38,53 @@
     <div class="sort">
      <div class="sort1">用户管理</div>
      <div class="query">
-     	<form action="list.action" method="post">
+     	<form action="list.action" method="post" id="queryForm">
       <ul>
-       	<li>
+       	<li style="width:20%">
        		<span class="classify">用户名：</span>
-         	<input name="username" type="text"  class="input"/>
+         	<input name="username" type="text" value="${username!''}" class="input"/>
          </li>
-       	<li>
-   			<a href="javascript:;" onclick="$(this).parents('form').submit();"><img src="/images/erji_06.jpg" width="64" height="26" /></a>
+         <li style="width:15%">
+       		<span class="classify">用户类型：</span>
+				<select id="type" name="type" >
+			    	<option value="" > 请选择 </option>
+			    	<#list AccountType.values() as c>
+			    		 <option value="${c.code}"  <#if type?? && type!=''> <#if type?number==c.code> selected </#if> </#if> > ${c.title} </option>
+			 		</#list>
+			    </select>
+         </li>
+          
+         <li style="width:15%">
+       		<span class="classify">账号状态：</span>
+       		
+       			<select id="isDelete" name="isDelete" >
+			    	<option value="" > 请选择 </option>
+			    	<#list PauseStartType.values() as c>
+			    		 <option value="${c.code}" <#if isDelete?? && isDelete!=''> <#if isDelete?number==c.code> selected </#if>  </#if>> ${c.title} </option>
+			 		</#list>
+			    </select>
+         </li>
+         
+         <li style="width:15%">
+       		<span class="classify">评审状态：</span>
+				<select id="isAcceptAudit" name="isAcceptAudit" >
+			    	<option value="" > 请选择 </option>
+			    	<#list DictionaryUtil.getTypes(DictionaryType.ACCEPT_AUDIT.getCode()) as c>
+			    		 <option value="${c.dictionaryId}" <#if  isAcceptAudit?? && isAcceptAudit!=""> <#if isAcceptAudit?number==c.dictionaryId> selected </#if> </#if>  > ${c.showName!''} </option>
+			 		</#list>
+			    </select>
+         </li>
+          <li style="width:15%">
+       		<span class="classify">排序方式：</span>
+				<select id="orderType" name="orderType" >
+			    	<option value="" > 请选择 </option>
+			    	<#list AccountOrderType.values() as c>
+			    		<option value="${c.code}"   <#if orderType?? && orderType!=''> <#if orderType?number==c.code> selected </#if> </#if> > ${c.title} </option>
+			 		</#list>
+			    </select>
+         </li>
+       	<li style="width:15%">
+   			<a href="javascript:;" onclick="query()"><img src="/images/erji_06.jpg" width="64" height="26" /></a>
        	</li>
       </ul>
       </form>
@@ -59,11 +98,13 @@
      <table width="100%"  border="1" align="left" cellpadding="0" cellspacing="0" bordercolor="#ffffff" style="border-collapse:collapse">
        <tr class="lan">
         <td width="14%" height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>序列号</strong></td>
-        <td width="17%" height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>用户名</strong></td>
+        <td width="12%" height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>用户名</strong></td>
         <td width="10%" height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>用户类型</strong></td>
-        <td width="15%" height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>角色</strong></td>
+        <td width="10%" height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>角色</strong></td>
         <td width="10%" height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>账号状态</strong></td>
-        <td width="20%" height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>最后登陆时间</strong></td>
+        <td width="10%" height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>评审状态</strong></td>
+        <td width="10%" height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>创建时间</strong></td>
+        <td width="10%" height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>最后登陆时间</strong></td>
         <td width="24%" align="center" valign="middle" background="/images/erji_22.jpg"><strong>操 作</strong></td>
        </tr>
        <#list pager.data as account>
@@ -88,9 +129,22 @@
 				</#if>
 	        </td>
 	        
+	        <td align="center" class="hui">
+	        	<#if account.isAcceptAudit??>
+    		           ${DictionaryUtil.getName(account.isAcceptAudit)}
+				</#if>
+	        </td>
+	        
+	           <td align="center" class="hui">
+	        	<#if account.inTime??>
+	         		${account.inTime?string("yyyy-MM-dd HH:mm")}
+	 			</#if>
+	        </td>
+	        
+	        
 	         <td align="center" class="hui">
 	        	<#if account.lastLoginTime??>
-	         		${account.lastLoginTime?string("yyyy-MM-dd HH:mm:ss")}
+	         		${account.lastLoginTime?string("yyyy-MM-dd HH:mm")}
 	 			</#if>
 	        </td>
 	        
@@ -117,7 +171,7 @@
      </div>
      
      <#-- 分页栏 -->
-     <@pageBar pager=pager url="/account/list.action?username="+username join="&"></@pageBar>
+     <@pageBar pager=pager url="/account/list.action?jsonParam=${jsonParam!''}" join="&"></@pageBar>
      
     </div>
     <div id="accountModal" class="modal fade xin1"></div>

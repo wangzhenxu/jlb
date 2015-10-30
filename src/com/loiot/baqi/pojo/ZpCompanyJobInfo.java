@@ -49,6 +49,10 @@ public class ZpCompanyJobInfo  implements java.io.Serializable{
 	    private java.lang.Long areaId;  //所在城区 db_column: area_id 
 	    private Long companyAreaId;
 	    private java.lang.String inPersonName;
+	    private String  companyName;
+	    private java.lang.String coordX;  //坐标x db_column: coord_x 
+	    private java.lang.String coordY;  //坐标y db_column: coord_y 
+	    private String address;//工作地点
 	    
 	    List<ZpCompanyJobDemandKeys> keys;
 

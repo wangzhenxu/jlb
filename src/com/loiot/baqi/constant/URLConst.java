@@ -34,5 +34,10 @@ public class URLConst {
      * 产品分类列表URL
      */
     public static final String REDIRECT_PRO_APP_CLASS_URL = "redirect:/productApp/class/list.action";
+    
+    /**
+     * 错误列表
+     */
+    public static final String ERROR_URL="redirect:/error";
  
 }

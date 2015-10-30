@@ -13,7 +13,9 @@ package com.loiot.baqi.status;
  */
 public enum JlAuditType {
 
-	WAIT_AUDIT(1, "待评审");	
+	WAIT_AUDIT(1, "待评审"),
+	AUDIT_OK(2, "已评审");	
+	
 	
 	
 	

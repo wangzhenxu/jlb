@@ -57,7 +57,7 @@
     	<select id="industryId">
     		 <option value="" > 请选择 </option>
     		   <#list DictionaryUtil.getTypes(DictionaryType.COMPANY_INDUSTRY.getCode()) as c>
-    		 		<option value="${c.dictionaryId}" <#if industryId??> <#if industryId==c.dictionaryId> selected </#if> </#if>  > ${c.name!''} </option>
+    		 		<option value="${c.dictionaryId}" <#if industryId??> <#if industryId==c.dictionaryId> selected </#if> </#if>  > ${c.showName!''} </option>
  			 	</#list>
     	</select>
        </li>
@@ -66,7 +66,7 @@
     	<select id="companyNature">
     		 <option value="" > 请选择 </option>
     		 <#list DictionaryUtil.getTypes(DictionaryType.COMPANY_NATURE.getCode()) as c>
-    		 	<option value="${c.dictionaryId}" <#if companyNature??> <#if companyNature==c.dictionaryId> selected </#if> </#if> > ${c.name!''} </option>
+    		 	<option value="${c.dictionaryId}" <#if companyNature??> <#if companyNature==c.dictionaryId> selected </#if> </#if> > ${c.showName!''} </option>
  			 </#list>
     	</select>
        </li>
@@ -75,7 +75,7 @@
     	<select id="scaleId">
     		 <option value="" > 请选择 </option>
     		 <#list DictionaryUtil.getTypes(DictionaryType.COMPANY_SCALE.getCode()) as c>
-    		 	<option value="${c.dictionaryId}" <#if scaleId??> <#if scaleId==c.dictionaryId> selected </#if> </#if> > ${c.name!''} </option>
+    		 	<option value="${c.dictionaryId}" <#if scaleId??> <#if scaleId==c.dictionaryId> selected </#if> </#if> > ${c.showName!''} </option>
  			 </#list>
     	</select>
        </li>
@@ -84,7 +84,7 @@
     	<select id="financingLevelId">
     		 <option value="" > 请选择 </option>
     		 <#list DictionaryUtil.getTypes(DictionaryType.COMPANY_FINANCING_LEVEL.getCode()) as c>
-    		 	<option value="${c.dictionaryId}" <#if financingLevelId??> <#if financingLevelId==c.dictionaryId> selected </#if> </#if> > ${c.name!''} </option>
+    		 	<option value="${c.dictionaryId}" <#if financingLevelId??> <#if financingLevelId==c.dictionaryId> selected </#if> </#if> > ${c.showName!''} </option>
  			 </#list>
     	</select>
        </li>
@@ -113,6 +113,8 @@
        <td height="37" align="center" valign="middle" background="/images/erji_22.jpg" style="display:none;"><strong>年龄</strong></td>
        <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>工作年限</strong></td>
        <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>距离</strong></td>
+       <td height="37" align="center" valign="middle" background="/images/erji_22.jpg" style="display:none;"><strong>用时</strong></td>
+       
        <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>总关键字数</strong></td>
        <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>已匹配</strong></td>
        <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>匹配率</strong></td>
@@ -182,9 +184,10 @@
 	 		</#if>
         </td>
         <td align="center" class="hui">
-	         <#if c.distanceStatus??>
-	         	${JobMatchType.get(c.distanceStatus).getTitle()}
-	 		</#if>
+	        ${JLBUtils.dealDistance(c.distance)}
+        </td>
+         <td align="center" class="hui" style="display:none;">
+	        ${JLBUtils.dealduration(c.duration)}
         </td>
         <td align="center" class="hui">
 	         <#if c.keywordCount??>

@@ -11,6 +11,13 @@ function toAddAccount() {
 	});
 }
 
+//列表查询
+ function query(){
+	var serializeObj = common.serializeJson("queryForm");
+	var jsonStr = JSON.stringify(serializeObj)
+	location.href="/account/list.action?jsonParam="+jsonStr;
+}
+
 function toEditAccount(accountId) {
 	$.post("/account/toEditAccount.action", {
 		accountId : accountId
@@ -81,7 +88,7 @@ function addAccount() {
 			location.href="/account/list.action";
 		} else {
 			if(resp.s==-100301){
-				$username.next().text(resp.d);
+				$("[name=username]").next().text(resp.d);
 			}else{
 				alert(resp.d);
 			}

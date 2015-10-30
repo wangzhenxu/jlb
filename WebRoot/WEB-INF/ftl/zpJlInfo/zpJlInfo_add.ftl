@@ -1,4 +1,5 @@
 
+<#include "../include/comm_jlb_macro.ftl"/>
 
 <script>
 	 left_menu_class_num=1;
@@ -10,7 +11,8 @@
 <link href="/css/c_validationEngine.jquery.css" rel="stylesheet" type="text/css" />
 <script src="/js/ajaxfileupload.js"></script>
 <script src="/js/my97/WdatePicker.js" type="text/javascript" > </script>
- <script type="text/javascript" src="/js/ckeditor/ckeditor.js"></script>			
+<script type="text/javascript" src="/js/ckeditor/ckeditor.js"></script>
+ 
 
 <form id="addform" name="form"  method="post" enctype="multipart/form-data">
 <input type="hidden" name="jlId" id="jlId"  value="${pid!''}"  />
@@ -21,12 +23,18 @@
 <input type="hidden" name="jlContent" id="jlContent" />
 <input type="hidden" name="oldFilePath" id="oldFilePath" />
 <input type="hidden" name="jobPositionLevelIds" id="jobPositionLevelIds" />
+<input type="hidden" name="coordX" id="coordX" />
+<input type="hidden" name="coordY" id="coordY" />
+
+
+
+
 
 
 <!-- 右侧 开始 -->
 <div class="right">
     <div class="location">
-     <div class="location01">您现在的位置是：首页 &gt; <a href="control.html">简历管理</a> &gt; <strong class="m_title"> 增加简历</strong></div>
+     <div class="location01">您现在的位置是：首页 &gt; <a href="javascript:jlInfo.tolist();">简历管理</a> &gt; <strong class="m_title"> 增加简历</strong></div>
     </div>
     <div class="nav">
      <div class="basic">
@@ -65,7 +73,7 @@
            <td  align="right" class="hui1">性别：</td>
            <td  align="left" valign="middle">
 	          	 <#list DictionaryUtil.getTypes(DictionaryType.SEX.getCode()) as c>
-	          	 	<input class="radio" name="sex" type="radio" value="${c.dictionaryId}" > ${c.name!''} 
+	          	 	<input class="radio" name="sex" type="radio" value="${c.dictionaryId}" > ${c.showName!''} 
 	          	 </#list>
            </td>
           <td align="right" class="hui1">邮箱：</td>
@@ -81,7 +89,7 @@
           <td align="right" class="hui1">婚否：</td>
           <td  align="left" valign="middle">
 				 <#list DictionaryUtil.getTypes(DictionaryType.IS_MARRY.getCode()) as c>
-	          	 	<input class="radio" name="maritalId" type="radio" value="${c.dictionaryId}" > ${c.name!''} 
+	          	 	<input class="radio" name="maritalId" type="radio" value="${c.dictionaryId}" > ${c.showName!''} 
 	          	 </#list>
            </td>
          </tr>
@@ -94,7 +102,7 @@
            <td  align="right" class="hui1">最高学历：</td>
            <td  align="left" valign="middle">
           	 <#list DictionaryUtil.getTypes(DictionaryType.EDUCATION.getCode()) as c>
-	          	 	<input class="radio" name="educationId" type="radio" value="${c.dictionaryId}" > ${c.name!''} 
+	          	 	<input class="radio" name="educationId" type="radio" value="${c.dictionaryId}" > ${c.showName!''} 
           	 </#list> 
            </td>
           
@@ -108,7 +116,7 @@
           <td align="right" class="hui1">英语等级：</td>
           <td  align="left" valign="middle">
 	 		 <#list DictionaryUtil.getTypes(DictionaryType.ENGLISH_LEVEL.getCode()) as c>
-	          	 	<input class="radio" name="englishLevelId" type="radio" value="${c.dictionaryId}" > ${c.name!''} 
+	          	 	<input class="radio" name="englishLevelId" type="radio" value="${c.dictionaryId}" > ${c.showName!''} 
           	 </#list> 
 		  </td>
          </tr>
@@ -129,7 +137,8 @@
           
           <td align="right" class="hui1">现住址：</td>
           <td  align="left" valign="middle" colspan="3">
-                       <input name="nowAddress" id="nowAddress" type="text" class="input" style="width:400px;" >
+              <input name="nowAddress" id="nowAddress" onblur="jlInfo.setLgltInfo(this.value);" type="text" class="input" style="width:400px;" >
+          	<span class="hui1">&nbsp;&nbsp;&nbsp;如果添加会匹配附近职位哦</span>
           </td>
          </tr>
          
@@ -137,7 +146,7 @@
            <td  align="right" class="hui1"><span class="red">*</span>职位：</td>
            <td  align="left" valign="middle" clospan="3">
 	         <#list DictionaryUtil.getTypes(DictionaryType.JOB_POSITION.getCode()) as c>
-          	  	 <input class="radio validate[required]" id="jobPositionId" name="jobPositionId" type="radio" value="${c.dictionaryId}" > ${c.name!''} 
+          	  	 <input class="radio validate[required]" id="jobPositionId" name="jobPositionId" type="radio" value="${c.dictionaryId}" > ${c.showName!''} 
           	 </#list>
           </td>
          </tr>
@@ -145,7 +154,7 @@
            <td  align="right" class="hui1">职位级别：</td>
            <td  align="left" valign="middle" clospan="3">
 			 <#list DictionaryUtil.getTypes(DictionaryType.JOB_POSITION_LEVE.getCode()) as c>
-          	  	 <input class="radio" name="jobPositionLevelId" type="checkbox" value="${c.dictionaryId}" > ${c.name!''} 
+          	  	 <input class="radio" name="jobPositionLevelId" type="checkbox" value="${c.dictionaryId}" > ${c.showName!''} 
           	 </#list>
            </td>
          </tr>
@@ -154,7 +163,7 @@
            <td  align="right" class="hui1"><span class="red">*</span>薪水要求：</td>
            <td  align="left" valign="middle" clospan="3">
 			<#list DictionaryUtil.getTypes(DictionaryType.SALARY_REQUIRE.getCode()) as c>
-          	  	 <input  class="radio validate[required]"  name="salaryRequireId" id="salaryRequireId" type="radio" value="${c.dictionaryId}" > ${c.name!''} 
+          	  	 <input  class="radio validate[required]"  name="salaryRequireId" id="salaryRequireId" type="radio" value="${c.dictionaryId}" > ${c.showName!''} 
           	 </#list>
            </td>
          </tr>
@@ -177,10 +186,15 @@
            <td  align="left" valign="middle" colspan="3" >
             <textarea id="jlContent2"  cols="130" style="font-size: 15px;" rows="150" ></textarea>
            </td>
-         </tr>     
+         </tr>  
          
+          <tr style="display:none;" class="">
+           <td  align="right" class="hui1">所在地：</td>
+           <td  align="left" valign="middle" colspan="3" >
+            	<div id="mapContainer" style="width:800px;height:400px;position: relative;"></div>
+           </td>
+         </tr>    
          </table>
-
      </div>
     </div>
     <div class="anniu">
@@ -192,6 +206,8 @@
 <!-- 右侧 结束 -->
 </form>
 <#include "../include/deleteConfirmModal.ftl">
+
+<@gmc_model_js from="map" />
 <script src="/js/zpJlInfo.js"></script>
 <script>
 	jlInfo.initPage();

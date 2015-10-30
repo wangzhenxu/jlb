@@ -42,6 +42,9 @@
 	        	<result  column="keyword_count" property="keywordCount" />
 	        	<result  column="keyword_match_count" property="keywordMatchCount" />
 		        <result  column="jl_name" property="jlName" />
+		        <result  column="duration" property="duration" />
+		        
+		        
 	        	
 	        	
 	        	<collection ofType="ZpJobMatchingKeys" property="keys">
@@ -174,6 +177,11 @@
 		        	<if test="keywordMatchCount != null">
 		        		keyword_match_count,
 		        	</if>
+		        	
+		        	<if test="duration != null">
+		        		duration,
+		        	</if>
+		        	
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			        	<if test="jobId != null">
@@ -269,6 +277,10 @@
 			        	<if test="keywordMatchCount != null">
 			        		#{keywordMatchCount},
 			        	</if>
+			        	<if test="duration != null">
+			        		#{duration},
+			        	</if>
+			        	
 		</trim>
 	</insert>
 	
@@ -506,7 +518,8 @@
 						 		jmi.keyword_percent,
 						 		jmi.keyword_count,
 						 		jmi.keyword_match_count,
-						 		ji.name as jl_name
+						 		ji.name as jl_name,
+						 		jmi.duration
 	</sql>
 	
 	<!-- getListSQL -->

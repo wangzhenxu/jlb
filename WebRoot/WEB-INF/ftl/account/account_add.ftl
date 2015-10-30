@@ -58,7 +58,7 @@
 					        	<select id="auditPositionId" name="auditPositionId">
 			    		 			<option value="" > 请选择 </option>
 			    		    		<#list DictionaryUtil.getTypes(DictionaryType.JOB_POSITION.getCode()) as c>
-			    		 				 <option value="${c.dictionaryId}" <#if  jobPositionId?? && jobPositionId!=''> <#if jobPositionId?number==c.dictionaryId> selected </#if> </#if>  > ${c.name!''} </option>
+			    		 				 <option value="${c.dictionaryId}" <#if  jobPositionId?? && jobPositionId!=''> <#if jobPositionId?number==c.dictionaryId> selected </#if> </#if>  > ${c.showName!''} </option>
 			 			 			</#list>
 			    		  		</select>
 					          <span class='tip'></span>

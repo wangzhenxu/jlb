@@ -54,7 +54,10 @@ public class ZpJobMatchingInfo  implements java.io.Serializable{
 	    private Integer keywordCount;//要求匹配的关键字数量
 	    private Integer keywordMatchCount; //以匹配数
 	    private String jlName; //简历姓名
-
+	    
+	    private java.lang.String coordX;  //坐标x db_column: coord_x 
+	    private java.lang.String coordY;  //坐标y db_column: coord_y 
+	    private String duration;//秒
 	    
 	    
 	   

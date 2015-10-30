@@ -37,13 +37,14 @@
 <input type="hidden" name="expectedYearMoney" id="expectedYearMoney" />  
 <input type="hidden" name="jobId" id="jobId" value="${pid!''}" />
 <input type="hidden" name="onlyName" id="onlyName"/>
-
+<input type="hidden" name="coordX" id="coordX" />
+<input type="hidden" name="coordY" id="coordY" />
 
 
 <!-- 右侧 开始 -->
 <div class="right">
     <div class="location">
-     <div class="location01">您现在的位置是：首页 &gt; <a href="control.html">客户管理</a> &gt; 职位管理 &gt;<strong class="m_title" tempAttrValue="职位"> 增加职位</strong></div>
+     <div class="location01">您现在的位置是：首页 &gt; <a href="javascript:companyJob.tolist();">职位管理</a> &gt;<strong class="m_title" tempAttrValue="职位"> 增加职位</strong></div>
     </div>
     <div class="nav">
      <div class="basic">
@@ -56,7 +57,7 @@
          </tr>
          <tr>
            <td  align="right" class="hui1">公司名称：</td>
-           <td  align="left" valign="middle">
+           <td  align="left" valign="middle" id="companyName">
            	<#if company??> ${company.name!''} </#if>
           </td>
           <td align="right" class="hui1">
@@ -71,7 +72,7 @@
            <td  align="right" class="hui1"><span class="red">*</span>招聘职位：</td>
            <td  align="left" valign="middle" clospan="3">
 	         <#list DictionaryUtil.getTypes(DictionaryType.JOB_POSITION.getCode()) as c>
-          	  	 <input class="radio validate[required]" name="typeId" id="typeId" type="radio" value="${c.dictionaryId}" /> ${c.name!''} 
+          	  	 <input class="radio validate[required]" name="typeId" id="typeId" type="radio" value="${c.dictionaryId}" /> ${c.showName!''} 
           	 </#list>
           </td>
          </tr>
@@ -80,7 +81,7 @@
            <td  align="right" class="hui1"><span class="red">*</span>职位级别：</td>
            <td  align="left" valign="middle" clospan="3">
 	         <#list DictionaryUtil.getTypes(DictionaryType.JOB_POSITION_LEVE.getCode()) as c>
-          	  	 <input  class="radio validate[required]" id="jobPositionLevelId" name="jobPositionLevelId" type="radio" value="${c.dictionaryId}" /> ${c.name!''} 
+          	  	 <input  class="radio validate[required]" id="jobPositionLevelId" name="jobPositionLevelId" type="radio" value="${c.dictionaryId}" /> ${c.showName!''} 
           	 </#list>
           </td>
          </tr>
@@ -89,8 +90,15 @@
            <td  align="right" class="hui1"><span class="red">*</span>所在城区：</td>
            <td  align="left" valign="middle" clospan="3">
             	<#list DictionaryUtil.getTypes(DictionaryType.COMPANY_AREA.getCode()) as c>
-          	  	  <input class="radio validate[required]" class="radio" id="areaId" name="areaId" type="radio"  <#if company??> <#if company.areaId??> <#if company.areaId==c.dictionaryId> checked </#if> </#if> </#if> value="${c.dictionaryId}" > ${c.name!''} 
+          	  	  <input class="radio validate[required]" class="radio" id="areaId" name="areaId" type="radio"  <#if company??> <#if company.areaId??> <#if company.areaId==c.dictionaryId> checked </#if> </#if> </#if> value="${c.dictionaryId}" > ${c.showName!''} 
           	 	</#list>
+           </td>
+         </tr>
+         
+          <tr>
+           <td  align="right" class="hui1"><span class="red">*</span>工作地点：</td>
+           <td  align="left" valign="middle" clospan="3">
+            	<input name="address" id="address" style="width: 330px;" onblur="companyJob.setLgltInfo(this.value);"  type="text" class="input validate[required]" <#if company??> value=${company.address!''} </#if>  >
            </td>
          </tr>
          
@@ -137,7 +145,7 @@
           <td align="right" class="hui1">婚否：</td>
           <td  align="left" valign="middle">
           	<#list DictionaryUtil.getTypes(DictionaryType.IS_MARRY.getCode()) as c>
-	          	 	<input class="radio" name="maritalId"  type="radio" value="${c.dictionaryId}" > ${c.name!''} 
+	          	 	<input class="radio" name="maritalId"  type="radio" value="${c.dictionaryId}" > ${c.showName!''} 
 	        </#list>
            </td>
          </tr>
@@ -146,13 +154,13 @@
            <td  align="right" class="hui1">性别：</td>
            <td  align="left" valign="middle">
 	          	 <#list DictionaryUtil.getTypes(DictionaryType.SEX.getCode()) as c>
-	          	 	<input class="radio" name="sex" type="radio" value="${c.dictionaryId}" > ${c.name!''} 
+	          	 	<input class="radio" name="sex" type="radio" value="${c.dictionaryId}" > ${c.showName!''} 
 	          	 </#list>
            </td>
           <td align="right" class="hui1">学历：</td>
           <td  align="left" valign="middle">
  				<#list DictionaryUtil.getTypes(DictionaryType.EDUCATION.getCode()) as c>
-	          	 	<input class="radio" name="educationId" type="radio" value="${c.dictionaryId}" > ${c.name!''} 
+	          	 	<input class="radio" name="educationId" type="radio" value="${c.dictionaryId}" > ${c.showName!''} 
           	 	</#list>  
          </td>
          </tr>
@@ -168,7 +176,7 @@
           <td align="right" class="hui1">英语等级：</td>
           <td  align="left" valign="middle">
 	 		 <#list DictionaryUtil.getTypes(DictionaryType.ENGLISH_LEVEL.getCode()) as c>
-	          	 	<input class="radio" name="englishLevelId" type="radio" value="${c.dictionaryId}" > ${c.name!''} 
+	          	 	<input class="radio" name="englishLevelId" type="radio" value="${c.dictionaryId}" > ${c.showName!''} 
           	 </#list> 
 		  </td>
          </tr>
@@ -258,7 +266,12 @@
              </td>
          </tr>
           
-        
+         <tr style=";" class="">
+           <td  align="right" class="hui1">公司所在地：</td>
+           <td  align="left" valign="middle" colspan="3" >
+            	<div id="mapContainer" style="width:800px;height:400px;position: relative;"></div>
+           </td>
+         </tr>    
        </tbody>
        </table>
      </div>
@@ -281,8 +294,8 @@
 <!-- 右侧 结束 -->
 </form>
 <#include "../include/deleteConfirmModal.ftl">
+<@gmc_model_js from="map" />
 <script src="/js/companyJob.js"></script>
 <script>
-	//companyJob.initAddPage();
 	companyJob.initPage();
 </script>

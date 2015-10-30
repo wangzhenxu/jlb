@@ -113,6 +113,7 @@
           <strong><input type="checkbox" class="JlAudit-parent" id="JlAudit" value="10700" style=" vertical-align:middle" /><label for="JlAudit">&nbsp;简历评审管理<label></strong>
          </div>
          <div class="top1">
+           <input type="checkbox" class="JlAudit-child" id="JlAuditJlDetail" value="10701" style=" vertical-align:middle" /><label for="JlAuditJlDetail">&nbsp;个人信息</label>
          </div>
         </li>
         
@@ -126,7 +127,7 @@
         <#-- 确定 -->
    		<a href="javascript:saveRole();" id="btnOkModal"><img src="/images/bjwj03.jpg" width="62" height="23" /></a>&nbsp;
    		<#-- 取消 -->
-   		<a href="javascript:closeModal();"><img src="/images/bjwj_05.jpg" width="62" height="23" /></a>
+   		<a href="javascript:closeModal();"  id="btnCancelModal"><img src="/images/bjwj_05.jpg" width="62" height="23" /></a>
    	</div>
   </div>
   </form>

@@ -14,6 +14,14 @@
 	        	<result  column="audit_type_id" property="auditTypeId" />
 	</resultMap>
 	
+	<resultMap type="JlAuditPersonList" id="JlAuditPersonListMap">
+	        	<result  column="auditPersonName" property="auditPersonName" />
+	        	<result  column="auditPerson" property="auditPerson" />
+	        	<result  column="lastAuditTime" property="lastAuditTime" />
+	        	<result  column="auditCount" property="auditCount" />
+	        	<result  column="waitAuditCount" property="waitAuditCount" />
+	</resultMap>
+	
 	<!-- 查询 简历扩展信息列表 -->
 	<select id="queryZpJlExpandInfoList" resultMap="zpJlExpandInfoMap">
 		SELECT
@@ -181,6 +189,43 @@
 		</trim>
 		WHERE jl_expand_id=#{jlExpandId}
 	</update>
+	
+	<!-- 修改 简历扩展信息byMAP -->
+	<update id="updateZpJlExpandInfoByMap" >
+		UPDATE  zp_jl_expand_info
+		<trim prefix="set" suffixOverrides=",">
+			        	<if test="jlId != null">
+			        		jl_id=#{jlId},
+			        	</if>
+			        	<if test="jlFilePath != null">
+			        		jl_file_path=#{jlFilePath},
+			        	</if>
+			        	<if test="jlContent != null">
+			        		jl_content=#{jlContent},
+			        	</if>
+			        	<if test="technicianAuditPerson != null">
+			        		technician_audit_person=#{technicianAuditPerson},
+			        	</if>
+			        	<if test="technicianAuditTime != null">
+			        		technician_audit_time=#{technicianAuditTime},
+			        	</if>
+			        	<if test="auditTypeId != null">
+			        		audit_type_id=#{auditTypeId},
+			        	</if>
+		</trim>
+		WHERE  1=1
+		
+		<if test="qtype != null and qtype=='one'">
+					<if test="jlId != null">
+			        	  AND	jl_id=#{jlId}
+		        	</if>
+		        	<if test="technicianAuditPerson != null">
+			        	AND	technician_audit_person=#{technicianAuditPerson}
+		        	</if>
+		</if>
+	</update>
+	
+	
 
 	<!-- 删除  简历扩展信息 -->
 	<delete id="deleteZpJlExpandInfo">
@@ -224,6 +269,23 @@
 			zp_jl_expand_info  jei
 		WHERE 
 		jei.jl_expand_id=#{jlExpandId}
+		
+	</select>
+	
+	<!-- 获得  简历扩展信息 统计评审人相关信息 -->
+	<select id="auditPersonStatistics" resultMap="JlAuditPersonListMap">
+		select count(jei.technician_audit_person) as auditCount, 
+		SUM(CASE jei.audit_type_id when 1 then 1 ELSE 0 END ) as waitAuditCount,
+		MAX( jei.technician_audit_time ) as lastAuditTime,
+		max(a.account_id) as auditPerson,
+		MAX(a.username) as auditPersonName
+		from zp_jl_expand_info jei right JOIN account a ON jei.technician_audit_person = a.account_id 
+	 	WHERE 1=1 
+	 	AND a.account_id  IN
+			<foreach  item="item" collection="ids"  index="index" open="(" separator="," close=")"> 
+			${item} 
+			</foreach>
+	 	GROUP BY jei.technician_audit_person
 		
 	</select>
 

@@ -73,7 +73,9 @@ public class AccountExpandInfoDao extends SqlSessionDaoSupport{
      * @return 返回与ID匹配的用户扩展信息
      */
     public AccountExpandInfo getAccountExpandInfoById(java.lang.Long id)throws Exception {
-        return (AccountExpandInfo) getSqlSession().selectOne("AccountExpandInfo.getAccountExpandInfoById", id);
+    	HashMap<String, Object> pMap = new HashMap<String, Object>();
+    	pMap.put("expandId", id);
+    	return (AccountExpandInfo) getSqlSession().selectOne("AccountExpandInfo.getAccountExpandInfoById", pMap);
     }
     
     /**

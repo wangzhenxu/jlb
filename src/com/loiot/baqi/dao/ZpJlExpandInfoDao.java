@@ -10,6 +10,7 @@ import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.stereotype.Repository;
 
 import com.loiot.baqi.pojo.ZpJlExpandInfo;
+import com.loiot.baqi.vo.JlAuditPersonList;
 
 /**
  * 简历扩展信息 访问层。
@@ -37,6 +38,16 @@ public class ZpJlExpandInfoDao extends SqlSessionDaoSupport{
      */
     public void updateZpJlExpandInfo(ZpJlExpandInfo p)throws Exception {
         this.getSqlSession().update("ZpJlExpandInfo.updateZpJlExpandInfo", p);
+    }
+    
+    
+    /**
+     * 修改 简历扩展信息
+     * 
+     * @param p 参数对象
+     */
+    public void updateZpJlExpandInfo(HashMap<String,Object> pMap)throws Exception {
+        this.getSqlSession().update("ZpJlExpandInfo.updateZpJlExpandInfoByMap", pMap);
     }
     
     /**
@@ -140,6 +151,15 @@ public class ZpJlExpandInfoDao extends SqlSessionDaoSupport{
      */
     public List<ZpJlExpandInfo> queryZpJlExpandInfoList(HashMap<String, Object> pMap)throws Exception {
         return getSqlSession().selectList("ZpJlExpandInfo.queryZpJlExpandInfoList", pMap);
+    }
+    
+    /**
+     * 审核人信息统计
+     * 
+     * @param pMap 参数列表
+     */
+    public List<JlAuditPersonList> auditPersonStatistics(HashMap<String, Object> pMap)throws Exception {
+        return getSqlSession().selectList("ZpJlExpandInfo.auditPersonStatistics", pMap);
     }
     
     /**

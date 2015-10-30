@@ -15,6 +15,8 @@ public class JlAuditPersonList {
 	private Date lastAuditTime;
 	private int auditCount;
 	private int waitAuditCount;
-
 	
+	public int getAllowAuditCount(){
+		return 5-this.getWaitAuditCount();
+	}
 }

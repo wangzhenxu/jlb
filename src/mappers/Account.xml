@@ -23,6 +23,8 @@
        	<result  column="in_time" property="inTime" />
        	<result  column="in_person" property="inPerson" />
      	<result  column="last_login_time" property="lastLoginTime" />
+   		<result  column="is_accept_audit" property="isAcceptAudit" />
+     	
        	
 	</resultMap>
 
@@ -44,6 +46,7 @@
        	<result  column="in_time" property="inTime" />
        	<result  column="in_person" property="inPerson" />
      	<result  column="last_login_time" property="lastLoginTime" />
+   		<result  column="is_accept_audit" property="isAcceptAudit" />
 		
 		<association property="role" javaType="Role">
 			<id column="role_id" property="roleId" />
@@ -70,6 +73,7 @@
        	<result  column="in_time" property="inTime" />
        	<result  column="in_person" property="inPerson" />
      	<result  column="last_login_time" property="lastLoginTime" />
+      	<result  column="is_accept_audit" property="isAcceptAudit" />
        	
 		<association property="role" javaType="Role">
 			<id column="role_id" property="roleId" />
@@ -98,7 +102,8 @@
  		ei.payment_code,
  		ei.in_time,
  		ei.in_person,
- 		ei.last_login_time
+ 		ei.last_login_time,
+ 		ei.is_accept_audit
 		from
 		account a
 		left join account_role ar on a.account_id=ar.account_id
@@ -187,7 +192,8 @@
  		ei.payment_code,
  		ei.in_time,
  		ei.in_person,
- 		ei.last_login_time
+ 		ei.last_login_time,
+ 		ei.is_accept_audit
  		
 		from
 		account a
@@ -213,10 +219,22 @@
  		ei.payment_code,
  		ei.in_time,
  		ei.in_person,
- 		ei.last_login_time
+ 		ei.last_login_time,
+ 		ei.is_accept_audit
  		
 		<include refid="getAccountListSQL" />
-		order by ei.last_login_time desc
+		
+		<if test="orderType!=null">
+				<if test="orderType==1">
+					order by ei.in_time desc
+				</if>
+				<if test="orderType==2">
+					order by ei.last_login_time desc
+				</if>
+		</if>
+		<if test="orderType==null">
+				order by ei.in_time desc
+		</if>
 		<if test="skipResults!=null">
 				limit #{skipResults} ,#{maxResults}
 		</if>
@@ -235,19 +253,24 @@
 		left join account_role ar on a.account_id=ar.account_id
 		left join role r on ar.role_id=r.role_id
 		left join account_expand_info  ei on a.account_id=ei.account_id
+		
 		<where>
-			<if test="username != null">
+			<if test="username != null and username !=''">
 				AND a.username like '%${username}%'
 			</if>
-			<if test="auditPositionId != null">
+			<if test="auditPositionId != null and auditPositionId !=''">
 				AND ei.audit_position_id=#{auditPositionId}
 			</if>
-			<if test="type != null">
+			<if test="type != null and type !='' ">
 				AND a.type=#{type}
 			</if>
-			<if test="isDelete != null">
+			<if test="isDelete != null and isDelete !='' ">
 				AND a.is_delete=#{isDelete}
 			</if>
+			<if test="isAcceptAudit != null and isAcceptAudit !='' ">
+				AND ei.is_accept_audit=#{isAcceptAudit}
+			</if>
+			
 			
 		</where>
 	</sql>

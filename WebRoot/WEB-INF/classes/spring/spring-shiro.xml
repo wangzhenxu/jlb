@@ -21,6 +21,7 @@
 		<property name="unauthorizedUrl" value="/login.action" />
 		<property name="filterChainDefinitions">
 			<value>
+				/restapi.amap.com/**=anon
 				/account/toAddAccount.action = perms["account:add"]
 				/account/add.action = perms["account:add"]
 				/account/delete.action = perms["account:delete"]
@@ -74,15 +75,16 @@
                
                  <!-- 评审管理 -->
                /zpJlInfo/auditList.action=perms["zpJlInfo:auditList"]
+               /zpJlInfo/toAuditJlDetail.action=perms["zpJlInfo:toAuditJlDetail"]
                
 
 				/user/**.action = perms["user:list"]
 				
 				/customer/**.action = perms["customer:list"]
 				/project/**.action = perms["project:list"]
-
-
+				
 				/** = authc
+				
 			</value>
 		</property>
 	</bean>

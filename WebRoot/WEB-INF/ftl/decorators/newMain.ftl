@@ -29,7 +29,7 @@ function menuClick(){
  <div id="contant">
   <div class="head"><img src="/images/erji_01.jpg" /></div>
   <div class="position">
-   <div class="position01">欢迎您,<span class="org">${Session[Const.SESSION_USER_KEY].username}</span>,今天是2012年11月9日</div>
+   <div class="position01">欢迎您,<span class="org">${Session[Const.SESSION_USER_KEY].username}</span>,今天是${.now}</div>
    <div class="position02"><img src="/images/hy_06.jpg" style="vertical-align:middle"/>&nbsp;<a href="/logout.action" id="logoutBtn">退出登录</a></div>
   </div>
   
@@ -46,8 +46,10 @@ function menuClick(){
       		<a class="MenuLevel4 accountRole" href="/account/role/list.action"><img src="/images/bullet_sarrow.gif"/> &nbsp;&nbsp;<span <#if menuClass="accountRole">class="MenuLevel5"</#if>>后台角色</span></a>
       	</#if>
 		<#if subject.isPermitted("account:list")>
-		    <a class="MenuLevel4 accountManage" href="/account/list.action"> <img src="/images/bullet_sarrow.gif"/> &nbsp;&nbsp;<span <#if menuClass="accountManage">class="MenuLevel5"</#if>>后台帐号</span></a>
+		    <a class="MenuLevel4 accountManage" href="/account/list.action" > <img src="/images/bullet_sarrow.gif"/> &nbsp;&nbsp;<span <#if menuClass="accountManage">class="MenuLevel5"</#if>>后台帐号</span></a>
 		</#if>
+		<a class="MenuLevel4 editPassword"  <#if Session[Const.SESSION_USER_KEY].iphone?? && Session[Const.SESSION_USER_KEY].iphone?length gt 0> href="/accountExpandInfo/toView.action?id=${Session[Const.SESSION_USER_KEY].expandId}" <#else>  href="/accountExpandInfo/toEdit.action?id=${Session[Const.SESSION_USER_KEY].expandId}" </#if>      > <img src="/images/bullet_sarrow.gif"/> &nbsp;&nbsp;<span id="accountExpandInfo_list">个人信息</span></a>
+		
       	<a class="MenuLevel4 editPassword" href="/password.action"> <img src="/images/bullet_sarrow.gif"/> &nbsp;&nbsp;<span <#if menuClass="editPassword">class="MenuLevel"</#if>>修改密码</span></a>
      </div>
      

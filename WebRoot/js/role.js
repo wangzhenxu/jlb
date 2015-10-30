@@ -131,7 +131,8 @@ function initView(roleId) {
 
 	// 隐藏确定按钮
 	$("#btnOkModal").hide();
-
+	$("#btnCancelModal").hide();
+	
 	// 获得数据
 	$.post("/account/role/get.action", {
 				roleId : roleId

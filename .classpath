@@ -60,10 +60,10 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/servlet-api.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/dom4j-1.6.1.jar"/>
-	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/poi-3.8.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/poi-3.8.jar" sourcepath="C:/Users/Administrator/.m2/repository/org/apache/poi/poi/3.8"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/poi-examples-3.8.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/poi-excelant-3.8.jar"/>
-	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/poi-ooxml-3.8.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/poi-ooxml-3.8.jar" sourcepath="C:/Users/Administrator/.m2/repository/org/apache/poi/poi-ooxml/3.8/poi-ooxml-3.8-sources.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/poi-ooxml-schemas-3.8.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/poi-scratchpad-3.8.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/stax-api-1.0.jar"/>

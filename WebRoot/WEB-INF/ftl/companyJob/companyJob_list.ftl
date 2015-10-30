@@ -43,7 +43,7 @@
       <form id="queryForm" >
       <ul>
        <li style="width:22%">
-       	<span class="classify">职位名称：</span>
+       	<span class="classify">公司名称：</span>
     	<input name="name" type="text"  class="input"  id="name" value="${name!''}"/>
        </li>
        <li style="width:15%">
@@ -51,7 +51,7 @@
     	<select id="typeId">
     		 <option value="" > 请选择 </option>
     		 <#list DictionaryUtil.getTypes(DictionaryType.JOB_POSITION.getCode()) as c>
-    		 	<option value="${c.dictionaryId}" <#if typeId??> <#if typeId==c.dictionaryId> selected </#if> </#if>  > ${c.name!''} </option>
+    		 	<option value="${c.dictionaryId}" <#if typeId??> <#if typeId==c.dictionaryId> selected </#if> </#if>  > ${c.showName!''} </option>
  			 </#list>
     	</select>
        </li>
@@ -60,7 +60,7 @@
     	<select id="jobPositionLevelId">
     		 <option value="" > 请选择 </option>
     		 <#list DictionaryUtil.getTypes(DictionaryType.JOB_POSITION_LEVE.getCode()) as c>
-    		 	<option value="${c.dictionaryId}" <#if jobPositionLevelId??> <#if jobPositionLevelId==c.dictionaryId> selected </#if> </#if> > ${c.name!''} </option>
+    		 	<option value="${c.dictionaryId}" <#if jobPositionLevelId??> <#if jobPositionLevelId==c.dictionaryId> selected </#if> </#if> > ${c.showName!''} </option>
  			 </#list>
     	</select>
        </li>
@@ -133,7 +133,7 @@
        </tr>
        <#list pager.data as c>
        <tr>
-       <td align="center" class="hui" title="${c.name!''}">${StringUtil.truncate(c.name,14,"...")}</td>
+       <td align="center" class="hui" title="${c.companyName!''}">${StringUtil.truncate(c.companyName,14,"...")}</td>
         <td align="center" class="hui" title="${c.name!''}">${StringUtil.truncate(c.name,14,"...")}</td>
         <td align="center" class="hui">
       	  <#if c.typeId??> 	

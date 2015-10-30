@@ -14,8 +14,10 @@ import org.springframework.transaction.annotation.Transactional;
 import com.loiot.baqi.controller.response.Pager;
 import com.loiot.baqi.dao.ZpJlExpandInfoDao;
 import com.loiot.baqi.service.ZpJlExpandInfoService;
+import com.loiot.baqi.vo.JlAuditPersonList;
 import com.loiot.baqi.pojo.ZpJlExpandInfo;
 import com.loiot.baqi.pojo.ZpJlJobLevels;
+import com.timeloit.pojo.Account;
 
 
 /**
@@ -72,6 +74,30 @@ public class ZpJlExpandInfoService{
      */
     public void updateZpJlExpandInfo(ZpJlExpandInfo p)throws Exception {
         zpJlExpandInfoDao.updateZpJlExpandInfo(p);
+    }
+    
+    /**
+     * 审核人信息统计
+     * 
+     * @param pMap 参数列表
+     */
+    public List<JlAuditPersonList> auditPersonStatistics(List<Account> accoutList)throws Exception {
+    	if(accoutList==null || accoutList.size()==0){
+    		return null;
+    	}
+    	HashMap<String,Object> pmap = new HashMap<String,Object>();
+    	List<Long> ids = this.getIds(accoutList);
+    	pmap.put("ids", ids);
+    	return this.zpJlExpandInfoDao.auditPersonStatistics(pmap);
+    }
+    
+    /**
+     * 修改 简历扩展信息
+     * 
+     * @param p 参数对象
+     */
+    public void updateZpJlExpandInfo(HashMap<String,Object> pMap)throws Exception {
+    	this.zpJlExpandInfoDao.updateZpJlExpandInfo(pMap);
     }
     
     /**
@@ -166,12 +192,12 @@ public class ZpJlExpandInfoService{
      * 查询id集合
      * @return
      */
-    public List<Long> getIds(List<ZpJlExpandInfo> list) {
+    public List<Long> getIds(List<Account> list) {
     	List<Long> idsList = null;
         if(list!=null && list.size()>0) {
         	idsList = new ArrayList<Long>();
-        	for (ZpJlExpandInfo b : list) {
-            	idsList.add(null);
+        	for (Account b : list) {
+            	idsList.add(b.getAccountId());
             }
         }
         return idsList;

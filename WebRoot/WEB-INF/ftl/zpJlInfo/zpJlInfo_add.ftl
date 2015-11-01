@@ -151,10 +151,10 @@
           </td>
          </tr>
          <tr>
-           <td  align="right" class="hui1">职位级别：</td>
+           <td  align="right" class="hui1"><span class="red">*</span>职位级别：</td>
            <td  align="left" valign="middle" clospan="3">
 			 <#list DictionaryUtil.getTypes(DictionaryType.JOB_POSITION_LEVE.getCode()) as c>
-          	  	 <input class="radio" name="jobPositionLevelId" type="checkbox" value="${c.dictionaryId}" > ${c.showName!''} 
+          	  	 <input  class="checkbox validate[required]" name="jobPositionLevelId" id="jobPositionLevelId" type="checkbox" value="${c.dictionaryId}" > ${c.showName!''} 
           	 </#list>
            </td>
          </tr>

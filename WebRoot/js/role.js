@@ -43,7 +43,7 @@ function saveRole() {
 		// 提交form表单
 		$('#saveRoleForm').ajaxSubmit(function(resp) {
 					if (resp.s > 0) {
-						close();
+						//close();
 						// 跳转到列表页
 						location.href = "/account/role/list.action";
 					} else {

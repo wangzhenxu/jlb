@@ -25,6 +25,7 @@
 	    isDelete;  //是否删除
 	    zpUrgencyStatusId : $("#zpUrgencyStatusId"), //招聘紧急状态
 		areaId : $("#areaId"), //所在城区
+		
 -->
 <#include "../include/comm_jlb_macro.ftl"/>
 <@gmc_common_js from="add"/>
@@ -39,6 +40,8 @@
 <input type="hidden" name="onlyName" id="onlyName"/>
 <input type="hidden" name="coordX" id="coordX" />
 <input type="hidden" name="coordY" id="coordY" />
+<input type="hidden" name="zpRequire" id="zpRequire" />
+
 
 
 <!-- 右侧 开始 -->
@@ -181,13 +184,7 @@
 		  </td>
          </tr>
          
-          <tr>
-           <td  align="right" class="hui1"><span class="red">*</span>关键字：</td>
-           <td  align="left" valign="middle" colspan="3">
-           		<textarea name="zpRequire" class="validate[required]" id="zpRequire"  cols="115" rows="5" ></textarea>&nbsp;关键字由逗号分隔
-           </td>
-          
-         </tr>
+         
          
           <tr>
            <td  align="right" class="hui1"><span class="red">*</span>职位描述：</td>
@@ -203,8 +200,37 @@
            </td>
          </tr>
          
+         <tr>
+           <td  align="right" class="hui1">关键字标签：</td>
+           <td  align="left" valign="middle" colspan="2" id="keyWordLable">
+           </td>
+           <td  class="hui1">
+           	可双击删除标签
+           </td>
+         </tr>
+         
+         <#if Session[Const.SESSION_USER_KEY].type==AccountType.ADMIN.getCode()>
+	       	    <tr>
+		           <td  align="right" class="hui1">关键字：</td>
+		           <td  align="left" valign="middle" colspan="3">
+		           		<input class="input" id="keyInput" name="keyInput" maxlength="10"> 
+		           		<button type="button" class="btn btn-small" onclick="companyJob.addKeywordLable($(this).prev().val())">添&nbsp; 加</button>
+		           </td>
+         		</tr>
+	       	<#elseif Session[Const.SESSION_USER_KEY].type==AccountType.TECHICAL_AUDIT.getCode() >
+	       	 <tr>
+		           <td  align="right" class="hui1"><span class="red">*</span>关键字：</td>
+		           <td  align="left" valign="middle" colspan="2">
+		           		<input class="input" id="keyInput" name="keyInput" maxlength="10"> 
+		           		<button type="button" class="btn btn-small" onclick="companyJob.addKeywordLable($(this).prev().val())">添&nbsp; 加</button>
+		           </td>
+		           <td  class="hui1">
+           				最少添加3个标签（越多精准度越高）
+           		   </td>
+         	</tr>
+	     </#if>
+         
          </table>
-
      </div>
      
      <div class="basic">
@@ -298,4 +324,5 @@
 <script src="/js/companyJob.js"></script>
 <script>
 	companyJob.initPage();
+	var employeeType ="${Session[Const.SESSION_USER_KEY].type}"; 
 </script>

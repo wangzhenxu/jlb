@@ -173,10 +173,21 @@ public class ZpJlInfoController {
     		if(!this.validateUnique(p.getEmal(),p.getPhone(),null)){
             	return this.NAME_EXIST;
             }
+    		
+         	if(UserSessionUtils.getAccountType()!=AccountType.ADMIN.getCode() ){
+         		pmap.put("startTimeT", DateUtil.getCurrDateStartTime(new Date()));
+            	pmap.put("endTimeT", DateUtil.getCurrDateEndTime(new Date()));
+            	pmap.put("inPerson", UserSessionUtils.getAccount().getAccountId());
+            	pmap.put("jobPositionId", p.getJobPositionId());
+            	int count = this.zpJlInfoService.getZpJlInfoListCount(pmap);
+            	if(count>=3){
+            	    return new AjaxResponse(-2, "每个职位最多上传3个优质简历");
+            	}    		
+         	}
+    		
+    		
+    		
   		    this.genNewFile(p);
-  		    
-  		    
-  		    
   		    zpJlInfoService.addZpJlInfo(p,jobPositionLevelIds);
     		// 添加成功
     		return AjaxResponse.OK;
@@ -506,7 +517,10 @@ public class ZpJlInfoController {
     public String toJlDetail(@RequestParam(value = "id", required = true) java.lang.Long id, ModelMap model)throws Exception {
     	HashMap<String,Object> pMap=new HashMap<String,Object>();
     	//用户数据过滤
-    	pMap.put("technicianAuditPerson", UserSessionUtils.getAccount().getAccountId());
+    	if(UserSessionUtils.getAccountType()==AccountType.ADMIN.getCode() ){
+    	} else {
+        	pMap.put("technicianAuditPerson", UserSessionUtils.getAccount().getAccountId());
+    	}
 		pMap.put("jlId", id);
 		List<ZpJlInfo> list = this.zpJlInfoService.queryZpJlInfoList(pMap);
 		if(list.size()>0){
@@ -522,13 +536,16 @@ public class ZpJlInfoController {
      * @return
      */
     @RequestMapping(value = "/auditOk")
-    public String auditOk(@RequestParam(value = "jlId",required = true) java.lang.Long jlId, ModelMap model)throws Exception {
-    	if(jlId==null){
+    public String auditOk(@RequestParam(value = "jlId",required = true) java.lang.Long jlId,
+    		@RequestParam(value = "auditTypeId",required = true) java.lang.Long auditTypeId,
+    		ModelMap model)throws Exception {
+    	if(jlId==null || auditTypeId==null){
     		return URLConst.ERROR_URL;
     	}
     	pmap.put("jlId", jlId);
     	pmap.put("qtype", "one");
-    	pmap.put("auditTypeId", JlAuditType.AUDIT_OK.getCode());
+    	pmap.put("auditTypeId", auditTypeId);
+    	
     	//技术评审
     	if(UserSessionUtils.getAccountType()==AccountType.TECHICAL_AUDIT.getCode() ){
     		pmap.put("technicianAuditPerson", UserSessionUtils.getAccount().getAccountId());
@@ -536,10 +553,31 @@ public class ZpJlInfoController {
     	}else 
     	//管理员
     	if(UserSessionUtils.getAccountType()==AccountType.ADMIN.getCode() ){
+    		pmap.put("technicianAuditPerson", UserSessionUtils.getAccount().getAccountId());
     		this.zpJlExpandInfoService.updateZpJlExpandInfo(pmap);
     	}
     	return "redirect:/zpJlInfo/auditList.action";
     }
+    
+    /**
+     * 分配审核人
+     * 
+     * @param id 
+     * @throws Exception 
+     */
+    @RequestMapping(value = "/checkJlCount")
+    @ResponseBody
+    public Object checkJlCount() throws Exception{
+    	pmap.put("startTimeT", DateUtil.getCurrDateStartTime(new Date()));
+    	pmap.put("endTimeT", DateUtil.getCurrDateEndTime(new Date()));
+    	pmap.put("inPerson", UserSessionUtils.getAccount().getAccountId());
+    	int count = this.zpJlInfoService.getZpJlInfoListCount(pmap);
+    	if(count>=5){
+    	    return new AjaxResponse(-2, "每天最多可以上传5个优质简历");
+    	}
+    	return AjaxResponse.OK(null);
+    }
+    
     
     
     

@@ -24,7 +24,9 @@ import com.loiot.baqi.constant.DictionaryUtil;
 import com.loiot.baqi.controller.response.AjaxResponse;
 import com.loiot.baqi.controller.response.Pager;
 import com.loiot.baqi.service.*;
+import com.loiot.baqi.status.AccountType;
 import com.loiot.baqi.status.PauseStartType;
+import com.loiot.baqi.utils.UserSessionUtils;
 import com.loiot.commons.utils.StringUtil;
 import com.timeloit.pojo.Account;
 
@@ -64,7 +66,13 @@ public class ZpCompanyJobInfoController {
     	HashMap<String,Object> pMap = new HashMap<String,Object>();
     	pMap.put("qtype", "like");
     	pMap.put("name", p.getName());
-    	pMap.put("typeId", p.getTypeId());
+    	//技术评审只能看到他评审的职位
+    	if(UserSessionUtils.getAccountType()==AccountType.TECHICAL_AUDIT.getCode() ){
+        	pMap.put("typeId", UserSessionUtils.getAccount().getAuditPositionId());
+    	} else{
+        	pMap.put("typeId",p.getTypeId());
+    	}
+    	
     	pMap.put("jobPositionLevelId", p.getJobPositionLevelId());
     	pMap.put("expectedYearMoneyStart", p.getExpectedYearMoneyStart());
     	pMap.put("expectedYearMoneyEnd", p.getExpectedYearMoneyEnd());

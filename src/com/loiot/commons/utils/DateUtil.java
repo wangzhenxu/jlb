@@ -850,6 +850,24 @@ public class DateUtil {
         SimpleDateFormat simple = new SimpleDateFormat("yyyy-MM-dd");  
         return simple.format(date);  
     }  
+    /**
+     * 根据天（返回，指定日期的开始时间)
+     * @param date
+     * @return
+     */
+    public static Date getCurrDateStartTime(Date date){
+        String startTime = DateUtil.toString(new Date(),DateUtil.DEFAULT_SHORT_FORMAT)+" 00:00:00";
+        return DateUtil.toDate(startTime,DateUtil.DEFAULT_LONG_FORMAT);
+    }
+    /**
+     * 根据天（返回，指定日期的结束时间)
+     * @param date
+     * @return
+     */
+    public static Date getCurrDateEndTime(Date date){
+        String endTime = DateUtil.toString(new Date(),DateUtil.DEFAULT_SHORT_FORMAT)+" 23:59:59";
+        return DateUtil.toDate(endTime,DateUtil.DEFAULT_LONG_FORMAT);
+    }
     
     public static void main(String[] args) {  
         String date = "2006-06-12";  
@@ -864,7 +882,9 @@ public class DateUtil {
       //  DateUtil.compareDate(date, null, 2);  
       /*  DateUtil.compareDate(date, "2009-06-01", 0);  
         DateUtil.compareDate(date, "2009-06-01", 1);  */
-        DateUtil.compareDate(date, "2009-06-01", 2);  
+        //DateUtil.compareDate(date, "2009-06-01", 2); 
+        
+        
     }  
 } 
 

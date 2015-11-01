@@ -11,7 +11,7 @@ var jlInfo ={
 		modifyDeleteStatusUrl:"/zpJlInfo/modifyDeleteStatus.action", //停用 或启用
 		getAuditPersonsUrl:"/zpJlInfo/getAuditPersons.action", //获取评审列表
 		assignAuditPersonUrl:"/zpJlInfo/assignAuditPerson.action", //设置评审人
-
+		checkJlCountUrl : "/zpJlInfo/checkJlCount.action",
 		
 
 
@@ -524,5 +524,22 @@ var jlInfo ={
 		            }
 				});
 		}
+	},
+	
+	checkJlCount : function (){
+		var self =this;
+		$.ajax({
+			async : true, // 使用同步请求，因为异步请求不能将返回值传给全局变量；
+			url : self.checkJlCountUrl,
+			data : {},// "st=2012-11-01 22:22:10",
+			success : function(resp) {
+				if (resp.s > 0) {
+					self.toAdd();
+				} 
+				else {
+					hiOverAlert(resp.d,1000);
+				}
+			}
+		});
 	}
 }

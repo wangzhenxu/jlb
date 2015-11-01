@@ -64,6 +64,9 @@ var common = {
 	   },
 	   //初始化页面标题
 		initPageTitle : function (model,to){
+			if(!model && !to){
+				return;
+			}
 			var self = this;
 			if(self.getCurrPageFlag()=="edit"){
 				to.html("修改"+model+"信息");

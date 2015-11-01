@@ -22,6 +22,7 @@ function toEditAccount(accountId) {
 	$.post("/account/toEditAccount.action", {
 		accountId : accountId
 	}, function(doc) {
+		var i=0;
 		document.getElementById("accountModal").innerHTML=doc;
 		$("#accountModal").modal().css({
 			'margin-top': function () {

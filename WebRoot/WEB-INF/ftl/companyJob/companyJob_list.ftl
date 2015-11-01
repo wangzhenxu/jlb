@@ -43,18 +43,20 @@
       <form id="queryForm" >
       <ul>
        <li style="width:22%">
-       	<span class="classify">公司名称：</span>
+       	<span class="classify">公司名称  </span>
     	<input name="name" type="text"  class="input"  id="name" value="${name!''}"/>
        </li>
-       <li style="width:15%">
-       	<span class="classify">职位类型：</span>
-    	<select id="typeId">
-    		 <option value="" > 请选择 </option>
-    		 <#list DictionaryUtil.getTypes(DictionaryType.JOB_POSITION.getCode()) as c>
-    		 	<option value="${c.dictionaryId}" <#if typeId??> <#if typeId==c.dictionaryId> selected </#if> </#if>  > ${c.showName!''} </option>
- 			 </#list>
-    	</select>
-       </li>
+      <#if Session[Const.SESSION_USER_KEY].type!=AccountType.TECHICAL_AUDIT.getCode()>
+	       <li style="width:15%">
+	       	<span class="classify">职位类型：</span>
+	    	<select id="typeId">
+	    		 <option value="" > 请选择 </option>
+	    		 <#list DictionaryUtil.getTypes(DictionaryType.JOB_POSITION.getCode()) as c>
+	    		 	<option value="${c.dictionaryId}" <#if typeId??> <#if typeId==c.dictionaryId> selected </#if> </#if>  > ${c.showName!''} </option>
+	 			 </#list>
+	    	</select>
+	       </li>
+       </#if>
        <li style="width:15%">
        	<span class="classify">职位级别：</span>
     	<select id="jobPositionLevelId">
@@ -186,7 +188,7 @@
  			</#if>
         </td>
         
-         <td align="center" class="hui" style="width:300px;"  >
+         <td align="left" class="hui" style="width:300px;"  >
 	       	<div class="btn-group">
 				 <div class="btn-group">
 				 <#if subject.isPermitted("zpCompanyJobInfo:detail")>
@@ -203,6 +205,13 @@
 				  </button>	
 				  </#if>
 				</#if>
+				
+				<#if Session[Const.SESSION_USER_KEY].type==AccountType.TECHICAL_AUDIT.getCode()>
+					<#if c.keys?size<3>
+						<button type="button" class="btn btn-default"  onclick=companyJob.toEdit('${c.jobId}')>添加关键字</button>
+					</#if>
+				</#if>
+				
 	      		</div>
 	      	 </div>
       	</td>

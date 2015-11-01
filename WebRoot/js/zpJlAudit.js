@@ -486,13 +486,24 @@ var jlInfo ={
 			}
 	    });
 	},
-	//评审通过
-	auditOk : function (jlId){
+	//评审
+	audit : function (jlId,name){
 		var self =this
-		common.openModal("delete_sure","确定评审通过？");
+		$("[name='audit_type']").attr("checked",false);
+		$("#audit_name").html(name);
+		common.openModal("auditModal");
+		$("#audit_ok_btn").unbind("click").click(function(){
+			if($("[name='audit_type']:checked").length==0){
+				common.alert("请选择评审");
+				return;
+			}
+			location.href=self.auditOkUrl+jlId+"&auditTypeId="+$("[name='audit_type']:checked").val();
+		});
+		//
+		/*common.openModal("delete_sure","确定评审通过？");
 		$("#delete_sure_a").unbind("click").click(function (){
 			location.href=self.auditOkUrl+jlId;
-		});
+		});*/
 		
 	}
 }

@@ -19,7 +19,8 @@ var companyJob = {
 		queryfrom :jQuery("#queryForm"), //查询form
 		addBtn : $("#addBtn"),//添加按钮
 		queryBtn : $("#queryBtn"),//查询按钮
-		left_menu_selected_id : "zpCompanyJobInfo_list",   
+		left_menu_selected_id : "zpCompanyJobInfo_list",
+		keyWordLable :$("#keyWordLable"),
 	//属性
 	
 	jobId : $("#jobId"), //职位id
@@ -114,7 +115,12 @@ var companyJob = {
 		if(this.expectedYearMoneyEnd.val().length>0){
 			this.expectedYearMoneyEnd.val(parseFloat(this.expectedYearMoneyEnd.val())*10000);
 		}
-		location.href=this.listUrl+"?typeId=" + this.typeId.val()+"&name=" + this.name.val()+
+		var typeId = "";
+		if(self.typeId.length!=0){
+			typeId=this.typeId.val();
+		}
+		
+		location.href=this.listUrl+"?typeId=" + typeId+"&name=" + this.name.val()+
 		"&jobPositionLevelId="+this.jobPositionLevelId.val()+
 		"&workTermStart="+this.workTermStart.val()+
 		"&workTermEnd="+this.workTermEnd.val()+
@@ -164,6 +170,18 @@ var companyJob = {
 			}
 			$("#desc").val(desc);
 			$("#moreDesc").val(CKEDITOR.instances.desc2.getData());
+			
+			var keyword = self.getKeyWord();
+			//技术评审
+			if(employeeType==2){
+				if(self.getKeyWordSize()<3){
+					common.alert("至少添加3个关键字");
+					return;
+				}
+			}
+			self.zpRequire.val(keyword);
+			
+			
 			if(self.currPage=="edit"){
 				   common.openModal("delete_sure","确定修改信息吗？");
 				   $("#delete_sure_a").click(function(){
@@ -286,7 +304,12 @@ var companyJob = {
 		self.workTermStart.val(obj.workTermStart); //工作年限开始
 		self.workTermEnd.val(obj.workTermEnd); //工作年限结束
 		self.downTeamPersonCount.val(obj.downTeamPersonCount); //团队人数
+		
 		self.zpRequire.val(obj.zpRequire); //招聘要求
+		for(i=0;i<obj.keys.length;i++){
+			self.addKeywordLable(obj.keys[i].keyword);
+		}
+		
 		$("input[name='sex'][value='"+obj.sex+"']").attr("checked",true); //要求性别
 		$("input[name='educationId'][value='"+obj.educationId+"']").attr("checked",true); //要求学历
 		$("input[name='englishLevelId'][value='"+obj.englishLevelId+"']").attr("checked",true); //要求英语等级
@@ -362,8 +385,55 @@ var companyJob = {
 	            }
 			});
 	}
+	},
+	//添加关键字标签
+	addKeywordLable:function(value){
+		value=$.trim(value);
+		if(value.length==0){
+			common.alert("请添加关键字");
+			return;
+		}
+		var self = this;
+		if(!self.checkkeywordExits(value)){
+			var lable = '<button type="button" style="margin-left:10px;" class="btn btn-small" ondblclick="$(this).remove();">'+value+'</button>';
+			self.keyWordLable.append(lable);
+		}
+	},
+	checkkeywordExits:function(keyword){
+		var self = this;
+		var flag = false;
+		var buttons = self.keyWordLable.find("button");
+		if(buttons.length==0){
+			return false;
+		}
+		var butArr = buttons.get();
+		for(i=0;i<butArr.length;i++){
+			if(butArr[i].innerHTML==keyword){
+				return true;
+			}
+		}
+		return false;
+	},
+	getKeyWord:function(){
+		var self = this;
+		var keys="";
+		var buttons = self.keyWordLable.find("button");
+		if(buttons.length==0){
+			return keys;
+		}
+		var butArr = buttons.get();
+		for(i=0;i<butArr.length;i++){
+			if(i==0){
+				keys=butArr[i].innerHTML;
+			}else{
+				keys=keys+","+butArr[i].innerHTML;
+			}
+		}
+		return keys;
+	},
+	
+	getKeyWordSize:function(){
+		var self = this;
+		return self.keyWordLable.find("button").length;
 	}
-	   
-	  
-		
 }

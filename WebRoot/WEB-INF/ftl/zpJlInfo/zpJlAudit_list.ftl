@@ -131,7 +131,7 @@
        <#list pager.data as c>
        <tr>
        <td  style="display:none;" align="center" class="hui"><input type="checkbox" name="checkbox" value="${c.jlId!''}" postionAttr="${c.jobPositionId!''}" class="check"></td>
-        <td align="center" class="hui">${c.name!''}${c.auditTypeId!''}</td>
+        <td align="center" class="hui">${c.name!''}</td>
          <td align="center" class="hui">
 	          <#if c.auditTypeId??>
 	       	  	${JlAuditType.get(c.auditTypeId).getTitle()}
@@ -200,16 +200,14 @@
       		   		<button type="button" class="btn btn-default"  onclick="jlInfo.toAuditJlDetail('${c.jlId!""}');">个人信息</button>
 	     		</#if>
 	     		&nbsp;&nbsp;&nbsp;&nbsp;
-	     		<button type="button"  
 		     		 <#if c.auditTypeId??>
-		       	  		<#if JlAuditType.AUDIT_OK.getCode()==c.auditTypeId>
-		       	  			class="btn btn-default disabled"
-		       	  		</#if>
 		       	  		<#if JlAuditType.WAIT_AUDIT.getCode()==c.auditTypeId>
-		       	  			class="btn btn-default "  onclick="jlInfo.auditOk('${c.jlId!""}');"
+		       	  				<button type="button"  class="btn btn-default" onclick="jlInfo.audit('${c.jlId!""}','${c.name!""}');" >请评审</button>
+	       	  			<#else>
+		       	  				<button type="button"  class="btn btn-default disabled" >已评审</button>
 		       	  		</#if>
 		       	 	</#if>
-	     		>已评审</button>
+	     		
       		 </div>
 	     </td>
 	    
@@ -245,41 +243,44 @@
 </div>
 
 
-<!-- 选择技术评pop 开始 -->
-<div class="pop_sure modal hide fade" id="auditPersonPop">
-	  <div class="content">
-	 <div class="quanxian">
-	  <div class="quanxian1">
-	   <div class="whitea">评审列表</div>
-	   <div class="close"><img src="/images/xinjian_03.gif" width="18" height="18" data-dismiss="modal"/></div>
-	  </div>
-	  <div class="quanxian2">
-	   <div class="czrz">
-	     <table id="" width="100%"  border="1" align="left" cellpadding="0" cellspacing="0" bordercolor="#ffffff" style="border-collapse:collapse">
-	       <tr class="lan">
-	       	 <td width="3%" height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong></strong></td>
-	         <td width="12%" height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>评审经理</strong></td>
-	         <td width="13%" height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>已评审数量</strong></td>
-	         <td width="11%" height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>等待评审数量</strong></td>
-	         <td width="10%" align="center" valign="middle" background="/images/erji_22.jpg"><strong>最后评审时间</strong></td>
-	       </tr>
-	     </table>
-	   </div>
-	   
-	   <div class="anniu">
-	   		<div class="btn-group">
-				 <button type="button" class="btn btn-default" id="addAuditBtn">确&nbsp;定</button>
-				  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		  		 <button type="button" class="btn btn-default" data-dismiss="modal">取&nbsp;消</button>
-      		</div>
-    	</div>
-    
-	   
-	  </div>
-	 </div>
-	 </div>
-</div>
 
+
+<!-- 评审简历 -->
+<div id="auditModal" class="modal fade xin1">
+<div class="xin1">
+  <div class="xin1_1">
+   <div class="whitea">评审简历</div>
+   <div class="close"><img data-dismiss="modal" src="/images/xinjian_03.gif" width="18" height="18"/></div>
+  </div>
+  <div class="caidan">
+   <div class="caidan1">
+    <div class="cd1">
+     <table width="100%" border="0">
+        <tr>
+	        <td align="left" class="hui1"  >求职者：<span id="audit_name"></span></td>
+     	 </tr>
+       <tr>
+        <td align="center" class="hui1" >
+	        <input type="radio" class="radio" name="audit_type"  value="${JlAuditType.AUDIT_OK.getCode()}" /> ${JlAuditType.AUDIT_OK.getTitle()} 
+        	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        	<input type="radio" class="radio" name="audit_type" value="${JlAuditType.AUDIT_NO_PASS.getCode()}" /> ${JlAuditType.AUDIT_NO_PASS.getTitle()} 
+        </td>
+      </tr>
+      </table>
+    </div>
+   </div>
+   <div class="caidan2" style="margin-top: 40px;">
+			    <button type="button" class="btn btn-default" id="audit_ok_btn">确定</button>
+						  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			 	<button type="button" data-dismiss="modal" class="btn btn-default" >取消</button>
+   	</div>
+  </div>
+ </div>
+ </div>
+	<style type="text/css">
+	 	.close{opacity:1;}
+	 </style>
+</div>
 
 
 

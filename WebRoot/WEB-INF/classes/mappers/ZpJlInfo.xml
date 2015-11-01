@@ -128,6 +128,7 @@
 				        		AND ji.name like '%${nameT}%'
 			        	</if>
 				</if>
+				
 							<if test="jlId != null and jlId !='' ">
 				        		AND ji.jl_id=#{jlId} 
 				        	</if>
@@ -224,6 +225,9 @@
 				        		AND ji.name like '%${nameT}%'
 			        	</if>
 				</if>
+				<if test="startTimeT != null and startTimeT !='' ">
+				      <![CDATA[ AND (ji.in_time>#{startTimeT} AND ji.in_time<#{endTimeT}  ) ]]>	
+				 </if>
 				<if test="qtype != null and qtype=='uniqueValidate'">
 			           <choose>
 			              	<when test="phoneT != null and phoneT !='' and emalT != null and emalT !=''  ">

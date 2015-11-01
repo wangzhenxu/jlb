@@ -84,6 +84,22 @@ public class ZpCompanyJobInfoService{
      */
     public void updateZpCompanyJobInfo(ZpCompanyJobInfo p)throws Exception {
         zpCompanyJobInfoDao.updateZpCompanyJobInfo(p);
+        
+        //删除后添加
+        ZpCompanyJobDemandKeys delBean = new ZpCompanyJobDemandKeys();
+        delBean.setJobId(p.getJobId());
+        zpCompanyJobDemandKeysDao.deleteZpCompanyJobDemandKeys(delBean);
+        //添加职位关键字
+        if(p.getZpRequire()!=null && p.getZpRequire().length()>0){
+        	String requires[] = p.getZpRequire().split(",");
+        	for(int i=0;i<requires.length;i++){
+        		String keyword = requires[i];
+        		ZpCompanyJobDemandKeys  b = new ZpCompanyJobDemandKeys();
+        		b.setJobId(p.getJobId());
+        		b.setKeyword(keyword);
+        		this.zpCompanyJobDemandKeysDao.addZpCompanyJobDemandKeys(b);
+        	}
+        }
     }
     
     /**

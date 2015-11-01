@@ -94,6 +94,16 @@
 		 			 	</#list>
 		    		  </select>
 			       </li>
+			       
+			        <li style="width:15%">
+			       	<span class="classify">评审状态：</span>
+			    	<select id="auditTypeId" name="auditTypeId">
+		    		 <option value="" > 请选择 </option>
+		    		    <#list JlAuditType.values() as c>
+		    		 		 <option value="${c.code}" <#if  auditTypeId?? && auditTypeId!=""> <#if auditTypeId?number==c.code> selected </#if> </#if>  > ${c.title!''} </option>
+		 			 	</#list>
+		    		  </select>
+			       </li>
 				      
       	</ul>
       </form>
@@ -102,7 +112,11 @@
     <div class="form">
       <#if subject.isPermitted("zpJlInfo:add")>
 	      <div class="btn-group">
-	   		 <button type="button" class="btn btn-default"  onclick="jlInfo.toAdd();" >增加简历</button>
+	       <#if Session[Const.SESSION_USER_KEY].type==AccountType.ADMIN.getCode()>
+	       	   <button type="button" class="btn btn-default"  onclick="jlInfo.toAdd();" >增加简历</button>
+	       	<#else>
+	       	  <button type="button" class="btn btn-default"  onclick="jlInfo.checkJlCount();" >增加简历</button>
+	       </#if>
 	      </div>
      </#if>
      <div class="form2">

@@ -41,6 +41,8 @@
         	     <result  column="coord_x" property="coordX" />
 	        	<result  column="coord_y" property="coordY" />
         		<result  column="address" property="address" />
+        		<result  column="keyword_status" property="keywordStatus" />
+        		
 
 	        	
 	        	<!-- 职位要求关键字列表 -->
@@ -82,6 +84,7 @@
 						 		cji.down_team_person_count,
 			        	
 						 		cji.zp_require,
+						 		cji.keyword_status,
 			        	
 						 		cji.sex,
 			        	
@@ -179,6 +182,11 @@
 				        	<if test="zpRequire != null and zpRequire !='' ">
 				        		AND cji.zp_require=#{zpRequire} 
 				        	</if>
+				        	
+				        	<if test="keywordStatus != null and keywordStatus !='' ">
+				        		AND cji.keyword_status>=${keywordStatus}
+				        	</if>
+				        	
 				        	<if test="sex != null and sex !='' ">
 				        		AND cji.sex=#{sex} 
 				        	</if>
@@ -297,6 +305,9 @@
 				        	<if test="zpRequire != null and zpRequire !=''">
 				        		AND cji.zp_require=#{zpRequire} 
 				        	</if>
+				        	<if test="keywordStatus != null and keywordStatus !='' ">
+				        		AND cji.keyword_status>=${keywordStatus}
+				        	</if>
 				        	<if test="sex != null and sex !=''">
 				        		AND cji.sex=#{sex} 
 				        	</if>
@@ -398,6 +409,9 @@
 		        	<if test="zpRequire != null">
 		        		zp_require,
 		        	</if>
+		        	<if test="keywordStatus != null">
+				       keyword_status,
+		        	</if>
 		        	<if test="sex != null">
 		        		sex,
 		        	</if>
@@ -496,6 +510,9 @@
 			        	<if test="zpRequire != null">
 			        		#{zpRequire},
 			        	</if>
+			        	<if test="keywordStatus != null">
+			        		#{keywordStatus},
+			        	</if>
 			        	<if test="sex != null">
 			        		#{sex},
 			        	</if>
@@ -547,11 +564,11 @@
 			        	<if test="areaId != null">
 			        		#{areaId},
 			        	</if>
-			        	<if test="coordY != null">
+			        	<if test="coordX != null">
 			        		#{coordY},
 			        	</if>
-			        	<if test="areaId != null">
-			        		#{areaId},
+			        	<if test="coordY != null">
+			        		#{coordY},
 			        	</if>
 			        	<if test="address != null">
 		        			#{address},
@@ -599,6 +616,10 @@
 			        	<if test="zpRequire != null">
 			        		zp_require=#{zpRequire},
 			        	</if>
+			        	<if test="keywordStatus != null">
+				      	 	keyword_status=#{keywordStatus},
+		        		</if>
+			        	
 			        	<if test="sex != null">
 			        		sex=#{sex},
 			        	</if>
@@ -777,6 +798,7 @@
 						 		cji.work_term_end,
 						 		cji.down_team_person_count,
 						 		cji.zp_require,
+						 		cji.keyword_status,
 						 		cji.sex,
 						 		cji.educationId,
 						 		cji.englishLevelId,

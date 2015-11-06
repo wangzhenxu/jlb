@@ -133,9 +133,21 @@
        <td  style="display:none;" align="center" class="hui"><input type="checkbox" name="checkbox" value="${c.jlId!''}" postionAttr="${c.jobPositionId!''}" class="check"></td>
         <td align="center" class="hui">${c.name!''}</td>
          <td align="center" class="hui">
-	          <#if c.auditTypeId??>
+	          <#if c.auditTypeId?? &&  c.auditTypeId==JlAuditType.WAIT_AUDIT.getCode()>
+	       	  <span class="badge badge-important">
 	       	  	${JlAuditType.get(c.auditTypeId).getTitle()}
-	       	 </#if>
+	       	  </span>
+	       </#if>
+	       <#if c.auditTypeId?? &&  c.auditTypeId==JlAuditType.AUDIT_OK.getCode()>
+	       	  <span class="badge badge-success">
+	       	  	${JlAuditType.get(c.auditTypeId).getTitle()}
+	       	  </span>
+	       </#if>
+	       <#if c.auditTypeId?? &&  c.auditTypeId==JlAuditType.AUDIT_NO_PASS.getCode()>
+	       	  <span class="label label-info">
+	       	  	${JlAuditType.get(c.auditTypeId).getTitle()}
+	       	  </span>
+	       </#if>
          </td>
          
          <#if Session[Const.SESSION_USER_KEY].type!=AccountType.TECHICAL_AUDIT.getCode()>
@@ -190,7 +202,7 @@
 	    </td>
 	   
 	    
-		<td align="center" class="hui" style="width:300px;">
+		<td align="left" class="hui" style="width:300px;">
 	    	<div class="btn-group">
       		    <#if subject.isPermitted("zpJobMatchingInfo:add")>
       		   		<button type="button" class="btn btn-default"  onclick="jlInfo.matchJob('${c.jlId!""}');">匹配职位</button>
@@ -200,6 +212,8 @@
       		   		<button type="button" class="btn btn-default"  onclick="jlInfo.toAuditJlDetail('${c.jlId!""}');">个人信息</button>
 	     		</#if>
 	     		&nbsp;&nbsp;&nbsp;&nbsp;
+	     		
+	     		 <#if subject.isPermitted("zpJlInfo:auditOk")>
 		     		 <#if c.auditTypeId??>
 		       	  		<#if JlAuditType.WAIT_AUDIT.getCode()==c.auditTypeId>
 		       	  				<button type="button"  class="btn btn-default" onclick="jlInfo.audit('${c.jlId!""}','${c.name!""}');" >请评审</button>
@@ -207,6 +221,7 @@
 		       	  				<button type="button"  class="btn btn-default disabled" >已评审</button>
 		       	  		</#if>
 		       	 	</#if>
+		       	 </#if>
 	     		
       		 </div>
 	     </td>

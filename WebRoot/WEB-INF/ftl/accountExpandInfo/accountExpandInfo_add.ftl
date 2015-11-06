@@ -141,5 +141,7 @@
 <script src="/js/accountExpandInfo.js"></script>
 <script>
 	accountExpandInfo.initPage();
+	var accountType="${Session[Const.SESSION_USER_KEY].type}";
+	
 </script>
 

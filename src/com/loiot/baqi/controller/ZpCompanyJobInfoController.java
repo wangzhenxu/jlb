@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.loiot.baqi.pojo.*;
+import com.loiot.baqi.constant.ApplicationConst;
 import com.loiot.baqi.constant.Const;
 import com.loiot.baqi.constant.DictionaryUtil;
 import com.loiot.baqi.controller.response.AjaxResponse;
@@ -73,6 +74,10 @@ public class ZpCompanyJobInfoController {
         	pMap.put("typeId",p.getTypeId());
     	}
     	
+    	//如果是hr 或求职者，就需要查询出添加3个以上关键字的职位
+    	if(UserSessionUtils.getAccountType()==AccountType.HR.getCode() || UserSessionUtils.getAccountType()==AccountType.JOB_HUNTER.getCode() ){
+        	pMap.put("keywordStatus", ApplicationConst.ALLOW_JOB_KEYWORD_SIZE);
+    	} 
     	pMap.put("jobPositionLevelId", p.getJobPositionLevelId());
     	pMap.put("expectedYearMoneyStart", p.getExpectedYearMoneyStart());
     	pMap.put("expectedYearMoneyEnd", p.getExpectedYearMoneyEnd());

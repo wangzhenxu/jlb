@@ -173,8 +173,9 @@ var jlInfo ={
 			self.addform.ajaxSubmit(function(resp) {
 				if (resp.s > 0) {
 					location.href=self.listUrl;
-				} else {
-					common.alert("简历已存在!");
+				} else
+				{
+					common.alert(resp.d);
 					return;
 				}
 			});	

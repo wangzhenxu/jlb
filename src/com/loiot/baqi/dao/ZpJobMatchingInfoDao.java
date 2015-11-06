@@ -64,7 +64,9 @@ public class ZpJobMatchingInfoDao extends SqlSessionDaoSupport{
      * @return 返回与ID匹配的职位匹配信息
      */
     public ZpJobMatchingInfo getZpJobMatchingInfoById(java.lang.Long id)throws Exception {
-        return (ZpJobMatchingInfo) getSqlSession().selectOne("ZpJobMatchingInfo.getZpJobMatchingInfoById", id);
+    	HashMap map = new HashMap();
+    	map.put("matchId", id);
+        return (ZpJobMatchingInfo) getSqlSession().selectOne("ZpJobMatchingInfo.getZpJobMatchingInfoById", map);
     }
     
     /**

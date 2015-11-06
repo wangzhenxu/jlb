@@ -27,7 +27,7 @@ public class FileUtil {
             if (!desdir.exists()) {
                 desdir.mkdirs();
             }
-            File oldfile=new File(ApplicationConst.PRODUCT_PIC_PATH+"/"+oldFilePath);
+            File oldfile=new File(""+"/"+oldFilePath);
             if(oldfile.exists()){
                 oldfile.delete();
             }

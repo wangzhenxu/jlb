@@ -24,6 +24,7 @@ import com.loiot.baqi.dao.ZpJlInfoDao;
 import com.loiot.baqi.dao.ZpJlJobLevelsDao;
 import com.loiot.baqi.service.ZpJlInfoService;
 import com.loiot.baqi.status.DictionaryType;
+import com.loiot.baqi.status.JlAuditType;
 import com.loiot.baqi.status.ResumeMatchingRegexpType;
 import com.loiot.baqi.utils.IdcardUtils;
 import com.loiot.baqi.utils.JLBUtils;
@@ -91,6 +92,7 @@ public class ZpJlInfoService{
      	p1.setJlId(p.getJlId());
      	p1.setJlFilePath(p.getJlFilePath());
      	p1.setJlContent(p.getJlContent());
+     	p1.setAuditTypeId((int)JlAuditType.NO_SELECT_AUDIT_PERSON.getCode());
         zpJlExpandInfoDao.addZpJlExpandInfo(p1);
         
         this.addLevel(jobIds, p.getJlId());
@@ -248,9 +250,14 @@ public class ZpJlInfoService{
     		bean.setIdentityCard(matcherString);
     		String sex = IdcardUtils.getGenderByIdCard(matcherString);
     		int age = IdcardUtils.getAgeByIdCard(matcherString);
+    		int birthYear =IdcardUtils.getYearByIdCard(matcherString);
+    		int birthMonth =IdcardUtils.getMonthByIdCard(matcherString);
+    		int birthDay =IdcardUtils.getDateByIdCard(matcherString);
+
     		bean.setSex(DictionaryUtil.getCode(DictionaryType.SEX.getCode(), sex));
-    		Date new2 = DateUtil.addYear(new Date(), -age);
-    		bean.setBirthday(new2);
+    		//Date new2 = DateUtil.addYear(new Date(), -age);
+    		Date birthD =DateUtil.toDate(birthYear+"-"+birthMonth+"-"+birthDay);
+    		bean.setBirthday(birthD);
     	} else {
     		idcard="noExits";
     	}
@@ -310,12 +317,12 @@ public class ZpJlInfoService{
 	    			matcherString="本科";
 	    			Long v = DictionaryUtil.getCode(DictionaryType.EDUCATION.getCode(),JLBUtils.dealDeEducation(matcherString));
 	    			bean.setEducationId(v);
-	    			break;
-	    		}else if(matcherString.indexOf("学院")!=-1){
+	    			//break;
+	    		} /*if(matcherString.indexOf("学院")!=-1){
 	    			matcherString="专科";
 	    			Long v = DictionaryUtil.getCode(DictionaryType.EDUCATION.getCode(),JLBUtils.dealDeEducation(matcherString));
 	    			bean.setEducationId(v);
-	    		}
+	    		}*/
 			}
 			
 		}

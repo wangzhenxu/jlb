@@ -274,7 +274,7 @@
 		<where>
 					<if test="qtype != null and qtype=='like'">
 						<if test="nameT != null and nameT !='' ">
-				        		AND ei.name like '%${nameT}%' 
+				        		AND (ei.real_name like '%${nameT}%' or ei.nick_name like '%${nameT}%')
 			        	</if>
 					</if>
 				        	<if test="expandId != null and expandId !='' ">

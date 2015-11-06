@@ -76,6 +76,12 @@
                  <!-- 评审管理 -->
                /zpJlInfo/auditList.action=perms["zpJlInfo:auditList"]
                /zpJlInfo/toAuditJlDetail.action=perms["zpJlInfo:toAuditJlDetail"]
+               /zpJlInfo/auditOk.action=perms["zpJlInfo:auditOk"]
+               
+               <!-- 用户扩展信息-->
+               /accountExpandInfo/list.action=perms["accountExpandInfo:list"]
+               /accountExpandInfo/toEdit.action=perms["accountExpandInfo:edit"]
+               /accountExpandInfo/toView.action=perms["accountExpandInfo:detail"]
                
 
 				/user/**.action = perms["user:list"]

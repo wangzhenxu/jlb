@@ -116,8 +116,12 @@ var accountExpandInfo = {
 				if (result.s > 0) {
 					self.setForm(result.data);
 					$("input").attr("disabled",true);
-					self.addBtn.html("修&nbsp改");
-					
+					//薪资管理员、猎头顾问隐藏
+					if(accountType==5 ||  accountType==6){
+						self.addBtn.hide();
+					}else {
+						self.addBtn.html("修&nbsp改");
+					}
 					self.addBtn.unbind("click").click(function(){
 						self.toEdit(self.expandId.val());
 					});

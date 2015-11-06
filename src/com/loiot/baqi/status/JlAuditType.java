@@ -13,9 +13,12 @@ package com.loiot.baqi.status;
  */
 public enum JlAuditType {
 
-	WAIT_AUDIT(1, "待评审"),
+	NO_SELECT_AUDIT_PERSON(9, "未选评审"),
+	WAIT_AUDIT(1, "等待评审"),
 	AUDIT_OK(2, "通过"),
 	AUDIT_NO_PASS(3, "未通过");
+	
+	
 	
 	
 	

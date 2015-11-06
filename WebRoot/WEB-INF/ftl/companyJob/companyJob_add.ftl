@@ -43,7 +43,6 @@
 <input type="hidden" name="zpRequire" id="zpRequire" />
 
 
-
 <!-- 右侧 开始 -->
 <div class="right">
     <div class="location">
@@ -54,12 +53,12 @@
 	 <div class="basic01">职位条件</div>
 	</div>
      <div class="query1">
-       <table width="100%" border="0" align="left">
+       <table width="100%" style="border-collapse:collapse;" align="left">
          <tr>
            <td colspan="4" class="red">* 号为必填项</td>
          </tr>
          <tr>
-           <td  align="right" class="hui1">公司名称：</td>
+           <td  align="right" class="hui1 buhuan">公司名称：</td>
            <td  align="left" valign="middle" id="companyName">
            	<#if company??> ${company.name!''} </#if>
           </td>
@@ -72,8 +71,8 @@
          </tr>
          
           <tr>
-           <td  align="right" class="hui1"><span class="red">*</span>招聘职位：</td>
-           <td  align="left" valign="middle" clospan="3">
+           <td  align="right" class="hui1 buhuan"><span class="red">*</span>招聘职位：</td>
+           <td colspan="3"  align="left" valign="middle">
 	         <#list DictionaryUtil.getTypes(DictionaryType.JOB_POSITION.getCode()) as c>
           	  	 <input class="radio validate[required]" name="typeId" id="typeId" type="radio" value="${c.dictionaryId}" /> ${c.showName!''} 
           	 </#list>
@@ -81,8 +80,8 @@
          </tr>
          
            <tr>
-           <td  align="right" class="hui1"><span class="red">*</span>职位级别：</td>
-           <td  align="left" valign="middle" clospan="3">
+           <td  align="right" class="hui1 buhuan"><span class="red">*</span>职位级别：</td>
+           <td colspan="3"  align="left" valign="middle">
 	         <#list DictionaryUtil.getTypes(DictionaryType.JOB_POSITION_LEVE.getCode()) as c>
           	  	 <input  class="radio validate[required]" id="jobPositionLevelId" name="jobPositionLevelId" type="radio" value="${c.dictionaryId}" /> ${c.showName!''} 
           	 </#list>
@@ -90,8 +89,8 @@
          </tr>
          
           <tr>
-           <td  align="right" class="hui1"><span class="red">*</span>所在城区：</td>
-           <td  align="left" valign="middle" clospan="3">
+           <td  align="right" class="hui1 buhuan"><span class="red">*</span>所在城区：</td>
+           <td colspan="3"  align="left" valign="middle">
             	<#list DictionaryUtil.getTypes(DictionaryType.COMPANY_AREA.getCode()) as c>
           	  	  <input class="radio validate[required]" class="radio" id="areaId" name="areaId" type="radio"  <#if company??> <#if company.areaId??> <#if company.areaId==c.dictionaryId> checked </#if> </#if> </#if> value="${c.dictionaryId}" > ${c.showName!''} 
           	 	</#list>
@@ -99,19 +98,19 @@
          </tr>
          
           <tr>
-           <td  align="right" class="hui1"><span class="red">*</span>工作地点：</td>
-           <td  align="left" valign="middle" clospan="3">
+           <td  align="right" class="hui1 buhuan"><span class="red">*</span>工作地点：</td>
+           <td colspan="3"  align="left" valign="middle">
             	<input name="address" id="address" style="width: 330px;" onblur="companyJob.setLgltInfo(this.value);"  type="text" class="input validate[required]" <#if company??> value=${company.address!''} </#if>  >
            </td>
          </tr>
          
           <tr>
-           <td  align="right" class="hui1"><span class="red">*</span>招聘人数：</td>
+           <td  align="right" class="hui1 buhuan"><span class="red">*</span>招聘人数：</td>
            <td  align="left" valign="middle">
-          	 <input name="zpPersonCount" id="zpPersonCount" type="text" style="width:50px;" class="input validate[required,custom[number]]"  >
+          	 <input name="zpPersonCount" id="zpPersonCount" type="text" style="width:50px;" class="input validate[required,custom[integer],max[20]]"  >
            &nbsp;人
            </td>
-          <td align="right" class="hui1"><span class="red">*</span>是否急招：	</td>
+          <td align="right" class="hui1 buhuan"><span class="red">*</span>是否急招：	</td>
           <td  align="left" valign="middle">
           	 <#list DictionaryUtil.getTypes(DictionaryType.JOB_URGENCY.getCode()) as c>
 	          	 	<input class="radio validate[required]" id="zpUrgencyStatusId" name="zpUrgencyStatusId" type="radio" value="${c.dictionaryId}" > ${c.showName!''} 
@@ -120,32 +119,32 @@
          </tr>
          
           <tr>
-           <td  align="right" class="hui1"><span class="red">*</span>预计年薪：</td>
+           <td  align="right" class="hui1 buhuan"><span class="red">*</span>预计年薪：</td>
            <td  align="left" valign="middle">
-          	 <input name="expectedYearMoneyStart" id="expectedYearMoneyStart" class="input validate[required,custom[number]]" type="text" style="width:50px;"  >
+          	 <input name="expectedYearMoneyStart" id="expectedYearMoneyStart" class="input validate[required,custom[integer],max[100],min[10]]" type="text" style="width:50px;"  >
            	 -
-           	 <input name="expectedYearMoneyEnd" id="expectedYearMoneyEnd" type="text" style="width:50px;" class="input validate[required,custom[number]]">
+           	 <input name="expectedYearMoneyEnd" id="expectedYearMoneyEnd" type="text" style="width:50px;" class="input validate[required,custom[integer],min[10],max[100]]">
            	 &nbsp;万
            </td>
-          <td align="right" class="hui1">要求工作年限：</td>
+          <td align="right" class="hui1 buhuan">要求工作年限：</td>
           <td  align="left" valign="middle">
-          		<input name="workTermStart" id="workTermStart" type="text" style="width:50px;"  class="input validate[custom[number]]">
+          		<input name="workTermStart" id="workTermStart" type="text" style="width:50px;"  class="input validate[custom[integer]]">
            	 -
-           	 <input name="workTermEnd" id="workTermEnd" type="text" style="width:50px;"  class="input validate[custom[number]]">
+           	 <input name="workTermEnd" id="workTermEnd" type="text" style="width:50px;"  class="input validate[custom[integer]]">
            	 &nbsp;年
            </td>
          </tr>
          
          
          <tr>
-           <td  align="right" class="hui1">年龄：</td>
+           <td  align="right" class="hui1 buhuan">年龄：</td>
            <td  align="left" valign="middle">
-          	 <input name="ageStart" id="ageStart" type="text" style="width:50px;"  class="input validate[custom[number]]">
+          	 <input name="ageStart" id="ageStart" type="text" style="width:50px;"  class="input validate[custom[integer]]">
            	 -
-           	 <input name="ageEnd" id="ageEnd" type="text" style="width:50px;"  class="input validate[custom[number]]">
+           	 <input name="ageEnd" id="ageEnd" type="text" style="width:50px;"  class="input validate[custom[integer]]">
            	 &nbsp;岁
            </td>
-          <td align="right" class="hui1">婚否：</td>
+          <td align="right" class="hui1 buhuan">婚否：</td>
           <td  align="left" valign="middle">
           	<#list DictionaryUtil.getTypes(DictionaryType.IS_MARRY.getCode()) as c>
 	          	 	<input class="radio" name="maritalId"  type="radio" value="${c.dictionaryId}" > ${c.showName!''} 
@@ -154,13 +153,13 @@
          </tr>
          
          <tr>
-           <td  align="right" class="hui1">性别：</td>
+           <td  align="right" class="hui1 buhuan">性别：</td>
            <td  align="left" valign="middle">
 	          	 <#list DictionaryUtil.getTypes(DictionaryType.SEX.getCode()) as c>
 	          	 	<input class="radio" name="sex" type="radio" value="${c.dictionaryId}" > ${c.showName!''} 
 	          	 </#list>
            </td>
-          <td align="right" class="hui1">学历：</td>
+          <td align="right" class="hui1 buhuan">学历：</td>
           <td  align="left" valign="middle">
  				<#list DictionaryUtil.getTypes(DictionaryType.EDUCATION.getCode()) as c>
 	          	 	<input class="radio" name="educationId" type="radio" value="${c.dictionaryId}" > ${c.showName!''} 
@@ -172,11 +171,11 @@
          
          
          <tr>
-           <td  align="right" class="hui1">专业：</td>
+           <td  align="right" class="hui1 buhuan">专业：</td>
            <td  align="left" valign="middle">
           	   <input name="topSpecialty" id="topSpecialty" type="text" class="inputa error-field" validate="validate[required,custom[eightCha]]">
            </td>
-          <td align="right" class="hui1">英语等级：</td>
+          <td align="right" class="hui1 buhuan">英语等级：</td>
           <td  align="left" valign="middle">
 	 		 <#list DictionaryUtil.getTypes(DictionaryType.ENGLISH_LEVEL.getCode()) as c>
 	          	 	<input class="radio" name="englishLevelId" type="radio" value="${c.dictionaryId}" > ${c.showName!''} 
@@ -187,22 +186,22 @@
          
          
           <tr>
-           <td  align="right" class="hui1"><span class="red">*</span>职位描述：</td>
-           <td  align="left" valign="middle" clospan="3">
+           <td  align="right" class="hui1 buhuan"><span class="red">*</span>职位描述：</td>
+           <td colspan="3" align="left" valign="middle">
            		<textarea  cols="45" rows="5" class="input validate[required,length[1000] text-input mokuainr ckeditor" name="desc1"  id="desc1" ></textarea>
            </td>
          </tr>
          
          <tr>
-           <td  align="right" class="hui1">更多描述：</td>
-           <td  align="left" valign="middle" clospan="3">
+           <td  align="right" class="hui1 buhuan">更多描述：</td>
+           <td colspan="3" align="left" valign="middle">
            		<textarea  cols="45" rows="5" class="input validate[required,length[1000] text-input mokuainr ckeditor" name="desc2"  id="desc2" ></textarea>
            </td>
          </tr>
          
          <tr>
-           <td  align="right" class="hui1">关键字标签：</td>
-           <td  align="left" valign="middle" colspan="2" id="keyWordLable">
+           <td  align="right" class="hui1 buhuan">关键字标签：</td>
+           <td align="left" valign="middle" colspan="2" id="keyWordLable">
            </td>
            <td  class="hui1">
            	可双击删除标签
@@ -211,7 +210,7 @@
          
          <#if Session[Const.SESSION_USER_KEY].type==AccountType.ADMIN.getCode()>
 	       	    <tr>
-		           <td  align="right" class="hui1">关键字：</td>
+		           <td  align="right" class="hui1 buhuan">关键字：</td>
 		           <td  align="left" valign="middle" colspan="3">
 		           		<input class="input" id="keyInput" name="keyInput" maxlength="10"> 
 		           		<button type="button" class="btn btn-small" onclick="companyJob.addKeywordLable($(this).prev().val())">添&nbsp; 加</button>
@@ -219,7 +218,7 @@
          		</tr>
 	       	<#elseif Session[Const.SESSION_USER_KEY].type==AccountType.TECHICAL_AUDIT.getCode() >
 	       	 <tr>
-		           <td  align="right" class="hui1"><span class="red">*</span>关键字：</td>
+		           <td  align="right" class="hui1 buhuan"><span class="red">*</span>关键字：</td>
 		           <td  align="left" valign="middle" colspan="2">
 		           		<input class="input" id="keyInput" name="keyInput" maxlength="10"> 
 		           		<button type="button" class="btn btn-small" onclick="companyJob.addKeywordLable($(this).prev().val())">添&nbsp; 加</button>
@@ -240,14 +239,14 @@
        <table width="100%" border="0">
          <tbody>
          <tr>
-           <td  align="right" class="hui1">职位诱惑：</td>
+           <td  align="right" class="hui1 buhuan">职位诱惑：</td>
            <td  align="left" valign="middle" clospan="3">
           	   <input name="jobTemptText" id="jobTemptText" type="text" class="input"  style="width:800px;">
            </td>
          </tr>
          
           <tr>
-          <td align="right" class="hui1">职位诱惑项：</td>
+          <td align="right" class="hui1 buhuan">职位诱惑项：</td>
           <td  align="left" valign="middle" clospan="3">
            	   <input name="jobTemptItem" id="jobTemptItem" type="text" class="input" style="width:800px;">
            	    &nbsp;请逗号分隔
@@ -255,46 +254,44 @@
          </tr>
          
          <tr>
-           <td align="right" class="hui1">团队人数：</td>
+           <td align="right" class="hui1 buhuan">团队人数：</td>
            <td align="left" valign="middle">
- 			 <input name="downTeamPersonCount"  id="downTeamPersonCount" type="text" style="width:50px;" class="input validate[custom[number]]">
+ 			 <input name="downTeamPersonCount"  id="downTeamPersonCount" type="text" style="width:50px;" class="input validate[custom[integer]]">
            	 &nbsp;人
            </td>
-          <td align="right" class="hui1">汇报对象：</td>
+          <td align="right" class="hui1 buhuan">汇报对象：</td>
           <td align="left" valign="middle">
           			 <input name="reportObject" id="reportObject" type="text" class="input" >
            </td>
          </tr>
          
           </tr>
-          
-
 
 	   <tr style="display:none;" class="_detail">
-           <td  align="right" class="hui1">录入人：</td>
+           <td  align="right" class="hui1 buhuan">录入人：</td>
            <td  align="left" valign="middle"  colspan="3" id="inPersonName">
            </td>
          </tr>
 	 	<tr style="display:none;" class="_detail">
-           <td  align="right" class="hui1">录入时间：</td>
+           <td  align="right" class="hui1 buhuan">录入时间：</td>
            <td  align="left" valign="middle" colspan="3" id="inDatetime">
            </td>
          </tr>    
 	 	<tr style="display:none;" class="_detail">
-           <td  align="right" class="hui1">最后更新时间：</td>
+           <td  align="right" class="hui1 buhuan">最后更新时间：</td>
            <td  align="left" valign="middle" colspan="3" id="lastUpdateTime">
            </td>
          </tr>
       <tr style="display:none;" class="_detail">
-             <td  align="right" class="hui1">是否停用：</td>
+             <td  align="right" class="hui1 buhuan">是否停用：</td>
              <td  align="left" valign="middle" colspan="3" id="isDelete">
              
              </td>
          </tr>
           
          <tr style=";" class="">
-           <td  align="right" class="hui1">公司所在地：</td>
-           <td  align="left" valign="middle" colspan="3" >
+           <td  align="right" class="hui1 buhuan">公司所在地：</td>
+           <td colspan="3" align="left" valign="middle" >
             	<div id="mapContainer" style="width:800px;height:400px;position: relative;"></div>
            </td>
          </tr>    

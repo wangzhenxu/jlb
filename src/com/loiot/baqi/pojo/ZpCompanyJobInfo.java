@@ -30,6 +30,7 @@ public class ZpCompanyJobInfo  implements java.io.Serializable{
 	    private Integer workTermEnd;  //工作年限结束 db_column: work_term_end 
 	    private java.lang.Integer downTeamPersonCount;  //团队人数 db_column: down_team_person_count 
 	    private java.lang.String zpRequire;  //招聘要求 db_column: zp_require 
+	    private Integer keywordStatus;//关键字状态
 	    private java.lang.Long sex;  //要求性别 db_column: sex 
 	    private java.lang.Long educationId;  //要求学历 db_column: educationId 
 	    private java.lang.Long englishLevelId;  //要求英语等级 db_column: englishLevelId 

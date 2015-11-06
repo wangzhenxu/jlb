@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.loiot.baqi.status.AccountType;
 import com.loiot.baqi.utils.UserSessionUtils;
 
 /**
@@ -31,7 +32,7 @@ public class HomeController {
 		Subject subject = SecurityUtils.getSubject();
 		
 		//没有补充个人信息
-		if(StringUtils.isBlank(UserSessionUtils.getAccount().getIphone())){
+		if(StringUtils.isBlank(UserSessionUtils.getAccount().getIphone()) && UserSessionUtils.getAccountType()!=AccountType.ADMIN.getCode() && UserSessionUtils.getAccountType()!=AccountType.HEAD_HUNTING_MANAGER.getCode() && UserSessionUtils.getAccountType()!=AccountType.SALARY_MANAGER.getCode() ){
 			return "redirect:/accountExpandInfo/toEdit.action?id="+UserSessionUtils.getAccount().getExpandId();
 		}else
 		if (subject.isPermitted("zpJlInfo:list")) {

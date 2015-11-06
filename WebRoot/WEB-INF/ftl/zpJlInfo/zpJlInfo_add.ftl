@@ -61,7 +61,7 @@
          <tr>
            <td  align="right" class="hui1"><span class="red">*</span>姓名：</td>
            <td  align="left" valign="middle">
-          	 <input name="name" id="name" type="text" class="input validate[required]">
+          	 <input name="name" id="name" type="text" class="input validate[required],minSize[2]">
            </td>
           <td align="right" class="hui1"><span class="red">*</span>手机：</td>
           <td  align="left" valign="middle">
@@ -125,11 +125,11 @@
           <tr>
            <td  align="right" class="hui1"><span class="red">*</span>工作开始时间：</td>
            <td  align="left" valign="middle">
-          	 <input name="jobStartTimeT" class="input validate[required]" id="jobStartTimeT" onClick="WdatePicker({dateFmt:'yyyy-MM',maxDate:'%y-%M'})" type="text" >
+          	 <input name="jobStartTimeT" class="Wdate input validate[required]" id="jobStartTimeT" onClick="WdatePicker({dateFmt:'yyyy-MM',maxDate:'%y-%M'})" type="text" >
            </td>
          	<td  align="right" class="hui1">出生年月：</td>
            	<td  align="left" valign="middle">
-          	 <input name="birthdayT" id="birthday" onClick="WdatePicker({dateFmt:'yyyy-MM'})" type="text" class="input error-field" validate="validate[required,custom[eightCha]]">
+          	 <input name="birthdayT" id="birthday" onClick="WdatePicker({dateFmt:'yyyy-MM'})" type="text" class="Wdate input error-field" validate="validate[required,custom[eightCha]]">
            </td>
          </tr>
          
@@ -182,9 +182,10 @@
          </tr>  
          
           <tr style="display:none;" class="_detail">
-           <td  align="right" class="hui1">简历内容：</td>
+           <td  align="right" class="hui1" style="width:100px;">简历内容：</td>
            <td  align="left" valign="middle" colspan="3" >
-            <textarea id="jlContent2"  cols="130" style="font-size: 15px;" rows="150" ></textarea>
+            <pre id="jlContent2" style="font-size: 15px;white-space: pre-wrap;word-wrap: break-word;" >
+            </pre>
            </td>
          </tr>  
          

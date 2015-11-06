@@ -128,6 +128,7 @@
         <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>招聘人数</strong></td>
         <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>是否急招</strong></td>
         <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>所在城区</strong></td>
+        <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>标签数</strong></td>
         
         <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>录入人</strong></td>
         <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>录入时间</strong></td>
@@ -178,7 +179,9 @@
     		 ${DictionaryUtil.getName(c.areaId)}
   	 	 	</#if>	
          </td>
-        
+          <td align="center" class="hui">
+	        ${c.keywordStatus!0}
+        </td>
          <td align="center" class="hui">
 	        ${c.inPersonName!''}
         </td>
@@ -207,8 +210,8 @@
 				</#if>
 				
 				<#if Session[Const.SESSION_USER_KEY].type==AccountType.TECHICAL_AUDIT.getCode()>
-					<#if c.keys?size<3>
-						<button type="button" class="btn btn-default"  onclick=companyJob.toEdit('${c.jobId}')>添加关键字</button>
+					<#if c.keys?size<ApplicationConst.ALLOW_JOB_KEYWORD_SIZE>
+						<button type="button" class="btn btn-primary"  onclick=companyJob.toEdit('${c.jobId}')>添加关键字</button>
 					</#if>
 				</#if>
 				

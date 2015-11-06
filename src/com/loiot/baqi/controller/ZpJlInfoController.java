@@ -257,6 +257,16 @@ public class ZpJlInfoController {
             	return this.NAME_EXIST;
             }
     	}
+    	if(UserSessionUtils.getAccountType()!=AccountType.ADMIN.getCode() ){
+     		pmap.put("startTimeT", DateUtil.getCurrDateStartTime(new Date()));
+        	pmap.put("endTimeT", DateUtil.getCurrDateEndTime(new Date()));
+        	pmap.put("inPerson", UserSessionUtils.getAccount().getAccountId());
+        	pmap.put("jobPositionId", p.getJobPositionId());
+        	int count = this.zpJlInfoService.getZpJlInfoListCount(pmap);
+        	if(count>=3){
+        	    return new AjaxResponse(-2, "每个职位最多上传3个优质简历");
+        	}    		
+     	}
     	//修改简历文件
     	if(!StringUtil.isBlank(p.getJlFilePath())){
     		String oldFilePath = request.getParameter("oldFilePath");
@@ -378,6 +388,8 @@ public class ZpJlInfoController {
     	if(p==null){
     		return AjaxResponse.NOEXITS;
     	}
+    	String content =p.getJlContent();
+    	
     	return AjaxResponse.OK(p);
     }
     
@@ -518,12 +530,17 @@ public class ZpJlInfoController {
     	HashMap<String,Object> pMap=new HashMap<String,Object>();
     	//用户数据过滤
     	if(UserSessionUtils.getAccountType()==AccountType.ADMIN.getCode() ){
-    	} else {
+    	} else 
+    	if(UserSessionUtils.getAccountType()==AccountType.TECHICAL_AUDIT.getCode() ){
         	pMap.put("technicianAuditPerson", UserSessionUtils.getAccount().getAccountId());
+    	} else
+    	if(UserSessionUtils.getAccountType()==AccountType.JOB_HUNTER.getCode() || UserSessionUtils.getAccountType()==AccountType.HR.getCode()  ){
+           pMap.put("inPerson", UserSessionUtils.getAccount().getAccountId());
     	}
 		pMap.put("jlId", id);
 		List<ZpJlInfo> list = this.zpJlInfoService.queryZpJlInfoList(pMap);
 		if(list.size()>0){
+			ZpJlInfo jl = list.get(0);
 			model.put("p",list.get(0));
 		}
         return "/zpJlInfo/auditJl_detail";
@@ -542,6 +559,7 @@ public class ZpJlInfoController {
     	if(jlId==null || auditTypeId==null){
     		return URLConst.ERROR_URL;
     	}
+    	pmap.clear();
     	pmap.put("jlId", jlId);
     	pmap.put("qtype", "one");
     	pmap.put("auditTypeId", auditTypeId);
@@ -568,6 +586,7 @@ public class ZpJlInfoController {
     @RequestMapping(value = "/checkJlCount")
     @ResponseBody
     public Object checkJlCount() throws Exception{
+    	pmap.clear();
     	pmap.put("startTimeT", DateUtil.getCurrDateStartTime(new Date()));
     	pmap.put("endTimeT", DateUtil.getCurrDateEndTime(new Date()));
     	pmap.put("inPerson", UserSessionUtils.getAccount().getAccountId());

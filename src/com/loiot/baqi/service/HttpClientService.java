@@ -182,7 +182,8 @@ public class HttpClientService {
 	 */
 	public void regUser(User user) throws RestClientException, RuntimeException {
 		// TODO Auto-generated method stub
-		String url = ApplicationConst.YUNJIAN_URL + "env/user?data={data}";
+		//String url = ApplicationConst.YUNJIAN_URL + "env/user?data={data}";
+		String ulr="";
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("loginName", user.getLoginName());
 		params.put("password", user.getPassword());
@@ -194,7 +195,7 @@ public class HttpClientService {
 		ResponseEntity<String> response;
 		ResAtom ra=new ResAtom();
 		try {
-			response = restTemplate.exchange(url,
+			response = restTemplate.exchange("",
 					HttpMethod.POST, entity, String.class, JsonUtil.toJson(params));
 			String jsonData= response.getBody();
 			ra = JsonUtil.toObject(jsonData, "ra", ResAtom.class);
@@ -218,11 +219,12 @@ public class HttpClientService {
 	public String userLogin(String loginName, Long userId, String pwd) throws RestClientException, RuntimeException {
 		// TODO Auto-generated method stub
 		String token = "";
-		String url=ApplicationConst.YUNJIAN_URL  + "oauth2/assessTokenLogin"+"?data={data}";
+		//String url=ApplicationConst.YUNJIAN_URL  + "oauth2/assessTokenLogin"+"?data={data}";
+		String url="";
 		Map<String,Object> paramMap = new HashMap<String,Object>();
         paramMap.put("nm", loginName);
         paramMap.put("pwd", pwd);
-        paramMap.put("clientId",ApplicationConst.CLIENT_ID);
+        //paramMap.put("clientId",ApplicationConst.CLIENT_ID);
         
 		
 		HttpEntity<String> entity = prepareGet(MediaType.APPLICATION_JSON,
@@ -256,11 +258,11 @@ public class HttpClientService {
 		// TODO Auto-generated method stub
 //		http://api2.loiot.com/prod/create.action?productId=152&accessToken=8ff096aa15a2d7107385d437d9de29c3
 		sceneProductId=214L;
-		String url=ApplicationConst.YUNJIAN_URL  + "prod/create.action"+"?productId={productId}";
+		//String url=ApplicationConst.YUNJIAN_URL  + "prod/create.action"+"?productId={productId}";
 		
 		HttpEntity<String> entity = prepareGet(MediaType.APPLICATION_JSON,
 				accessToken);
-		ResponseEntity<String> response = restTemplate.exchange(url,
+		ResponseEntity<String> response = restTemplate.exchange("",
 				HttpMethod.GET, entity, String.class, sceneProductId);
 		String jsonData= response.getBody();
         ResAtom ra=null;
@@ -291,7 +293,7 @@ public class HttpClientService {
 	 */
 	public void addScene(String accessToken,String apiKey, String ssn, String title) throws RestClientException, RuntimeException {
 		// TODO Auto-generated method stub
-		String url=ApplicationConst.YUNJIAN_URL  + "/m/product/scene"+"?data={data}";
+		//String url=ApplicationConst.YUNJIAN_URL  + "/m/product/scene"+"?data={data}";
 		Map<String,Object> paramMap = new HashMap<String,Object>();
         paramMap.put("name", title);
         paramMap.put("snValue", ssn);
@@ -302,7 +304,7 @@ public class HttpClientService {
 		ResponseEntity<String> response=null;
 		ResAtom ra=null;
 		try {
-			response = restTemplate.exchange(url,
+			response = restTemplate.exchange("",
 					HttpMethod.POST, entity, String.class, JsonUtil.toJson(paramMap));
 			String jsonData= response.getBody();
 	        ra = JsonUtil.toObject(jsonData, "ra", ResAtom.class);

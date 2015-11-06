@@ -174,8 +174,8 @@ var companyJob = {
 			var keyword = self.getKeyWord();
 			//技术评审
 			if(employeeType==2){
-				if(self.getKeyWordSize()<3){
-					common.alert("至少添加3个关键字");
+				if(self.getKeyWordSize()<5){
+					common.alert("至少添加5个关键字");
 					return;
 				}
 			}

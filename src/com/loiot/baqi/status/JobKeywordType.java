@@ -1,32 +1,9 @@
 package com.loiot.baqi.status;
 
-/*
- * Timeloit.com Inc.
- * Copyright (c) 2012 时代凌宇物联网数据平台. All Rights Reserved
- */
+public enum JobKeywordType {
 
-/**
- * 账号类型
- * 
- * @author wangzx
- * 
- */
-public enum AccountType {
-
-	HR(1, "HR"),
-	
-	TECHICAL_AUDIT(2,"技术评审"),
-	
-	ADMIN(3, "后台管理员"),
-	
-	JOB_HUNTER(4, "求职者"),
-	
-	SALARY_MANAGER(5,"薪水管理员"),
-	
-	HEAD_HUNTING_MANAGER(6,"猎头顾问");
-	
-	
-	
+	KEYWORD_OK(1, "已通过"),
+	KEYWORD_NO_PASS(2, "未通过");
 	
 	/**
 	 * 状态码
@@ -45,7 +22,7 @@ public enum AccountType {
 	 * @param title
 	 *            标题
 	 */
-	AccountType(int code, String title) {
+	JobKeywordType(int code, String title) {
 		this.code = code;
 		this.title = title;
 	}
@@ -75,12 +52,13 @@ public enum AccountType {
 	 *            状态码
 	 * @return 状态码对应的枚举，如果找不到则返回null。
 	 */
-	public static AccountType get(int code) {
-		for (AccountType type : values()) {
+	public static JobKeywordType get(int code) {
+		for (JobKeywordType type : values()) {
 			if (type.getCode() == code) {
 				return type;
 			}
 		}
 		return null;
 	}
+
 }

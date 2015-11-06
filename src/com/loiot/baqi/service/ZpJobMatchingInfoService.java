@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.loiot.baqi.constant.ApplicationConst;
 import com.loiot.baqi.constant.DictionaryUtil;
 import com.loiot.baqi.controller.response.Pager;
 import com.loiot.baqi.dao.ZpCompanyJobInfoDao;
@@ -223,6 +224,8 @@ public class ZpJobMatchingInfoService{
     	ZpJlInfo jl = zpJlInfoDao.getZpJlInfoById(jlId);
     	HashMap<String, Object> pMap  = new  HashMap<String, Object>();
     	pMap.put("typeId", jl.getJobPositionId());
+    	pMap.put("keywordStatus", ApplicationConst.ALLOW_JOB_KEYWORD_SIZE);
+
     	
     	if(jl.getZpJlJobLevels()!=null){
     		List<Long> ids = getIds(jl.getZpJlJobLevels());

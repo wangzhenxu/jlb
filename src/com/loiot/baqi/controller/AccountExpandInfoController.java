@@ -10,6 +10,7 @@ import com.loiot.baqi.service.*;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -17,6 +18,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -30,6 +33,7 @@ import com.loiot.baqi.constant.Const;
 import com.loiot.baqi.controller.response.AjaxResponse;
 import com.loiot.baqi.controller.response.Pager;
 import com.loiot.baqi.service.*;
+import com.loiot.baqi.status.AccountType;
 import com.loiot.baqi.utils.UserSessionUtils;
 import com.loiot.commons.message.util.JsonUtil;
 import com.timeloit.pojo.Account;
@@ -70,12 +74,16 @@ public class AccountExpandInfoController {
     public String list(@RequestParam(value = "pi", defaultValue = "0") int pageIndex,
     		@RequestParam(value = "jsonParam", defaultValue = "{}") String jsonParam,
     	AccountExpandInfo p, ModelMap model)throws Exception {
+		/*Subject subject = SecurityUtils.getSubject();
+		if (subject.isPermitted("zpJlInfo:list")) {
+			
+		}*/
     	HashMap<String,Object> paramMap=this.getParaMap(jsonParam, model);
     	paramMap.put("qtype", "like");
         Pager<AccountExpandInfo> pager = accountExpandInfoService.queryAccountExpandInfoListPage(paramMap , pageIndex);
         model.put("pager", pager);
         model.put("jsonParam", jsonParam);
-        return "/accountexpandInfo/accountexpandInfo_list";
+        return "/accountExpandInfo/accountExpandInfo_list";
     }
     
     /**
@@ -85,6 +93,7 @@ public class AccountExpandInfoController {
      * @return
      */
     public HashMap<String,Object> getParaMap(String jsonParam,ModelMap model){
+    	
     	HashMap<String,Object> newParamMap = newParamMap =  new HashMap<String,Object>();
     	 HashMap<String,Object> paramMap =JsonUtil.toObject(jsonParam, HashMap.class);
 		Iterator iter = paramMap.entrySet().iterator();
@@ -242,8 +251,20 @@ public class AccountExpandInfoController {
     @RequestMapping(value = "/getById")
     @ResponseBody
     public Object ajaxGetById(@RequestParam(value = "id", required = true) java.lang.Long id)throws Exception {
-    	AccountExpandInfo p = accountExpandInfoService.getAccountExpandInfoById(id);
-    	return AjaxResponse.OK(p);
+    	HashMap<String,Object> pmap = new HashMap<String,Object>();
+    	pmap.put("expandId", id);
+    	if(UserSessionUtils.getAccountType()==AccountType.ADMIN.getCode()|| UserSessionUtils.getAccountType()==AccountType.HEAD_HUNTING_MANAGER.getCode() || UserSessionUtils.getAccountType()==AccountType.SALARY_MANAGER.getCode() ){
+    		
+    	} else {
+    		pmap.put("accountId", UserSessionUtils.getAccount().getAccountId());
+    	}
+    	List<AccountExpandInfo> list = accountExpandInfoService.queryAccountExpandInfoList(pmap);
+    	if(list!=null && list.size()>0 ){
+    		return AjaxResponse.OK(list.get(0));
+    	}else {
+    		return AjaxResponse.NOEXITS;
+    	}
+    	
     }
     
     /**

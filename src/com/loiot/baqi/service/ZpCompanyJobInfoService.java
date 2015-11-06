@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -62,6 +63,10 @@ public class ZpCompanyJobInfoService{
      * @param p 参数对象
      */
     public void addZpCompanyJobInfo(ZpCompanyJobInfo p)throws Exception {
+    	//关键字个数
+    	if(!StringUtils.isBlank(p.getZpRequire())){
+    		p.setKeywordStatus(p.getZpRequire().split(",").length);
+    	}
         zpCompanyJobInfoDao.addZpCompanyJobInfo(p);
         //添加职位关键字
         if(p.getZpRequire()!=null && p.getZpRequire().length()>0){
@@ -83,8 +88,11 @@ public class ZpCompanyJobInfoService{
      * @param p 参数对象
      */
     public void updateZpCompanyJobInfo(ZpCompanyJobInfo p)throws Exception {
+    	//关键字个数
+    	if(!StringUtils.isBlank(p.getZpRequire())){
+    		p.setKeywordStatus(p.getZpRequire().split(",").length);
+    	}
         zpCompanyJobInfoDao.updateZpCompanyJobInfo(p);
-        
         //删除后添加
         ZpCompanyJobDemandKeys delBean = new ZpCompanyJobDemandKeys();
         delBean.setJobId(p.getJobId());

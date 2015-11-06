@@ -22,10 +22,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.loiot.baqi.pojo.*;
 import com.loiot.baqi.constant.Const;
+import com.loiot.baqi.constant.URLConst;
 import com.loiot.baqi.controller.response.AjaxResponse;
 import com.loiot.baqi.controller.response.Pager;
 import com.loiot.baqi.service.*;
 import com.loiot.baqi.status.AccountType;
+import com.loiot.baqi.status.MatchKeywordType;
+import com.loiot.baqi.utils.RegexpUtils;
 import com.loiot.baqi.utils.UserSessionUtils;
 import com.timeloit.pojo.Account;
 
@@ -55,7 +58,9 @@ public class ZpJobMatchingInfoController {
 	private ZpCompanyJobInfoService zpCompanyJobInfoService;*/
 	
 	private ZpJobMatchingInfo zpJobMatchingInfo;
-	
+	@Resource
+	private ZpJlInfoService zpJlInfoService;
+
 	
 	
 	
@@ -116,7 +121,7 @@ public class ZpJobMatchingInfoController {
     	pMap.put("qtype", "like");
     	pMap.put("jlId", p.getJlId());
     	//用户数据过滤
-    	if(UserSessionUtils.getAccountType()==AccountType.HR.getCode() || UserSessionUtils.getAccountType()==AccountType.JOB_HUNTER.getCode() || UserSessionUtils.getAccountType()==AccountType.TECHICAL_AUDIT.getCode()  ){
+    	if(UserSessionUtils.getAccountType()==AccountType.HR.getCode() || UserSessionUtils.getAccountType()==AccountType.JOB_HUNTER.getCode() || UserSessionUtils.getAccountType()==AccountType.TECHICAL_AUDIT.getCode()  ||  UserSessionUtils.getAccountType()==AccountType.HEAD_HUNTING_MANAGER.getCode() ){
     		pMap.put("inPerson", UserSessionUtils.getAccount().getAccountId());
     	}
         Pager<ZpJobMatchingInfo> pager = zpJobMatchingInfoService.queryZpJobMatchingInfoListPage(pMap, pageIndex);
@@ -251,5 +256,43 @@ public class ZpJobMatchingInfoController {
 		  return AjaxResponse.FAILED;
 		}
     }
+    
+    /**
+     * 跳转到，个人简历信息
+     * 
+     * @return
+     */
+    @RequestMapping(value = "/showMatchJlDetail")
+    public String toJlDetail(@RequestParam(value = "id", required = true) java.lang.Long id, ModelMap model)throws Exception {
+    	if(id==null){
+    		return URLConst.ERROR_URL;
+    	}
+    	HashMap<String,Object> pmap = new HashMap<String,Object>();
+    	if(UserSessionUtils.getAccountType()==AccountType.ADMIN.getCode() ){
+    		pmap.put("matchId", id);
+    	}else {
+    		pmap.put("inPerson", UserSessionUtils.getAccount().getAccountId());
+    	}
+    	List<ZpJobMatchingInfo> list = this.zpJobMatchingInfoService.queryZpJobMatchingInfoList(pmap);
+    	if(list==null || list.size()==0){
+    		return URLConst.ERROR_URL; 
+    	}
+    	ZpJobMatchingInfo match = list.get(0);
+		ZpJlInfo jlInfo = this.zpJlInfoService.getZpJlInfoById(match.getJlId());
+    	RegexpUtils ru = RegexpUtils.getInstance();
+    	String jlContent = jlInfo.getJlContent();
+    	for(int i=0;i<match.getKeys().size();i++){
+    		ZpJobMatchingKeys key = match.getKeys().get(i);
+    		if(key.getIsMatch()==MatchKeywordType.ALREADY_MATCH.getCode()){
+    			jlContent=ru.replace(jlContent, key.getKeyword(), "<span class='red'>"+key.getKeyword()+"</span>");
+    		}
+    	}
+    	jlInfo.setJlContent(jlContent);
+    	model.put("p", jlInfo);
+    	return "/zpJlInfo/auditJl_detail";
+    }
+    
+
+    
 
 }

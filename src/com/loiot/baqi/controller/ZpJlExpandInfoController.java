@@ -62,6 +62,7 @@ public class ZpJlExpandInfoController {
     public String list(@RequestParam(value = "pi", defaultValue = "0") int pageIndex,
     		@RequestParam(value = "jsonParam", defaultValue = "{}") String jsonParam,
     	ZpJlExpandInfo p, ModelMap model)throws Exception {
+    	
     	HashMap<String,Object> paramMap=this.getParaMap(jsonParam, model);
     	paramMap.put("qtype", "like");
         Pager<ZpJlExpandInfo> pager = zpJlExpandInfoService.queryZpJlExpandInfoListPage(paramMap , pageIndex);

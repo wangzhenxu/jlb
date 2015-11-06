@@ -25,7 +25,7 @@
     <div class="quanxian3">
      <div class="limitsShiro">权限划分：<span style="color:red;padding-left:5px;" id="permissionListTip"></span></div>
      <div class="limitsShiro1">
-      <div class="limits1_1">
+      <div class="limits1_1" style="width: 350px;">
        <ul>
        	<#-- 简历管理 -->
         <li>
@@ -96,6 +96,17 @@
          </div>
         </li>
         
+         <#-- 账号扩展信息 -->
+        <li>
+         <div class="top">
+          <strong><input type="checkbox" class="accountExpandInfo-parent" id="accountExpandInfo" value="10800" style=" vertical-align:middle" /><label for="accountExpandInfo">&nbsp;账号扩展信息</label></strong>
+         </div>
+         <div class="top1">
+          <input type="checkbox" class="accountExpandInfo-child" id="accountExpandInfoEdit" value="10801" style=" vertical-align:middle" /><label for="accountExpandInfoEdit">&nbsp;修改扩展信息</label>
+          <input type="checkbox" class="accountExpandInfo-child" id="accountExpandInfoDetail" value="10802" style=" vertical-align:middle" /><label for="accountExpandInfoDetail">&nbsp;扩展信息详情</label>
+         </div>
+        </li>
+        
         <#-- 简历匹配管理 -->
         <li>
          <div class="top">
@@ -114,8 +125,12 @@
          </div>
          <div class="top1">
            <input type="checkbox" class="JlAudit-child" id="JlAuditJlDetail" value="10701" style=" vertical-align:middle" /><label for="JlAuditJlDetail">&nbsp;个人信息</label>
+           <input type="checkbox" class="JlAudit-child" id="JlAuditJlOk" value="10702" style=" vertical-align:middle" /><label for="JlAuditJlOk">&nbsp;评审简历</label>
          </div>
         </li>
+        
+        
+        
         
        </ul>
       </div>

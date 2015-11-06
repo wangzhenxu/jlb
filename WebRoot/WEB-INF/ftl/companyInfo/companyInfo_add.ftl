@@ -46,19 +46,19 @@
            <td colspan="4" class="red">* 号为必填项</td>
          </tr>
          <tr>
-           <td  align="right" class="hui1"><span class="red">*</span>公司名称：</td>
+           <td  align="right" class="hui1 buhuan"><span class="red">*</span>公司名称：</td>
            <td  align="left" valign="middle">
            	 <input name="name" id="name" type="text"  style="width: 230px;" class="input validate[required]">
           </td>
-           <td align="right" class="hui1"><span class="red">*</span>公司地址：</td>
+           <td align="right" class="hui1 buhuan"><span class="red">*</span>公司地址：</td>
           <td  align="left" valign="middle">
           	 <input name="address" id="address"  style="width: 230px;" type="text" class="input validate[required]">
           </td>
          </tr>
          
          <tr>
-           <td  align="right" class="hui1"><span class="red">*</span>所在城区：</td>
-           <td  align="left" valign="middle" clospan="3">
+           <td  align="right" class="hui1 buhuan"><span class="red">*</span>所在城区：</td>
+           <td colspan="3" align="left" valign="middle">
             	<#list DictionaryUtil.getTypes(DictionaryType.COMPANY_AREA.getCode()) as c>
           	  	  <input  class="validate[required] radio" id="dsf" name="areaId"  type="radio" value="${c.dictionaryId}" > ${c.showName!''} 
           	 	</#list>
@@ -66,8 +66,8 @@
          </tr>
          
          <tr>
-           <td  align="right" class="hui1"><span class="red">*</span>公司规模：</td>
-           <td  align="left" valign="middle" clospan="3">
+           <td  align="right" class="hui1 buhuan"><span class="red">*</span>公司规模：</td>
+           <td colspan="3" align="left" valign="middle">
 	         <#list DictionaryUtil.getTypes(DictionaryType.COMPANY_SCALE.getCode()) as c>
           	  	 <input class="validate[required] radio" id="scaleId" name="scaleId" type="radio" value="${c.dictionaryId}" > ${c.showName!''} 
           	 </#list>
@@ -75,8 +75,8 @@
          </tr>
          
           <tr>
-           <td  align="right" class="hui1">融资阶段：</td>
-           <td  align="left" valign="middle" clospan="3">
+           <td  align="right" class="hui1 buhuan">融资阶段：</td>
+           <td colspan="3" align="left" valign="middle">
 	         <#list DictionaryUtil.getTypes(DictionaryType.COMPANY_FINANCING_LEVEL.getCode()) as c>
           	  	 <input class="radio" name="financingLevelId" type="radio" value="${c.dictionaryId}" > ${c.showName!''} 
           	 </#list>
@@ -84,8 +84,8 @@
          </tr>
          
         <tr>
-           <td  align="right" class="hui1">所属行业：</td>
-           <td  align="left" valign="middle" clospan="3">
+           <td  align="right" class="hui1 buhuan">所属行业：</td>
+           <td colspan="3" align="left" valign="middle">
 	         <#list DictionaryUtil.getTypes(DictionaryType.COMPANY_INDUSTRY.getCode()) as c>
           	  	 <input class="radio" name="industryId" type="radio" value="${c.dictionaryId}" > ${c.showName!''} 
           	 </#list>
@@ -93,8 +93,8 @@
          </tr>
          
          <tr>
-           <td  align="right" class="hui1">公司性质：</td>
-           <td  align="left" valign="middle" clospan="3">
+           <td  align="right" class="hui1 buhuan">公司性质：</td>
+           <td colspan="3" align="left" valign="middle">
 	         <#list DictionaryUtil.getTypes(DictionaryType.COMPANY_NATURE.getCode()) as c>
           	  	 <input class="radio" name="companyNature" type="radio" value="${c.dictionaryId}" > ${c.showName!''} 
           	 </#list>
@@ -102,7 +102,7 @@
          </tr>
          
          <tr>
-           <td  align="right" class="hui1">注册时间：</td>
+           <td  align="right" class="hui1 buhuan">注册时间：</td>
            <td  align="left" valign="middle">
 	 			<input name="regtime2" id="regtime2" onClick="WdatePicker({dateFmt:'yyyy-MM'})" type="text" readonly>  </td>
           <td align="right" class="hui1"></td>
@@ -111,32 +111,32 @@
          </tr>
          
           <tr>
-           <td  align="right" class="hui1"><span class="red">*</span>公司介绍：</td>
-           <td  align="left" valign="middle" clospan="3">
+           <td  align="right" class="hui1 buhuan"><span class="red">*</span>公司介绍：</td>
+           <td colspan="3" align="left" valign="middle">
            		<textarea  cols="45" rows="5" class="input validate[required,length[1000] text-input mokuainr ckeditor" name="desc1"  id="desc1" ></textarea>
            </td>
          </tr>
          
          <tr>
-           <td  align="right" class="hui1">更多介绍：</td>
-           <td  align="left" valign="middle" clospan="3">
+           <td  align="right" class="hui1 buhuan">更多介绍：</td>
+           <td colspan="3" align="left" valign="middle">
            		<textarea  cols="45" rows="5" class="input validate[required,length[1000] text-input mokuainr ckeditor" name="desc2"  id="desc2" ></textarea>
            </td>
          </tr>
          
           <tr style="display:none;" class="_detail">
-           <td  align="right" class="hui1">录入人：</td>
-           <td  align="left" valign="middle"  colspan="3" id="inPersonName">
+           <td  align="right" class="hui1 buhuan">录入人：</td>
+           <td colspan="3" align="left" valign="middle" id="inPersonName">
            </td>
          </tr>
 	 	<tr style="display:none;" class="_detail">
-           <td  align="right" class="hui1">最后更新时间：</td>
-           <td  align="left" valign="middle" colspan="3" id="lastUpdateTime">
+           <td  align="right" class="hui1 buhuan">最后更新时间：</td>
+           <td colspan="3" align="left" valign="middle" id="lastUpdateTime">
            </td>
          </tr>
       <tr style="display:none;" class="_detail">
-             <td  align="right" class="hui1">是否停用：</td>
-             <td  align="left" valign="middle" colspan="3" id="isDelete">
+             <td  align="right" class="hui1 buhuan">是否停用：</td>
+             <td colspan="3" align="left" valign="middle" id="isDelete">
              
              </td>
          </tr>

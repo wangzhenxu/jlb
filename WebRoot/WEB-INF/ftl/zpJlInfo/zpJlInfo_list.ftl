@@ -199,15 +199,31 @@
         </td>
         
 	     <td align="center" class="hui">
-	     <span class="label label-info">
-	    	    ${c.technicianAuditPersonName!'待选择'}
-		 </span>
+	    	    ${c.technicianAuditPersonName!'无'}
 	    </td>
 	    
 	     <td align="center" class="hui">
-	       <#if c.auditTypeId??>
+	       <#if c.auditTypeId?? &&  c.auditTypeId==JlAuditType.NO_SELECT_AUDIT_PERSON.getCode()>
+	       	  <span class="badge badge-warning">
 	       	  	${JlAuditType.get(c.auditTypeId).getTitle()}
+	       	  </span>
 	       </#if>
+	       <#if c.auditTypeId?? &&  c.auditTypeId==JlAuditType.WAIT_AUDIT.getCode()>
+	       	  <span class="badge badge-info">
+	       	  	${JlAuditType.get(c.auditTypeId).getTitle()}
+	       	  </span>
+	       </#if>
+	       <#if c.auditTypeId?? &&  c.auditTypeId==JlAuditType.AUDIT_OK.getCode()>
+	       	  <span class="badge badge-success">
+	       	  	${JlAuditType.get(c.auditTypeId).getTitle()}
+	       	  </span>
+	       </#if>
+	       <#if c.auditTypeId?? &&  c.auditTypeId==JlAuditType.AUDIT_NO_PASS.getCode()>
+	       	  <span class="label">
+	       	  	${JlAuditType.get(c.auditTypeId).getTitle()}
+	       	  </span>
+	       </#if>
+	       
 	    </td>
 	     <!-- hr角色隐藏吧列太多 -->
         <#if Session[Const.SESSION_USER_KEY].type!=AccountType.HR.getCode()>

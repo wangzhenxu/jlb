@@ -228,7 +228,8 @@
 	         	</#if>
    			 </#list>
    			 
-   			   <button type="button" class="btn btn-default"  title="已匹配关键字：${match} &#10;未匹配关键字：${noMatch}">关键字</button>
+   			<button type="button" class="btn btn-default"  title="已匹配关键字：${match} &#10;未匹配关键字：${noMatch}">关键字</button>
+      	 	<button  style="margin-left:10px;" type="button" class="btn btn-default" onclick="jobMatchInfo.toMatchJlDetail('${c.matchId}');">详情</button>
       	 	 </div>
         </td>
          		

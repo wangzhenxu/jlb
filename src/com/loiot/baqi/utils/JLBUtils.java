@@ -265,6 +265,13 @@ public class JLBUtils {
 		return result;
 	}
 	
+	public static void dealJlKeyWord(){
+		String content ="sdfsadff  sdf  df";
+		String keyword="sdf";
+		
+		
+	}
+	
 	public static void main(String args[]) {
 		
 		//System.out.println(JLBUtils.dealYearMoney(500l));;

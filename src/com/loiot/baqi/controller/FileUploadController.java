@@ -36,10 +36,10 @@ public class FileUploadController {
                 file1Path="fck/temp/"+new Date().getTime()+".jpg";
                 File newFile1;
                 try {
-                    newFile1 = FileUtil.createFile(ApplicationConst.UPLOAD_PIC_PATH+file1Path);
+                    /*newFile1 = FileUtil.createFile(ApplicationConst.UPLOAD_PIC_PATH+file1Path);
                     //将文件写到新的文件当中
                     mFile.getFileItem().write(newFile1);
-                    file1Path = ApplicationConst.UPLOAD_PIC_URL+file1Path;
+                    file1Path = ApplicationConst.UPLOAD_PIC_URL+file1Path;*/
 
                 } catch (Exception e) {
                     e.printStackTrace();

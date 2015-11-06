@@ -48,8 +48,15 @@ function menuClick(){
 		<#if subject.isPermitted("account:list")>
 		    <a class="MenuLevel4 accountManage" href="/account/list.action" > <img src="/images/bullet_sarrow.gif"/> &nbsp;&nbsp;<span <#if menuClass="accountManage">class="MenuLevel5"</#if>>后台帐号</span></a>
 		</#if>
-		<a class="MenuLevel4 editPassword"  <#if Session[Const.SESSION_USER_KEY].iphone?? && Session[Const.SESSION_USER_KEY].iphone?length gt 0> href="/accountExpandInfo/toView.action?id=${Session[Const.SESSION_USER_KEY].expandId}" <#else>  href="/accountExpandInfo/toEdit.action?id=${Session[Const.SESSION_USER_KEY].expandId}" </#if>      > <img src="/images/bullet_sarrow.gif"/> &nbsp;&nbsp;<span id="accountExpandInfo_list">个人信息</span></a>
 		
+		<#if subject.isPermitted("accountExpandInfo:edit")>
+				<a class="MenuLevel4 editPassword"  <#if Session[Const.SESSION_USER_KEY].iphone?? && Session[Const.SESSION_USER_KEY].iphone?length gt 0> href="/accountExpandInfo/toView.action?id=${Session[Const.SESSION_USER_KEY].expandId}" <#else>  href="/accountExpandInfo/toEdit.action?id=${Session[Const.SESSION_USER_KEY].expandId}" </#if>      > <img src="/images/bullet_sarrow.gif"/> &nbsp;&nbsp;<span id="accountExpandInfo_list">个人信息</span></a>
+		</#if>
+		
+		<#if subject.isPermitted("accountExpandInfo:list") && Session[Const.SESSION_USER_KEY].type!=AccountType.TECHICAL_AUDIT.getCode() && Session[Const.SESSION_USER_KEY].type!=AccountType.JOB_HUNTER.getCode() && Session[Const.SESSION_USER_KEY].type!=AccountType.HR.getCode()>
+		    <a class="MenuLevel4 accountManage" href="/accountExpandInfo/list.action" > <img src="/images/bullet_sarrow.gif"/> &nbsp;&nbsp;<span id="id="accountExpandInfo_list"">用户扩展信息</span></a>
+		</#if>
+      	
       	<a class="MenuLevel4 editPassword" href="/password.action"> <img src="/images/bullet_sarrow.gif"/> &nbsp;&nbsp;<span <#if menuClass="editPassword">class="MenuLevel"</#if>>修改密码</span></a>
      </div>
      
@@ -108,7 +115,7 @@ function menuClick(){
    
   </div>
  </div>
- <div class="foot" >
+ <div class="foot" style="display:none;" >
    <div class="footer"  >北京璟仪科技有限公司京ICP备10042645号 Copyright-2015 Loit CO LTD. all rights reserved</div>
   </div>
 </body>

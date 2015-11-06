@@ -51,11 +51,26 @@ public class RegexpUtils {
  } 
  
  public boolean isExitsKeyword(String regexp, String data) {  
-  Pattern p = Pattern.compile(regexp,Pattern.CASE_INSENSITIVE);  
-  Matcher matcher = p.matcher(data);
-  boolean b = matcher.find();
-  return b;  
+	  Pattern p = Pattern.compile(regexp,Pattern.CASE_INSENSITIVE);  
+	  Matcher matcher = p.matcher(data);
+	  boolean b = matcher.find();
+	  return b;  
 } 
+ 
+ /*** 
+  * replaceAll,忽略大小写 
+  *  
+  * @param input 
+  * @param regex 
+  * @param replacement 
+  * @return 
+  */  
+ public String replace(String input, String regex, String replacement) {  
+     Pattern p = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);  
+     Matcher m = p.matcher(input);  
+     String result = m.replaceAll(replacement);  
+     return result;  
+ }  
  
     private static RegexpUtils ru = null;  
     //单太模式  
@@ -76,9 +91,10 @@ public class RegexpUtils {
     	//boolean b =RegexpUtils.getInstance().isExitsKeyword("springbvc", " springMVC ");
         //System.out.println("b:" + b);
     	
-    	System.out.println(100/5 * 3);
-    	System.out.println(100/3 * 3);
-    	System.out.println(100/10 * 5);
+    	RegexpUtils ru = RegexpUtils.getInstance();  
+    	String content ="sdfsadff  sdf  df";
+		String keyword="sdf";
+    	System.out.println(ru.replace(content, keyword, "111"));;
     	
 
     }  

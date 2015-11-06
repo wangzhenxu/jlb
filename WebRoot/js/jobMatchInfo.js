@@ -6,6 +6,9 @@ var jobMatchInfo = {
 	toEditUrl:"/zpJobMatchingInfo/toEdit.action?id=", //去修改页面地址
 	deleteUrl :"/zpJobMatchingInfo/delete.action?id=", //删除页面地址
 	toViewUrl:"/zpJobMatchingInfo/toView.action?id=", //详细页面地址
+	showMatchJlDetailUrl:"/zpJobMatchingInfo/showMatchJlDetail.action?id=", //匹配简历详情页面地址
+
+	
     
 	//属性
 	
@@ -53,6 +56,9 @@ var jobMatchInfo = {
 	//跳转到添加页面
 	toAdd : function (){
 		location.href=this.toAddUrl;
+	},
+	toMatchJlDetail(id){
+		location.href=this.showMatchJlDetailUrl+id;
 	},
 	//职位匹配信息 添加 
 	add : function (){

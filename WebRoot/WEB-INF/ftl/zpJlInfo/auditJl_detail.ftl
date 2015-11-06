@@ -34,15 +34,13 @@
 	</div>
      <div class="query1">
        <table width="100%" border="0" align="left">
-         
           <tr style="" class="">
-           <td  align="right" class="hui1">简历内容：</td>
-           <td  align="left" valign="middle" colspan="3" >
-            <textarea id="jlContent2"  cols="130" style="font-size: 15px;" rows="150" >
+           <td  align="left" valign="middle">
+            <pre id="jlContent2" style="font-size: 15px;white-space: pre-wrap;word-wrap: break-word;" >
             	<#if p??>
             		 ${p.jlContent!''}
             	</#if>
-            </textarea>
+            </pre>
            </td>
          </tr>     
          </table>

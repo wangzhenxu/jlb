@@ -56,11 +56,11 @@
           </td>
          </tr>
          
-         <tr>
+         <tr style="display:none;">
            <td  align="right" class="hui1 buhuan"><span class="red">*</span>所在城区：</td>
            <td colspan="3" align="left" valign="middle">
             	<#list DictionaryUtil.getTypes(DictionaryType.COMPANY_AREA.getCode()) as c>
-          	  	  <input  class="validate[required] radio" id="dsf" name="areaId"  type="radio" value="${c.dictionaryId}" > ${c.showName!''} 
+          	  	  <input   id="dsf" name="areaId"  type="radio" value="${c.dictionaryId}" > ${c.showName!''} 
           	 	</#list>
            </td>
          </tr>

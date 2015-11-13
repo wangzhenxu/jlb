@@ -88,19 +88,21 @@
           </td>
          </tr>
          
-          <tr>
-           <td  align="right" class="hui1 buhuan"><span class="red">*</span>所在城区：</td>
-           <td colspan="3"  align="left" valign="middle">
-            	<#list DictionaryUtil.getTypes(DictionaryType.COMPANY_AREA.getCode()) as c>
-          	  	  <input class="radio validate[required]" class="radio" id="areaId" name="areaId" type="radio"  <#if company??> <#if company.areaId??> <#if company.areaId==c.dictionaryId> checked </#if> </#if> </#if> value="${c.dictionaryId}" > ${c.showName!''} 
-          	 	</#list>
-           </td>
-         </tr>
+          
          
           <tr>
            <td  align="right" class="hui1 buhuan"><span class="red">*</span>工作地点：</td>
            <td colspan="3"  align="left" valign="middle">
-            	<input name="address" id="address" style="width: 330px;" onblur="companyJob.setLgltInfo(this.value);"  type="text" class="input validate[required]" <#if company??> value=${company.address!''} </#if>  >
+            	<input name="address" id="address" style="width: 330px;" onblur="companyJob.setLgltInfo(this.value);"  type="text" class="input validate[required]" <#if company??> value="${company.address!''}" </#if>  >
+           </td>
+         </tr>
+         
+         <tr>
+           <td  align="right" class="hui1 buhuan"><span class="red">*</span>所在城区：</td>
+           <td colspan="3"  align="left" valign="middle">
+            	<#list DictionaryUtil.getTypes(DictionaryType.COMPANY_AREA.getCode()) as c>
+          	  	  <input class="radio validate[required]" class="radio" tempAreaName="${c.showName!''}" id="areaId" name="areaId" type="radio"  <#if company??> <#if company.areaId??> <#if company.areaId==c.dictionaryId> checked </#if> </#if> </#if> value="${c.dictionaryId}" > ${c.showName!''} 
+          	 	</#list>
            </td>
          </tr>
          
@@ -188,7 +190,7 @@
           <tr>
            <td  align="right" class="hui1 buhuan"><span class="red">*</span>职位描述：</td>
            <td colspan="3" align="left" valign="middle">
-           		<textarea  cols="45" rows="5" class="input validate[required,length[1000] text-input mokuainr ckeditor" name="desc1"  id="desc1" ></textarea>
+           		<textarea  cols="80" rows="10" class="input validate[required,length[1000] text-input mokuainr ckeditor" name="desc1"  id="desc1" ></textarea>
            </td>
          </tr>
          
@@ -289,7 +291,7 @@
              </td>
          </tr>
           
-         <tr style=";" class="">
+         <tr style=";" class="" id="comapny_address_tr">
            <td  align="right" class="hui1 buhuan">公司所在地：</td>
            <td colspan="3" align="left" valign="middle" >
             	<div id="mapContainer" style="width:800px;height:400px;position: relative;"></div>
@@ -321,5 +323,5 @@
 <script src="/js/companyJob.js"></script>
 <script>
 	companyJob.initPage();
-	var employeeType ="${Session[Const.SESSION_USER_KEY].type}"; 
+	var employeeType ="${Session[Const.SESSION_USER_KEY].type}";
 </script>

@@ -73,7 +73,7 @@
    	   </li>
       </ul>
       <ul>
-      	<li>
+      	<li style="display:none;">
 	      	<span class="classify">所在城区：</span>
 	    	<select id="areaId" name="areaId" style="width: 160px;">
 	    		 <option value="" > 请选择 </option>
@@ -101,7 +101,7 @@
         <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>公司规模</strong></td>
         <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>公司性质</strong></td>
         <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>融资规模</strong></td>
-        <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>所在城区</strong></td>
+        <td style="display:none;" height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>所在城区</strong></td>
         <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>录入时间</strong></td>
         <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>操 作</strong></td>
        </tr>
@@ -130,7 +130,7 @@
   	 	 </#if>
         </td>
         
-        <td align="center" class="hui">
+        <td align="center" class="hui" style="display:none;">
 	         <#if c.areaId??>
 	         	${DictionaryUtil.getName(c.areaId)}<#else>无
 	 		</#if>
@@ -142,7 +142,7 @@
 	 		</#if>
         </td>
         
-        <td align="left" class="hui" style="width:300px;"  >
+        <td align="left" class="hui" style="width:400px;"  >
 	       	<div class="btn-group">
 			    <#if subject.isPermitted("zpCompanyInfo:detail")>
 				  <button type="button" style="margin-left:15px;" class="btn btn-default"  onclick="companyInfo.toDetail('${c.companyId}')">详情</button>
@@ -166,6 +166,9 @@
 				  	 	 </#if>
 				  </#if>
 				</#if>
+				
+				<button type="button" class="btn btn-default"  onclick="companyInfo.toJobList('${c.name}')">管理职位</button>
+				
 	      	 </div>
       	</td>
        </tr>

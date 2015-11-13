@@ -85,7 +85,35 @@ var common = {
 			 if($("#"+menuId)){
 				 $("#"+menuId).addClass("MenuLevel5");		 	
 			 }
-		}
+		},
+		dealMoneyWanBig : function (jqElement) {
+			   if(jqElement.val().length>0){
+				   jqElement.val(parseFloat(jqElement.val())*10000);
+			   }
+		},
+		dealMoneyWanSmall : function (jqElement){
+			if(jqElement.val().length>0){
+				   jqElement.val(parseFloat(jqElement.val())/10000);
+			   }
+		},
+		fckInit : function (elementId){
+			if (CKEDITOR.instances[elementId]){
+				CKEDITOR.instances[elementId].destroy();
+				CKEDITOR.replace(elementId);
+			}else {
+				CKEDITOR.replace(elementId);
+			}
+			return CKEDITOR.instances[elementId]
+		},
+		//设置fckeditor为只读
+		fcKeditor_OnComplete : function (editorInstance)
+		    {
+		        editorInstance.EditorDocument.body.disabled = true;
+		        editorInstance.EditorWindow.parent.document.getElementById          ('xExpanded').style.display = 'none';
+		        editorInstance.EditorWindow.parent.document.getElementById('xCollapsed').style.display = 'none';
+		        editorInstance.EditorWindow.blur();
+		    }
+		
 }
 
 

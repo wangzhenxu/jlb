@@ -64,6 +64,8 @@ var companyJob = {
 	 coordX : $("#coordX"), //坐标x
 	 coordY : $("#coordY"), //坐标y
 	 address : 	$("#address"), //工作地点
+	 fckDesc1 : "",
+	 fckDesc2:"",
 	 
 	 //页面初始化
 	 initPage : function (){
@@ -162,12 +164,7 @@ var companyJob = {
 				common.alert("工作地点无效");
 				return;
 			}
-			if(this.expectedYearMoneyStart.val().length>0){
-				this.expectedYearMoneyStart.val(parseFloat(this.expectedYearMoneyStart.val())*10000);
-			}
-			if(this.expectedYearMoneyEnd.val().length>0){
-				this.expectedYearMoneyEnd.val(parseFloat(this.expectedYearMoneyEnd.val())*10000);
-			}
+			
 			$("#desc").val(desc);
 			$("#moreDesc").val(CKEDITOR.instances.desc2.getData());
 			
@@ -185,9 +182,13 @@ var companyJob = {
 			if(self.currPage=="edit"){
 				   common.openModal("delete_sure","确定修改信息吗？");
 				   $("#delete_sure_a").click(function(){
+					   common.dealMoneyWanBig(self.expectedYearMoneyStart);
+					   common.dealMoneyWanBig(self.expectedYearMoneyEnd);
 					   self.ajaxSubmitForm();
 				   });
 			} else {
+				   common.dealMoneyWanBig(self.expectedYearMoneyStart);
+				   common.dealMoneyWanBig(self.expectedYearMoneyEnd);
 					self.ajaxSubmitForm();
 		    }
 	},
@@ -221,6 +222,8 @@ var companyJob = {
 			if (resp.s > 0) {
 				location.href=self.listUrl;
 			} else {
+				   common.dealMoneyWanSmall(self.expectedYearMoneyStart);
+				   common.dealMoneyWanSmall(self.expectedYearMoneyEnd);
 				//唯一判断
 				if(resp.s==-100) {
 					 $("#name").validationEngine("showPrompt",resp.d,"error");
@@ -231,10 +234,21 @@ var companyJob = {
 	//初始化修改页面数据
 	initEditPage : function (){
 		   var self = this;
+		   self.fckDesc1=common.fckInit("desc1");
+		   self.fckDesc2= common.fckInit("desc2");
 			self.getById(this.jobId.val(),function (result){
 				if (result.s > 0) {
 					self.setForm(result.data);
 					self.address.blur();
+					//
+					//技术评审
+					if(employeeType==2){
+						$("input").attr("readonly",true);
+						$("#keyInput").attr("readonly",false);
+						//common.fcKeditor_OnComplete(self.fckDesc1);
+						//self.fckDesc1.config.readOnly = true;
+						CKEDITOR.config.readOnly=true;
+					}
 				}  
 				else {
 					common.alert(resp.d);
@@ -291,16 +305,13 @@ var companyJob = {
 		$("input[name='jobPositionLevelId'][value='"+obj.jobPositionLevelId+"']").attr("checked",true); //职位级别
 		self.zpPersonCount.val(obj.zpPersonCount); //招聘人数
 		
-		if(obj.expectedYearMoneyStart && obj.expectedYearMoneyStart>0){
-			obj.expectedYearMoneyStart = obj.expectedYearMoneyStart/10000;
-		}
-		
-		if(obj.expectedYearMoneyEnd && obj.expectedYearMoneyEnd>0){
-			obj.expectedYearMoneyEnd = obj.expectedYearMoneyEnd/10000;
-		}
-		
 		self.expectedYearMoneyStart.val(obj.expectedYearMoneyStart); //预计年薪开始
 		self.expectedYearMoneyEnd.val(obj.expectedYearMoneyEnd); //预计年薪结束
+		
+		common.dealMoneyWanSmall(self.expectedYearMoneyStart);
+		common.dealMoneyWanSmall(self.expectedYearMoneyEnd);
+	
+		
 		self.workTermStart.val(obj.workTermStart); //工作年限开始
 		self.workTermEnd.val(obj.workTermEnd); //工作年限结束
 		self.downTeamPersonCount.val(obj.downTeamPersonCount); //团队人数
@@ -320,12 +331,28 @@ var companyJob = {
 		self.jobTemptText.val(obj.jobTemptText); //职位诱惑
 		self.jobTemptItem.val(obj.jobTemptItem); //诱惑都好项,逗号分隔
 		
+		self.fckDesc1.setData(obj.desc);
+		self.fckDesc2.setData(obj.moreDesc);
+		//console.log("111:"+self.fckDesc1._.data);
+		//console.log("222"+self.fckDesc1.getData());
 		
-		CKEDITOR.instances.desc1.setData(obj.desc);
-		CKEDITOR.instances.desc2.setData(obj.moreDesc);
+
+		//CKEDITOR.instances.desc2.setData();
+		//技术评审
+		if(employeeType==2 || common.getCurrPageFlag()=="detail"){
+			if(obj.moreDesc.length==0){
+				$("#desc2").parent().parent().hide();
+			}
+			if (CKEDITOR.instances['desc1']){
+				CKEDITOR.instances['desc1'].destroy();
+				CKEDITOR.replace("desc1", {toolbar: [ ],height:400});
+				//地图隐藏
+				$("#comapny_address_tr").hide();
+			}
+		}
 		
-		//self.desc.val(obj.desc); //职位描述
-		//self.moreDesc.val(obj.moreDesc); //更多描述
+		self.desc.val(obj.desc); //职位描述
+		self.moreDesc.val(obj.moreDesc); //更多描述
 		
 		self.inPerson.html(obj.inPerson);
 		
@@ -370,9 +397,19 @@ var companyJob = {
 				{
 					  var geocode = new Array();
 					    geocode = result.geocodes;
+					   
 					    for (var i = 0; i < geocode.length; i++) {
 					    	self.coordX.val(geocode[i].location.getLng());
 					        self.coordY.val(geocode[i].location.getLat());
+					        
+					        var areaName = geocode[i].addressComponent.district;
+						    areaName=areaName.replace("区","");
+						    $("input[name=areaId]").each(function(){
+						    	if($(this).attr("tempAreaName")==areaName){
+						    		$(this).attr("checked",true);
+						    	}
+						    });
+					        
 					        addmarker(i, geocode[i]);
 					    }
 					    map.setFitView();

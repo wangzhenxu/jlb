@@ -1,5 +1,6 @@
 package com.loiot.baqi.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -56,6 +57,55 @@ public class ZpCompanyJobInfoService{
         pager.setData(zpCompanyJobInfoList);
         return pager;
     }
+    
+    /**
+     * 查询 用户补充信息（假）分页
+     * 
+     * @param name 用户补充信息名称
+     * @param pageIndex 页索引
+     * @return
+     */
+    public Pager<ZpCompanyJobInfo> queryFlasePageList(HashMap<String,Object> pMap, int pageIndex)throws Exception {
+    	//假分页
+    	Pager<ZpCompanyJobInfo> pager = this.setPkList(pMap,pageIndex);
+    	List<ZpCompanyJobInfo> zpCompanyJobInfoList = zpCompanyJobInfoDao.queryZpCompanyJobInfoList(pMap);
+        pager.setData(zpCompanyJobInfoList);
+        return pager;
+    }
+    
+    /**
+     * 设置 假分页id集合到Map中
+     * @param pMap
+     * @param pageIndex
+     * @return
+     * @throws Exception
+     */
+    public Pager<ZpCompanyJobInfo> setPkList(HashMap<String,Object> pMap,int pageIndex) throws Exception{
+    	  // 查询职位匹配信息列表总条数
+        List<ZpCompanyJobInfo> list = zpCompanyJobInfoDao.queryZpCompanyJobInfoList(pMap);
+        // 构造一个分页器
+        Pager<ZpCompanyJobInfo> pager = new Pager<ZpCompanyJobInfo>(list.size(), pageIndex, 10,list);
+        List<ZpCompanyJobInfo> idsList = pager.getCurrentPageData();
+        List<Long> ids =this.getIds(idsList);
+        pMap.put("jobIds", ids);
+        return pager;
+    }
+    
+    /**
+     * 查询id集合
+     * @return
+     */
+    public List<Long> getIds(List<ZpCompanyJobInfo> list) {
+    	List<Long> idsList = null;
+        if(list!=null && list.size()>0) {
+        	idsList = new ArrayList<Long>();
+        	for (ZpCompanyJobInfo b : list) {
+            	idsList.add(b.getJobId());
+            }
+        }
+        return idsList;
+    }
+	
 	
 	 /**
      * 添加 公司职位

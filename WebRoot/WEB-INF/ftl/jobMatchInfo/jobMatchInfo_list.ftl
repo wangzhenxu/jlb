@@ -129,7 +129,9 @@
         <td align="center" class="hui" title="${c.name!''}">${c.companyName!''}</td>
         <td align="center" class="hui" title="${c.address!''}">${c.jobName!''}</td>
         <td align="center" class="hui">
-      	  java
+      	 <#if c.jobPositionId??>
+        	${DictionaryUtil.getName(c.jobPositionId)}
+        </#if>
         </td>
         <td align="center" class="hui">
       	  <#if c.jobPositionLevelIdStatus??> 

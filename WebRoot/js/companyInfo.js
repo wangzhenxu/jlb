@@ -8,7 +8,8 @@ var companyInfo = {
 	toViewUrl:"/zpCompanyInfo/toView.action?id=", //详细页面地址
 	editUrl:"/zpCompanyInfo/edit.action", //详细页面地址
 	modifyDeleteStatusUrl:"/zpCompanyInfo/modifyDeleteStatus.action", //停用 或启用
-
+	toJobListUrl:"/zpCompanyJobInfo/list.action?name=", //停用 或启用
+	checkNameExitsUrl : "/zpCompanyInfo/checkNameExits.action", //检验唯一性,
 	
 	onlyName :  $("#onlyName"), //修改，唯一验证时需要添加此属性
 	m_title : $(".m_title"),//页面标题
@@ -88,6 +89,13 @@ var companyInfo = {
 	initAddPage : function (){
 		var self = this;
 		$('#addform').attr("action",self.addUrl);
+		//检验名称唯一性
+		self.name.blur(function(){
+				if($.trim(this.value).length>0){
+					var param = {flag : common.getCurrPageFlag(),name:this.value};
+					self.checkNameExits(param,self.checkNameExitCallBack);
+				} 
+		});
 	},
 	toAdd : function (){
 		location.href="/zpCompanyInfo/toAdd.action";
@@ -161,6 +169,14 @@ var companyInfo = {
 			}
 		});
 		$('#addform').attr("action",self.editUrl);
+		
+		//检验名称唯一性
+		self.name.blur(function(){
+				if($.trim(this.value).length>0){
+					var param = {flag : common.getCurrPageFlag(),name:this.value,oldname:self.onlyName.val()};
+					self.checkNameExits(param,self.checkNameExitCallBack);
+				} 
+		});
    },
    getById : function (id,callBack){
 	   var obj = null;
@@ -252,8 +268,26 @@ var companyInfo = {
 		  page="list"; 
 	  }
 	  return page;
+   },
+   toJobList : function (name){
+	   var self =this;
+	   window.open(self.toJobListUrl+name);
+   },
+   //检查名称唯一性
+   checkNameExits : function (param,callBack){
+	   var self =this;
+		$.ajax({
+			url : self.checkNameExitsUrl,
+			data : param,// 
+			success :callBack
+		});
+   },
+   //检查名称，回调
+   checkNameExitCallBack : function (result){
+	   if (result.s < 0) {
+		   common.alert(result.d,2000);
+	   }  
    }
-   
 }
 
 

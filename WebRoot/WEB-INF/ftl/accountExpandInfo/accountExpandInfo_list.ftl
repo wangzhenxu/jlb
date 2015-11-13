@@ -110,7 +110,7 @@
         <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>性别</strong></td>
         <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>评审职位</strong></td>
         <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>支付方式</strong></td>
-        <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>支付内容</strong></td>
+        <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>支付号码</strong></td>
         <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>录入时间</strong></td>
         <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>身份证</strong></td>
         <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>是否接受评审</strong></td>

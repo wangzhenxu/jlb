@@ -130,7 +130,7 @@ public class AccountService {
         
         //如果是选择技术评审类型，需要添加，技术评审开启状态
         if(account.getType()==AccountType.TECHICAL_AUDIT.getCode()){
-            expandInfo.setIsAcceptAudit(DictionaryUtil.getCode(DictionaryType.ACCEPT_AUDIT.getCode(), "start"));
+            expandInfo.setIsAcceptAudit(DictionaryUtil.getCode(DictionaryType.ACCEPT_AUDIT.getCode(), "stop"));
         }
         accountExpandInfoDao.addAccountExpandInfo(expandInfo);
         

@@ -47,7 +47,8 @@ public class ZpCompanyInfoController {
 	private ZpCompanyInfoService zpCompanyInfoService;
 	
 	private ZpCompanyInfo zpCompanyInfo;
-	
+	HashMap<String,Object> pmap =new HashMap<String,Object>();
+
 	/**
      * 跳转  公司信息列表页
      * 
@@ -235,5 +236,29 @@ public class ZpCompanyInfoController {
     	ZpCompanyInfo p = zpCompanyInfoService.getZpCompanyInfoById(id);
     	return AjaxResponse.OK(p);
     }
-
+    
+    /**
+     * 查询，名称是否存在，验证唯一性
+     * @return
+     * @throws Exception 
+     */
+    @RequestMapping(value = "/checkNameExits")
+    @ResponseBody
+    public Object checkNameExits(@RequestParam(value = "name", required = true) java.lang.String name,
+    		@RequestParam(value = "oldname",required = false) java.lang.String oldName,
+    		@RequestParam(value = "flag", required = true) String flag
+    		) throws Exception
+    {
+    	//验证唯一性
+    	pmap.clear();
+    	pmap.put("name", name);
+    	if("edit".equals(flag) && oldName.equals(name)){
+        	return AjaxResponse.OK(null);
+    	} 
+    	int result=zpCompanyInfoService.getZpCompanyInfoListCount(pmap);
+    	if(result>0){
+	        return NAME_EXIST;
+		}
+    	return AjaxResponse.OK(null);
+    }
 }

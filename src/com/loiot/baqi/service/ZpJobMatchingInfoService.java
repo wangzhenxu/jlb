@@ -278,6 +278,7 @@ public class ZpJobMatchingInfoService{
     		matchBean = new ZpJobMatchingInfo();
         	matchBean.setJobId(job.getJobId());
         	matchBean.setJlId(jl.getJlId());
+        	matchBean.setJobPositionId(jl.getJobPositionId());
     		//性别
     		if(job.getSex()!=null){
     			matchBean.setSexStatus((int)JobMatchType.UNMATCH.getCode());

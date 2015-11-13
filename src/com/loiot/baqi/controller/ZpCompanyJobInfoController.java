@@ -96,7 +96,7 @@ public class ZpCompanyJobInfoController {
 		}*/
     	//pMap.put("qtype", p.getExpectedYearMoney());
     	
-        Pager<ZpCompanyJobInfo> pager = zpCompanyJobInfoService.queryZpCompanyJobInfoListPage(pMap, pageIndex);
+        Pager<ZpCompanyJobInfo> pager = zpCompanyJobInfoService.queryFlasePageList(pMap, pageIndex);
         model.put("pager", pager);
         model.put("name", p.getName());
         model.put("typeId", p.getTypeId());

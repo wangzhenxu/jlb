@@ -123,8 +123,8 @@
         <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>职位级别</strong></td>
         <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>工作年限</strong></td>
         <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>预计年薪</strong></td>
-        <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>年龄</strong></td>
-        <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>婚否</strong></td>
+        <td height="37" align="center" valign="middle" background="/images/erji_22.jpg" style="display:none;"><strong>年龄</strong></td>
+        <td height="37" align="center" valign="middle" background="/images/erji_22.jpg" style="display:none;"><strong>婚否</strong></td>
         <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>招聘人数</strong></td>
         <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>是否急招</strong></td>
         <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>所在城区</strong></td>
@@ -154,10 +154,10 @@
         <td align="center" class="hui">
        		${JLBUtils.dealExpectedYearMoney(c.expectedYearMoneyStart,c.expectedYearMoneyEnd)}
         </td>
-          <td align="center" class="hui">
+          <td align="center" class="hui" style="display:none;">
        		${JLBUtils.dealAgeRange(c.ageStart,c.ageEnd)}
           </td>
-          <td align="center" class="hui">
+          <td align="center" class="hui" style="display:none;">
        		<#if c.maritalId??> 	
     		 ${DictionaryUtil.getName(c.maritalId)}
   	 	 	</#if>	
@@ -193,7 +193,6 @@
         
          <td align="left" class="hui" style="width:300px;"  >
 	       	<div class="btn-group">
-				 <div class="btn-group">
 				 <#if subject.isPermitted("zpCompanyJobInfo:detail")>
 				  <button type="button" class="btn btn-default"  onclick=companyJob.toDetail('${c.jobId}')>详情</button>
 				 </#if>
@@ -214,8 +213,6 @@
 						<button type="button" class="btn btn-primary"  onclick=companyJob.toEdit('${c.jobId}')>添加关键字</button>
 					</#if>
 				</#if>
-				
-	      		</div>
 	      	 </div>
       	</td>
          		

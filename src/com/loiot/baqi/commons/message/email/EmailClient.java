@@ -6,6 +6,7 @@ import javax.mail.internet.MimeMessage;
 
 import lombok.Setter;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -14,6 +15,7 @@ import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
 import com.loiot.commons.message.MessageClient;
 import com.loiot.commons.message.MessageVo;
+import com.loiot.commons.utils.StringUtil;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -101,7 +103,7 @@ public class EmailClient implements MessageClient {
 			helper.setText(getContent(vo), true);
 			// 发送邮件
 			mailSender.send(msg);
-			log.info("邮件发送成功 :" + emailVo.getEmails());
+			log.info("邮件发送成功 :" + StringUtil.join(emailVo.getEmails()));
 		} catch (Exception e) {
 			log.error("构造邮件失败", e);
 		}

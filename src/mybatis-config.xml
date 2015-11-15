@@ -33,7 +33,9 @@
 		<typeAlias type="com.loiot.baqi.pojo.ZpCompanyJobDemandKeys" alias="ZpCompanyJobDemandKeys" />
 		<typeAlias type="com.loiot.baqi.pojo.ZpJobMatchingKeys" alias="ZpJobMatchingKeys" />
 		<typeAlias type="com.loiot.baqi.pojo.AccountExpandInfo" alias="AccountExpandInfo" />
-	   <typeAlias type="com.loiot.baqi.vo.JlAuditPersonList" alias="JlAuditPersonList" />
+	   	<typeAlias type="com.loiot.baqi.vo.JlAuditPersonList" alias="JlAuditPersonList" />
+		<typeAlias type="com.loiot.baqi.pojo.TaskScheduleJob" alias="TaskScheduleJob" />
+		
 		
 		
 		

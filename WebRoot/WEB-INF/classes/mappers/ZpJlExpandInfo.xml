@@ -288,6 +288,15 @@
 	 	GROUP BY jei.technician_audit_person
 		
 	</select>
+	
+	<!-- 获得  简历扩展信息 统计评审人相关信息 -->
+	<select id="queryNotAuditJl" resultType="HashMap">
+		select jei.technician_audit_person as auditPerson,count(1) as jlcount, aei.nick_name as nickname,aei.email as email   
+		from zp_jl_expand_info jei  
+		INNER JOIN account_expand_info aei ON jei.technician_audit_person = aei.account_id
+		where jei.audit_type_id=#{auditTypeId}
+		GROUP BY jei.technician_audit_person 
+	</select>
 
 </mapper>
 

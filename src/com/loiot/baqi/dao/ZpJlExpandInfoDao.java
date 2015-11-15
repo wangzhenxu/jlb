@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import com.loiot.baqi.pojo.ZpJlExpandInfo;
 import com.loiot.baqi.vo.JlAuditPersonList;
+import com.sun.org.apache.bcel.internal.generic.RET;
 
 /**
  * 简历扩展信息 访问层。
@@ -152,6 +153,19 @@ public class ZpJlExpandInfoDao extends SqlSessionDaoSupport{
     public List<ZpJlExpandInfo> queryZpJlExpandInfoList(HashMap<String, Object> pMap)throws Exception {
         return getSqlSession().selectList("ZpJlExpandInfo.queryZpJlExpandInfoList", pMap);
     }
+    
+    /**
+     * 查询 简历扩展信息列表
+     * 
+     * @param pMap 参数列表
+     */
+    public List<HashMap<String,Object>> queryNotAuditJl(HashMap<String, Object> pMap)throws Exception {
+    	List<HashMap<String,Object>> p = null; 
+    	p =(List)getSqlSession().selectList("ZpJlExpandInfo.queryNotAuditJl", pMap);
+        return p;
+    }
+    
+    
     
     /**
      * 审核人信息统计

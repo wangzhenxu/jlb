@@ -12,10 +12,13 @@ import javax.annotation.Resource;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
+import com.loiot.baqi.commons.message.email.EmailClient;
+import com.loiot.baqi.commons.message.email.SimpleEmailVo;
 import com.loiot.baqi.constant.ApplicationConst;
 import com.loiot.baqi.constant.DictionaryUtil;
 import com.loiot.baqi.controller.response.Pager;
@@ -57,6 +60,9 @@ public class ZpJlInfoService{
     
     @Resource
   	private ZpJlJobLevelsDao zpJlJobLevelsDao;
+    
+    @Autowired
+    private EmailClient emailClient;
 	
 	 /**
      * 查询 简历信息列表分页
@@ -377,5 +383,25 @@ public class ZpJlInfoService{
          
 		return bean;
 	}
+    
+    public void nodifyTechnologyAuditJob() throws Exception{
+    	HashMap<String, Object> pMap = new HashMap();
+    	pMap.put("auditTypeId", JlAuditType.WAIT_AUDIT.getCode());
+    	List<HashMap<String, Object>> list = zpJlExpandInfoDao.queryNotAuditJl(pMap);
+    	if(list!=null && list.size()>0){
+    		for(HashMap map : list){
+    			String auditPerson=String.valueOf(map.get("auditPerson"));
+    			int jlcount=Integer.parseInt(String.valueOf(map.get("jlcount")));
+    			String nickname=String.valueOf(map.get("nickname"));
+    			String email=String.valueOf(map.get("email"));
+    			 
+    			 SimpleEmailVo vo = new SimpleEmailVo();
+                 vo.setContent("亲["+nickname+"] 有"+jlcount+"份简历需要评审！么么哒！");
+                 vo.addEmail(email);
+                 vo.setTitle("憬仪评审通知");
+                 emailClient.send(vo);
+    		}
+    	}
+    }
 	
 }

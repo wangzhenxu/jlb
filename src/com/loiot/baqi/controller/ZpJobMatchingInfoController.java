@@ -30,6 +30,7 @@ import com.loiot.baqi.status.AccountType;
 import com.loiot.baqi.status.MatchKeywordType;
 import com.loiot.baqi.utils.RegexpUtils;
 import com.loiot.baqi.utils.UserSessionUtils;
+import com.loiot.baqi.vo.MatchInfo;
 import com.timeloit.pojo.Account;
 
 /**
@@ -60,6 +61,10 @@ public class ZpJobMatchingInfoController {
 	private ZpJobMatchingInfo zpJobMatchingInfo;
 	@Resource
 	private ZpJlInfoService zpJlInfoService;
+	@Resource
+	private ZpCompanyJobInfoService zpCompanyJobInfoService;
+	 @Resource
+	private ZpRecommendFlowInfoService zpRecommendFlowInfoService;
 
 	
 	
@@ -279,16 +284,20 @@ public class ZpJobMatchingInfoController {
     	}
     	ZpJobMatchingInfo match = list.get(0);
 		ZpJlInfo jlInfo = this.zpJlInfoService.getZpJlInfoById(match.getJlId());
-    	RegexpUtils ru = RegexpUtils.getInstance();
-    	String jlContent = jlInfo.getJlContent();
-    	for(int i=0;i<match.getKeys().size();i++){
-    		ZpJobMatchingKeys key = match.getKeys().get(i);
-    		if(key.getIsMatch()==MatchKeywordType.ALREADY_MATCH.getCode()){
-    			jlContent=ru.replace(jlContent, key.getKeyword(), "<span class='red'>"+key.getKeyword()+"</span>");
-    		}
-    	}
-    	jlInfo.setJlContent(jlContent);
+		ZpCompanyJobInfo jobInfo = this.zpCompanyJobInfoService.getZpCompanyJobInfoById(match.getJobId());
+		jlInfo.setJlContent(zpJobMatchingInfoService.getJlContent(match,jlInfo.getJlContent()));
     	model.put("p", jlInfo);
+    	
+    	List<MatchInfo> matchList = zpJobMatchingInfoService.DealPaseJLMatchInfo(match, jlInfo,jobInfo);
+    	model.put("matchList", matchList);
+    	model.put("matchInfo", match);
+    	
+    	//查询评审信息
+    	HashMap<String,Object> auditMap = new HashMap<String,Object>();
+    	auditMap.put("matchId", id);
+    	ZpRecommendFlowInfo auditInfo = zpRecommendFlowInfoService.getZpRecommendFlowInfo(auditMap);
+    	model.put("auditInfo", auditInfo);
+
     	return "/zpJlInfo/auditJl_detail";
     }
     

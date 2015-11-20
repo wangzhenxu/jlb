@@ -32,7 +32,7 @@ public class HomeController {
 		Subject subject = SecurityUtils.getSubject();
 		
 		//没有补充个人信息
-		if(StringUtils.isBlank(UserSessionUtils.getAccount().getIphone()) && UserSessionUtils.getAccountType()!=AccountType.ADMIN.getCode() && UserSessionUtils.getAccountType()!=AccountType.HEAD_HUNTING_MANAGER.getCode() && UserSessionUtils.getAccountType()!=AccountType.SALARY_MANAGER.getCode() ){
+		if(StringUtils.isBlank(UserSessionUtils.getAccount().getIphone()) && UserSessionUtils.getAccountType()!=AccountType.ADMIN.getCode()){
 			return "redirect:/accountExpandInfo/toEdit.action?id="+UserSessionUtils.getAccount().getExpandId();
 		}else
 		if (subject.isPermitted("zpJlInfo:list")) {

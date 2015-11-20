@@ -20,7 +20,7 @@ public class NotifyJob implements Job {
 	public void execute(JobExecutionContext arg0) throws JobExecutionException {
 		TaskScheduleJob task = (TaskScheduleJob)arg0.getMergedJobDataMap().get("taskObj");
         log.info("[" + task.getJobName() + "]  ["+DateUtil.toString(DateUtil.getNow(), DateUtil.DEFAULT_LONG_FORMAT)+"]");
-        Object service = com.loiot.baqi.listener.JobListener.getApplicationContext().getBean("zpJlInfoService");
+        Object service = com.loiot.baqi.listener.JobListener.getApplicationContext().getBean(task.getSpringId());
         Method method = null; 
         try {
 			method = service.getClass().getDeclaredMethod(task.getMethodName());

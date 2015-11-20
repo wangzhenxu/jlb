@@ -102,8 +102,10 @@
           <strong><input type="checkbox" class="accountExpandInfo-parent" id="accountExpandInfo" value="10800" style=" vertical-align:middle" /><label for="accountExpandInfo">&nbsp;账号扩展信息</label></strong>
          </div>
          <div class="top1">
-          <input type="checkbox" class="accountExpandInfo-child" id="accountExpandInfoEdit" value="10801" style=" vertical-align:middle" /><label for="accountExpandInfoEdit">&nbsp;修改扩展信息</label>
-          <input type="checkbox" class="accountExpandInfo-child" id="accountExpandInfoDetail" value="10802" style=" vertical-align:middle" /><label for="accountExpandInfoDetail">&nbsp;扩展信息详情</label>
+          <input type="checkbox" class="accountExpandInfo-child" id="accountExpandInfoEdit" value="10801" style=" vertical-align:middle" /><label for="accountExpandInfoEdit">&nbsp;修改自己个人信息</label>
+          <input type="checkbox" class="accountExpandInfo-child" id="accountExpandInfoDetail" value="10802" style=" vertical-align:middle" /><label for="accountExpandInfoDetail">&nbsp;个人信息详情</label>
+          <input type="checkbox" class="accountExpandInfo-child" id="accountExpandInfoEitAll" value="10803" style=" vertical-align:middle" /><label for="accountExpandInfoEitAll">&nbsp;修改所有个人信息</label>
+          
          </div>
         </li>
         

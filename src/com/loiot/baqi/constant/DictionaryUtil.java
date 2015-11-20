@@ -36,6 +36,7 @@ public class DictionaryUtil {
 		for(ZpDictionaryInfo dic : dictList){
 			if(dic.getDictionaryId()==code){
 				name=dic.getShowName();
+				break;
 			}
 		}
 		return name;

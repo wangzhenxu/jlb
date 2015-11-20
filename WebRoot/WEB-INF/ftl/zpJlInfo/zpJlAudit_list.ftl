@@ -276,9 +276,9 @@
      	 </tr>
        <tr>
         <td align="center" class="hui1" >
-	        <input type="radio" class="radio" name="audit_type"  value="${JlAuditType.AUDIT_OK.getCode()}" /> ${JlAuditType.AUDIT_OK.getTitle()} 
+	        <input type="radio" class="radio" class="radio validate[required]" name="audit_type"  value="${JlAuditType.AUDIT_OK.getCode()}" /> ${JlAuditType.AUDIT_OK.getTitle()} 
         	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        	<input type="radio" class="radio" name="audit_type" value="${JlAuditType.AUDIT_NO_PASS.getCode()}" /> ${JlAuditType.AUDIT_NO_PASS.getTitle()} 
+        	<input type="radio" class="radio" class="radio validate[required]" name="audit_type" value="${JlAuditType.AUDIT_NO_PASS.getCode()}" /> ${JlAuditType.AUDIT_NO_PASS.getTitle()} 
         </td>
       </tr>
       </table>
@@ -301,6 +301,7 @@
 
 
 <script src="/js/zpJlAudit.js"></script>
+
 <script>
 	common.initLeftMenuSelected(jlInfo.left_menu_selected_id);
 </script>

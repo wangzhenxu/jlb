@@ -16,6 +16,7 @@ import com.loiot.baqi.controller.response.Pager;
 import com.loiot.baqi.dao.ZpCompanyJobDemandKeysDao;
 import com.loiot.baqi.dao.ZpCompanyJobInfoDao;
 import com.loiot.baqi.service.ZpCompanyJobInfoService;
+import com.loiot.baqi.utils.JLBUtils;
 import com.loiot.baqi.pojo.ZpCompanyJobDemandKeys;
 import com.loiot.baqi.pojo.ZpCompanyJobInfo;
 
@@ -117,6 +118,7 @@ public class ZpCompanyJobInfoService{
     	if(!StringUtils.isBlank(p.getZpRequire())){
     		p.setKeywordStatus(p.getZpRequire().split(",").length);
     	}
+    	JLBUtils.dealExpectedYearMoneyBig(p);
         zpCompanyJobInfoDao.addZpCompanyJobInfo(p);
         //添加职位关键字
         if(p.getZpRequire()!=null && p.getZpRequire().length()>0){
@@ -142,6 +144,7 @@ public class ZpCompanyJobInfoService{
     	if(!StringUtils.isBlank(p.getZpRequire())){
     		p.setKeywordStatus(p.getZpRequire().split(",").length);
     	}
+    	JLBUtils.dealExpectedYearMoneyBig(p);
         zpCompanyJobInfoDao.updateZpCompanyJobInfo(p);
         //删除后添加
         ZpCompanyJobDemandKeys delBean = new ZpCompanyJobDemandKeys();

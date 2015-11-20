@@ -82,9 +82,9 @@ public class JobService {
 		             return;  
 		         }  
 		    	//StorehouseProductWarningJob.class是类名可以写在数据库中 ，表达式0 00 00 * * ?也是可以写在数据库中
-		         JobDetail job =JobBuilder.newJob(NotifyJob.class).withIdentity("J_StorehouseProductWarningJob", "G_StorehouseProductWarningJob").build();
+		         JobDetail job =JobBuilder.newJob(NotifyJob.class).withIdentity("j_"+task.getJobId(), "g_"+task.getJobGroup()).build();
 		         job.getJobDataMap().put("taskObj", task);
-		         CronTrigger trigger = TriggerBuilder.newTrigger().withIdentity("T_StorehouseProductWarningJob", "T_StorehouseProductWarningJob").withSchedule(CronScheduleBuilder.cronSchedule("0 0/1 9-17 * * ?")).build();
+		         CronTrigger trigger = TriggerBuilder.newTrigger().withIdentity("t_"+task.getJobId(), "g_"+task.getJobGroup()).withSchedule(CronScheduleBuilder.cronSchedule(task.getCronExpression())).build();
 		         List<Trigger> triggerList=new ArrayList<Trigger>();
 		    	 triggerList.add(trigger);
 		       	 map.put(job, triggerList);

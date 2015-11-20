@@ -74,6 +74,22 @@ public class JLBUtils {
 		return str;
 	}
 	
+	//自动放大，预计年薪
+	public static void dealExpectedYearMoneyBig(ZpCompanyJobInfo p){
+	    Double startMoney = p.getExpectedYearMoneyStart();
+	    Double endMoney = p.getExpectedYearMoneyEnd();
+	    if(startMoney!=null)
+	    {
+	    	startMoney = startMoney*10000;
+	    }
+	    if(endMoney!=null)
+	    {
+	    	endMoney = endMoney*10000;
+	    }
+	    p.setExpectedYearMoneyStart(startMoney);
+	    p.setExpectedYearMoneyEnd(endMoney);
+	}
+	
 	public static String dealAgeRange(Integer start ,Integer end){
 		String str="";
 		if(start==null && end==null){

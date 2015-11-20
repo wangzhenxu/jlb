@@ -22,13 +22,16 @@ import com.loiot.baqi.dao.ZpJlInfoDao;
 import com.loiot.baqi.dao.ZpJobMatchingInfoDao;
 import com.loiot.baqi.dao.ZpJobMatchingKeysDao;
 import com.loiot.baqi.service.ZpJobMatchingInfoService;
+import com.loiot.baqi.status.DictionaryType;
 import com.loiot.baqi.status.JobMatchType;
 import com.loiot.baqi.status.MatchKeywordType;
 import com.loiot.baqi.status.PauseStartType;
 import com.loiot.baqi.utils.GaoDeUtils;
 import com.loiot.baqi.utils.HttpRequest;
+import com.loiot.baqi.utils.JLBUtils;
 import com.loiot.baqi.utils.RegexpUtils;
 import com.loiot.baqi.utils.UserSessionUtils;
+import com.loiot.baqi.vo.MatchInfo;
 import com.loiot.baqi.pojo.ZpCompanyJobDemandKeys;
 import com.loiot.baqi.pojo.ZpCompanyJobInfo;
 import com.loiot.baqi.pojo.ZpJlInfo;
@@ -279,6 +282,7 @@ public class ZpJobMatchingInfoService{
         	matchBean.setJobId(job.getJobId());
         	matchBean.setJlId(jl.getJlId());
         	matchBean.setJobPositionId(jl.getJobPositionId());
+        	matchBean.setJobPositionLevelId(job.getJobPositionLevelId());
     		//性别
     		if(job.getSex()!=null){
     			matchBean.setSexStatus((int)JobMatchType.UNMATCH.getCode());
@@ -603,7 +607,98 @@ public class ZpJobMatchingInfoService{
     	//匹配比率
     	int f = 100/keys.size()*matchCount;
     	matchBean.setKeywordPercent(Double.parseDouble(String.valueOf(f)));
+    }
+    
+    public String getJlContent(ZpJobMatchingInfo match,String jlContent){
+    	String newJlContent = "";
+    	RegexpUtils ru = RegexpUtils.getInstance();
+    	for(int i=0;i<match.getKeys().size();i++){
+    		ZpJobMatchingKeys key = match.getKeys().get(i);
+    		if(key.getIsMatch()==MatchKeywordType.ALREADY_MATCH.getCode()){
+    			newJlContent=ru.replace(jlContent, key.getKeyword(), "<span class='red'>"+key.getKeyword()+"</span>");
+    		}
+    	}
+    	return newJlContent;
+    }
+    
+    
+    public List<MatchInfo> DealPaseJLMatchInfo(ZpJobMatchingInfo match,ZpJlInfo jlInfo,ZpCompanyJobInfo jobInfo){
+    	List<MatchInfo> matchList = new ArrayList<MatchInfo>();
     	
+    	//职位级别
+    	if(match.getJobPositionLevelIdStatus()==JobMatchType.ALREADY_MATCH.getCode()  || match.getJobPositionLevelIdStatus()==JobMatchType.UNMATCH.getCode() ){
+    		MatchInfo m = new MatchInfo();
+    		m.setStatus(match.getJobPositionLevelIdStatus());
+    		m.setCloumnName(DictionaryType.JOB_POSITION_LEVE.getTitle());
+    		m.setCompanyRequireName(DictionaryUtil.getName(match.getJobPositionLevelId()));
+    	    m.setJobSeekerInfo(DictionaryUtil.getName(jlInfo.getJobPositionLevelId()));
+    	    matchList.add(m);
+    	}
+    	
+    	//年薪
+    	if(match.getSalaryRequireIdStatus()==JobMatchType.ALREADY_MATCH.getCode()  || match.getSalaryRequireIdStatus()==JobMatchType.UNMATCH.getCode() ){
+    		MatchInfo m = new MatchInfo();
+    		m.setStatus(match.getSalaryRequireIdStatus());
+    		m.setCloumnName(DictionaryType.SALARY_REQUIRE.getTitle());
+    		m.setCompanyRequireName(JLBUtils.dealExpectedYearMoney(jobInfo.getExpectedYearMoneyStart().longValue(), jobInfo.getExpectedYearMoneyEnd().longValue()));
+    	    m.setJobSeekerInfo(DictionaryUtil.getName(jlInfo.getSalaryRequireId()));
+    	    matchList.add(m);
+    	}
+    	
+    	//学历
+    	if(match.getEducationIdStatus()==JobMatchType.ALREADY_MATCH.getCode()  || match.getEducationIdStatus()==JobMatchType.UNMATCH.getCode() ){
+    		MatchInfo m = new MatchInfo();
+    		m.setStatus(match.getEducationIdStatus());
+    		m.setCloumnName(DictionaryType.EDUCATION.getTitle());
+    		m.setCompanyRequireName(DictionaryUtil.getName(jobInfo.getEducationId()));
+    	    m.setJobSeekerInfo(DictionaryUtil.getName(jlInfo.getEducationId()));
+    	    matchList.add(m);
+    	}
+    	
+    	//英语等级
+    	if(match.getEnglishLevelIdStatus()==JobMatchType.ALREADY_MATCH.getCode()  || match.getEnglishLevelIdStatus()==JobMatchType.UNMATCH.getCode() ){
+    		MatchInfo m = new MatchInfo();
+    		m.setStatus(match.getEnglishLevelIdStatus());
+    		m.setCloumnName(DictionaryType.ENGLISH_LEVEL.getTitle());
+    		m.setCompanyRequireName(DictionaryUtil.getName(jobInfo.getEnglishLevelId()));
+    	    m.setJobSeekerInfo(DictionaryUtil.getName(jlInfo.getEnglishLevelId()));
+    	    matchList.add(m);
+    	}
+    	
+    	//专业
+    	if(match.getTopSpecialtyStatus()==JobMatchType.ALREADY_MATCH.getCode()  || match.getTopSpecialtyStatus()==JobMatchType.UNMATCH.getCode() ){
+    		MatchInfo m = new MatchInfo();
+    		m.setStatus(match.getTopSpecialtyStatus());
+    		m.setCloumnName("专业");
+    		m.setCompanyRequireName(jobInfo.getTopSpecialty());
+    	    m.setJobSeekerInfo(jlInfo.getTopSpecialty());
+    	    matchList.add(m);
+    	}
+    	
+    	//年龄
+    	if(match.getBirthdayStatus()==JobMatchType.ALREADY_MATCH.getCode()  || match.getBirthdayStatus()==JobMatchType.UNMATCH.getCode() ){
+    		MatchInfo m = new MatchInfo();
+    		m.setStatus(match.getBirthdayStatus());
+    		m.setCloumnName("年龄");
+    		m.setCompanyRequireName(JLBUtils.dealAgeRange(jobInfo.getAgeStart(), jobInfo.getAgeEnd()));
+    	    m.setJobSeekerInfo(String.valueOf(jlInfo.getAge()+"岁"));
+    	    matchList.add(m);
+    	}
+    	
+    	//性别
+    	if(match.getSexStatus()==JobMatchType.ALREADY_MATCH.getCode()  || match.getSexStatus()==JobMatchType.UNMATCH.getCode() ){
+    		MatchInfo m = new MatchInfo();
+    		m.setStatus(match.getSexStatus());
+    		m.setCloumnName(DictionaryType.SEX.getTitle());
+    		m.setCompanyRequireName(DictionaryUtil.getName(jobInfo.getSex()));
+    	    m.setJobSeekerInfo(DictionaryUtil.getName(jlInfo.getSex()));
+    	    matchList.add(m);
+    	}
+    	
+        
+    	
+    	
+    	return matchList;
     }
 	
 }

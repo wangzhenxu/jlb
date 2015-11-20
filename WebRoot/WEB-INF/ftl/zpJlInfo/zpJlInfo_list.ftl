@@ -120,7 +120,7 @@
 	      </div>
      </#if>
      <div class="form2">
-     <table width="100%"  border="1" align="left" cellpadding="0" cellspacing="0" bordercolor="#ffffff" style="border-collapse:collapse">
+     <table width="100%"  border="1" align="left" cellpadding="0" cellspacing="0" bordercolor="#ffffff" style="border-collapse:collapse; color: #848484;border: #ffffff 1px solid;line-height: 28px;">
       <tr class="lan">
         <td  height="37" align="center" valign="middle" background="/images/erji_22.jpg">
 			<input type="checkbox" style="vertical-align:middle " onclick="if(this.checked){$('.check').attr('checked',true)}else $('.check').attr('checked',false)  ">

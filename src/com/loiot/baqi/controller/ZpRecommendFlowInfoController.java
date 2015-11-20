@@ -5,6 +5,7 @@ import java.util.*;
 import com.loiot.baqi.pojo.*;
 import com.loiot.baqi.dao.*;
 import com.loiot.baqi.service.*;
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -36,37 +37,40 @@ import com.loiot.baqi.utils.UserSessionUtils;
 
 
 /**
- * 任务 处理器。
- * TaskScheduleJob
+ * 推荐流程 处理器。
+ * ZpRecommendFlowInfo
  * @author  wangzx 
- * @creation 2015-11-14
+ * @creation 2015-11-20
  */
 
 
 @Controller
-@RequestMapping(value = "/taskScheduleJob")
-public class TaskScheduleJobController {
+@RequestMapping(value = "/zpRecommendFlowInfo")
+public class ZpRecommendFlowInfoController {
     
-    public static final AjaxResponse NAME_EXIST= new AjaxResponse(-100, "任务已存在");
+    public static final AjaxResponse NAME_EXIST= new AjaxResponse(-100, "推荐流程已存在");
     
     private Logger log = LoggerFactory.getLogger(this.getClass());
     
     @Resource
-	private TaskScheduleJobService taskScheduleJobService;
+	private ZpRecommendFlowInfoService zpRecommendFlowInfoService;
 	
-	private TaskScheduleJob taskScheduleJob;
+	private ZpRecommendFlowInfo zpRecommendFlowInfo;
+	
+	@Resource
+	private ZpJobMatchingInfoService zpJobMatchingInfoService;
 	
 	private HashMap<String,Object> pmap = new HashMap<String,Object>();
 	
 	/**
-     * 跳转  任务列表页
+     * 跳转  推荐流程列表页
      * 
      * @return 模板位置
      */
     @RequestMapping(value = "/list")
     public String list(@RequestParam(value = "pi", defaultValue = "0") int pageIndex,
     		@RequestParam(value = "jsonParam", defaultValue = "{}") String jsonParam,
-    	TaskScheduleJob p, ModelMap model)throws Exception {
+    	ZpRecommendFlowInfo p, ModelMap model)throws Exception {
     	HashMap<String,Object> paramMap=this.getParaMap(jsonParam, model);
     	paramMap.put("qtype", "like");
     	//用户数据过滤
@@ -74,10 +78,10 @@ public class TaskScheduleJobController {
     	if(UserSessionUtils.getAccountType()==AccountType.HR.getCode() || UserSessionUtils.getAccountType()==AccountType.JOB_HUNTER.getCode() ){
     		paramMap.put("inPerson", UserSessionUtils.getAccount().getAccountId());
     	}*/
-        Pager<TaskScheduleJob> pager = taskScheduleJobService.queryTaskScheduleJobListPage(paramMap , pageIndex);
+        Pager<ZpRecommendFlowInfo> pager = zpRecommendFlowInfoService.queryZpRecommendFlowInfoListPage(paramMap , pageIndex);
         model.put("pager", pager);
         model.put("jsonParam", jsonParam);
-        return "/task/task_list";
+        return "/recommendflow/recommendflow_list";
     }
     
     /**
@@ -110,34 +114,77 @@ public class TaskScheduleJobController {
      * @return
      */
     @RequestMapping(value = "/toAdd")
-    public String toAddTaskScheduleJob(ModelMap model) {
+    public String toAddZpRecommendFlowInfo(ModelMap model) {
         
-        return "/task/task_add";
+        return "/recommendflow/recommendflow_add";
     }
 
     /**
-     * 添加  任务
+     * 添加  推荐流程
      * 
      * @param p 对象参数
      * @return ajax响应
      */
     @RequestMapping(value = "/add")
     @ResponseBody
-    public Object addTaskScheduleJob(TaskScheduleJob p,HttpSession session,HttpServletRequest request) {
+    public Object addZpRecommendFlowInfo(ZpRecommendFlowInfo p,HttpSession session,HttpServletRequest request) {
     	try {
             Account account = (Account) session.getAttribute(Const.SESSION_USER_KEY);
     		//验证唯一性
             pmap.clear();
-           // pmap.put("name", p.getName());
-        	int result=taskScheduleJobService.getTaskScheduleJobListCount(pmap);
+            //pmap.put("name", p.getName());
+        	int result=zpRecommendFlowInfoService.getZpRecommendFlowInfoListCount(pmap);
         	if(result>0){
 		        return NAME_EXIST;
 			}
-        	/*p.setInDatetime(new Date());
-    		p.setInPerson(account.getUsername());*/
-    		taskScheduleJobService.addTaskScheduleJob(p);
+        	//p.setInDatetime(new Date());
+    		//p.setInPerson(account.getUsername());
+    		zpRecommendFlowInfoService.addZpRecommendFlowInfo(p);
     		// 添加成功
     		return AjaxResponse.OK;
+    	}
+        catch (Exception e) {
+			e.printStackTrace();
+			 //失败
+	        return AjaxResponse.FAILED;
+		}
+       
+    }
+    
+    /**
+     * 添加  推荐流程
+     * 
+     * @param p 对象参数
+     * @return ajax响应
+     */
+    @RequestMapping(value = "/addAudit")
+    @ResponseBody
+    public Object addAudit(ZpRecommendFlowInfo p,HttpSession session,HttpServletRequest request) {
+    	try {
+           if(UserSessionUtils.getAccount().getType()==AccountType.TECHICAL_AUDIT.getCode()){
+        	   pmap.clear();
+        	   pmap.put("matchId", p.getMatchId());
+        	   pmap.put("inPerson", UserSessionUtils.getAccount().getAccountId());
+        	   int count =this.zpJobMatchingInfoService.getZpJobMatchingInfoListCount(pmap);
+               if(count!=1){
+            	   return AjaxResponse.ILLEGAL_OPERATER;
+               }
+           }
+           
+           if(UserSessionUtils.getAccount().getType()==AccountType.TECHICAL_AUDIT.getCode() || UserSessionUtils.getAccount().getType()==AccountType.ADMIN.getCode()){
+        	   ZpRecommendFlowInfo newP = new ZpRecommendFlowInfo();
+        	   newP.setMatchId(p.getMatchId());
+       		   newP.setTechnicianAuditTime(new Date());
+       		   newP.setTechnicianAuditContent(p.getTechnicianAuditContent());
+       		   newP.setTechnicianAuditStatus(p.getTechnicianAuditStatus());
+       		   newP.setTechnicianAuditPerson(UserSessionUtils.getAccount().getAccountId());
+       		   newP.setJlId(p.getJlId());
+       		   newP.setCompanyJobId(p.getCompanyJobId());
+       		   this.zpRecommendFlowInfoService.addZpRecommendFlowInfo(newP);
+           }
+    		// 添加成功
+    		return AjaxResponse.OK;
+    	
     	}
         catch (Exception e) {
 			e.printStackTrace();
@@ -153,24 +200,24 @@ public class TaskScheduleJobController {
      * @return
      */
     @RequestMapping(value = "/toEdit")
-    public String toEditTaskScheduleJob(@RequestParam(value = "id", required = true) java.lang.Long id, ModelMap model)throws Exception {
-        //model.put("p", taskScheduleJobService.getTaskScheduleJobById(id));
+    public String toEditZpRecommendFlowInfo(@RequestParam(value = "id", required = true) java.lang.Long id, ModelMap model)throws Exception {
+        //model.put("p", zpRecommendFlowInfoService.getZpRecommendFlowInfoById(id));
     	if(id==null){
     		return URLConst.ERROR_URL;
     	}
     	model.put("pid",  id);
-        return "/task/task_add";
+        return "/recommendflow/recommendflow_add";
     }
 
     /**
-     * 更新 任务
+     * 更新 推荐流程
      * 
      * @param p 对象参数
      * @return ajax响应
      */
     @RequestMapping(value = "/edit")
     @ResponseBody
-    public Object editTaskScheduleJob(TaskScheduleJob p,HttpSession session,HttpServletRequest request) {
+    public Object editZpRecommendFlowInfo(ZpRecommendFlowInfo p,HttpSession session,HttpServletRequest request) {
     	/*try {
         // 获得账号
         //Account account = (Account) session.getAttribute(Const.SESSION_USER_KEY);
@@ -180,12 +227,13 @@ public class TaskScheduleJobController {
 	    	//验证唯一性
         	pmap.clear();
         	pmap.put("name", p.getName());
-	    	int result=taskScheduleJobService.getTaskScheduleJobListCount(pmap);
+	    	int result=zpRecommendFlowInfoService.getZpRecommendFlowInfoListCount(pmap);
 	    	if(result>0){
 		        return NAME_EXIST;
 			}
+    		int a=0;
     	}
-        taskScheduleJobService.updateTaskScheduleJob(p);
+        zpRecommendFlowInfoService.updateZpRecommendFlowInfo(p);
     	} catch (Exception e) {
 			  e.printStackTrace();
 			  return AjaxResponse.FAILED;
@@ -199,40 +247,40 @@ public class TaskScheduleJobController {
      * @return
      */
     @RequestMapping(value = "/toView")
-    public String toViewTaskScheduleJob(@RequestParam(value = "id", required = true) java.lang.Long id, ModelMap model)throws Exception {
+    public String toViewZpRecommendFlowInfo(@RequestParam(value = "id", required = true) java.lang.Long id, ModelMap model)throws Exception {
     	if(id==null){
     		return URLConst.ERROR_URL;
     	}
-    	//model.put("p", taskScheduleJobService.getTaskScheduleJobById(id));
+    	//model.put("p", zpRecommendFlowInfoService.getZpRecommendFlowInfoById(id));
     	 model.put("pid",  id);
-    	return "/task/task_add";
+    	return "/recommendflow/recommendflow_add";
     }
 
     /**
-     * 删除  任务
+     * 删除  推荐流程
      * 
-     * @param id TaskScheduleJobID
+     * @param id ZpRecommendFlowInfoID
      */
     @RequestMapping(value = "/delete")
-    public String deleteTaskScheduleJob(@RequestParam(value = "id", required = true) java.lang.Long id,HttpServletRequest request)throws Exception {
-    	taskScheduleJobService.deleteTaskScheduleJob(id);
+    public String deleteZpRecommendFlowInfo(@RequestParam(value = "id", required = true) java.lang.Long id,HttpServletRequest request)throws Exception {
+    	zpRecommendFlowInfoService.deleteZpRecommendFlowInfo(id);
         String s = request.getHeader("Referer");
-        String redirectStr = s.substring(s.indexOf("/taskScheduleJob/"), s.length());
+        String redirectStr = s.substring(s.indexOf("/zpRecommendFlowInfo/"), s.length());
         return "redirect:"+redirectStr;
     }
     
     /**
-     * ajax删除  任务
+     * ajax删除  推荐流程
      * 
-     * @param id TaskScheduleJobID
+     * @param id ZpRecommendFlowInfoID
      */
     @RequestMapping(value = "/ajaxDelete")
     @ResponseBody
-    public Object ajaxDeleteTaskScheduleJob(@RequestParam(value = "id", required = true) java.lang.Long id) {
+    public Object ajaxDeleteZpRecommendFlowInfo(@RequestParam(value = "id", required = true) java.lang.Long id) {
     	try {
-    		TaskScheduleJob p = new TaskScheduleJob();
-        	p.setJobId(id);
-			taskScheduleJobService.deleteTaskScheduleJob(p);
+    		ZpRecommendFlowInfo p = new ZpRecommendFlowInfo();
+        	p.setAuditId(id);
+			zpRecommendFlowInfoService.deleteZpRecommendFlowInfo(p);
 			return AjaxResponse.OK;
     	} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -248,12 +296,12 @@ public class TaskScheduleJobController {
     @RequestMapping(value = "/getById")
     @ResponseBody
     public Object ajaxGetById(@RequestParam(value = "id", required = true) java.lang.Long id)throws Exception {
-    	TaskScheduleJob p=null;
+    	ZpRecommendFlowInfo p=null;
      	//用户数据过滤
      	/*if(UserSessionUtils.getAccountType()==AccountType.HR.getCode() || UserSessionUtils.getAccountType()==AccountType.JOB_HUNTER.getCode() ){
-     		  p = taskScheduleJobService.getTaskScheduleJobById(id, UserSessionUtils.getAccount().getAccountId());
+     		  p = zpRecommendFlowInfoService.getZpRecommendFlowInfoById(id, UserSessionUtils.getAccount().getAccountId());
      	} else {
-   		      p = taskScheduleJobService.getTaskScheduleJobById(id);
+   		      p = zpRecommendFlowInfoService.getZpRecommendFlowInfoById(id);
      	}*/
      	if(p==null){
      		return AjaxResponse.NOEXITS;
@@ -270,13 +318,39 @@ public class TaskScheduleJobController {
     public String modifyDeleteStatus(@RequestParam(value = "id", required = true) java.lang.Long id,
     		@RequestParam(value = "deleteStatus", required = true) java.lang.Integer isDelete,
     		HttpServletRequest request)throws Exception {
-    	TaskScheduleJob p = new TaskScheduleJob();
-    	p.setJobId(id);
+    	ZpRecommendFlowInfo p = new ZpRecommendFlowInfo();
+    	p.setAuditId(id);
     	//p.setIsDelete(isDelete);
-    	taskScheduleJobService.updateTaskScheduleJob(p);
+    	zpRecommendFlowInfoService.updateZpRecommendFlowInfo(p);
         String s = request.getHeader("Referer");
-        String redirectStr = s.substring(s.indexOf("/taskScheduleJob/"), s.length());
+        String redirectStr = s.substring(s.indexOf("/zpRecommendFlowInfo/"), s.length());
         return "redirect:"+redirectStr;
+    }
+    
+    /**
+     * 查询，名称是否存在，验证唯一性
+     * @return
+     * @throws Exception 
+     */
+    @RequestMapping(value = "/checkNameExits")
+    @ResponseBody
+    public Object checkNameExits(@RequestParam(value = "name", required = true) java.lang.String name,
+    		@RequestParam(value = "oldname",required = false) java.lang.String oldName,
+    		@RequestParam(value = "flag", required = true) String flag
+    		) throws Exception
+    {
+    	//验证唯一性
+    	pmap.clear();
+    	pmap.put("name", name);
+    	if("edit".equals(flag) && oldName.equals(name)){
+        	return AjaxResponse.OK(null);
+    	} 
+    	zpRecommendFlowInfoService.getZpRecommendFlowInfoListCount(pmap);
+    	int result =0;
+    	if(result>0){
+	        return NAME_EXIST;
+		}
+    	return AjaxResponse.OK(null);
     }
     
 

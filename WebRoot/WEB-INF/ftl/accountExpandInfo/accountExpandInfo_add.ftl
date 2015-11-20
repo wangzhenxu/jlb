@@ -64,6 +64,7 @@
            <td  align="right" class="hui1"><span class="red">*</span>邮箱：</td>
            <td  align="left" valign="middle">
           	 	<input name="email" id="email" type="text" class="input validate[custom[email]]">
+          	 	 <span class="hui1">&nbsp;常用的邮件哦</span>
 			</td>
          </tr>
          
@@ -131,7 +132,9 @@
     </div>
     <div class="anniu">
 	  	<div class="btn-group">
+	  	   <#if subject.isPermitted("accountExpandInfo:edit")> 
 	  			  <button type="button" class="btn btn-default" id="addBtn">保 &nbsp;存</button>
+	  	   </#if>
       	</div>
     </div>
    </div>

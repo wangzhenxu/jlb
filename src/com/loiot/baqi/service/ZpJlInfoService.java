@@ -39,6 +39,7 @@ import com.loiot.baqi.pojo.ZpJlInfo;
 import com.loiot.baqi.pojo.ZpJlJobLevels;
 import com.loiot.commons.utils.DateUtil;
 import com.loiot.commons.utils.FileUtil;
+import com.loiot.commons.utils.StringUtil;
 
 /**
  * 简历信息 逻辑类。
@@ -385,21 +386,23 @@ public class ZpJlInfoService{
 	}
     
     public void nodifyTechnologyAuditJob() throws Exception{
-    	HashMap<String, Object> pMap = new HashMap();
+    	HashMap<String, Object> pMap = new HashMap<String, Object>();
     	pMap.put("auditTypeId", JlAuditType.WAIT_AUDIT.getCode());
     	List<HashMap<String, Object>> list = zpJlExpandInfoDao.queryNotAuditJl(pMap);
     	if(list!=null && list.size()>0){
-    		for(HashMap map : list){
-    			String auditPerson=String.valueOf(map.get("auditPerson"));
+    		for(HashMap<String,Object> map : list){
     			int jlcount=Integer.parseInt(String.valueOf(map.get("jlcount")));
     			String nickname=String.valueOf(map.get("nickname"));
     			String email=String.valueOf(map.get("email"));
-    			 
-    			 SimpleEmailVo vo = new SimpleEmailVo();
-                 vo.setContent("亲["+nickname+"] 有"+jlcount+"份简历需要评审！么么哒！");
-                 vo.addEmail(email);
-                 vo.setTitle("憬仪评审通知");
-                 emailClient.send(vo);
+    			 if(email!=null && StringUtil.isEmail(email) ){
+    				 SimpleEmailVo vo = new SimpleEmailVo();
+        			 vo.addEmail(email);
+                     vo.setTitle("憬仪评审通知");
+                     vo.setContent("亲["+nickname+"]有"+jlcount+"份简历需要评审！么么哒！");
+                     emailClient.send(vo);
+                     Thread.sleep(10000);
+                     log.info("发送时间："+DateUtil.toString(DateUtil.getNow(), DateUtil.DEFAULT_LONG_FORMAT));
+    			 }
     		}
     	}
     }

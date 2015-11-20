@@ -181,14 +181,18 @@ var companyJob = {
 			
 			if(self.currPage=="edit"){
 				   common.openModal("delete_sure","确定修改信息吗？");
+				   //确认
 				   $("#delete_sure_a").click(function(){
-					   common.dealMoneyWanBig(self.expectedYearMoneyStart);
-					   common.dealMoneyWanBig(self.expectedYearMoneyEnd);
 					   self.ajaxSubmitForm();
 				   });
+				   /*//取消
+				   $("#delete_cancle_a").click(function(){
+					   common.dealMoneyWanSmall(self.expectedYearMoneyStart);
+					   common.dealMoneyWanSmall(self.expectedYearMoneyEnd);
+					   self.ajaxSubmitForm();
+				   });*/
+				   
 			} else {
-				   common.dealMoneyWanBig(self.expectedYearMoneyStart);
-				   common.dealMoneyWanBig(self.expectedYearMoneyEnd);
 					self.ajaxSubmitForm();
 		    }
 	},
@@ -222,8 +226,6 @@ var companyJob = {
 			if (resp.s > 0) {
 				location.href=self.listUrl;
 			} else {
-				   common.dealMoneyWanSmall(self.expectedYearMoneyStart);
-				   common.dealMoneyWanSmall(self.expectedYearMoneyEnd);
 				//唯一判断
 				if(resp.s==-100) {
 					 $("#name").validationEngine("showPrompt",resp.d,"error");

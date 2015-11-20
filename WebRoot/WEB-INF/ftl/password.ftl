@@ -50,5 +50,9 @@
    </div>
   </div>
  </div>
+ <script>
+	    common.initLeftMenuSelected("editPassword");
+</script>
 </body>
+
 </html>

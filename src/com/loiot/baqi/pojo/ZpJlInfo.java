@@ -2,6 +2,7 @@ package com.loiot.baqi.pojo;
 
 import java.util.List;
 
+import com.loiot.commons.utils.DateUtil;
 import com.timeloit.pojo.Node;
 
 import lombok.Data;
@@ -71,6 +72,14 @@ public class ZpJlInfo  implements java.io.Serializable{
 		this.jlId = jlId;
 	}
 
+	public int getAge(){
+		int age=0;
+		if(this.getBirthday()!=null){
+			String jlBirthdayStr = DateUtil.toString(this.getBirthday(), DateUtil.DEFAULT_SHORT_FORMAT);
+			age= DateUtil.compareDate(jlBirthdayStr,  null, 2); 
+		}
+		return age;
+	}
 	
 	
 }

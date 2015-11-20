@@ -169,7 +169,7 @@
 				  <button type="button" class="btn btn-default"  onclick="accountExpandInfo.toDetail('${c.expandId}')">详情</button>
 				 </#if>
 				 
-      			<#if subject.isPermitted("accountExpandInfo:edit")>  <#--  -->
+      			<#if subject.isPermitted("accountExpandInfo:editAll")>  <#--  -->
 				  <button type="button" class="btn btn-default"  onclick="accountExpandInfo.toEdit('${c.expandId}')">修改</button>
 				 </#if>
 				 
@@ -199,6 +199,8 @@
     <script src="/js/accountExpandInfo.js"></script>
     <script>
 		accountExpandInfo.initPage();
+	    common.initLeftMenuSelected("accountExpandInfo_list_all");
+	     $("#accountExpandInfo_list").removeClass("MenuLevel5");
 	</script>
 </html>
 

@@ -425,9 +425,10 @@ var jlInfo ={
 		var idsArr =[];
 		var postionArr=[];
 		
+		
 		for(i=0;i<jls.length;i++){
-			if($(jls).attr("auditTypeAttr")==2){
-				common.alert($(jls).attr("nameAttr")+"已经评审过了",2000);
+			if($(jls[i]).attr("auditTypeAttr")!=9){
+				common.alert($(jls[i]).attr("nameAttr")+"已经评审过了",2000);
 				return;
 			}
 			idsArr.push(jls[i].value);

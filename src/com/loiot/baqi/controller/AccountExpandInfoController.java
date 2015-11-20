@@ -189,9 +189,22 @@ public class AccountExpandInfoController {
 		        return NAME_EXIST;
 			}
     	}*/
-        accountExpandInfoService.updateAccountExpandInfo(p);
-        Account newAccount = this.accountService.getAccountById(UserSessionUtils.getAccount().getAccountId());
-    	UserSessionUtils.resetAccount(session, newAccount);
+    	//如果是自己，要验证是否是自己修改信息
+    	if(UserSessionUtils.getAccountType()!=AccountType.ADMIN.getCode()){
+    		HashMap<String,Object> pMap =new HashMap<String,Object>();
+    		pMap.put("expandId", p.getExpandId());
+    		pMap.put("accountId",UserSessionUtils.getAccount().getAccountId());
+    		int count =this.accountExpandInfoService.getAccountExpandInfoListCount(pMap);
+    		if(count==1){
+    			  accountExpandInfoService.updateAccountExpandInfo(p);
+    		      Account newAccount = this.accountService.getAccountById(UserSessionUtils.getAccount().getAccountId());
+    		      UserSessionUtils.resetAccount(session, newAccount);
+    		}
+    	}else {
+    		  accountExpandInfoService.updateAccountExpandInfo(p);
+		      Account newAccount = this.accountService.getAccountById(UserSessionUtils.getAccount().getAccountId());
+		      UserSessionUtils.resetAccount(session, newAccount);
+    	}
     	} catch (Exception e) {
 			  e.printStackTrace();
 			  return AjaxResponse.FAILED;

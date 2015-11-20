@@ -54,10 +54,10 @@ function menuClick(){
 		</#if>
 		
 		<#if subject.isPermitted("accountExpandInfo:list") && Session[Const.SESSION_USER_KEY].type!=AccountType.TECHICAL_AUDIT.getCode() && Session[Const.SESSION_USER_KEY].type!=AccountType.JOB_HUNTER.getCode() && Session[Const.SESSION_USER_KEY].type!=AccountType.HR.getCode()>
-		    <a class="MenuLevel4 accountManage" href="/accountExpandInfo/list.action" > <img src="/images/bullet_sarrow.gif"/> &nbsp;&nbsp;<span id="id="accountExpandInfo_list"">用户扩展信息</span></a>
+		    <a class="MenuLevel4 accountManage" href="/accountExpandInfo/list.action" > <img src="/images/bullet_sarrow.gif"/> &nbsp;&nbsp;<span id="accountExpandInfo_list_all">用户扩展信息</span></a>
 		</#if>
       	
-      	<a class="MenuLevel4 editPassword" href="/password.action"> <img src="/images/bullet_sarrow.gif"/> &nbsp;&nbsp;<span <#if menuClass="editPassword">class="MenuLevel"</#if>>修改密码</span></a>
+      	<a class="MenuLevel4 editPassword" href="/password.action"> <img src="/images/bullet_sarrow.gif"/> &nbsp;&nbsp;<span id="editPassword">修改密码</span></a>
      </div>
      
       <!-- 邮件管理 
@@ -118,5 +118,26 @@ function menuClick(){
  <div class="foot" style="display:none;" >
    <div class="footer"  >北京璟仪科技有限公司京ICP备10042645号 Copyright-2015 Loit CO LTD. all rights reserved</div>
   </div>
+  
+  <script>
+  
+  //停止操作
+  function disableOperator(){
+     $(".left_menu").find("a").each(function(){
+  	 	if($(this).find("span").attr("id")!="accountExpandInfo_list"){
+  	  	 	$(this).attr("href","javascript:void(0)");
+  	   		$(this).click(function (){
+  	   		common.alert("请先填写个人信息");
+  	   		return;
+  	   		});
+  		 }
+  		});
+  }
+  <#if  Session[Const.SESSION_USER_KEY].iphone?? && Session[Const.SESSION_USER_KEY].iphone?length gt 0  >
+  	<#elseif Session[Const.SESSION_USER_KEY].type!=AccountType.ADMIN.getCode()>
+  		disableOperator();
+  </#if>
+  </script>
 </body>
 </html>
+

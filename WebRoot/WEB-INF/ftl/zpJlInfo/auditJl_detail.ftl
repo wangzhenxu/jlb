@@ -1,32 +1,27 @@
 
 
-<script>
-	 left_menu_class_num=1;
-	 leftMenuNum=1;
-</script>
+
 <#include "../include/bootstrap.ftl"/>
 <script type="text/javascript" src="/js/source/jquery.validationEngine.js"></script>
 <script type="text/javascript" src="/js/source/jquery.validationEngine.min.js"></script>
 <link href="/css/c_validationEngine.jquery.css" rel="stylesheet" type="text/css" />
+<link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
 <script src="/js/ajaxfileupload.js"></script>
 <script src="/js/my97/WdatePicker.js" type="text/javascript" > </script>
  <script type="text/javascript" src="/js/ckeditor/ckeditor.js"></script>			
 
-<form id="addform" name="form"  method="post" enctype="multipart/form-data">
-<input type="hidden" name="jlId" id="jlId"  value="${pid!''}"  />
-<input type="hidden" name="onlyName" id="onlyName"/>
-<input type="hidden" name="phoneT" id="phoneT"/>
-
-<input type="hidden" name="jlFilePath" id="jlFilePath" />
-<input type="hidden" name="jlContent" id="jlContent" />
-<input type="hidden" name="oldFilePath" id="oldFilePath" />
-<input type="hidden" name="jobPositionLevelIds" id="jobPositionLevelIds" />
-
 
 <!-- 右侧 开始 -->
-<div class="right">
-    <div class="location">
-     <div class="location01">您现在的位置是：首页 &gt; <strong class="m_title"> 个人信息</strong></div>
+<div class="right" style="displa2y:none;">
+
+  <div class="bs-docs-example">
+            <div class="tabbable tabs-left">
+              <div class="tab-content">
+              	  <div class="tab-pane active" id="A">
+            
+            
+               <div class="location">
+     <div class="location01">您现在的位置是：匹配职位列表 &gt; <strong class="m_title"> 匹配信息</strong></div>
     </div>
     <div class="nav">
      <div class="basic">
@@ -49,8 +44,187 @@
     </div>
     <div class="anniu">
     </div>
+              
+              
+                </div>
+                <div class="tab-pane" id="B">
+                 
+                 
+    <div class="location">
+     <div class="location01">您现在的位置是：匹配职位列表 &gt; <strong class="m_title"> 匹配信息</strong></div>
+    </div>
+    <div class="nav">
+     <div class="basic">
+	 <div class="basic01">已匹配</div>
+	</div>
+	  <input type="hidden" name="PDesc" id="PDesc">
+	  <input type="hidden" name="techPara" id="techPara">
+	  <input type="hidden" name="install" id="install">
+     <div class="query1" style="width:100%">
+       <table width="100%" border="0">
+         <tbody>
+          <tr >
+        <td  height="37"  align="left" valign="middle"><strong>标题</strong></td>
+       	<td  height="37"   align="left" valign="middle" ><strong>公司要求</strong></td>
+        <td  height="37"    align="left" valign="middle" ><strong>个人信息</strong></td>
+       </tr>
+       
+       <#list matchList as c>
+       	  <#if c.status==JobMatchType.ALREADY_MATCH.getCode()>
+         <tr>
+          <td align="left" width="15%" class="hui">${c.cloumnName!''}</td>
+          <td align="left" width="15%" class="hui">${c.companyRequireName!''}</td>
+          <td align="left" width="70%" class="hui">${c.jobSeekerInfo!''}</td>
+         </tr>
+         </#if>
+          </#list>
+          
+         <tr>
+          <td align="left" width="15%" class="hui">关键字</td>
+          <td align="left" width="15%" class="hui" cospan="2">
+          	 <#list matchInfo.keys as c>
+          	 	 <#if c.isMatch==MatchKeywordType.ALREADY_MATCH.getCode()>
+				 	${c.keyword!''} 
+				 </#if>	
+          	 </#list>
+          </td>
+         </tr>
+         
+       
+         </tbody>
+         </table>
+     </div>
+     <div class="basic">
+	 <div class="basic01">未匹配</div>
+	</div>
+     <div class="query1" style="width:100%">
+       <table width="100%" border="0">
+        
+        <tbody>
+          <tr >
+        <td  height="37"  align="left" valign="middle"><strong>标题</strong></td>
+       	<td  height="37"   align="left" valign="middle" ><strong>公司要求</strong></td>
+        <td  height="37"    align="left" valign="middle" ><strong>个人信息</strong></td>
+       </tr>
+       
+       <#list matchList as c>
+       	  <#if c.status==JobMatchType.UNMATCH.getCode()>
+         <tr>
+          <td align="left" width="15%" class="hui">${c.cloumnName!''}</td>
+          <td align="left" width="15%" class="hui">${c.companyRequireName!''}</td>
+          <td align="left" width="70%" class="hui">
+           	<#if c.jobSeekerInfo?? && c.jobSeekerInfo?length gt 0>
+          		${c.jobSeekerInfo!''}
+          		<#else>
+          		未知
+          	</#if>	
+          </td>
+         </tr>
+         </#if>
+        </#list>
+        
+        
+        <tr>
+          <td align="left" width="15%" class="hui">关键字</td>
+          <td align="left" width="15%" class="hui" cospan="2">
+          	 <#list matchInfo.keys as c>
+          	 	 <#if c.isMatch==MatchKeywordType.UNMATCH.getCode()>
+				 	${c.keyword!''}
+				 </#if>	
+          	 </#list>
+          </td>
+         </tr>
+        
+         </tbody>
+        
+        </table>
+     </div>
+    </div>
+   
+                 
+                 
+                </div>
+                
+                <div class="tab-pane" id="C">
+                
+                
+                <div class="location">
+     <div class="location01">您现在的位置是：匹配职位列表 &gt; <strong class="m_title"> 匹配信息</strong></div>
+    </div>
+    <div class="nav">
+     <div class="basic">
+	 <div class="basic01">评审信息</div>
+	</div>
+	<form method="post" id="addform" >
+	  <input type="hidden" name="companyJobId" id="companyJobId" value="${matchInfo.jlId!''}">
+	  <input type="hidden" name="jlId" id="jlId" value="${matchInfo.jobId!''}">
+	  <input type="hidden" name="matchId" id="matchId" value="${matchInfo.matchId!''}">
+	  
+     <div class="query1" style="width:100%">
+       <table width="100%" border="0">
+         <tbody>
+         
+         <tr>
+           <td colspan="4" class="red">* 号为必填项</td>
+         </tr>
+         
+         <tr>
+           <td align="right" class="hui1" style="width:100px"><span class="red">*</span>评审类型：</td>
+           	<td align="left" valign="middle" style="padding-left: 30px;">
+           	  <input type="radio" class="radio validate[required]" <#if auditInfo??> <#if auditInfo.technicianAuditStatus==JlAuditType.AUDIT_OK.getCode()> checked </#if> </#if> name="technicianAuditStatus" id="technicianAuditStatus"  value="${JlAuditType.AUDIT_OK.getCode()}" /> ${JlAuditType.AUDIT_OK.getTitle()} 
+        			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        		<input type="radio" class="radio validate[required]" <#if auditInfo??> <#if auditInfo.technicianAuditStatus==JlAuditType.AUDIT_NO_PASS.getCode()> checked </#if> </#if>  name="technicianAuditStatus" id="technicianAuditStatus" value="${JlAuditType.AUDIT_NO_PASS.getCode()}" /> ${JlAuditType.AUDIT_NO_PASS.getTitle()} 
+           </td>
+         </tr>
+         
+          <tr>
+           <td align="right" class="hui1" style="width:100px"><span class="red">*</span>评审内容：</td>
+           	<td align="left" valign="middle" style="padding-left: 30px;">
+           	  <textarea  rows="12" style="width: 900px;" id="technicianAuditContent" name="technicianAuditContent" cols="110" class="validate[required]" placeholder="请输入你对求职者的评价" ><#if auditInfo??>${auditInfo.technicianAuditContent!''}</#if></textarea> 
+           </td>
+         </tr>
+       
+         </tbody>
+         </table>
+     </div>
+   </form>
+    </div>
+    
+     <div class="anniu">
+         <#if (Session[Const.SESSION_USER_KEY].type==AccountType.ADMIN.getCode() || Session[Const.SESSION_USER_KEY].type==AccountType.TECHICAL_AUDIT.getCode() )>
+            <#if auditInfo??>
+            	<#else>
+            	<button type="button" class="btn btn-default" id="addBtn">保 &nbsp;存</button>
+            </#if>
+		 </#if>		  
+    </div>
+                
+                  
+                </div>
+                
+                
+              </div>
+              <ul class="nav nav-tabs">
+                <li class="active"><a href="#A" data-toggle="tab">个人信息</a></li>
+                <li class=""><a href="#B" data-toggle="tab">匹配信息</a></li>
+                <li class=""><a href="#C" data-toggle="tab">评审信息</a></li>
+              </ul>
+            </div> <!-- /tabbable -->
+          </div>
+ 
+  
+  
+    
    </div>
-<!-- 右侧 结束 -->
-</form>
+<script src="https://cdn.bootcss.com/jquery-placeholder/2.1.3/jquery.placeholder.js"></script>
+<script src="/js/recommendflow.js"></script>
+
 <script>
+ $('input, textarea').placeholder();
+ recommendflow.initAddAudit();
+  <#if (Session[Const.SESSION_USER_KEY].type==AccountType.ADMIN.getCode() || Session[Const.SESSION_USER_KEY].type==AccountType.TECHICAL_AUDIT.getCode() )>
+    <#if auditInfo??>
+            recommendflow.disableTechnicianAuditInput();
+   	</#if>
+  </#if>		
 </script>

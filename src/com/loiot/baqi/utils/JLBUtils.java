@@ -7,7 +7,9 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 
+import com.loiot.baqi.constant.DictionaryUtil;
 import com.loiot.baqi.pojo.ZpCompanyJobInfo;
+import com.loiot.baqi.pojo.ZpDictionaryInfo;
 import com.loiot.baqi.pojo.ZpJlInfo;
 import com.loiot.baqi.status.JobMatchType;
 import com.loiot.commons.utils.StringUtil;
@@ -89,6 +91,27 @@ public class JLBUtils {
 	    p.setExpectedYearMoneyStart(startMoney);
 	    p.setExpectedYearMoneyEnd(endMoney);
 	}
+	
+	//简历预计月薪转换年薪
+	public static Long   getJlExpectedYearWan(Long salaryRequireId,int index){
+		Double money=0d;
+		ZpDictionaryInfo info = DictionaryUtil.getBean(salaryRequireId);
+		if(info.getValue()!=null){
+			String moneyStr=info.getValue().split(",")[index];
+			money= Double.parseDouble(moneyStr)*12;
+			return money.longValue();
+		}
+	    return money.longValue();
+	}
+	
+	//月薪转年薪 （页面调用）
+	public static String mothMoneyCovertYearMoney(Long salaryRequireId){
+		long startMoney = getJlExpectedYearWan(salaryRequireId,0);
+		long endMoney = getJlExpectedYearWan(salaryRequireId,1);
+		return dealExpectedYearMoney(startMoney, endMoney);
+	}
+		
+		
 	
 	public static String dealAgeRange(Integer start ,Integer end){
 		String str="";

@@ -35,7 +35,9 @@ public class ApplicationConst {
      */
     public static final int ALLOW_JOB_KEYWORD_SIZE=Integer.parseInt(appBundle.getString("company.job.keyword.size"));
     
-    
+    //技术评审，允许匹配率
+    public static final int ALLOW_KEYWORDPERCENT=Integer.parseInt(appBundle.getString("company.job.allow.keywordpercent"));
+
     
 
 	public static void main(String args[]){

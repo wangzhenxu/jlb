@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.loiot.baqi.pojo.*;
+import com.loiot.baqi.constant.ApplicationConst;
 import com.loiot.baqi.constant.Const;
 import com.loiot.baqi.constant.URLConst;
 import com.loiot.baqi.controller.response.AjaxResponse;
@@ -297,6 +298,13 @@ public class ZpJobMatchingInfoController {
     	auditMap.put("matchId", id);
     	ZpRecommendFlowInfo auditInfo = zpRecommendFlowInfoService.getZpRecommendFlowInfo(auditMap);
     	model.put("auditInfo", auditInfo);
+    	
+    	int matchParentFlag = 0;
+    	if(match.getKeywordPercent()>=ApplicationConst.ALLOW_KEYWORDPERCENT){
+    		matchParentFlag=1;
+    	}
+    	model.put("matchParentFlag", matchParentFlag);
+    	
 
     	return "/zpJlInfo/auditJl_detail";
     }

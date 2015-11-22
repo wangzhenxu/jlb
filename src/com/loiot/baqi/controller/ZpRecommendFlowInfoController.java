@@ -31,6 +31,7 @@ import com.loiot.baqi.controller.response.AjaxResponse;
 import com.loiot.baqi.controller.response.Pager;
 import com.loiot.baqi.service.*;
 import com.loiot.baqi.status.AccountType;
+import com.loiot.baqi.status.JlAuditType;
 import com.loiot.commons.message.util.JsonUtil;
 import com.timeloit.pojo.Account;
 import com.loiot.baqi.utils.UserSessionUtils;
@@ -82,6 +83,28 @@ public class ZpRecommendFlowInfoController {
         model.put("pager", pager);
         model.put("jsonParam", jsonParam);
         return "/recommendflow/recommendflow_list";
+    }
+    
+    /**
+     * 跳转  企业对接列表
+     * 
+     * @return 模板位置
+     */
+    @RequestMapping(value = "/companyInterfaceList")
+    public String companyInterfaceList(@RequestParam(value = "pi", defaultValue = "0") int pageIndex,
+    		@RequestParam(value = "jsonParam", defaultValue = "{}") String jsonParam,
+    	ZpRecommendFlowInfo p, ModelMap model)throws Exception {
+    	HashMap<String,Object> paramMap=this.getParaMap(jsonParam, model);
+    	paramMap.put("qtype", "like");
+    	//用户数据过滤
+    	/*
+    	if(UserSessionUtils.getAccountType()==AccountType.HR.getCode() || UserSessionUtils.getAccountType()==AccountType.JOB_HUNTER.getCode() ){
+    		paramMap.put("inPerson", UserSessionUtils.getAccount().getAccountId());
+    	}*/
+        Pager<ZpRecommendFlowInfo> pager = zpRecommendFlowInfoService.queryZpRecommendFlowInfoListPage(paramMap , pageIndex);
+        model.put("pager", pager);
+        model.put("jsonParam", jsonParam);
+        return "/companyInterface/companyInterface_list";
     }
     
     /**
@@ -176,7 +199,7 @@ public class ZpRecommendFlowInfoController {
         	   newP.setMatchId(p.getMatchId());
        		   newP.setTechnicianAuditTime(new Date());
        		   newP.setTechnicianAuditContent(p.getTechnicianAuditContent());
-       		   newP.setTechnicianAuditStatus(p.getTechnicianAuditStatus());
+       		   newP.setTechnicianAuditStatus((int)JlAuditType.AUDIT_OK.getCode());
        		   newP.setTechnicianAuditPerson(UserSessionUtils.getAccount().getAccountId());
        		   newP.setJlId(p.getJlId());
        		   newP.setCompanyJobId(p.getCompanyJobId());

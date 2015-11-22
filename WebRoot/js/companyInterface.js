@@ -17,7 +17,7 @@ var recommendflow = {
 
 	onlyName :  $("#onlyName"), //修改，唯一验证时需要添加此属性
 	m_title : $(".m_title"),//页面标题
-	_title_val : "推荐流程",
+	_title_val : "企业对接",
 	
 	addform : jQuery("#addform"), //添加form
 	queryfrom :jQuery("#queryForm"), //查询form

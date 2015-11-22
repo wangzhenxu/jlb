@@ -462,9 +462,9 @@ public class ZpJobMatchingInfoService{
 		if(moneyS!=null){
 			Long jlMoneyS= jl.getSalaryRequireId();
 			if(jlMoneyS!=null){
-				 double jlm = Double.parseDouble(DictionaryUtil.getBean(jlMoneyS).getValue().split(",")[0]);
+				 Long startMoney = JLBUtils.getJlExpectedYearWan(jlMoneyS,0);
 				 startMatchFlag="nomatch";
-				 if(moneyS<=jlm){
+				 if(moneyS<=startMoney){
 					 startMatchFlag="match";
 				 }
 			}
@@ -474,8 +474,8 @@ public class ZpJobMatchingInfoService{
 			Long jlMoneyE= jl.getSalaryRequireId();
 			if(jlMoneyE!=null){
 				endMatchFlag="nomatch";
-				 double jlm = Double.parseDouble(DictionaryUtil.getBean(jlMoneyE).getValue().split(",")[1]);
-				 if(moneyE>=jlm){
+				 Long endMoney = JLBUtils.getJlExpectedYearWan(jlMoneyE,1);
+				 if(moneyE>=endMoney){
 					 endMatchFlag="match";
 				 }
 			}
@@ -641,7 +641,7 @@ public class ZpJobMatchingInfoService{
     		m.setStatus(match.getSalaryRequireIdStatus());
     		m.setCloumnName(DictionaryType.SALARY_REQUIRE.getTitle());
     		m.setCompanyRequireName(JLBUtils.dealExpectedYearMoney(jobInfo.getExpectedYearMoneyStart().longValue(), jobInfo.getExpectedYearMoneyEnd().longValue()));
-    	    m.setJobSeekerInfo(DictionaryUtil.getName(jlInfo.getSalaryRequireId()));
+    	    m.setJobSeekerInfo(JLBUtils.mothMoneyCovertYearMoney(jlInfo.getSalaryRequireId()));
     	    matchList.add(m);
     	}
     	

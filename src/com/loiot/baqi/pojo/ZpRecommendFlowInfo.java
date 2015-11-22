@@ -47,6 +47,11 @@ public class ZpRecommendFlowInfo  implements java.io.Serializable{
 	    private java.lang.Long inPerson;  //录入人 db_column: in_person 
 
 	  private java.lang.String inPersonName;
+	  private String companyName;
+	  private String companyJobName;  
+	  private String jlName;
+	  private String jlFilePath;
+
 
 	public ZpRecommendFlowInfo(){
 	}

@@ -72,23 +72,26 @@
        <#list matchList as c>
        	  <#if c.status==JobMatchType.ALREADY_MATCH.getCode()>
          <tr>
-          <td align="left" width="15%" class="hui">${c.cloumnName!''}</td>
-          <td align="left" width="15%" class="hui">${c.companyRequireName!''}</td>
-          <td align="left" width="70%" class="hui">${c.jobSeekerInfo!''}</td>
+          <td align="left"  class="hui">${c.cloumnName!''}</td>
+          <td align="left"  class="hui">${c.companyRequireName!''}</td>
+          <td align="left"  class="hui">${c.jobSeekerInfo!''}</td>
          </tr>
          </#if>
           </#list>
           
          <tr>
-          <td align="left" width="15%" class="hui">关键字</td>
-          <td align="left" width="15%" class="hui" cospan="2">
+          <td align="left" class="hui">关键字</td>
+          <td align="left"  class="hui">
           	 <#list matchInfo.keys as c>
           	 	 <#if c.isMatch==MatchKeywordType.ALREADY_MATCH.getCode()>
 				 	${c.keyword!''} 
 				 </#if>	
           	 </#list>
           </td>
+          <td align="left"  class="hui">${matchInfo.keywordPercent!'0'}%</td>
+          
          </tr>
+         
          
        
          </tbody>
@@ -110,9 +113,9 @@
        <#list matchList as c>
        	  <#if c.status==JobMatchType.UNMATCH.getCode()>
          <tr>
-          <td align="left" width="15%" class="hui">${c.cloumnName!''}</td>
-          <td align="left" width="15%" class="hui">${c.companyRequireName!''}</td>
-          <td align="left" width="70%" class="hui">
+          <td align="left"  class="hui">${c.cloumnName!''}</td>
+          <td align="left" class="hui">${c.companyRequireName!''}</td>
+          <td align="left"  class="hui">
            	<#if c.jobSeekerInfo?? && c.jobSeekerInfo?length gt 0>
           		${c.jobSeekerInfo!''}
           		<#else>
@@ -125,14 +128,15 @@
         
         
         <tr>
-          <td align="left" width="15%" class="hui">关键字</td>
-          <td align="left" width="15%" class="hui" cospan="2">
+          <td align="left"  class="hui">关键字</td>
+          <td align="left" class="hui" >
           	 <#list matchInfo.keys as c>
           	 	 <#if c.isMatch==MatchKeywordType.UNMATCH.getCode()>
 				 	${c.keyword!''}
 				 </#if>	
           	 </#list>
           </td>
+           <td align="left"  class="hui"></td>
          </tr>
         
          </tbody>
@@ -159,28 +163,30 @@
 	  <input type="hidden" name="companyJobId" id="companyJobId" value="${matchInfo.jlId!''}">
 	  <input type="hidden" name="jlId" id="jlId" value="${matchInfo.jobId!''}">
 	  <input type="hidden" name="matchId" id="matchId" value="${matchInfo.matchId!''}">
-	  
+	   <input type="hidden" name="matchId" id="matchId" value="${matchInfo.keywordPercent!'0'}">
+	 
+	 
      <div class="query1" style="width:100%">
        <table width="100%" border="0">
          <tbody>
          
          <tr>
-           <td colspan="4" class="red">* 号为必填项</td>
+           <td colspan="4" class="red">* 号为必填项  &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;当前关键字匹配率${matchInfo.keywordPercent!'0'}%（大于等于40%才可评审）</td>
          </tr>
          
-         <tr>
+         <tr style="display:none;">
            <td align="right" class="hui1" style="width:100px"><span class="red">*</span>评审类型：</td>
            	<td align="left" valign="middle" style="padding-left: 30px;">
-           	  <input type="radio" class="radio validate[required]" <#if auditInfo??> <#if auditInfo.technicianAuditStatus==JlAuditType.AUDIT_OK.getCode()> checked </#if> </#if> name="technicianAuditStatus" id="technicianAuditStatus"  value="${JlAuditType.AUDIT_OK.getCode()}" /> ${JlAuditType.AUDIT_OK.getTitle()} 
+           	  <input  type="radio" class="radio" <#if auditInfo??> <#if auditInfo.technicianAuditStatus==JlAuditType.AUDIT_OK.getCode()> checked </#if> </#if> name="technicianAuditStatus" id="technicianAuditStatus"  value="${JlAuditType.AUDIT_OK.getCode()}" /> ${JlAuditType.AUDIT_OK.getTitle()} 
         			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        		<input type="radio" class="radio validate[required]" <#if auditInfo??> <#if auditInfo.technicianAuditStatus==JlAuditType.AUDIT_NO_PASS.getCode()> checked </#if> </#if>  name="technicianAuditStatus" id="technicianAuditStatus" value="${JlAuditType.AUDIT_NO_PASS.getCode()}" /> ${JlAuditType.AUDIT_NO_PASS.getTitle()} 
+        		<input type="radio" class="radio" <#if auditInfo??> <#if auditInfo.technicianAuditStatus==JlAuditType.AUDIT_NO_PASS.getCode()> checked </#if> </#if>  name="technicianAuditStatus" id="technicianAuditStatus" value="${JlAuditType.AUDIT_NO_PASS.getCode()}" /> ${JlAuditType.AUDIT_NO_PASS.getTitle()} 
            </td>
          </tr>
          
           <tr>
            <td align="right" class="hui1" style="width:100px"><span class="red">*</span>评审内容：</td>
            	<td align="left" valign="middle" style="padding-left: 30px;">
-           	  <textarea  rows="12" style="width: 900px;" id="technicianAuditContent" name="technicianAuditContent" cols="110" class="validate[required]" placeholder="请输入你对求职者的评价" ><#if auditInfo??>${auditInfo.technicianAuditContent!''}</#if></textarea> 
+           	  <textarea  rows="12" style="width: 900px;" id="technicianAuditContent" name="technicianAuditContent" cols="110" class="validate[required,minSize[10]]" placeholder="请输入你对求职者的评价" ><#if auditInfo??>${auditInfo.technicianAuditContent!''}</#if></textarea> 
            </td>
          </tr>
        
@@ -191,9 +197,9 @@
     </div>
     
      <div class="anniu">
-         <#if (Session[Const.SESSION_USER_KEY].type==AccountType.ADMIN.getCode() || Session[Const.SESSION_USER_KEY].type==AccountType.TECHICAL_AUDIT.getCode() )>
-            <#if auditInfo??>
-            	<#else>
+         <#if (Session[Const.SESSION_USER_KEY].type==AccountType.ADMIN.getCode() || Session[Const.SESSION_USER_KEY].type==AccountType.TECHICAL_AUDIT.getCode()  )>
+            <#if auditInfo??  >
+            	<#elseif matchParentFlag==1>
             	<button type="button" class="btn btn-default" id="addBtn">保 &nbsp;存</button>
             </#if>
 		 </#if>		  

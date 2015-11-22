@@ -35,7 +35,13 @@
 	        	<result  column="in_time" property="inTime" />
 	        	<result  column="flow_status" property="flowStatus" />
 	        	<result  column="in_person" property="inPerson" />
-			<result  column="inPersonName" property="inPersonName" />
+				<result  column="inPersonName" property="inPersonName" />
+				
+				<result  column="companyName" property="companyName" />
+				<result  column="companyJobName" property="companyJobName" />
+				<result  column="jlName" property="jlName" />
+				<result  column="jlFilePath" property="jlFilePath" />
+				
 	</resultMap>
 	
 	<!-- 查询 推荐流程列表 -->
@@ -544,6 +550,11 @@
 			FROM
 			zp_recommend_flow_info  rfi
 			LEFT JOIN account a ON a.account_id =rfi.in_person
+			LEFT JOIN zp_company_job_info cji on cji.job_id = rfi.company_job_id
+      		left JOIN zp_company_info ci on ci.company_id = cji.company_id 
+			LEFT JOIN zp_jl_info ji  on ji.jl_id = rfi.jl_id
+      		LEFT JOIN zp_jl_expand_info jei on  ji.jl_id = jei.jl_id
+			
 		<where>
 					<if test="qtype != null and qtype=='like'">
 						<if test="nameT != null and nameT !='' ">
@@ -685,7 +696,11 @@
 						 		rfi.in_time,
 						 		rfi.flow_status,
 						 		rfi.in_person
-								,a.username as inPersonName
+								,a.username as inPersonName,
+								 ci.`name` as companyName,
+								 cji.`name` as companyJobName,
+								 ji.name as jlName,
+						      	 jei.jl_file_path as jlFilePath
 	</sql>
 	
 	<!-- 统计sql -->

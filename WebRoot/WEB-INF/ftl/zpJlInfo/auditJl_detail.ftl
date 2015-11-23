@@ -160,10 +160,9 @@
 	 <div class="basic01">评审信息</div>
 	</div>
 	<form method="post" id="addform" >
-	  <input type="hidden" name="companyJobId" id="companyJobId" value="${matchInfo.jlId!''}">
-	  <input type="hidden" name="jlId" id="jlId" value="${matchInfo.jobId!''}">
+	  <input type="hidden" name="companyJobId" id="companyJobId" value="${matchInfo.jobId!''}">
+	  <input type="hidden" name="jlId" id="jlId" value="${matchInfo.jlId!''}">
 	  <input type="hidden" name="matchId" id="matchId" value="${matchInfo.matchId!''}">
-	   <input type="hidden" name="matchId" id="matchId" value="${matchInfo.keywordPercent!'0'}">
 	 
 	 
      <div class="query1" style="width:100%">

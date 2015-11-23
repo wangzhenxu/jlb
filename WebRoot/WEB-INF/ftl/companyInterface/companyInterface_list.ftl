@@ -50,79 +50,25 @@
                                 <div class="bianb">
                                     <div class="biantop">
                                         <ul>
-                                            <li class="list"><a href="javascript:void(0);" class="pdtrule">待推荐</a></li>
-                                            <li><a href="javascript:void(0);" class="followrule">已推荐</a></li>
+                                            <li   <#if flowStatus?? && flowStatus==RecommendFlowType.WAIT_RECOMMEND_COMPANY.getCode()> class="list" </#if>   ><a href="/zpRecommendFlowInfo/companyInterfaceList.action" class="pdtrule">待推荐</a></li>
+                                            <li   <#if flowStatus?? && flowStatus==RecommendFlowType.ALREADY_RECOMMEND_COMPANY.getCode()> class="list" </#if>   ><a href="/zpRecommendFlowInfo/companyInterfaceList.action?flowStatus=2" class="followrule">已推荐</a></li>
                                             <li style="display:none;"><a href="javascript:void(0);"  class="keyrule">关键字规则</a></li>
                                         </ul>
                                     </div>
                                 </div>
                                 <div class="biao1">
                                     <div class="form4">
-                                        <table class="table_style03">
-                                            <tbody><tr>
-                                                <th width="9%">公司名称</th>
-                                                <th width="11%">职位名称</th>
-                                                <th width="11%">求职者</th>
-                                                <th width="15%">技术审核人</th>
-                                                <th width="16%">技术评审时间</th>
-                                                <th width="16%">操作</th>
-                                            </tr>
-                                            
-                                              <#list pager.data as c>
-											       <tr>
-											       
-												 	  <td align="center" class="hui">
-												 	 	${companyName!''}
-												 	   </td>
-												 	  <td align="center" class="hui">
-												 	  	${companyJobName!''}
-												 	   </td>
-												 	  <td align="center" class="hui">
-												 	 		${jlName!''}
-												 	   </td>
-													 <td align="center" class="hui">
-											    			 <#if c.technicianAuditTime??>
-												        	 	 ${c.technicianAuditTime?string("yyyy-MM-dd")}
-												 		 	 </#if>
-												 	 </td>
-													 <td align="center" class="hui" style="width:300px;"  >
-												       		<div class="btn-group">
-											      			<#if subject.isPermitted("zpJlInfo:list")>   <#--zpRecommendFlowInfo:detail  -->
-															  <button type="button" class="btn btn-default"  onclick="recommendflow.toDetail('${c.auditId}')">详情</button>
-															 </#if>
-															 
-											      			<#if subject.isPermitted("zpJlInfo:list")>  <#--zpRecommendFlowInfo:edit  -->
-															  <button type="button" class="btn btn-default"  onclick="recommendflow.toEdit('${c.auditId}')">修改</button>
-															 </#if>
-															 
-											      			<#if subject.isPermitted("zpJlInfo:list")>  <#--zpRecommendFlowInfo:disableAndEnabled  -->
-															  <#if c.isDelete??>
-															  	<button type="button" class="btn btn-default"  onclick=recommendflow.modifyDeleteStatus('${c.auditId}', '${c.isDelete!""}' );>
-															  	 	<#if c.isDelete==PauseStartType.START.getCode()> 暂停 </#if>
-															  	 	<#if c.isDelete==PauseStartType.PAUSE.getCode()> 启用 </#if>
-															  </button>	
-															  </#if>
-															 	</#if>
-															  <button type="button" class="btn btn-default"  onclick="recommendflow.toAddJob('${c.auditId}')">发布职位</button>
-												      		</div>
-											        </td>
-											       </tr>
-											       </#list>
-                                        </tbody></table>
+                                    
+                                       	<#include "companyInterface_tab.ftl"/>
+                                    
                                     </div>
                                 </div>
                             </div>
                         </div>
-                           <!-- 翻页 开始 -->
-                           <div class="manu">     
-	<div class="manu">
-	共为您找到相关结果0个
-		 	<span class="disabled"> 上一页 </span>
-		 	<span class="current">1</span>
-		 	<span class="disabled"> 下一页 </span>
-	 </div>
-</div>
-                           <!-- 翻页 结束 -->
+                          
+                           <#-- 分页栏 -->
+     <@pageBar   pager=pager url="/zpRecommendFlowInfo/companyInterfaceList.action?jsonParam=${jsonParam!''}" join="&"> </@pageBar> 
+                          
 
                     </div>
                 </div>

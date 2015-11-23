@@ -32,6 +32,7 @@ import com.loiot.baqi.controller.response.Pager;
 import com.loiot.baqi.service.*;
 import com.loiot.baqi.status.AccountType;
 import com.loiot.baqi.status.JlAuditType;
+import com.loiot.baqi.status.RecommendFlowType;
 import com.loiot.commons.message.util.JsonUtil;
 import com.timeloit.pojo.Account;
 import com.loiot.baqi.utils.UserSessionUtils;
@@ -96,6 +97,13 @@ public class ZpRecommendFlowInfoController {
     	ZpRecommendFlowInfo p, ModelMap model)throws Exception {
     	HashMap<String,Object> paramMap=this.getParaMap(jsonParam, model);
     	paramMap.put("qtype", "like");
+    	if(p.getFlowStatus()==null){
+    		paramMap.put("flowStatus", (int)RecommendFlowType.WAIT_RECOMMEND_COMPANY.getCode());
+    		model.put("flowStatus", (int)RecommendFlowType.WAIT_RECOMMEND_COMPANY.getCode());
+    	}else {
+    		paramMap.put("flowStatus", p.getFlowStatus());
+    		model.put("flowStatus",p.getFlowStatus());
+    	}
     	//用户数据过滤
     	/*
     	if(UserSessionUtils.getAccountType()==AccountType.HR.getCode() || UserSessionUtils.getAccountType()==AccountType.JOB_HUNTER.getCode() ){
@@ -203,6 +211,7 @@ public class ZpRecommendFlowInfoController {
        		   newP.setTechnicianAuditPerson(UserSessionUtils.getAccount().getAccountId());
        		   newP.setJlId(p.getJlId());
        		   newP.setCompanyJobId(p.getCompanyJobId());
+       		   newP.setFlowStatus((int)RecommendFlowType.WAIT_RECOMMEND_COMPANY.getCode());
        		   this.zpRecommendFlowInfoService.addZpRecommendFlowInfo(newP);
            }
     		// 添加成功

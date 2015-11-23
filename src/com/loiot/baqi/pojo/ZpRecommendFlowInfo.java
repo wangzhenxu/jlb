@@ -43,7 +43,7 @@ public class ZpRecommendFlowInfo  implements java.io.Serializable{
 	    private java.util.Date lastUpdateTime;  //最后更新时间 db_column: last_update_time 
 	    private java.lang.Long lastUpdatePerson;  //最后更新人 db_column: last_update_person 
 	    private java.util.Date inTime;  //录入时间 db_column: in_time 
-	    private java.lang.Long flowStatus;  //流程状态 db_column: flow_status 
+	    private java.lang.Integer flowStatus;  //流程状态 db_column: flow_status 
 	    private java.lang.Long inPerson;  //录入人 db_column: in_person 
 
 	  private java.lang.String inPersonName;
@@ -51,6 +51,7 @@ public class ZpRecommendFlowInfo  implements java.io.Serializable{
 	  private String companyJobName;  
 	  private String jlName;
 	  private String jlFilePath;
+	  private String technicianAuditPersonName;  //技术审核人名称
 
 
 	public ZpRecommendFlowInfo(){

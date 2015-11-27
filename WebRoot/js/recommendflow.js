@@ -11,7 +11,7 @@ var recommendflow = {
 	getByIdUrl : "/zpRecommendFlowInfo/getById.action", //根据id查询对象
 	modifyDeleteStatusUrl:"/zpRecommendFlowInfo/modifyDeleteStatus.action", //停用 或启用
 	checkNameExitsUrl : "/zpRecommendFlowInfo/checkNameExits.action", //检验唯一性
-	addAuditUrl : "/zpRecommendFlowInfo/addAudit.action", //添加评审
+	addAuditUrl : "/zpRecommendFlowInfo/technicianAudit.action", //添加评审
 
 	
 

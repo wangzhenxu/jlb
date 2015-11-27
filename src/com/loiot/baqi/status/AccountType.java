@@ -23,7 +23,11 @@ public enum AccountType {
 	
 	SALARY_MANAGER(5,"薪水管理员"),
 	
-	HEAD_HUNTING_MANAGER(6,"猎头顾问");
+	HEAD_HUNTING_MANAGER(6,"猎头顾问"),
+	
+	COMPANY_INTERFACER(7,"企业对接人");
+
+	
 	
 	
 	

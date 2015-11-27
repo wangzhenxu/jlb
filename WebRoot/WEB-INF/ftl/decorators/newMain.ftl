@@ -106,6 +106,19 @@ function menuClick(){
       			<a class="MenuLevel4 editPassword" href="/zpJlInfo/auditList.action"> <img src="/images/bullet_sarrow.gif"/> &nbsp;&nbsp;<span id="zpJlAudit_list">评审管理</span></a>
      	</div>
      </#if>
+     
+     
+    	 <!-- 企业对接管理 -->
+     	<div class="MenuLevel1"> 企业对接管理 <span><img src="/images/<#if d>2<#else>1</#if>.gif" border="0"/></span></div>
+     		<div class="<#if d>SubMenuLayerHidden</#if> SubMenu">
+      			<a class="MenuLevel4 editPassword" href="/zpRecommendFlowInfo/companyInterfaceList.action"> <img src="/images/bullet_sarrow.gif"/> &nbsp;&nbsp;<span id="">企业对接管理</span></a>
+     	</div>
+     	
+     	 <!-- 企业对接管理 -->
+     	<div class="MenuLevel1"> 顾问对接管理 <span><img src="/images/<#if d>2<#else>1</#if>.gif" border="0"/></span></div>
+     		<div class="<#if d>SubMenuLayerHidden</#if> SubMenu">
+      			<a class="MenuLevel4 editPassword" href="/zpRecommendFlowInfo/headhunterInterfaceList.action"> <img src="/images/bullet_sarrow.gif"/> &nbsp;&nbsp;<span id="">顾问对接管理</span></a>
+     	</div>
      	
      
     </div>
@@ -120,6 +133,8 @@ function menuClick(){
   </div>
   
   <script>
+  
+   $('input, textarea').placeholder();
   
   //停止操作
   function disableOperator(){

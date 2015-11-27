@@ -27,7 +27,7 @@ public class ZpRecommendFlowInfo  implements java.io.Serializable{
 	    private java.lang.Long enterpriseDockingPerson;  //企业对接人 db_column: enterprise_docking_person 
 	    private java.lang.Long enterpriseDockingStatus;  //企业对接状态 db_column: enterprise_docking_status 
 	    private java.util.Date enterpriseDockingTime;  //企业对接人反馈时间 db_column: enterprise_docking_time 
-	    private Integer enterpriseReplyStatus;  //企业反馈状态 db_column: enterprise_reply_status 
+	    private long enterpriseReplyStatus;  //企业反馈状态 db_column: enterprise_reply_status 
 	    private java.lang.String enterpriseReplyContent;  //企业反馈内容 db_column: enterprise_reply_content 
 	    private java.util.Date enterpriseReplyTime;  //企业反馈时间 db_column: enterprise_reply_time 
 	    private java.lang.String hrNoticePerson;  //hr通知人 db_column: hr_notice_person 
@@ -45,6 +45,9 @@ public class ZpRecommendFlowInfo  implements java.io.Serializable{
 	    private java.util.Date inTime;  //录入时间 db_column: in_time 
 	    private java.lang.Integer flowStatus;  //流程状态 db_column: flow_status 
 	    private java.lang.Long inPerson;  //录入人 db_column: in_person 
+	    private Long enterpriseInterfacePerson;//企业对接人
+	    private Long headhunterInterfacePerson;//电话猎头对接人
+	    
 
 	  private java.lang.String inPersonName;
 	  private String companyName;
@@ -52,7 +55,10 @@ public class ZpRecommendFlowInfo  implements java.io.Serializable{
 	  private String jlName;
 	  private String jlFilePath;
 	  private String technicianAuditPersonName;  //技术审核人名称
+	  private String enterpriseInterfacePersonName;//企业对接人名称
+	  private String headhunterInterfacePersonName;//电话猎头对接人
 
+	  
 
 	public ZpRecommendFlowInfo(){
 	}

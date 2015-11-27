@@ -12,21 +12,20 @@
 
 
 <!-- 右侧 开始 -->
-<div class="right" style="displa2y:none;">
-
+<div class="right" style="displa2y:none; ">
+  <ul class="nav nav-tabs" style="padding:20px 0 0 10px" >
+                <li class="active"><a href="#A" data-toggle="tab">个人信息</a></li>
+                <li class=""><a href="#B" data-toggle="tab">匹配信息</a></li>
+                <li class=""><a href="#C" data-toggle="tab">评审信息</a></li>
+              </ul>
   <div class="bs-docs-example">
             <div class="tabbable tabs-left">
               <div class="tab-content">
               	  <div class="tab-pane active" id="A">
             
             
-               <div class="location">
-     <div class="location01">您现在的位置是：匹配职位列表 &gt; <strong class="m_title"> 匹配信息</strong></div>
-    </div>
+             
     <div class="nav">
-     <div class="basic">
-	 <div class="basic01 m_title" >个人信息</div>
-	</div>
      <div class="query1">
        <table width="100%" border="0" align="left">
           <tr style="" class="">
@@ -50,13 +49,9 @@
                 <div class="tab-pane" id="B">
                  
                  
-    <div class="location">
-     <div class="location01">您现在的位置是：匹配职位列表 &gt; <strong class="m_title"> 匹配信息</strong></div>
-    </div>
+    
     <div class="nav">
-     <div class="basic">
-	 <div class="basic01">已匹配</div>
-	</div>
+     
 	  <input type="hidden" name="PDesc" id="PDesc">
 	  <input type="hidden" name="techPara" id="techPara">
 	  <input type="hidden" name="install" id="install">
@@ -97,9 +92,7 @@
          </tbody>
          </table>
      </div>
-     <div class="basic">
-	 <div class="basic01">未匹配</div>
-	</div>
+     
      <div class="query1" style="width:100%">
        <table width="100%" border="0">
         
@@ -152,13 +145,9 @@
                 <div class="tab-pane" id="C">
                 
                 
-                <div class="location">
-     <div class="location01">您现在的位置是：匹配职位列表 &gt; <strong class="m_title"> 匹配信息</strong></div>
-    </div>
+             
     <div class="nav">
-     <div class="basic">
-	 <div class="basic01">评审信息</div>
-	</div>
+    
 	<form method="post" id="addform" >
 	  <input type="hidden" name="companyJobId" id="companyJobId" value="${matchInfo.jobId!''}">
 	  <input type="hidden" name="jlId" id="jlId" value="${matchInfo.jlId!''}">
@@ -209,11 +198,7 @@
                 
                 
               </div>
-              <ul class="nav nav-tabs">
-                <li class="active"><a href="#A" data-toggle="tab">个人信息</a></li>
-                <li class=""><a href="#B" data-toggle="tab">匹配信息</a></li>
-                <li class=""><a href="#C" data-toggle="tab">评审信息</a></li>
-              </ul>
+              
             </div> <!-- /tabbable -->
           </div>
  
@@ -221,7 +206,6 @@
   
     
    </div>
-<script src="https://cdn.bootcss.com/jquery-placeholder/2.1.3/jquery.placeholder.js"></script>
 <script src="/js/recommendflow.js"></script>
 
 <script>

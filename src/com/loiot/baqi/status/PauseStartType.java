@@ -6,7 +6,7 @@ package com.loiot.baqi.status;
  */
 
 /**
- * 停用启用类型
+ * (用户)停用启用类型
  * 
  * @author wangzx
  * 

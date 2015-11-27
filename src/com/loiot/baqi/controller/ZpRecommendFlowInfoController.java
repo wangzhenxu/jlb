@@ -97,10 +97,12 @@ public class ZpRecommendFlowInfoController {
     	ZpRecommendFlowInfo p, ModelMap model)throws Exception {
     	HashMap<String,Object> paramMap=this.getParaMap(jsonParam, model);
     	paramMap.put("qtype", "like");
-    	if(p.getFlowStatus()==null){
-    		paramMap.put("flowStatus", (int)RecommendFlowType.WAIT_RECOMMEND_COMPANY.getCode());
-    		model.put("flowStatus", (int)RecommendFlowType.WAIT_RECOMMEND_COMPANY.getCode());
-    	}else {
+    	//用户数据过滤
+    	
+    	if(UserSessionUtils.getAccountType()==AccountType.COMPANY_INTERFACER.getCode() ){
+    		paramMap.put("enterpriseInterfacePerson", UserSessionUtils.getAccount().getAccountId());
+    	}
+    	if(p.getFlowStatus()!=null){
     		paramMap.put("flowStatus", p.getFlowStatus());
     		model.put("flowStatus",p.getFlowStatus());
     	}
@@ -113,6 +115,38 @@ public class ZpRecommendFlowInfoController {
         model.put("pager", pager);
         model.put("jsonParam", jsonParam);
         return "/companyInterface/companyInterface_list";
+    }
+    
+    
+    /**
+     * 跳转  电话猎头对接列表
+     * 
+     * @return 模板位置
+     */
+    @RequestMapping(value = "/headhunterInterfaceList")
+    public String headhunterInterfaceList(@RequestParam(value = "pi", defaultValue = "0") int pageIndex,
+    		@RequestParam(value = "jsonParam", defaultValue = "{}") String jsonParam,
+    	ZpRecommendFlowInfo p, ModelMap model)throws Exception {
+    	HashMap<String,Object> paramMap=this.getParaMap(jsonParam, model);
+    	paramMap.put("qtype", "like");
+    	//用户数据过滤
+    	
+    	if(UserSessionUtils.getAccountType()==AccountType.HEAD_HUNTING_MANAGER.getCode() ){
+    		paramMap.put("headhunterInterfacePerson", UserSessionUtils.getAccount().getAccountId());
+    	}
+    	if(p.getFlowStatus()!=null){
+    		paramMap.put("flowStatus", p.getFlowStatus());
+    		model.put("flowStatus",p.getFlowStatus());
+    	}
+    	//用户数据过滤
+    	/*
+    	if(UserSessionUtils.getAccountType()==AccountType.HR.getCode() || UserSessionUtils.getAccountType()==AccountType.JOB_HUNTER.getCode() ){
+    		paramMap.put("inPerson", UserSessionUtils.getAccount().getAccountId());
+    	}*/
+        Pager<ZpRecommendFlowInfo> pager = zpRecommendFlowInfoService.queryZpRecommendFlowInfoListPage(paramMap , pageIndex);
+        model.put("pager", pager);
+        model.put("jsonParam", jsonParam);
+        return "/headhunterInterface/headhunterInterface_list";
     }
     
     /**
@@ -183,47 +217,57 @@ public class ZpRecommendFlowInfoController {
     }
     
     /**
-     * 添加  推荐流程
+     * 添加技术评审
      * 
      * @param p 对象参数
      * @return ajax响应
      */
-    @RequestMapping(value = "/addAudit")
+    @RequestMapping(value = "/technicianAudit")
     @ResponseBody
-    public Object addAudit(ZpRecommendFlowInfo p,HttpSession session,HttpServletRequest request) {
-    	try {
-           if(UserSessionUtils.getAccount().getType()==AccountType.TECHICAL_AUDIT.getCode()){
-        	   pmap.clear();
-        	   pmap.put("matchId", p.getMatchId());
-        	   pmap.put("inPerson", UserSessionUtils.getAccount().getAccountId());
-        	   int count =this.zpJobMatchingInfoService.getZpJobMatchingInfoListCount(pmap);
-               if(count!=1){
-            	   return AjaxResponse.ILLEGAL_OPERATER;
-               }
-           }
-           
-           if(UserSessionUtils.getAccount().getType()==AccountType.TECHICAL_AUDIT.getCode() || UserSessionUtils.getAccount().getType()==AccountType.ADMIN.getCode()){
-        	   ZpRecommendFlowInfo newP = new ZpRecommendFlowInfo();
-        	   newP.setMatchId(p.getMatchId());
-       		   newP.setTechnicianAuditTime(new Date());
-       		   newP.setTechnicianAuditContent(p.getTechnicianAuditContent());
-       		   newP.setTechnicianAuditStatus((int)JlAuditType.AUDIT_OK.getCode());
-       		   newP.setTechnicianAuditPerson(UserSessionUtils.getAccount().getAccountId());
-       		   newP.setJlId(p.getJlId());
-       		   newP.setCompanyJobId(p.getCompanyJobId());
-       		   newP.setFlowStatus((int)RecommendFlowType.WAIT_RECOMMEND_COMPANY.getCode());
-       		   this.zpRecommendFlowInfoService.addZpRecommendFlowInfo(newP);
-           }
-    		// 添加成功
-    		return AjaxResponse.OK;
-    	
+    public Object technicianAudit(ZpRecommendFlowInfo p,HttpSession session,HttpServletRequest request) {
+    	return this.zpRecommendFlowInfoService.AddFlow(p, RecommendFlowType.WAIT_RECOMMEND_COMPANY.getCode());
+    }
+    
+    /**
+     * 将简历推荐到企业（更新状态）
+     * 
+     * @param p 对象参数
+     * @return ajax响应
+     */
+    @RequestMapping(value = "/recommandJlToCompany")
+    public Object recommandJlToCompany(ZpRecommendFlowInfo p,HttpSession session,HttpServletRequest request) {
+    	if(p.getAuditId()==null){
+    		return URLConst.ERROR_URL;
     	}
-        catch (Exception e) {
-			e.printStackTrace();
-			 //失败
-	        return AjaxResponse.FAILED;
-		}
-       
+    	this.zpRecommendFlowInfoService.AddFlow(p, RecommendFlowType.ALREADY_RECOMMEND_COMPANY.getCode());
+    	String s = request.getHeader("Referer");
+        String redirectStr = s.substring(s.indexOf("/zpRecommendFlowInfo/"), s.length());
+        return "redirect:"+redirectStr;
+    }
+    
+    /**
+     * 推荐到企业后给反馈
+     * 
+     * @param p 对象参数
+     * @return ajax响应
+     */
+    @RequestMapping(value = "/companyRecommandFeedback")
+    @ResponseBody
+    public Object companyRecommandFeedback(ZpRecommendFlowInfo p,HttpSession session,HttpServletRequest request) {
+    	return this.zpRecommendFlowInfoService.AddFlow(p, RecommendFlowType.RECOMMEND_COMPANY_FAILURE.getCode());
+    }
+    
+    
+    /**
+     * 猎头通知求职者反馈
+     * 
+     * @param p 对象参数
+     * @return ajax响应
+     */
+    @RequestMapping(value = "/headhunterNotifyFeedback")
+    @ResponseBody
+    public Object headhunterNotifyFeedback(ZpRecommendFlowInfo p,HttpSession session,HttpServletRequest request) {
+    	return this.zpRecommendFlowInfoService.AddFlow(p, RecommendFlowType.ALREADY_INVITATION_INTERVIEW_NOTIFY.getCode());
     }
 
     /**

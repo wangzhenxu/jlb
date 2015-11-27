@@ -49,8 +49,8 @@
 </tbody></table>
  </#if>
  
- 
- <#if flowStatus?? && flowStatus==RecommendFlowType.WAIT_RECOMMEND_COMPANY.getCode()>
+ <!--已通知-->
+ <#if flowStatus?? && flowStatus==RecommendFlowType.COMPANY_INVITATION_INTERVIEW.getCode()>
  <table class="table_style03">
     <tbody><tr>
         <th width="9%">公司名称</th>
@@ -92,7 +92,7 @@
 	      			<#if subject.isPermitted("zpJlInfo:list")>   <#--zpRecommendFlowInfo:detail  -->
 					  <button type="button" class="btn btn-default"  onclick="recommendflow.toDetail('${c.auditId}')">详情</button>
 					 </#if>
-					  <button type="button" class="btn btn-default"  onclick="companyInterface.recommandJlToCompany('${c.auditId}')">推荐</button>
+					 <button type="button" class="btn btn-default"  onclick="headhunterInterface.audit('${c.auditId!""}','${c.jlName!""}')">已通知</button>
 		      		</div>
 	        </td>
 	       </tr>

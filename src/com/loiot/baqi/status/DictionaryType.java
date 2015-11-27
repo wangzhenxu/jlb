@@ -54,7 +54,12 @@ public enum DictionaryType {
 	
 	ACCEPT_AUDIT(22, "暂停开启状态"),
 	
-	PAY_TYPE(23, "支付方式");
+	PAY_TYPE(23, "支付方式"),
+	
+	ENTERPRISE_REPLY_STATUS(24, "企业反馈状态"),//向企业推荐时
+	
+	HEADHUNTER_REPLY_STATUS(25, "猎头反馈状态");//猎头反馈状态
+
 	
 	
 

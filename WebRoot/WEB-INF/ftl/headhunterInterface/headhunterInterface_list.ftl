@@ -10,7 +10,7 @@
     
     <div class="right">
             <div class="location">
-                <div class="location01">您现在的位置是：首页 &gt; 企业对接管理 &gt; <strong>企业对接列表</strong></div>
+                <div class="location01">您现在的位置是：首页 &gt; 顾问对接管理 &gt; <strong>顾问对接列表</strong></div>
             </div>
             <div class="sort" style="display:none;">
                 <div class="sort1">规则设定</div>
@@ -50,17 +50,17 @@
                                 <div class="bianb">
                                     <div class="biantop">
                                         <ul>
-                                            <li   <#if flowStatus??> <#else> class="list" </#if>  ><a href="/zpRecommendFlowInfo/companyInterfaceList.action" class="pdtrule">全部</a></li>
-                                            <li   <#if flowStatus?? && flowStatus==RecommendFlowType.WAIT_RECOMMEND_COMPANY.getCode()> class="list" </#if>   ><a href="/zpRecommendFlowInfo/companyInterfaceList.action?flowStatus=${RecommendFlowType.WAIT_RECOMMEND_COMPANY.getCode()}" class="pdtrule">待推荐</a></li>
-                                            <li   <#if flowStatus?? && flowStatus==RecommendFlowType.ALREADY_RECOMMEND_COMPANY.getCode()> class="list" </#if>   ><a href="/zpRecommendFlowInfo/companyInterfaceList.action?flowStatus=${RecommendFlowType.ALREADY_RECOMMEND_COMPANY.getCode()}" class="followrule">已推荐待回复</a></li>
-                                            <li style="display:none;"><a href="javascript:void(0);"  class="keyrule">关键字规则</a></li>
+                                            <li   <#if flowStatus??> <#else> class="list" </#if>  ><a href="/zpRecommendFlowInfo/headhunterInterfaceList.action" class="pdtrule">全部</a></li>
+                                            <li   <#if flowStatus?? && flowStatus==RecommendFlowType.COMPANY_INVITATION_INTERVIEW.getCode()> class="list" </#if>   ><a href="/zpRecommendFlowInfo/headhunterInterfaceList.action?flowStatus=${RecommendFlowType.COMPANY_INVITATION_INTERVIEW.getCode()}" class="pdtrule">待通知</a></li>
+                                            <li   <#if flowStatus?? && flowStatus==RecommendFlowType.ALREADY_RECOMMEND_COMPANY.getCode()> class="list" </#if>   ><a href="/zpRecommendFlowInfo/headhunterInterfaceList.action?flowStatus=${RecommendFlowType.ALREADY_RECOMMEND_COMPANY.getCode()}" class="followrule">已通知</a></li>
+                                            <li   <#if flowStatus?? && flowStatus==RecommendFlowType.ALREADY_RECOMMEND_COMPANY.getCode()> class="list" </#if>   ><a href="/zpRecommendFlowInfo/headhunterInterfaceList.action?flowStatus=${RecommendFlowType.ALREADY_RECOMMEND_COMPANY.getCode()}" class="followrule">已面试</a></li>
                                         </ul>
                                     </div>
                                 </div>
                                 <div class="biao1">
                                     <div class="form4">
                                     
-                                       	<#include "companyInterface_tab.ftl"/>
+                                       	<#include "headhunterInterface_tab.ftl"/>
                                     
                                     </div>
                                 </div>
@@ -68,7 +68,7 @@
                         </div>
                           
                            <#-- 分页栏 -->
-     <@pageBar   pager=pager url="/zpRecommendFlowInfo/companyInterfaceList.action?jsonParam=${jsonParam!''}" join="&"> </@pageBar> 
+     <@pageBar   pager=pager url="/zpRecommendFlowInfo/headhunterInterfaceList.action?jsonParam=${jsonParam!''}" join="&"> </@pageBar> 
                           
 
                     </div>
@@ -86,7 +86,7 @@
 	  <div class="content">
 	 <div class="quanxian">
 	  <div class="quanxian1">
-	   <div class="whitea">评审列表</div>
+	   <div class="whitea">求职者反馈</div>
 	   <div class="close"><img src="/images/xinjian_03.gif" width="18" height="18" data-dismiss="modal"/></div>
 	  </div>
 	  <div class="quanxian2">
@@ -97,11 +97,11 @@
 	        <td></td>
      	 </tr>
        <tr>
-       <td align="left" class="hui1">企业反馈状态</td>
+       <td align="left" class="hui1">求职者反馈状态</td>
         <td align="left" class="hui1" >
-	         <select id="enterpriseReplyStatus">
+	         <select id="hrNoticeStatus">
       			 <option value="" > 请选择 </option>
-      			 <#list DictionaryUtil.getTypes(DictionaryType.ENTERPRISE_REPLY_STATUS.getCode()) as c>
+      			 <#list DictionaryUtil.getTypes(DictionaryType.HEADHUNTER_REPLY_STATUS.getCode()) as c>
        				 <option value="${c.dictionaryId}"  > ${c.name!''} </option>
      			</#list>
     		 </select>
@@ -110,7 +110,7 @@
       
       <tr>
        <td align="center" class="hui1" colspan="2">
-       		<textarea cols="70" id="enterpriseReplyContent" name="enterpriseReplyContent" rows="12" placeholder="请输入反馈内容" ></textarea>
+       		<textarea cols="70" id="hrNoticeFeedbackContent" name="hrNoticeFeedbackContent" rows="12" placeholder="请输入反馈内容" ></textarea>
        </td>
       </tr>
       </table>
@@ -135,7 +135,7 @@
 
   <#include "../include/deleteConfirmModal.ftl">
 
-    <script src="/js/companyInterface.js"></script>
+    <script src="/js/headhunterInterface.js"></script>
     
    </body>
 </html>

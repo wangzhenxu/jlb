@@ -14,7 +14,20 @@ public enum RecommendFlowType {
 	
 	WAIT_RECOMMEND_COMPANY(1, "技术已通过等待推荐企业"),
 	ALREADY_RECOMMEND_COMPANY(2, "已推荐到企业待企业回复"),
-	RECOMMEND_COMPANY_FAILURE(3, "推荐企业没通过");
+	RECOMMEND_COMPANY_FAILURE(3, "推荐企业没通过"),
+	COMPANY_INVITATION_INTERVIEW(4, "企业邀请面试待猎头通知"),
+	ALREADY_INVITATION_INTERVIEW_NOTIFY(5, "猎头已通知求职者"),
+	WAIT_JOBHUNTER_GOTO_INTERVIEW(6, "等待求职者去面试"),
+	JOBHUNTER_NO_AGREE_INTERVIEW(7, "求职者未同意面试"),
+	ALREADY_INTERVIEW(8, "已面试");
+
+
+	
+	
+
+
+	
+	
 	
 
 	/**

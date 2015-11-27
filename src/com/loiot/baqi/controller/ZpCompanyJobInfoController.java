@@ -262,8 +262,8 @@ public class ZpCompanyJobInfoController {
     	p.setIsDelete(isDelete);
     	zpCompanyJobInfoService.updateZpCompanyJobInfo(p);
         String s = request.getHeader("Referer");
-        String redirectStr = s.substring(s.indexOf("/zpCompanyJobInfo/"), s.length());
-        return "redirect:"+redirectStr;
+        //String redirectStr = s.substring(s.indexOf("/zpCompanyJobInfo/"), s.length());
+        return "redirect:/zpCompanyJobInfo/list.action";
     }
     
 

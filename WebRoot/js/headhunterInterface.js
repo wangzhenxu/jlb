@@ -1,5 +1,5 @@
 //推荐流程
-var companyInterface = {
+var headhunterInterface = {
 	//请求url
 	listUrl:"/zpRecommendFlowInfo/list.action", //列表地址
 	toAddUrl:"/zpRecommendFlowInfo/toAdd.action", //去添加页面地址
@@ -12,7 +12,7 @@ var companyInterface = {
 	modifyDeleteStatusUrl:"/zpRecommendFlowInfo/modifyDeleteStatus.action", //停用 或启用
 	checkNameExitsUrl : "/zpRecommendFlowInfo/checkNameExits.action", //检验唯一性
 	addAuditUrl : "/zpRecommendFlowInfo/addAudit.action", //添加评审,
-	recommandJlToCompanyUrl : "/zpRecommendFlowInfo/recommandJlToCompany.action", //将简历推荐到企业,
+	headhunterNotifyFeedbackUrl : "/zpRecommendFlowInfo/headhunterNotifyFeedback.action", //求职者反馈,
 	companyRecommandFeedbackUrl : "/zpRecommendFlowInfo/companyRecommandFeedback.action", //公司反馈,
 
 
@@ -376,23 +376,23 @@ var companyInterface = {
              }
 		});
 		 $("#addAuditBtn").unbind("click").click(function(){
-			var enterpriseReplyStatus=$("#enterpriseReplyStatus :selected").val();
-			var enterpriseReplyContent = $("#enterpriseReplyContent").val();
-			if(enterpriseReplyStatus==""){
+			var hrNoticeStatus=$("#hrNoticeStatus :selected").val();
+			var hrNoticeFeedbackContent = $("#hrNoticeFeedbackContent").val();
+			if(hrNoticeStatus==""){
 				common.alert("请选择状态");
 				return;
 			}
-			if(enterpriseReplyStatus=="117" && enterpriseReplyContent==""){
+			if(hrNoticeStatus=="119" && hrNoticeFeedbackContent==""){
 				common.alert("请输入反馈内容");
 				return;
 			}
-			self.companyRecommandFeedback(auditId,enterpriseReplyStatus,enterpriseReplyContent);
+			self.headhunterNotifyFeedback(auditId,hrNoticeStatus,hrNoticeFeedbackContent);
 		});
 	},
 	
-	companyRecommandFeedback : function (auditId,enterpriseReplyStatus,enterpriseReplyContent){
+	headhunterNotifyFeedback : function (auditId,hrNoticeStatus,hrNoticeFeedbackContent){
 		var self =this;
-		$.post(self.companyRecommandFeedbackUrl,{auditId:auditId,enterpriseReplyStatus:enterpriseReplyStatus,enterpriseReplyContent:enterpriseReplyContent},function(result){
+		$.post(self.headhunterNotifyFeedbackUrl,{auditId:auditId,hrNoticeStatus:hrNoticeStatus,hrNoticeFeedbackContent:hrNoticeFeedbackContent},function(result){
 			if (result.s > 0) {
 				location.reload();
 			}  

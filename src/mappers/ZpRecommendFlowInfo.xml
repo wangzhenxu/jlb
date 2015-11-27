@@ -25,9 +25,9 @@
 	        	<result  column="hr_notice_time" property="hrNoticeTime" />
 	        	<result  column="hr_notice_feedback_content" property="hrNoticeFeedbackContent" />
 	        	<result  column="enterprise_invitation_time" property="enterpriseInvitationTime" />
-	        	<result  column="hr_before_notify_hunter__status" property="hrBeforeNotifyHunterStatus" />
-	        	<result  column="hr_before_notify_hunter__time" property="hrBeforeNotifyHunterTime" />
-	        	<result  column="hr_before_notify_hunter__person" property="hrBeforeNotifyHunterPerson" />
+	        	<result  column="hr_before_notify_hunter_status" property="hrBeforeNotifyHunterStatus" />
+	        	<result  column="hr_before_notify_hunter_time" property="hrBeforeNotifyHunterTime" />
+	        	<result  column="hr_before_notify_hunter_person" property="hrBeforeNotifyHunterPerson" />
 	        	<result  column="hunter_goto_interview_status" property="hunterGotoInterviewStatus" />
 	        	<result  column="hunter_replay_content" property="hunterReplayContent" />
 	        	<result  column="last_update_time" property="lastUpdateTime" />
@@ -35,13 +35,19 @@
 	        	<result  column="in_time" property="inTime" />
 	        	<result  column="flow_status" property="flowStatus" />
 	        	<result  column="in_person" property="inPerson" />
+	        	<result  column="enterprise_interface_person" property="enterpriseInterfacePerson" />
+	        	<result  column="headhunter_interface_person" property="headhunterInterfacePerson" />
+	        	
+	        	
 				<result  column="inPersonName" property="inPersonName" />
-				
 				<result  column="companyName" property="companyName" />
 				<result  column="companyJobName" property="companyJobName" />
 				<result  column="jlName" property="jlName" />
 				<result  column="jlFilePath" property="jlFilePath" />
 				<result  column="technicianAuditPersonName" property="technicianAuditPersonName" />
+				<result  column="enterpriseInterfacePersonName" property="enterpriseInterfacePersonName" />
+				<result  column="headhunterInterfacePersonName" property="headhunterInterfacePersonName" />
+				
 				
 				
 	</resultMap>
@@ -128,13 +134,13 @@
 		        		enterprise_invitation_time,
 		        	</if>
 		        	<if test="hrBeforeNotifyHunterStatus != null">
-		        		hr_before_notify_hunter__status,
+		        		hr_before_notify_hunter_status,
 		        	</if>
 		        	<if test="hrBeforeNotifyHunterTime != null">
-		        		hr_before_notify_hunter__time,
+		        		hr_before_notify_hunter_time,
 		        	</if>
 		        	<if test="hrBeforeNotifyHunterPerson != null">
-		        		hr_before_notify_hunter__person,
+		        		hr_before_notify_hunter_person,
 		        	</if>
 		        	<if test="hunterGotoInterviewStatus != null">
 		        		hunter_goto_interview_status,
@@ -156,6 +162,12 @@
 		        	</if>
 		        	<if test="inPerson != null">
 		        		in_person,
+		        	</if>
+		        	<if test="enterpriseInterfacePerson != null">
+		        		enterprise_interface_person,
+		        	</if>
+		        	<if test="headhunterInterfacePerson != null">
+		        		headhunter_interface_person,
 		        	</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -246,6 +258,12 @@
 			        	<if test="inPerson != null">
 			        		#{inPerson},
 			        	</if>
+			        	<if test="enterpriseInterfacePerson != null">
+		        			#{enterpriseInterfacePerson},
+		        		</if>
+		        		<if test="headhunterInterfacePerson != null">
+		        			#{headhunterInterfacePerson},
+		        		</if>
 		</trim>
 	</insert>
 	
@@ -311,13 +329,13 @@
 			        		enterprise_invitation_time=#{enterpriseInvitationTime},
 			        	</if>
 			        	<if test="hrBeforeNotifyHunterStatus != null">
-			        		hr_before_notify_hunter__status=#{hrBeforeNotifyHunterStatus},
+			        		hr_before_notify_hunter_status=#{hrBeforeNotifyHunterStatus},
 			        	</if>
 			        	<if test="hrBeforeNotifyHunterTime != null">
-			        		hr_before_notify_hunter__time=#{hrBeforeNotifyHunterTime},
+			        		hr_before_notify_hunter_time=#{hrBeforeNotifyHunterTime},
 			        	</if>
 			        	<if test="hrBeforeNotifyHunterPerson != null">
-			        		hr_before_notify_hunter__person=#{hrBeforeNotifyHunterPerson},
+			        		hr_before_notify_hunter_person=#{hrBeforeNotifyHunterPerson},
 			        	</if>
 			        	<if test="hunterGotoInterviewStatus != null">
 			        		hunter_goto_interview_status=#{hunterGotoInterviewStatus},
@@ -340,6 +358,13 @@
 			        	<if test="inPerson != null">
 			        		in_person=#{inPerson},
 			        	</if>
+			        	<if test="enterpriseInterfacePerson != null">
+			        		enterprise_interface_person=#{enterpriseInterfacePerson},
+			        	</if>
+			        	<if test="headhunterInterfacePerson != null">
+			        		headhunter_interface_person=#{headhunterInterfacePerson},
+			        	</if>
+			        	
 		</trim>
 		WHERE audit_id=#{auditId}
 	</update>
@@ -407,13 +432,13 @@
 			        		enterprise_invitation_time=#{enterpriseInvitationTime},
 			        	</if>
 			        	<if test="hrBeforeNotifyHunterStatus != null">
-			        		hr_before_notify_hunter__status=#{hrBeforeNotifyHunterStatus},
+			        		hr_before_notify_hunter_status=#{hrBeforeNotifyHunterStatus},
 			        	</if>
 			        	<if test="hrBeforeNotifyHunterTime != null">
-			        		hr_before_notify_hunter__time=#{hrBeforeNotifyHunterTime},
+			        		hr_before_notify_hunter_time=#{hrBeforeNotifyHunterTime},
 			        	</if>
 			        	<if test="hrBeforeNotifyHunterPerson != null">
-			        		hr_before_notify_hunter__person=#{hrBeforeNotifyHunterPerson},
+			        		hr_before_notify_hunter_person=#{hrBeforeNotifyHunterPerson},
 			        	</if>
 			        	<if test="hunterGotoInterviewStatus != null">
 			        		hunter_goto_interview_status=#{hunterGotoInterviewStatus},
@@ -507,13 +532,13 @@
 				        		AND enterprise_invitation_time=#{enterpriseInvitationTime} 
 				        	</if>
 				        	<if test="hrBeforeNotifyHunterStatus != null">
-				        		AND hr_before_notify_hunter__status=#{hrBeforeNotifyHunterStatus} 
+				        		AND hr_before_notify_hunter_status=#{hrBeforeNotifyHunterStatus} 
 				        	</if>
 				        	<if test="hrBeforeNotifyHunterTime != null">
-				        		AND hr_before_notify_hunter__time=#{hrBeforeNotifyHunterTime} 
+				        		AND hr_before_notify_hunter_time=#{hrBeforeNotifyHunterTime} 
 				        	</if>
 				        	<if test="hrBeforeNotifyHunterPerson != null">
-				        		AND hr_before_notify_hunter__person=#{hrBeforeNotifyHunterPerson} 
+				        		AND hr_before_notify_hunter_person=#{hrBeforeNotifyHunterPerson} 
 				        	</if>
 				        	<if test="hunterGotoInterviewStatus != null">
 				        		AND hunter_goto_interview_status=#{hunterGotoInterviewStatus} 
@@ -557,6 +582,8 @@
 			LEFT JOIN zp_jl_info ji  on ji.jl_id = rfi.jl_id
       		LEFT JOIN zp_jl_expand_info jei on  ji.jl_id = jei.jl_id
       		LEFT JOIN account a2 ON a2.account_id =rfi.technician_audit_person
+      		LEFT JOIN account a3 ON a3.account_id =rfi.enterprise_interface_person
+      		LEFT JOIN account a4 ON a3.account_id =rfi.headhunter_interface_person
       		
 			
 		<where>
@@ -629,13 +656,13 @@
 				        		AND rfi.enterprise_invitation_time=#{enterpriseInvitationTime} 
 				        	</if>
 				        	<if test="hrBeforeNotifyHunterStatus != null and hrBeforeNotifyHunterStatus !='' ">
-				        		AND rfi.hr_before_notify_hunter__status=#{hrBeforeNotifyHunterStatus} 
+				        		AND rfi.hr_before_notify_hunter_status=#{hrBeforeNotifyHunterStatus} 
 				        	</if>
 				        	<if test="hrBeforeNotifyHunterTime != null and hrBeforeNotifyHunterTime !='' ">
-				        		AND rfi.hr_before_notify_hunter__time=#{hrBeforeNotifyHunterTime} 
+				        		AND rfi.hr_before_notify_hunter_time=#{hrBeforeNotifyHunterTime} 
 				        	</if>
 				        	<if test="hrBeforeNotifyHunterPerson != null and hrBeforeNotifyHunterPerson !='' ">
-				        		AND rfi.hr_before_notify_hunter__person=#{hrBeforeNotifyHunterPerson} 
+				        		AND rfi.hr_before_notify_hunter_person=#{hrBeforeNotifyHunterPerson} 
 				        	</if>
 				        	<if test="hunterGotoInterviewStatus != null and hunterGotoInterviewStatus !='' ">
 				        		AND rfi.hunter_goto_interview_status=#{hunterGotoInterviewStatus} 
@@ -690,9 +717,9 @@
 						 		rfi.hr_notice_time,
 						 		rfi.hr_notice_feedback_content,
 						 		rfi.enterprise_invitation_time,
-						 		rfi.hr_before_notify_hunter__status,
-						 		rfi.hr_before_notify_hunter__time,
-						 		rfi.hr_before_notify_hunter__person,
+						 		rfi.hr_before_notify_hunter_status,
+						 		rfi.hr_before_notify_hunter_time,
+						 		rfi.hr_before_notify_hunter_person,
 						 		rfi.hunter_goto_interview_status,
 						 		rfi.hunter_replay_content,
 						 		rfi.last_update_time,
@@ -705,7 +732,11 @@
 								 cji.`name` as companyJobName,
 								 ji.name as jlName,
 						      	 jei.jl_file_path as jlFilePath,
-						      	 a2.username as technicianAuditPersonName
+						      	 a2.username as technicianAuditPersonName,
+						      	 rfi.enterprise_interface_person,
+						      	 a3.username as enterpriseInterfacePersonName,
+						      	 rfi.headhunter_interface_person,
+						      	 a4.username as headhunterInterfacePersonName
 	</sql>
 	
 	<!-- 统计sql -->

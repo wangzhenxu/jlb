@@ -14,6 +14,8 @@ var headhunterInterface = {
 	addAuditUrl : "/zpRecommendFlowInfo/addAudit.action", //添加评审,
 	headhunterNotifyFeedbackUrl : "/zpRecommendFlowInfo/headhunterNotifyFeedback.action", //求职者反馈,
 	companyRecommandFeedbackUrl : "/zpRecommendFlowInfo/companyRecommandFeedback.action", //公司反馈,
+	isGotoInterviewFeedbackUrl : "/zpRecommendFlowInfo/isGotoInterviewFeedback.action", //公司反馈,
+	interviewerFeedbackUrl : "/zpRecommendFlowInfo/interviewerFeedback.action", //公司反馈,
 
 
 	
@@ -386,7 +388,10 @@ var headhunterInterface = {
 				common.alert("请输入反馈内容");
 				return;
 			}
-			self.headhunterNotifyFeedback(auditId,hrNoticeStatus,hrNoticeFeedbackContent);
+			common.openModal("delete_sure","确定无误吗？");
+		    $("#delete_sure_a").click(function(){
+				self.headhunterNotifyFeedback(auditId,hrNoticeStatus,hrNoticeFeedbackContent);
+		    });
 		});
 	},
 	
@@ -407,6 +412,87 @@ var headhunterInterface = {
 	   $("#delete_sure_a").click(function(){
 			location=self.recommandJlToCompanyUrl+"?auditId="+auditId;
 	   });
-		
+	},
+	
+	//是否面试弹层
+	openIsGotoInterviewPopFeedbackPop : function (auditId,name){
+		var self =this
+		$("#isGotoInterviewPop_audit_name").html(name);
+		 $("#isGotoInterviewPop").modal().css({
+             'width':'798px',
+             'margin-top': '-150px',	                
+             'margin-left': function () {
+            	 return -($(this).width()/2);
+             }
+		});
+		 $("#isGotoInterviewAddAuditBtn").unbind("click").click(function(){
+			var hunterGotoInterviewStatus=$("input[name=hunterGotoInterviewStatus]:checked");
+			var hunterReplayContent = $("#hunterReplayContent").val();
+			if(hunterGotoInterviewStatus.length==0){
+				common.alert("请选择状态");
+				return;
+			}
+			if(hunterGotoInterviewStatus.val()=="9" && hunterReplayContent==""){
+				common.alert("请输入反馈内容");
+				return;
+			}
+			common.openModal("delete_sure","确定无误吗？");
+		    $("#delete_sure_a").click(function(){
+				self.isGotoInterviewFeedback(auditId,hunterGotoInterviewStatus.val(),hunterReplayContent);
+		    });
+		});
+	},
+	//是否面试反馈
+	isGotoInterviewFeedback : function (auditId,hunterGotoInterviewStatus,hunterReplayContent){
+		var self =this;
+		$.post(self.isGotoInterviewFeedbackUrl,{auditId:auditId,hunterGotoInterviewStatus:hunterGotoInterviewStatus,hrNoticeFeedbackContent:hunterReplayContent},function(result){
+			if (result.s > 0) {
+				location.reload();
+			}  
+			else {
+				common.alert(result.d);
+			}
+		});
+	},
+	
+	//面试反馈弹层
+	openInterviewerFeedbackPop : function (auditId,name){
+		var self =this
+		$("#audit_name").html(name);
+		 $("#interviewerPop").modal().css({
+             'width':'798px',
+             'margin-top': '-150px',	                
+             'margin-left': function () {
+            	 return -($(this).width()/2);
+             }
+		});
+		 $("#interviewerAddAuditBtn").unbind("click").click(function(){
+			var hunterInterviewStatus=$("input[name=hunterInterviewStatus]:checked");
+			var hunterInerviewReplayContent = $("#hunterInerviewReplayContent").val();
+			if(hunterInterviewStatus.length==0){
+				common.alert("请选择状态");
+				return;
+			}
+			if(hunterInterviewStatus.val()=="11" && hunterInerviewReplayContent==""){
+				common.alert("请输入反馈内容");
+				return;
+			}
+			common.openModal("delete_sure","确定无误吗？");
+		    $("#delete_sure_a").click(function(){
+				self.interviewerFeedback(auditId,hunterInterviewStatus.val(),hunterInerviewReplayContent);
+		    });
+		});
+	},
+	//面试反馈
+	interviewerFeedback : function (auditId,hunterInterviewStatus,hunterInerviewReplayContent){
+		var self =this;
+		$.post(self.interviewerFeedbackUrl,{auditId:auditId,hunterInterviewStatus:hunterInterviewStatus,hunterInerviewReplayContent:hunterInerviewReplayContent},function(result){
+			if (result.s > 0) {
+				location.reload();
+			}  
+			else {
+				common.alert(result.d);
+			}
+		});
 	}
 }

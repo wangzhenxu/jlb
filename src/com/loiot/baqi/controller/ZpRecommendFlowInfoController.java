@@ -269,6 +269,30 @@ public class ZpRecommendFlowInfoController {
     public Object headhunterNotifyFeedback(ZpRecommendFlowInfo p,HttpSession session,HttpServletRequest request) {
     	return this.zpRecommendFlowInfoService.AddFlow(p, RecommendFlowType.ALREADY_INVITATION_INTERVIEW_NOTIFY.getCode());
     }
+    
+    /**
+     *是否已经去面试的反馈
+     * 
+     * @param p 对象参数
+     * @return ajax响应
+     */
+    @RequestMapping(value = "/isGotoInterviewFeedback")
+    @ResponseBody
+    public Object isGotoInterviewFeedback(ZpRecommendFlowInfo p,HttpSession session,HttpServletRequest request) {
+    	return this.zpRecommendFlowInfoService.AddFlow(p, RecommendFlowType.HUNTER_ALREAD_GOTO_INTERVIEW.getCode());
+    }
+    
+    /**
+     *面试的反馈
+     * 
+     * @param p 对象参数
+     * @return ajax响应
+     */
+    @RequestMapping(value = "/interviewerFeedback")
+    @ResponseBody
+    public Object interviewerFeedback(ZpRecommendFlowInfo p,HttpSession session,HttpServletRequest request) {
+    	return this.zpRecommendFlowInfoService.AddFlow(p, RecommendFlowType.HUNTER_INTERVIEW_PASS.getCode());
+    }
 
     /**
      * 跳转到编辑页面

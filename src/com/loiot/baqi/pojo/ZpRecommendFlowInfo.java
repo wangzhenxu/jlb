@@ -38,7 +38,7 @@ public class ZpRecommendFlowInfo  implements java.io.Serializable{
 	    private java.util.Date hrBeforeNotifyHunterStatus;  //hr提前通知状态 db_column: hr_before_notify_hunter__status 
 	    private java.util.Date hrBeforeNotifyHunterTime;  //hr提前通知时间 db_column: hr_before_notify_hunter__time 
 	    private java.lang.Long hrBeforeNotifyHunterPerson;  //hrBeforeNotifyHunterPerson db_column: hr_before_notify_hunter__person 
-	    private java.lang.Long hunterGotoInterviewStatus;  //求职者是否已经去面试 db_column: hunter_goto_interview_status 
+	    private java.lang.Integer hunterGotoInterviewStatus;  //求职者是否已经去面试 db_column: hunter_goto_interview_status 
 	    private java.lang.String hunterReplayContent;  //求职者反馈 db_column: hunter_replay_content 
 	    private java.util.Date lastUpdateTime;  //最后更新时间 db_column: last_update_time 
 	    private java.lang.Long lastUpdatePerson;  //最后更新人 db_column: last_update_person 
@@ -47,8 +47,11 @@ public class ZpRecommendFlowInfo  implements java.io.Serializable{
 	    private java.lang.Long inPerson;  //录入人 db_column: in_person 
 	    private Long enterpriseInterfacePerson;//企业对接人
 	    private Long headhunterInterfacePerson;//电话猎头对接人
-	    
-
+	    private Integer hunterInterviewStatus;  //求职者面试反馈状态 db_column: hunter_interview_status 
+	    private java.util.Date hunterInterviewOperatorTime;  //顾问操作时间 db_column: hunter_interview_operator_time 
+	    private java.lang.String hunterInerviewReplayContent;  //求职者面试反馈内容 db_column: hunter_inerview_replay_content 
+	    private java.util.Date hunterGotoInterviewOperatorTime;  //猎头顾问馈时间 db_column: hunter_goto_interview_operator_time 
+	  
 	  private java.lang.String inPersonName;
 	  private String companyName;
 	  private String companyJobName;  

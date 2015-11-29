@@ -386,7 +386,10 @@ var companyInterface = {
 				common.alert("请输入反馈内容");
 				return;
 			}
-			self.companyRecommandFeedback(auditId,enterpriseReplyStatus,enterpriseReplyContent);
+		   common.openModal("delete_sure","确定无误吗？");
+		   $("#delete_sure_a").click(function(){
+				self.companyRecommandFeedback(auditId,enterpriseReplyStatus,enterpriseReplyContent);
+		   });
 		});
 	},
 	

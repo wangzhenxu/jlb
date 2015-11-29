@@ -6,7 +6,7 @@
 	<title>网站后台管理系统-${pageTitle!''}管理</title>
 	<@gmc_common_js "select" />
 </head>
-	<body>
+	<body> 
     
     <div class="right">
             <div class="location">
@@ -52,8 +52,9 @@
                                         <ul>
                                             <li   <#if flowStatus??> <#else> class="list" </#if>  ><a href="/zpRecommendFlowInfo/headhunterInterfaceList.action" class="pdtrule">全部</a></li>
                                             <li   <#if flowStatus?? && flowStatus==RecommendFlowType.COMPANY_INVITATION_INTERVIEW.getCode()> class="list" </#if>   ><a href="/zpRecommendFlowInfo/headhunterInterfaceList.action?flowStatus=${RecommendFlowType.COMPANY_INVITATION_INTERVIEW.getCode()}" class="pdtrule">待通知</a></li>
-                                            <li   <#if flowStatus?? && flowStatus==RecommendFlowType.ALREADY_RECOMMEND_COMPANY.getCode()> class="list" </#if>   ><a href="/zpRecommendFlowInfo/headhunterInterfaceList.action?flowStatus=${RecommendFlowType.ALREADY_RECOMMEND_COMPANY.getCode()}" class="followrule">已通知</a></li>
-                                            <li   <#if flowStatus?? && flowStatus==RecommendFlowType.ALREADY_RECOMMEND_COMPANY.getCode()> class="list" </#if>   ><a href="/zpRecommendFlowInfo/headhunterInterfaceList.action?flowStatus=${RecommendFlowType.ALREADY_RECOMMEND_COMPANY.getCode()}" class="followrule">已面试</a></li>
+                                            <li   <#if flowStatus?? && flowStatus==RecommendFlowType.WAIT_JOBHUNTER_GOTO_INTERVIEW.getCode()> class="list" </#if>   ><a href="/zpRecommendFlowInfo/headhunterInterfaceList.action?flowStatus=${RecommendFlowType.WAIT_JOBHUNTER_GOTO_INTERVIEW.getCode()}" class="followrule">同意去面试</a></li>
+                                            <li   <#if flowStatus?? && flowStatus==RecommendFlowType.HUNTER_ALREAD_GOTO_INTERVIEW.getCode()> class="list" </#if>   ><a href="/zpRecommendFlowInfo/headhunterInterfaceList.action?flowStatus=${RecommendFlowType.HUNTER_ALREAD_GOTO_INTERVIEW.getCode()}" class="followrule">已面试</a></li>
+                                            
                                         </ul>
                                     </div>
                                 </div>
@@ -81,7 +82,6 @@
         
         
  <!-- 企业反馈-->
-<!-- 选择技术评pop 开始 -->
 <div class="pop_sure modal hide fade" id="auditPersonPop">
 	  <div class="content">
 	 <div class="quanxian">
@@ -125,6 +125,95 @@
     	</div>
     
 	   
+	  </div>
+	 </div>
+	 </div>
+</div>
+
+
+<!-- 求职者是否已去面试-->
+<div class="pop_sure modal hide fade" id="isGotoInterviewPop">
+	  <div class="content">
+	 <div class="quanxian">
+	  <div class="quanxian1">
+	   <div class="whitea">是否去面试</div>
+	   <div class="close"><img src="/images/xinjian_03.gif" width="18" height="18" data-dismiss="modal"/></div>
+	  </div>
+	  <div class="quanxian2">
+	   <div class="czrz">
+	     <table width="100%" border="0">
+        <tr>
+	        <td align="left" class="hui1"  >求职者：<span id="isGotoInterviewPop_audit_name"></span></td>
+	        <td></td>
+     	 </tr>
+       <tr>
+       <td align="left" class="hui1">是否已去面试</td>
+        <td align="left" class="hui1" >
+           <input type="radio" class="radio"  name="hunterGotoInterviewStatus"  value="${RecommendFlowType.HUNTER_ALREAD_GOTO_INTERVIEW.getCode()}" /> ${RecommendFlowType.HUNTER_ALREAD_GOTO_INTERVIEW.getTitle()} 
+    		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    		<input type="radio" class="radio"  name="hunterGotoInterviewStatus" value="${RecommendFlowType.HUNTER_NO_GOTO_INTERVIEW.getCode()}" /> ${RecommendFlowType.HUNTER_NO_GOTO_INTERVIEW.getTitle()} 
+        </td>
+      </tr>
+      
+      <tr>
+       <td align="center" class="hui1" colspan="2">
+       		<textarea cols="70" id="hunterReplayContent" name="hunterReplayContent" rows="12" placeholder="请输入反馈内容" ></textarea>
+       </td>
+      </tr>
+      </table>
+	   </div>
+	   
+	   <div class="anniu">
+	   		<div class="btn-group">
+				 <button type="button" class="btn btn-default" id="isGotoInterviewAddAuditBtn">确&nbsp;定</button>
+				  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		  		 <button type="button" class="btn btn-default" data-dismiss="modal">取&nbsp;消</button>
+      		</div>
+    	</div>
+	  </div>
+	 </div>
+	 </div>
+</div>
+
+<!-- 面试反馈-->
+<div class="pop_sure modal hide fade" id="interviewerPop">
+	  <div class="content">
+	 <div class="quanxian">
+	  <div class="quanxian1">
+	   <div class="whitea">面试反馈</div>
+	   <div class="close"><img src="/images/xinjian_03.gif" width="18" height="18" data-dismiss="modal"/></div>
+	  </div>
+	  <div class="quanxian2">
+	   <div class="czrz">
+	     <table width="100%" border="0">
+        <tr>
+	        <td align="left" class="hui1"  >求职者：<span id="interviewerpop_audit_name"></span></td>
+	        <td></td>
+     	 </tr>
+       <tr>
+       <td align="left" class="hui1">面试反馈状态</td>
+        <td align="left" class="hui1" >
+	         <input type="radio" class="radio"  name="hunterInterviewStatus"  value="${RecommendFlowType.HUNTER_INTERVIEW_PASS.getCode()}" /> ${RecommendFlowType.HUNTER_INTERVIEW_PASS.getTitle()} 
+    		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    		<input type="radio" class="radio"  name="hunterInterviewStatus" value="${RecommendFlowType.HUNTER_INTERVIEW_NO_PASS.getCode()}" /> ${RecommendFlowType.HUNTER_INTERVIEW_NO_PASS.getTitle()}
+        </td>
+      </tr>
+      
+      <tr>
+       <td align="center" class="hui1" colspan="2">
+       		<textarea cols="70" id="hunterInerviewReplayContent" name="hunterInerviewReplayContent" rows="12" placeholder="请输入反馈内容" ></textarea>
+       </td>
+      </tr>
+      </table>
+	   </div>
+	   
+	   <div class="anniu">
+	   		<div class="btn-group">
+				 <button type="button" class="btn btn-default" id="interviewerAddAuditBtn">确&nbsp;定</button>
+				  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		  		 <button type="button" class="btn btn-default" data-dismiss="modal">取&nbsp;消</button>
+      		</div>
+    	</div>
 	  </div>
 	 </div>
 	 </div>

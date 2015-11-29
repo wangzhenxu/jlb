@@ -2,7 +2,6 @@ package com.loiot.baqi.utils;
 
 import java.util.ArrayList;
 import java.util.List;
-
 public class GaoDeUtils {
 	private String key;//高德key
 	private String type="json";//json 或xml

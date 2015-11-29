@@ -398,7 +398,7 @@ public class ZpJlInfoService{
     				 SimpleEmailVo vo = new SimpleEmailVo();
         			 vo.addEmail(email);
                      vo.setTitle("憬仪评审通知");
-                     vo.setContent("亲["+nickname+"]有"+jlcount+"份简历需要评审！么么哒！");
+                     vo.setContent(ApplicationConst.getMessage("10101", nickname,String.valueOf(jlcount)));
                      emailClient.send(vo);
                      Thread.sleep(10000);
                      log.info("发送时间："+DateUtil.toString(DateUtil.getNow(), DateUtil.DEFAULT_LONG_FORMAT));

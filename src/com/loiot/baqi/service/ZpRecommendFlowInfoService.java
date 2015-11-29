@@ -9,9 +9,13 @@ import javax.annotation.Resource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.loiot.baqi.commons.message.email.EmailClient;
+import com.loiot.baqi.commons.message.email.SimpleEmailVo;
+import com.loiot.baqi.constant.ApplicationConst;
 import com.loiot.baqi.constant.DictionaryUtil;
 import com.loiot.baqi.controller.response.AjaxResponse;
 import com.loiot.baqi.controller.response.Pager;
@@ -27,6 +31,8 @@ import com.loiot.baqi.status.RecommendFlowType;
 import com.loiot.baqi.utils.UserSessionUtils;
 import com.loiot.baqi.pojo.ZpRecommendFlowInfo;
 import com.loiot.baqi.pojo.ZpJlJobLevels;
+import com.loiot.commons.utils.DateUtil;
+import com.loiot.commons.utils.StringUtil;
 import com.timeloit.pojo.Account;
 
 
@@ -47,6 +53,9 @@ public class ZpRecommendFlowInfoService{
     
     @Resource
 	private ZpJobMatchingInfoDao zpJobMatchingInfoDao;
+    
+    @Autowired
+    private EmailClient emailClient;
     
     /**
      * 账号数据访问接口
@@ -269,7 +278,17 @@ public class ZpRecommendFlowInfoService{
     	//猎头通知求职者反馈
 		if(RecommendFlowType.ALREADY_INVITATION_INTERVIEW_NOTIFY.getCode()==flowType){
     		return this.headhunterNotifyFeedback(p);
+    	}else
+    	//是否已经去面试的反馈
+		if(RecommendFlowType.HUNTER_ALREAD_GOTO_INTERVIEW.getCode()==flowType){
+    		return this.isGotoInterviewFeedback(p);
+    	}else
+    	//面试的反馈
+		if(RecommendFlowType.HUNTER_INTERVIEW_PASS.getCode()==flowType){
+    		return this.interviewerFeedback(p);
     	}
+    	
+    	
 		
 		
 		
@@ -293,11 +312,11 @@ public class ZpRecommendFlowInfoService{
             if(UserSessionUtils.getAccount().getType()==AccountType.TECHICAL_AUDIT.getCode() || UserSessionUtils.getAccount().getType()==AccountType.ADMIN.getCode()){
              
               //获取企业对接人
-              Long companyInterfacePerson = getCompanyInterfacePerson();
-              if(companyInterfacePerson==null){
+              final Account account = getCompanyInterfacePerson();
+              if(account==null){
             	   return  new AjaxResponse(-1, "没找到企业对接人");
               }
-            	
+              
                ZpRecommendFlowInfo newP = new ZpRecommendFlowInfo();
          	   newP.setMatchId(p.getMatchId());
         		   newP.setTechnicianAuditTime(new Date());
@@ -307,8 +326,24 @@ public class ZpRecommendFlowInfoService{
         		   newP.setJlId(p.getJlId());
         		   newP.setCompanyJobId(p.getCompanyJobId());
         		   newP.setFlowStatus((int)RecommendFlowType.WAIT_RECOMMEND_COMPANY.getCode());
-        		   newP.setEnterpriseInterfacePerson(companyInterfacePerson);
+        		   newP.setEnterpriseInterfacePerson(account.getAccountId());
         		   this.zpRecommendFlowInfoDao.addZpRecommendFlowInfo(newP);
+        		   new Thread(){ 
+                 	  @Override 
+                 	  public void run() { 
+                 		  String nickname=account.getNickName();
+                 	       String email=account.getEmail();
+                 	        if(email!=null && StringUtil.isEmail(email) ){
+                 	         SimpleEmailVo vo = new SimpleEmailVo();
+                 	            vo.addEmail(email);
+                 	                     vo.setTitle("憬仪评审通知");
+                 	                     vo.setContent(ApplicationConst.getMessage("10102", nickname,String.valueOf("1")));
+                 	                     emailClient.send(vo);
+                 	                     log.info("发送时间："+DateUtil.toString(DateUtil.getNow(), DateUtil.DEFAULT_LONG_FORMAT));
+                 	        }
+
+                 	  } 
+                     }.start();
             }
      		// 添加成功
      		return AjaxResponse.OK;
@@ -358,11 +393,27 @@ public class ZpRecommendFlowInfoService{
          	   if(p.getEnterpriseReplyStatus()==DictionaryUtil.getCode(DictionaryType.ENTERPRISE_REPLY_STATUS.getCode(), "邀请面试"))
          	   {
          		  //获取电话猎头对接人
-                   Long headhunterInterfacePerson = this.getHeadhunterInterfacePerson();
-                   if(headhunterInterfacePerson==null){
+         		  final Account account = this.getHeadhunterInterfacePerson();
+         		  if(account==null){
                  	   return  new AjaxResponse(-1, "没找到猎头顾问");
                    }
-             	   newP.setHeadhunterInterfacePerson(headhunterInterfacePerson);
+         		  
+         		 new Thread(){ 
+               	  @Override 
+               	  public void run() { 
+               		  String nickname=account.getNickName();
+               	       String email=account.getEmail();
+               	        if(email!=null && StringUtil.isEmail(email) ){
+               	         SimpleEmailVo vo = new SimpleEmailVo();
+               	            vo.addEmail(email);
+               	                     vo.setTitle("憬仪通知");
+               	                     vo.setContent(ApplicationConst.getMessage("10103", nickname,String.valueOf("1")));
+               	                     emailClient.send(vo);
+               	                     log.info("发送时间："+DateUtil.toString(DateUtil.getNow(), DateUtil.DEFAULT_LONG_FORMAT));
+               	        }
+               	  } 
+                   }.start();
+             	   newP.setHeadhunterInterfacePerson(account.getAccountId());
          		  //企业反馈通过
          		  newP.setFlowStatus((int)RecommendFlowType.COMPANY_INVITATION_INTERVIEW.getCode());
          	   }else {
@@ -370,6 +421,7 @@ public class ZpRecommendFlowInfoService{
              	   newP.setFlowStatus((int)RecommendFlowType.RECOMMEND_COMPANY_FAILURE.getCode());
          	   }
     		   this.zpRecommendFlowInfoDao.updateZpRecommendFlowInfo(newP);
+    		   
             }
      		// 添加成功
      		return AjaxResponse.OK;
@@ -381,7 +433,7 @@ public class ZpRecommendFlowInfoService{
  		}
     }
     
-  //企业推荐反馈
+    //企业推荐反馈
     public AjaxResponse headhunterNotifyFeedback(ZpRecommendFlowInfo p){
     	try {
             if(UserSessionUtils.getAccount().getType()==AccountType.HEAD_HUNTING_MANAGER.getCode() || UserSessionUtils.getAccount().getType()==AccountType.ADMIN.getCode()){
@@ -410,26 +462,70 @@ public class ZpRecommendFlowInfoService{
  		}
     }
     
+    //是否已经去面试的反馈
+    public AjaxResponse isGotoInterviewFeedback(ZpRecommendFlowInfo p){
+    	try {
+            if(UserSessionUtils.getAccount().getType()==AccountType.HEAD_HUNTING_MANAGER.getCode() || UserSessionUtils.getAccount().getType()==AccountType.ADMIN.getCode()){
+               ZpRecommendFlowInfo newP = new ZpRecommendFlowInfo();
+         	   newP.setAuditId(p.getAuditId());
+         	   newP.setHunterGotoInterviewOperatorTime(new Date());
+         	   newP.setHunterGotoInterviewStatus(p.getHunterGotoInterviewStatus());
+         	   newP.setHunterReplayContent(p.getHunterReplayContent());
+         	   newP.setFlowStatus(p.getHunterGotoInterviewStatus());
+    		   this.zpRecommendFlowInfoDao.updateZpRecommendFlowInfo(newP);
+            }
+     		// 添加成功
+     		return AjaxResponse.OK;
+     	}
+         catch (Exception e) {
+ 			e.printStackTrace();
+ 			 //失败
+ 	        return AjaxResponse.FAILED;
+ 		}
+    }
+    
+    //面试的反馈
+    public AjaxResponse interviewerFeedback(ZpRecommendFlowInfo p){
+    	try {
+            if(UserSessionUtils.getAccount().getType()==AccountType.HEAD_HUNTING_MANAGER.getCode() || UserSessionUtils.getAccount().getType()==AccountType.ADMIN.getCode()){
+               ZpRecommendFlowInfo newP = new ZpRecommendFlowInfo();
+         	   newP.setAuditId(p.getAuditId());
+               newP.setHunterInterviewStatus(p.getHunterInterviewStatus());
+         	   newP.setHunterInerviewReplayContent(p.getHunterInerviewReplayContent());
+         	   newP.setHunterInterviewOperatorTime(new Date());
+         	   newP.setFlowStatus(p.getHunterInterviewStatus());
+         	   this.zpRecommendFlowInfoDao.updateZpRecommendFlowInfo(newP);
+            }
+     		// 添加成功
+     		return AjaxResponse.OK;
+     	}
+         catch (Exception e) {
+ 			e.printStackTrace();
+ 			 //失败
+ 	        return AjaxResponse.FAILED;
+ 		}
+    }
+    
     //获取企业对接人
-    public Long getCompanyInterfacePerson(){
+    public Account getCompanyInterfacePerson(){
 		 HashMap<String,Object> pmap = new HashMap<String,Object>();
 		 pmap.put("type", AccountType.COMPANY_INTERFACER.getCode());
 		 pmap.put("isDelete", PauseStartType.START.getCode());
     	 List<Account> list = accountDao.queryAccountList(pmap);
     	 if(list!=null && list.size()>0){
-    		return list.get(0).getAccountId();
+    		return list.get(0);
     	 }
     	 return null;
     }
     
     //获取电话猎头对接人
-    public Long getHeadhunterInterfacePerson(){
+    public Account getHeadhunterInterfacePerson(){
 		 HashMap<String,Object> pmap = new HashMap<String,Object>();
 		 pmap.put("type", AccountType.HEAD_HUNTING_MANAGER.getCode());
 		 pmap.put("isDelete", PauseStartType.START.getCode());
     	 List<Account> list = accountDao.queryAccountList(pmap);
     	 if(list!=null && list.size()>0){
-    		return list.get(0).getAccountId();
+    		return list.get(0);
     	 }
     	 return null;
     }

@@ -608,7 +608,7 @@
       		LEFT JOIN zp_jl_expand_info jei on  ji.jl_id = jei.jl_id
       		LEFT JOIN account a2 ON a2.account_id =rfi.technician_audit_person
       		LEFT JOIN account a3 ON a3.account_id =rfi.enterprise_interface_person
-      		LEFT JOIN account a4 ON a3.account_id =rfi.headhunter_interface_person
+      		LEFT JOIN account a4 ON a4.account_id =rfi.headhunter_interface_person
       		
 			
 		<where>
@@ -635,7 +635,7 @@
 				        	<if test="enterpriseName != null and enterpriseName !='' ">
 				        		AND rfi.enterprise_name=#{enterpriseName} 
 				        	</if>
-				        	<if test="technicianAuditPerson != null and technicianAuditPerson !='' ">
+				        	<if test="technicianAuditPersontechnicianAuditPerson != null and technicianAuditPerson !='' ">
 				        		AND rfi.technician_audit_person=#{technicianAuditPerson} 
 				        	</if>
 				        	<if test="technicianAuditContent != null and technicianAuditContent !='' ">
@@ -711,13 +711,17 @@
 				        		AND rfi.in_person=#{inPerson} 
 				        	</if>
 				        <if test="hunterInterviewStatus != null">
-			        		hunter_interview_status=#{hunterInterviewStatus},
+			        		AND hunter_interview_status=#{hunterInterviewStatus}
 			        	</if>
 			        	<if test="hunterInterviewOperatorTime != null">
-			        		hunter_interview_operator_time=#{hunterInterviewOperatorTime},
+			        		AND hunter_interview_operator_time=#{hunterInterviewOperatorTime}
 			        	</if>
 			        	<if test="hunterInerviewReplayContent != null">
-			        		hunter_inerview_replay_content=#{hunterInerviewReplayContent},
+			        		AND hunter_inerview_replay_content=#{hunterInerviewReplayContent}
+			        	</if>
+			        	
+			        	<if test="jlInPerson != null">
+			        		AND ji.in_person=#{jlInPerson}
 			        	</if>
 					
 					<if test="ids !=null">

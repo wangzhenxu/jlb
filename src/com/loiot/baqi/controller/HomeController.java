@@ -58,10 +58,20 @@ public class HomeController {
 			// 评审管理
 			return "redirect:/account/list.action";
 		}
+		else if (subject.isPermitted("companyInterface:list")) {
+			// 企业对接管理
+			return "redirect:/zpRecommendFlowInfo/companyInterfaceList.action";
+		}
+		else if (subject.isPermitted("headhunterInterface:list")) {
+			// 猎头对接管理
+			return "redirect:/zpRecommendFlowInfo/headhunterInterfaceList.action";
+		}else if (subject.isPermitted("zpRecommendFlowInfo:list")) {
+			// 流程管理
+			return "redirect:/zpRecommendFlowInfo/list.action";
+		}
 		else {
 			// 什么角色都没有就到密码修改，一般没有这个情况
 			return "redirect:/password.action";
 		}
-
 	}
 }

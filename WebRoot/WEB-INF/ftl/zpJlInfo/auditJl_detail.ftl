@@ -6,26 +6,35 @@
 <script type="text/javascript" src="/js/source/jquery.validationEngine.min.js"></script>
 <link href="/css/c_validationEngine.jquery.css" rel="stylesheet" type="text/css" />
 <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+
 <script src="/js/ajaxfileupload.js"></script>
 <script src="/js/my97/WdatePicker.js" type="text/javascript" > </script>
  <script type="text/javascript" src="/js/ckeditor/ckeditor.js"></script>			
-
+<style type="text/css">
+.pipei{ }
+.pipei td{text-align:center;color:#000000}
+.pipei .TL{width:14px;height:34px; background:url(../images/pipei_bg_TL.png) no-repeat LEFT top;}
+.pipei .TC{height:30px; background:url(../images/pipei_bg_TC.jpg) repeat-x top;}
+.pipei .TR{width:14px;height:34px; background:url(../images/pipei_bg_TR.png) no-repeat RIGHT top;}
+.pipei .P_title{text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);letter-spacing: 3px;font-weight:bold;text-align:left;color:#000000}
+.pipei .P_title2{background:url(../images/p_title2.jpg) repeat-x;letter-spacing: 3px;text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);}
+</style>
 
 <!-- 右侧 开始 -->
-<div class="right" style="displa2y:none; ">
+<div class="right" style="displa2y:none;">
   <ul class="nav nav-tabs" style="padding:20px 0 0 10px" >
-                <li class="active"><a href="#A" data-toggle="tab">个人信息</a></li>
-                <li class=""><a href="#B" data-toggle="tab">匹配信息</a></li>
+                <li class="active"><a href="#B" data-toggle="tab">匹配信息</a></li>
+                <li class=""><a href="#A" data-toggle="tab">个人信息</a></li>
                 <li class=""><a href="#C" data-toggle="tab">评审信息</a></li>
               </ul>
-  <div class="bs-docs-example">
+  <div class="bs-docs-example" >
             <div class="tabbable tabs-left">
               <div class="tab-content">
-              	  <div class="tab-pane active" id="A">
+              	  <div class="tab-pane" id="A">
             
             
              
-    <div class="nav">
+    <div class="nav" >
      <div class="query1">
        <table width="100%" border="0" align="left">
           <tr style="" class="">
@@ -46,22 +55,29 @@
               
               
                 </div>
-                <div class="tab-pane" id="B">
+                <div class="tab-pane active" id="B">
                  
                  
     
-    <div class="nav">
+    <div class="nav" >
      
 	  <input type="hidden" name="PDesc" id="PDesc">
 	  <input type="hidden" name="techPara" id="techPara">
 	  <input type="hidden" name="install" id="install">
-     <div class="query1" style="width:100%">
-       <table width="100%" border="0">
-         <tbody>
+     <div class="query1" style="width:96%;">
+       <table class="pipei" width="100%" border="0">
+        <tr >
+        <td class="TL"> &nbsp;</td>
+        <td class="P_title TC">已匹配</td>
+        <td class="TR"> &nbsp;</td>
+        </tr>
+        <tr>
+        <td colspan="3" style="padding:0;" cellspacing="0" cellpadding="0">
+        <table id="table1" style="background:#e5e9ec; border:1px solid #bfc7ca;border-top:none;"  width="100%" border="0" cellspacing="0" cellpadding="0">
           <tr >
-        <td  height="37"  align="left" valign="middle"><strong>标题</strong></td>
-       	<td  height="37"   align="left" valign="middle" ><strong>公司要求</strong></td>
-        <td  height="37"    align="left" valign="middle" ><strong>个人信息</strong></td>
+        <td width="25%" height="34"  class="P_title2"  align="left" valign="middle"><strong>标题</strong></td>
+       	<td  height="34"  class="P_title2"  align="left" valign="middle" ><strong>公司要求</strong></td>
+        <td width="25%" height="34" class="P_title2"    align="left" valign="middle" ><strong>个人信息</strong></td>
        </tr>
        
        <#list matchList as c>
@@ -91,22 +107,33 @@
        
          </tbody>
          </table>
+         </td>
+         </tr>
+         </table>
      </div>
      
-     <div class="query1" style="width:100%">
-       <table width="100%" border="0">
-        
+     <div class="query1" style="width:96%;">
+   
+       <table class="pipei" width="100%" border="0"cellspacing="0" cellpadding="0">
+        <tr>
+        <td class="TL"> &nbsp;</td>
+        <td class="P_title TC">未匹配</td>
+        <td class="TR"> &nbsp;</td>
+        </tr>
+        <tr>
+        <td colspan="3" style="padding:0;">
+        <table id="table2" style="background:#e5e9ec; border:1px solid #bfc7ca;border-top:none;"  width="100%" border="0" cellspacing="0" cellpadding="0">
         <tbody>
           <tr >
-        <td  height="37"  align="left" valign="middle"><strong>标题</strong></td>
-       	<td  height="37"   align="left" valign="middle" ><strong>公司要求</strong></td>
-        <td  height="37"    align="left" valign="middle" ><strong>个人信息</strong></td>
+        <td width="25%" class="P_title2"  height="34"  align="left" valign="middle"><strong>标题</strong></td>
+       	<td  height="34" class="P_title2"   align="left" valign="middle" ><strong>公司要求</strong></td>
+        <td width="25%" class="P_title2"  height="34"    align="left" valign="middle" ><strong>个人信息</strong></td>
        </tr>
        
        <#list matchList as c>
        	  <#if c.status==JobMatchType.UNMATCH.getCode()>
          <tr>
-          <td align="left"  class="hui">${c.cloumnName!''}</td>
+          <td align="left"  class="hui" >${c.cloumnName!''}</td>
           <td align="left" class="hui">${c.companyRequireName!''}</td>
           <td align="left"  class="hui">
            	<#if c.jobSeekerInfo?? && c.jobSeekerInfo?length gt 0>
@@ -135,6 +162,10 @@
          </tbody>
         
         </table>
+        </td>
+        </tr>
+        </table>
+         
      </div>
     </div>
    
@@ -154,12 +185,12 @@
 	  <input type="hidden" name="matchId" id="matchId" value="${matchInfo.matchId!''}">
 	 
 	 
-     <div class="query1" style="width:100%">
+     <div class="query1" style="width:95%">
        <table width="100%" border="0">
          <tbody>
          
          <tr>
-           <td colspan="4" class="red">* 号为必填项  &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;当前关键字匹配率${matchInfo.keywordPercent!'0'}%（大于等于40%才可评审）</td>
+           <td colspan="4" class="red">* 号为必填项  &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;当前关键字匹配率${matchInfo.keywordPercent!'0'}%（大于等于${ApplicationConst.ALLOW_KEYWORDPERCENT}才可评审）</td>
          </tr>
          
          <tr style="display:none;">
@@ -216,4 +247,12 @@
             recommendflow.disableTechnicianAuditInput();
    	</#if>
   </#if>		
+</script>
+<script Language="Javascript">
+for (j=1;j<3 ;j++) {
+	var cobj=document.getElementById("table"+j).rows;
+	for (i=0;i< cobj.length ;i++) {
+	(i%2==0)?(cobj[i].style.background = "#f6f4f4"):(cobj[i].style.background = "#fcfbfb");
+	}
+}
 </script>

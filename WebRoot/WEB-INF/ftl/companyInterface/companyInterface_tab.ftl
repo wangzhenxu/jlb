@@ -29,7 +29,7 @@
 		 	   </td>
 			 <td align="center" class="hui">
 	    			 <#if c.technicianAuditTime??>
-		        	 	 ${c.technicianAuditTime?string("yyyy-MM-dd")}
+		        	 	 ${c.technicianAuditTime?string("yyyy-MM-dd HH:mm:ss")}
 		 		 	 </#if>
 		 	 </td>
 		 	  <td align="center" class="hui">
@@ -39,9 +39,7 @@
 		 	 </td>
 			 <td align="center" class="hui" style="width:300px;"  >
 		       		<div class="btn-group">
-	      			<#if subject.isPermitted("zpJlInfo:list")>   <#--zpRecommendFlowInfo:detail  -->
-					  <button type="button" class="btn btn-default"  onclick="recommendflow.toDetail('${c.auditId}')">详情</button>
-					 </#if>
+					  <button type="button" class="btn btn-default"  onclick="companyInterface.toDetail('${c.auditId}')">详情</button>
 		      		</div>
 	        </td>
 	       </tr>
@@ -79,7 +77,7 @@
 		 	   </td>
 			 <td align="center" class="hui">
 	    			 <#if c.technicianAuditTime??>
-		        	 	 ${c.technicianAuditTime?string("yyyy-MM-dd")}
+		        	 	 ${c.technicianAuditTime?string("yyyy-MM-dd HH:mm:ss")}
 		 		 	 </#if>
 		 	 </td>
 		 	  <td align="center" class="hui">
@@ -89,9 +87,7 @@
 		 	 </td>
 			 <td align="center" class="hui" style="width:300px;"  >
 		       		<div class="btn-group">
-	      			<#if subject.isPermitted("zpJlInfo:list")>   <#--zpRecommendFlowInfo:detail  -->
-					  <button type="button" class="btn btn-default"  onclick="recommendflow.toDetail('${c.auditId}')">详情</button>
-					 </#if>
+					  <button type="button" class="btn btn-default"  onclick="companyInterface.toDetail('${c.auditId}')">详情</button>
 					  <button type="button" class="btn btn-default"  onclick="companyInterface.recommandJlToCompany('${c.auditId}')">推荐</button>
 		      		</div>
 	        </td>
@@ -130,7 +126,7 @@
 		 	   </td>
 			 <td align="center" class="hui">
 	    			 <#if c.technicianAuditTime??>
-		        	 	 ${c.technicianAuditTime?string("yyyy-MM-dd")}
+		        	 	 ${c.technicianAuditTime?string("yyyy-MM-dd HH:mm:ss")}
 		 		 	 </#if>
 		 	 </td>
 		 	  <td align="center" class="hui">
@@ -140,9 +136,9 @@
 		 	 </td>
 			 <td align="center" class="hui" style="width:300px;"  >
 		       		<div class="btn-group">
-	      			<#if subject.isPermitted("zpJlInfo:list")>   <#--zpRecommendFlowInfo:detail  -->
 					  <button type="button" class="btn btn-default"  onclick="companyInterface.audit('${c.auditId!""}','${c.jlName!""}')">企业反馈</button>
-					 </#if>
+					 </div>
+			</td>	
 	       </tr>
 	       </#list>
 </tbody></table>

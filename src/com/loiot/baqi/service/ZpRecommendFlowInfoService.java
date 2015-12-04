@@ -20,15 +20,18 @@ import com.loiot.baqi.constant.DictionaryUtil;
 import com.loiot.baqi.controller.response.AjaxResponse;
 import com.loiot.baqi.controller.response.Pager;
 import com.loiot.baqi.dao.AccountDao;
+import com.loiot.baqi.dao.ZpJlExpandInfoDao;
 import com.loiot.baqi.dao.ZpJobMatchingInfoDao;
 import com.loiot.baqi.dao.ZpRecommendFlowInfoDao;
 import com.loiot.baqi.service.ZpRecommendFlowInfoService;
 import com.loiot.baqi.status.AccountType;
 import com.loiot.baqi.status.DictionaryType;
 import com.loiot.baqi.status.JlAuditType;
+import com.loiot.baqi.status.JlFlowType;
 import com.loiot.baqi.status.PauseStartType;
 import com.loiot.baqi.status.RecommendFlowType;
 import com.loiot.baqi.utils.UserSessionUtils;
+import com.loiot.baqi.pojo.ZpJlExpandInfo;
 import com.loiot.baqi.pojo.ZpRecommendFlowInfo;
 import com.loiot.baqi.pojo.ZpJlJobLevels;
 import com.loiot.commons.utils.DateUtil;
@@ -62,6 +65,9 @@ public class ZpRecommendFlowInfoService{
      */
     @Resource
     private AccountDao accountDao;
+    
+    @Resource
+	private ZpJlExpandInfoDao zpJlExpandInfoDao;
 	
 	
 	 /**
@@ -304,7 +310,7 @@ public class ZpRecommendFlowInfoService{
          	   pmap.put("matchId", p.getMatchId());
          	   pmap.put("inPerson", UserSessionUtils.getAccount().getAccountId());
          	   int count =this.zpJobMatchingInfoDao.getZpJobMatchingInfoListCount(pmap);
-                if(count!=1){
+                if(count==0){
              	   return AjaxResponse.ILLEGAL_OPERATER;
                 }
             }
@@ -328,22 +334,8 @@ public class ZpRecommendFlowInfoService{
         		   newP.setFlowStatus((int)RecommendFlowType.WAIT_RECOMMEND_COMPANY.getCode());
         		   newP.setEnterpriseInterfacePerson(account.getAccountId());
         		   this.zpRecommendFlowInfoDao.addZpRecommendFlowInfo(newP);
-        		   new Thread(){ 
-                 	  @Override 
-                 	  public void run() { 
-                 		  String nickname=account.getNickName();
-                 	       String email=account.getEmail();
-                 	        if(email!=null && StringUtil.isEmail(email) ){
-                 	         SimpleEmailVo vo = new SimpleEmailVo();
-                 	            vo.addEmail(email);
-                 	                     vo.setTitle("憬仪评审通知");
-                 	                     vo.setContent(ApplicationConst.getMessage("10102", nickname,String.valueOf("1")));
-                 	                     emailClient.send(vo);
-                 	                     log.info("发送时间："+DateUtil.toString(DateUtil.getNow(), DateUtil.DEFAULT_LONG_FORMAT));
-                 	        }
-
-                 	  } 
-                     }.start();
+        		   //更新流程状态
+        		   this.updateJlExpandFlowStatus(p.getJlId(),null, JlFlowType.PROCEED.getCode());
             }
      		// 添加成功
      		return AjaxResponse.OK;
@@ -365,7 +357,7 @@ public class ZpRecommendFlowInfoService{
          	   newP.setAuditId(p.getAuditId());
          	   newP.setEnterpriseDockingPerson(UserSessionUtils.getAccount().getAccountId());
          	   //这个状态没用
-         	   //newP.setEnterpriseDockingStatus((int)RecommendFlowType.ALREADY_RECOMMEND_COMPANY.getCode());
+         	   newP.setEnterpriseDockingStatus((int)RecommendFlowType.ALREADY_RECOMMEND_COMPANY.getCode());
          	   newP.setEnterpriseDockingTime(new Date());
          	   newP.setFlowStatus((int)RecommendFlowType.ALREADY_RECOMMEND_COMPANY.getCode());
     		   this.zpRecommendFlowInfoDao.updateZpRecommendFlowInfo(newP);
@@ -419,6 +411,9 @@ public class ZpRecommendFlowInfoService{
          	   }else {
          		   //企业没通过
              	   newP.setFlowStatus((int)RecommendFlowType.RECOMMEND_COMPANY_FAILURE.getCode());
+             	  
+             	   //更新流程状态
+        		   this.updateJlExpandFlowStatus(null,p.getAuditId(), JlFlowType.FLOW_END.getCode());
          	   }
     		   this.zpRecommendFlowInfoDao.updateZpRecommendFlowInfo(newP);
     		   
@@ -448,6 +443,8 @@ public class ZpRecommendFlowInfoService{
          		  newP.setFlowStatus((int)RecommendFlowType.WAIT_JOBHUNTER_GOTO_INTERVIEW.getCode());
          	   }else {
           		  newP.setFlowStatus((int)RecommendFlowType.JOBHUNTER_NO_AGREE_INTERVIEW.getCode());
+          		  //更新流程状态
+       		      this.updateJlExpandFlowStatus(null,p.getAuditId(), JlFlowType.FLOW_END.getCode());
 
          	   }
     		   this.zpRecommendFlowInfoDao.updateZpRecommendFlowInfo(newP);
@@ -473,6 +470,14 @@ public class ZpRecommendFlowInfoService{
          	   newP.setHunterReplayContent(p.getHunterReplayContent());
          	   newP.setFlowStatus(p.getHunterGotoInterviewStatus());
     		   this.zpRecommendFlowInfoDao.updateZpRecommendFlowInfo(newP);
+    		   
+    		   //未去面试，结束流程
+    		  if(p.getHunterGotoInterviewStatus() == RecommendFlowType.HUNTER_NO_GOTO_INTERVIEW.getCode()){
+    			//更新流程状态
+       		    this.updateJlExpandFlowStatus(null,p.getAuditId(), JlFlowType.FLOW_END.getCode());
+    		  }
+    		   
+    		 
             }
      		// 添加成功
      		return AjaxResponse.OK;
@@ -495,6 +500,9 @@ public class ZpRecommendFlowInfoService{
          	   newP.setHunterInterviewOperatorTime(new Date());
          	   newP.setFlowStatus(p.getHunterInterviewStatus());
          	   this.zpRecommendFlowInfoDao.updateZpRecommendFlowInfo(newP);
+         	   
+     			//更新流程状态
+        		this.updateJlExpandFlowStatus(null,p.getAuditId(), JlFlowType.FLOW_END.getCode());
             }
      		// 添加成功
      		return AjaxResponse.OK;
@@ -528,5 +536,24 @@ public class ZpRecommendFlowInfoService{
     		return list.get(0);
     	 }
     	 return null;
+    }
+    
+    //更新流程状态
+    public void updateJlExpandFlowStatus(Long jlId,Long auditId,int flowType) throws Exception{
+    	HashMap<String,Object> pMap = new HashMap<String,Object>();
+
+    	if(jlId==null) {
+    		ZpRecommendFlowInfo flow = this.zpRecommendFlowInfoDao.getZpRecommendFlowInfoById(auditId);
+    		jlId = flow.getJlId();
+    	}else {
+    		//技术评审是，简历id 不为null
+    		pMap.put("auditTypeId", JlAuditType.AUDIT_OK.getCode());
+
+    	}
+    	
+    	pMap.put("qtype", "one");
+    	pMap.put("jlId", jlId);
+    	pMap.put("recommendFlowStatus", flowType);
+    	this.zpJlExpandInfoDao.updateZpJlExpandInfo(pMap);
     }
 }

@@ -38,6 +38,8 @@
  		        <result  column="inPersonName" property="inPersonName" />
  		        <result  column="coord_x" property="coordX" />
 	        	<result  column="coord_y" property="coordY" />
+	        	<result  column="recommend_flow_status" property="recommendFlowStatus" />
+	        	
 	        	
 	        	<!-- 职位列表 -->
 				<collection ofType="ZpJlJobLevels" property="zpJlJobLevels">
@@ -114,14 +116,14 @@
 						 		jei.technician_audit_time,
 						 		jei.audit_type_id,
 						 		a.username as technician_audit_person_name,
-						 		a1.username as inPersonName
+						 		a1.username as inPersonName,
+						 		jei.recommend_flow_status
 						 		
 		FROM
 			zp_jl_info ji LEFT JOIN zp_jl_job_levels  ON ji.jl_id = zp_jl_job_levels.jl_id 
 			LEFT JOIN zp_jl_expand_info jei ON ji.jl_id = jei.jl_id
 			left join account a on a.account_id = jei.technician_audit_person
 			left join account a1 on a1.account_id = ji.in_person
-			
 		<where>
 				<if test="qtype != null and qtype=='like'">
 						<if test="nameT != null and nameT !='' ">
@@ -201,6 +203,10 @@
 				        	</if>
 				        	<if test="auditTypeId != null and auditTypeId !='' ">
 				        		AND jei.audit_type_id=#{auditTypeId} 
+				        	</if>
+				        	
+				            <if test="recommendFlowStatus != null and recommendFlowStatus !='' ">
+				        		AND jei.recommend_flow_status=#{recommendFlowStatus} 
 				        	</if>
 				        	
 		</where>
@@ -314,6 +320,10 @@
 				        	<if test="auditTypeId != null and auditTypeId !='' ">
 				        		AND jei.audit_type_id=#{auditTypeId} 
 				        	</if>
+				        	 <if test="recommendFlowStatus != null and recommendFlowStatus !='' ">
+				        		AND jei.recommend_flow_status=#{recommendFlowStatus} 
+				        	</if>
+				        	
 		</where>
 	</select>
 	
@@ -659,7 +669,8 @@
 						 		jei.technician_audit_time,
 						 		jei.audit_type_id,
 						 		a.username as technician_audit_person_name,
-						 		a1.username as inPersonName
+						 		a1.username as inPersonName,
+						 		jei.recommend_flow_status
 						 		
 		FROM
 			zp_jl_info ji LEFT JOIN zp_jl_job_levels  ON ji.jl_id = zp_jl_job_levels.jl_id 

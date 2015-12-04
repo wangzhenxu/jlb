@@ -136,7 +136,9 @@
   <#include "../include/deleteConfirmModal.ftl">
 
     <script src="/js/companyInterface.js"></script>
-    
+    <script>
+    	common.initLeftMenuSelected("companyInterface_list");
+    </script>
    </body>
 </html>
 

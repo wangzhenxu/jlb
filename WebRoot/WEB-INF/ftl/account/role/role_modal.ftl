@@ -67,6 +67,29 @@
          </div>
         </li>
         
+         <#-- 简历匹配管理 -->
+        <li>
+         <div class="top">
+          <strong><input type="checkbox" class="zpJobMatchingInfo-parent" id="zpJobMatchingInfo" value="10600" style=" vertical-align:middle" /><label for="zpJobMatchingInfo">&nbsp;简历匹配管理<label></strong>
+         </div>
+         <div class="top1">
+          <input type="checkbox" class="zpJobMatchingInfo-child" id="zpJobMatchingInfoAdd" value="10601" style=" vertical-align:middle" /><label for="zpJobMatchingInfoAdd">&nbsp;匹配职位</label>
+          <input type="checkbox" class="zpJobMatchingInfo-child" id="zpJobMatchingInfoDetail" value="10602" style=" vertical-align:middle" /><label for="zpJobMatchingInfoDetail">&nbsp;匹配详情</label>    
+         </div>
+        </li>
+        
+         <#-- 评审管理 -->
+        <li>
+         <div class="top">
+          <strong><input type="checkbox" class="JlAudit-parent" id="JlAudit" value="10700" style=" vertical-align:middle" /><label for="JlAudit">&nbsp;简历评审管理<label></strong>
+         </div>
+         <div class="top1">
+           <input type="checkbox" class="JlAudit-child" id="JlAuditJlDetail" value="10701" style=" vertical-align:middle" /><label for="JlAuditJlDetail">&nbsp;个人信息</label>
+           <input type="checkbox" class="JlAudit-child" id="JlAuditJlOk" value="10702" style=" vertical-align:middle" /><label for="JlAuditJlOk">&nbsp;评审简历</label>
+         </div>
+        </li>
+        
+        
        </ul>
       </div>
       <div class="limits2_1">
@@ -109,31 +132,45 @@
          </div>
         </li>
         
-        <#-- 简历匹配管理 -->
+          <#-- 企业对接管理 -->
         <li>
          <div class="top">
-          <strong><input type="checkbox" class="zpJobMatchingInfo-parent" id="zpJobMatchingInfo" value="10600" style=" vertical-align:middle" /><label for="zpJobMatchingInfo">&nbsp;简历匹配管理<label></strong>
+          <strong><input type="checkbox" class="companyInterface-parent" id="companyInterface" value="10900" style=" vertical-align:middle" /><label for="companyInterface">&nbsp;企业对接管理</label></strong>
          </div>
          <div class="top1">
-          <input type="checkbox" class="zpJobMatchingInfo-child" id="zpJobMatchingInfoAdd" value="10601" style=" vertical-align:middle" /><label for="zpJobMatchingInfoAdd">&nbsp;匹配职位</label>
-          <input type="checkbox" class="zpJobMatchingInfo-child" id="zpJobMatchingInfoDetail" value="10602" style=" vertical-align:middle" /><label for="zpJobMatchingInfoDetail">&nbsp;匹配详情</label>    
+                    
          </div>
         </li>
         
-         <#-- 评审管理 -->
+          <#-- 猎头对接管理 -->
         <li>
          <div class="top">
-          <strong><input type="checkbox" class="JlAudit-parent" id="JlAudit" value="10700" style=" vertical-align:middle" /><label for="JlAudit">&nbsp;简历评审管理<label></strong>
+          <strong><input type="checkbox" class="headhunterInterface-parent" id="headhunterInterface" value="101000" style=" vertical-align:middle" /><label for="headhunterInterface">&nbsp;猎头对接管理</label></strong>
          </div>
          <div class="top1">
-           <input type="checkbox" class="JlAudit-child" id="JlAuditJlDetail" value="10701" style=" vertical-align:middle" /><label for="JlAuditJlDetail">&nbsp;个人信息</label>
-           <input type="checkbox" class="JlAudit-child" id="JlAuditJlOk" value="10702" style=" vertical-align:middle" /><label for="JlAuditJlOk">&nbsp;评审简历</label>
+                    
          </div>
         </li>
         
         
+         <#-- 推荐流程管理 -->
+        <li>
+         <div class="top">
+          <strong><input type="checkbox" class="zpRecommendFlowInfo-parent" id="zpRecommendFlowInfo" value="101100" style=" vertical-align:middle" /><label for="zpRecommendFlowInfo">&nbsp;推荐流程管理</label></strong>
+         </div>
+         <div class="top1">
+         </div>
+        </li>
         
         
+          <#-- 推荐流程详情 -->
+        <li>
+         <div class="top">
+          <strong><input type="checkbox" class="zpRecommendFlowInfoDetail-parent" id="zpRecommendFlowInfoDetail" value="101200" style=" vertical-align:middle" /><label for="zpRecommendFlowInfoDetail">&nbsp;推荐流程详情</label></strong>
+         </div>
+         <div class="top1">
+         </div>
+        </li>
        </ul>
       </div>
      </div>

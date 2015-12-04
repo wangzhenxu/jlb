@@ -107,19 +107,29 @@ function menuClick(){
      	</div>
      </#if>
      
-     
+      <#if subject.isPermitted("companyInterface:list")>
     	 <!-- 企业对接管理 -->
      	<div class="MenuLevel1"> 企业对接管理 <span><img src="/images/<#if d>2<#else>1</#if>.gif" border="0"/></span></div>
      		<div class="<#if d>SubMenuLayerHidden</#if> SubMenu">
-      			<a class="MenuLevel4 editPassword" href="/zpRecommendFlowInfo/companyInterfaceList.action"> <img src="/images/bullet_sarrow.gif"/> &nbsp;&nbsp;<span id="">企业对接管理</span></a>
+      			<a class="MenuLevel4 editPassword" href="/zpRecommendFlowInfo/companyInterfaceList.action"> <img src="/images/bullet_sarrow.gif"/> &nbsp;&nbsp;<span id="companyInterface_list">企业对接管理</span></a>
      	</div>
-     	
-     	 <!-- 企业对接管理 -->
+     </#if>
+     	    
+     <#if subject.isPermitted("headhunterInterface:list")>
+     	 <!-- 顾问对接管理 -->
      	<div class="MenuLevel1"> 顾问对接管理 <span><img src="/images/<#if d>2<#else>1</#if>.gif" border="0"/></span></div>
      		<div class="<#if d>SubMenuLayerHidden</#if> SubMenu">
-      			<a class="MenuLevel4 editPassword" href="/zpRecommendFlowInfo/headhunterInterfaceList.action"> <img src="/images/bullet_sarrow.gif"/> &nbsp;&nbsp;<span id="">顾问对接管理</span></a>
+      			<a class="MenuLevel4 editPassword" href="/zpRecommendFlowInfo/headhunterInterfaceList.action"> <img src="/images/bullet_sarrow.gif"/> &nbsp;&nbsp;<span id="headhunterInterface_list">顾问对接管理</span></a>
      	</div>
-     	
+      </#if>
+     
+     <#if subject.isPermitted("zpRecommendFlowInfo:list")>
+     	 <!-- 流程管理 -->
+     	<div class="MenuLevel1"> 流程管理 <span><img src="/images/<#if d>2<#else>1</#if>.gif" border="0"/></span></div>
+     		<div class="<#if d>SubMenuLayerHidden</#if> SubMenu">
+      			<a class="MenuLevel4 editPassword" href="/zpRecommendFlowInfo/list.action"> <img src="/images/bullet_sarrow.gif"/> &nbsp;&nbsp;<span id="zpRecommendFlowInfo_list">流程管理</span></a>
+     	</div>
+     </#if>
      
     </div>
 	</div>

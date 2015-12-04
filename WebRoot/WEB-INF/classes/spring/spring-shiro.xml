@@ -83,6 +83,21 @@
                /accountExpandInfo/toEdit.action=perms["accountExpandInfo:edit"]
                /accountExpandInfo/toView.action=perms["accountExpandInfo:detail"]
                
+               <!-- 企业对接管理 -->
+               /zpRecommendFlowInfo/companyInterfaceList.action=perms["companyInterface:list"]
+               /zpRecommendFlowInfo/recommandJlToCompany.action=perms["companyInterface:list"]
+               /zpRecommendFlowInfo/companyRecommandFeedback.action=perms["companyInterface:list"]
+               
+               <!-- 猎头对接管理 -->
+               /zpRecommendFlowInfo/headhunterInterfaceList.action=perms["headhunterInterface:list"]
+               /zpRecommendFlowInfo/headhunterNotifyFeedback.action=perms["headhunterInterface:list"]
+               /zpRecommendFlowInfo/isGotoInterviewFeedback.action=perms["headhunterInterface:list"]
+               /zpRecommendFlowInfo/interviewerFeedback.action=perms["headhunterInterface:list"]
+               
+                <!-- 推荐流程管理 -->
+               /zpRecommendFlowInfo/list.action=perms["zpRecommendFlowInfo:list"]
+               /zpRecommendFlowInfo/toView.action=perms["zpRecommendFlowInfo:detail"]
+               
 
 				/user/**.action = perms["user:list"]
 				

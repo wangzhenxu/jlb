@@ -1,4 +1,4 @@
-//推荐流程
+//流程
 var recommendflow = {
 	//请求url
 	listUrl:"/zpRecommendFlowInfo/list.action", //列表地址
@@ -10,14 +10,13 @@ var recommendflow = {
 	toViewUrl:"/zpRecommendFlowInfo/toView.action?id=", //详细页面地址
 	getByIdUrl : "/zpRecommendFlowInfo/getById.action", //根据id查询对象
 	modifyDeleteStatusUrl:"/zpRecommendFlowInfo/modifyDeleteStatus.action", //停用 或启用
-	checkNameExitsUrl : "/zpRecommendFlowInfo/checkNameExits.action", //检验唯一性
+	checkNameExitsUrl : "/zpRecommendFlowInfo/checkNameExits.action", //检验唯一性,
 	addAuditUrl : "/zpRecommendFlowInfo/technicianAudit.action", //添加评审
 
-	
 
 	onlyName :  $("#onlyName"), //修改，唯一验证时需要添加此属性
 	m_title : $(".m_title"),//页面标题
-	_title_val : "推荐流程",
+	_title_val : "流程",
 	
 	addform : jQuery("#addform"), //添加form
 	queryfrom :jQuery("#queryForm"), //查询form
@@ -31,32 +30,39 @@ var recommendflow = {
 	auditId : $("#auditId"), //auditId
 	companyJobId : $("#companyJobId"), //公司职位
 	jlId : $("#jlId"), //简历id
+	matchId : $("#matchId"), //匹配id
+	enterpriseInterfacePerson : $("#enterpriseInterfacePerson"), //企业对接人
+	headhunterInterfacePerson : $("#headhunterInterfacePerson"), //电话猎头对接人
 	enterpriseName : $("#enterpriseName"), //enterpriseName
 	technicianAuditPerson : $("#technicianAuditPerson"), //技术审核人
 	technicianAuditContent : $("#technicianAuditContent"), //技术评审内容
 	technicianAuditTime : $("#technicianAuditTime"), //技术评审时间
-	technicianAuditStatus :$("#technicianAuditStatus"),//技术评审状态
+	technicianAuditStatus : $("#technicianAuditStatus"), //技术评审状态
 	enterpriseDockingPerson : $("#enterpriseDockingPerson"), //企业对接人
 	enterpriseDockingStatus : $("#enterpriseDockingStatus"), //企业对接状态
 	enterpriseDockingTime : $("#enterpriseDockingTime"), //企业对接人反馈时间
 	enterpriseReplyStatus : $("#enterpriseReplyStatus"), //企业反馈状态
 	enterpriseReplyContent : $("#enterpriseReplyContent"), //企业反馈内容
 	enterpriseReplyTime : $("#enterpriseReplyTime"), //企业反馈时间
-	hrNoticePerson : $("#hrNoticePerson"), //hr通知人
-	hrNoticeStatus : $("#hrNoticeStatus"), //hr通知状态
-	hrNoticeTime : $("#hrNoticeTime"), //hr_通知时间
-	hrNoticeFeedbackContent : $("#hrNoticeFeedbackContent"), //hr_通知后的反馈内容
+	hrNoticePerson : $("#hrNoticePerson"), //猎头通知人
+	hrNoticeStatus : $("#hrNoticeStatus"), //猎头通知状态
+	hrNoticeTime : $("#hrNoticeTime"), //猎头通知时间
+	hrNoticeFeedbackContent : $("#hrNoticeFeedbackContent"), //猎头通知后的反馈内容
 	enterpriseInvitationTime : $("#enterpriseInvitationTime"), //企业要求面试时间
 	hrBeforeNotifyHunterStatus : $("#hrBeforeNotifyHunterStatus"), //hr提前通知状态
 	hrBeforeNotifyHunterTime : $("#hrBeforeNotifyHunterTime"), //hr提前通知时间
 	hrBeforeNotifyHunterPerson : $("#hrBeforeNotifyHunterPerson"), //hrBeforeNotifyHunterPerson
 	hunterGotoInterviewStatus : $("#hunterGotoInterviewStatus"), //求职者是否已经去面试
+	hunterGotoInterviewOperatorTime : $("#hunterGotoInterviewOperatorTime"), //猎头顾问馈时间
 	hunterReplayContent : $("#hunterReplayContent"), //求职者反馈
 	lastUpdateTime : $("#lastUpdateTime"), //最后更新时间
 	lastUpdatePerson : $("#lastUpdatePerson"), //最后更新人
 	inTime : $("#inTime"), //录入时间
 	flowStatus : $("#flowStatus"), //流程状态
 	inPerson : $("#inPerson"), //录入人
+	hunterInterviewStatus : $("#hunterInterviewStatus"), //求职者面试反馈状态
+	hunterInterviewOperatorTime : $("#hunterInterviewOperatorTime"), //顾问操作时间
+	hunterInerviewReplayContent : $("#hunterInerviewReplayContent"), //求职者面试反馈内容
 	inPersonName : $("#inPersonName"),
 	//页面初始化
 	initPage : function (){
@@ -105,8 +111,12 @@ var recommendflow = {
 		location.href=this.listUrl+"?jsonParam="+jsonStr;
 	},
 	 //跳转列表页面
-	tolist : function (){
-		location.href=this.listUrl;
+	tolist : function (jlId){
+		var url = this.listUrl;
+		if(jlId){
+			url =url+"?jlId="+jlId;
+		}
+		location.href=url;
 	},
 	//跳转到添加页面
 	toAdd : function (){
@@ -153,7 +163,7 @@ var recommendflow = {
 			});
 	   },
 	
-	//推荐流程 添加 
+	//流程 添加 
 	add : function (){
 			var self = this;
 			var b = self.addform.validationEngine('validate');
@@ -261,32 +271,36 @@ var recommendflow = {
 		//用户详情显示信息
 		$("input[name='companyJobId'][value='"+obj.companyJobId+"']").attr("checked",true); //公司职位
 		$("input[name='jlId'][value='"+obj.jlId+"']").attr("checked",true); //简历id
+		$("input[name='matchId'][value='"+obj.matchId+"']").attr("checked",true); //匹配id
+		$("input[name='enterpriseInterfacePerson'][value='"+obj.enterpriseInterfacePerson+"']").attr("checked",true); //企业对接人
+		$("input[name='headhunterInterfacePerson'][value='"+obj.headhunterInterfacePerson+"']").attr("checked",true); //电话猎头对接人
 		self.enterpriseName.val(obj.enterpriseName); //enterpriseName
-		self.technicianAuditPerson.val(obj.technicianAuditPerson); //技术审核人
+		$("input[name='technicianAuditPerson'][value='"+obj.technicianAuditPerson+"']").attr("checked",true); //技术审核人
 		self.technicianAuditContent.val(obj.technicianAuditContent); //技术评审内容
 		if(obj.technicianAuditTime && obj.technicianAuditTime>0){
 			var new1 = new Date(obj.technicianAuditTime).format("yyyy-MM");
 			self.technicianAuditTime.val(new1); //技术评审时间
 		}
-		self.enterpriseDockingPerson.val(obj.enterpriseDockingPerson); //企业对接人
+		self.technicianAuditStatus.val(obj.technicianAuditStatus); //技术评审状态
+		$("input[name='enterpriseDockingPerson'][value='"+obj.enterpriseDockingPerson+"']").attr("checked",true); //企业对接人
 		$("input[name='enterpriseDockingStatus'][value='"+obj.enterpriseDockingStatus+"']").attr("checked",true); //企业对接状态
 		if(obj.enterpriseDockingTime && obj.enterpriseDockingTime>0){
 			var new1 = new Date(obj.enterpriseDockingTime).format("yyyy-MM");
 			self.enterpriseDockingTime.val(new1); //企业对接人反馈时间
 		}
-		self.enterpriseReplyStatus.val(obj.enterpriseReplyStatus); //企业反馈状态
+		$("input[name='enterpriseReplyStatus'][value='"+obj.enterpriseReplyStatus+"']").attr("checked",true); //企业反馈状态
 		self.enterpriseReplyContent.val(obj.enterpriseReplyContent); //企业反馈内容
 		if(obj.enterpriseReplyTime && obj.enterpriseReplyTime>0){
 			var new1 = new Date(obj.enterpriseReplyTime).format("yyyy-MM");
 			self.enterpriseReplyTime.val(new1); //企业反馈时间
 		}
-		self.hrNoticePerson.val(obj.hrNoticePerson); //hr通知人
-		$("input[name='hrNoticeStatus'][value='"+obj.hrNoticeStatus+"']").attr("checked",true); //hr通知状态
+		self.hrNoticePerson.val(obj.hrNoticePerson); //猎头通知人
+		$("input[name='hrNoticeStatus'][value='"+obj.hrNoticeStatus+"']").attr("checked",true); //猎头通知状态
 		if(obj.hrNoticeTime && obj.hrNoticeTime>0){
 			var new1 = new Date(obj.hrNoticeTime).format("yyyy-MM");
-			self.hrNoticeTime.val(new1); //hr_通知时间
+			self.hrNoticeTime.val(new1); //猎头通知时间
 		}
-		self.hrNoticeFeedbackContent.val(obj.hrNoticeFeedbackContent); //hr_通知后的反馈内容
+		self.hrNoticeFeedbackContent.val(obj.hrNoticeFeedbackContent); //猎头通知后的反馈内容
 		if(obj.enterpriseInvitationTime && obj.enterpriseInvitationTime>0){
 			var new1 = new Date(obj.enterpriseInvitationTime).format("yyyy-MM");
 			self.enterpriseInvitationTime.val(new1); //企业要求面试时间
@@ -299,8 +313,12 @@ var recommendflow = {
 			var new1 = new Date(obj.hrBeforeNotifyHunterTime).format("yyyy-MM");
 			self.hrBeforeNotifyHunterTime.val(new1); //hr提前通知时间
 		}
-		self.hrBeforeNotifyHunterPerson.val(obj.hrBeforeNotifyHunterPerson); //hrBeforeNotifyHunterPerson
-		$("input[name='hunterGotoInterviewStatus'][value='"+obj.hunterGotoInterviewStatus+"']").attr("checked",true); //求职者是否已经去面试
+		$("input[name='hrBeforeNotifyHunterPerson'][value='"+obj.hrBeforeNotifyHunterPerson+"']").attr("checked",true); //hrBeforeNotifyHunterPerson
+		self.hunterGotoInterviewStatus.val(obj.hunterGotoInterviewStatus); //求职者是否已经去面试
+		if(obj.hunterGotoInterviewOperatorTime && obj.hunterGotoInterviewOperatorTime>0){
+			var new1 = new Date(obj.hunterGotoInterviewOperatorTime).format("yyyy-MM");
+			self.hunterGotoInterviewOperatorTime.val(new1); //猎头顾问馈时间
+		}
 		self.hunterReplayContent.val(obj.hunterReplayContent); //求职者反馈
 		if(obj.lastUpdateTime && obj.lastUpdateTime>0){
 		  var new1 = new Date(obj.lastUpdateTime).format("yyyy-MM-dd HH:mm");
@@ -308,17 +326,23 @@ var recommendflow = {
 		}
 			
 		//其它属性
-		self.lastUpdatePerson.val(obj.lastUpdatePerson); //最后更新人
+		$("input[name='lastUpdatePerson'][value='"+obj.lastUpdatePerson+"']").attr("checked",true); //最后更新人
 		if(obj.inTime && obj.inTime>0){
 		  var new1 = new Date(obj.inTime).format("yyyy-MM-dd HH:mm");
 		  self.inTime.html(new1); //录入时间
 		}
 			
 		//其它属性
-		$("input[name='flowStatus'][value='"+obj.flowStatus+"']").attr("checked",true); //流程状态
+		self.flowStatus.val(obj.flowStatus); //流程状态
 		self.inPerson.html(obj.inPerson);
 			
 		//其它属性
+		self.hunterInterviewStatus.val(obj.hunterInterviewStatus); //求职者面试反馈状态
+		if(obj.hunterInterviewOperatorTime && obj.hunterInterviewOperatorTime>0){
+			var new1 = new Date(obj.hunterInterviewOperatorTime).format("yyyy-MM");
+			self.hunterInterviewOperatorTime.val(new1); //顾问操作时间
+		}
+		self.hunterInerviewReplayContent.val(obj.hunterInerviewReplayContent); //求职者面试反馈内容
 		self.inPersonName.html(obj.inPersonName);
    },
    //检查名称唯一性
@@ -336,7 +360,7 @@ var recommendflow = {
 		   common.alert(result.d,2000);
 	   }  
    },
-  
+   
    initAddAudit : function (){
 	   var self = this;
 	   self.addform.validationEngine({scroll:false});

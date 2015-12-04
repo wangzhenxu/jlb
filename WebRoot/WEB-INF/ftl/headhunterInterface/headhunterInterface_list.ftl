@@ -225,7 +225,9 @@
   <#include "../include/deleteConfirmModal.ftl">
 
     <script src="/js/headhunterInterface.js"></script>
-    
+      <script>
+    	common.initLeftMenuSelected("headhunterInterface_list");
+    </script>
    </body>
 </html>
 

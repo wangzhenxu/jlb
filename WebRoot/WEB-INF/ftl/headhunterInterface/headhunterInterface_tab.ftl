@@ -29,7 +29,7 @@
 		 	   </td>
 			 <td align="center" class="hui">
 	    			 <#if c.technicianAuditTime??>
-		        	 	 ${c.technicianAuditTime?string("yyyy-MM-dd")}
+		        	 	 ${c.technicianAuditTime?string("yyyy-MM-dd HH:mm:ss")}
 		 		 	 </#if>
 		 	 </td>
 		 	  <td align="center" class="hui">
@@ -40,7 +40,7 @@
 			 <td align="center" class="hui" style="width:300px;"  >
 		       		<div class="btn-group">
 	      			<#if subject.isPermitted("zpJlInfo:list")>   <#--zpRecommendFlowInfo:detail  -->
-					  <button type="button" class="btn btn-default"  onclick="recommendflow.toDetail('${c.auditId}')">详情</button>
+					  <button type="button" class="btn btn-default"  onclick="headhunterInterface.toDetail('${c.auditId}')">详情</button>
 					 </#if>
 		      		</div>
 	        </td>
@@ -79,7 +79,7 @@
 		 	   </td>
 			 <td align="center" class="hui">
 	    			 <#if c.technicianAuditTime??>
-		        	 	 ${c.technicianAuditTime?string("yyyy-MM-dd")}
+		        	 	 ${c.technicianAuditTime?string("yyyy-MM-dd HH:mm:ss")}
 		 		 	 </#if>
 		 	 </td>
 		 	  <td align="center" class="hui">
@@ -90,7 +90,7 @@
 			 <td align="center" class="hui" style="width:300px;"  >
 		       		<div class="btn-group">
 	      			<#if subject.isPermitted("zpJlInfo:list")>   <#--zpRecommendFlowInfo:detail  -->
-					  <button type="button" class="btn btn-default"  onclick="recommendflow.toDetail('${c.auditId}')">详情</button>
+					  <button type="button" class="btn btn-default"  onclick="headhunterInterface.toDetail('${c.auditId}')">详情</button>
 					 </#if>
 					 <button type="button" class="btn btn-default"  onclick="headhunterInterface.audit('${c.auditId!""}','${c.jlName!""}')">已通知</button>
 		      		</div>
@@ -130,7 +130,7 @@
 		 	   </td>
 			 <td align="center" class="hui">
 	    			 <#if c.technicianAuditTime??>
-		        	 	 ${c.technicianAuditTime?string("yyyy-MM-dd")}
+		        	 	 ${c.technicianAuditTime?string("yyyy-MM-dd HH:mm:ss")}
 		 		 	 </#if>
 		 	 </td>
 		 	  <td align="center" class="hui">
@@ -178,7 +178,7 @@
 		 	   </td>
 			 <td align="center" class="hui">
 	    			 <#if c.technicianAuditTime??>
-		        	 	 ${c.technicianAuditTime?string("yyyy-MM-dd")}
+		        	 	 ${c.technicianAuditTime?string("yyyy-MM-dd HH:mm:ss")}
 		 		 	 </#if>
 		 	 </td>
 		 	  <td align="center" class="hui">
@@ -226,7 +226,7 @@
 		 	   </td>
 			 <td align="center" class="hui">
 	    			 <#if c.technicianAuditTime??>
-		        	 	 ${c.technicianAuditTime?string("yyyy-MM-dd")}
+		        	 	 ${c.technicianAuditTime?string("yyyy-MM-dd HH:mm:ss")}
 		 		 	 </#if>
 		 	 </td>
 		 	  <td align="center" class="hui">

@@ -34,7 +34,8 @@ public class DictionaryUtil {
 		List<ZpDictionaryInfo> dictList= maps.get(Const.SESSION_DICTIONARYS_KEY);
 		String name ="";
 		for(ZpDictionaryInfo dic : dictList){
-			if(dic.getDictionaryId()==code){
+			//System.out.println(code+"=" + dic.getDictionaryId()  +"结果:"+(dic.getDictionaryId()==code));
+			if(dic.getDictionaryId().intValue()==code.intValue()){
 				name=dic.getShowName();
 				break;
 			}
@@ -49,7 +50,7 @@ public class DictionaryUtil {
 		Map<String,List> maps = IndexInfoSingleTon.getInstance().getIndexInfoMap();
 		List<ZpDictionaryInfo> dictList= maps.get(Const.SESSION_DICTIONARYS_KEY);
 		for(ZpDictionaryInfo dic : dictList){
-			if(dic.getDictionaryId()==code){
+			if(dic.getDictionaryId().intValue()==code.intValue()){
 				return dic;
 			}
 		}

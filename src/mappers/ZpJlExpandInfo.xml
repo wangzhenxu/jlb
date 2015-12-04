@@ -12,6 +12,7 @@
 	        	<result  column="technician_audit_person" property="technicianAuditPerson" />
 	        	<result  column="technician_audit_time" property="technicianAuditTime" />
 	        	<result  column="audit_type_id" property="auditTypeId" />
+	        	<result column="recommend_flow_status" property="recommendFlowStatus"/>
 	</resultMap>
 	
 	<resultMap type="JlAuditPersonList" id="JlAuditPersonListMap">
@@ -31,7 +32,8 @@
 						 		jei.jl_content,
 						 		jei.technician_audit_person,
 						 		jei.technician_audit_time,
-						 		jei.audit_type_id
+						 		jei.audit_type_id,
+						 		jei.recommend_flow_status
 		FROM
 			zp_jl_expand_info  jei
 		<where>
@@ -141,6 +143,9 @@
 		        	<if test="auditTypeId != null">
 		        		audit_type_id,
 		        	</if>
+		        	<if test="recommendFlowStatus != null">
+		        		recommend_flow_status,
+		        	</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			        	<if test="jlId != null">
@@ -161,6 +166,9 @@
 			        	<if test="auditTypeId != null">
 			        		#{auditTypeId},
 			        	</if>
+			        	<if test="recommendFlowStatus != null">
+			        			#{recommendFlowStatus},
+		        		</if>
 		</trim>
 	</insert>
 	
@@ -185,6 +193,9 @@
 			        	</if>
 			        	<if test="auditTypeId != null">
 			        		audit_type_id=#{auditTypeId},
+			        	</if>
+			        	<if test="recommendFlowStatus != null">
+			        		recommend_flow_status=#{recommendFlowStatus},
 			        	</if>
 		</trim>
 		WHERE jl_expand_id=#{jlExpandId}
@@ -211,6 +222,9 @@
 			        	</if>
 			        	<if test="auditTypeId != null">
 			        		audit_type_id=#{auditTypeId},
+			        	</if>
+			        	<if test="recommendFlowStatus != null">
+			        		recommend_flow_status=#{recommendFlowStatus},
 			        	</if>
 		</trim>
 		WHERE  1=1
@@ -264,7 +278,8 @@
 						 		jei.jl_content,
 						 		jei.technician_audit_person,
 						 		jei.technician_audit_time,
-						 		jei.audit_type_id
+						 		jei.audit_type_id,
+						 		jei.recommend_flow_status
 		FROM
 			zp_jl_expand_info  jei
 		WHERE 

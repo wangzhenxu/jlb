@@ -96,7 +96,7 @@
 			       </li>
 			       
 			        <li style="width:15%">
-			       	<span class="classify">评审状态：</span>
+			       	<span class="classify">技术评审状态：</span>
 			    	<select id="auditTypeId" name="auditTypeId">
 		    		 <option value="" > 请选择 </option>
 		    		    <#list JlAuditType.values() as c>
@@ -105,6 +105,15 @@
 		    		  </select>
 			       </li>
 				      
+				      <li style="width:15%">
+			       	<span class="classify">推荐状态：</span>
+			    	<select id="recommendFlowStatus" name="recommendFlowStatus">
+		    		 <option value="" > 请选择 </option>
+		    		    <#list JlFlowType.values() as c>
+		    		 		 <option value="${c.code}" <#if  recommendFlowStatus?? && recommendFlowStatus!=""> <#if recommendFlowStatus?number==c.code> selected </#if> </#if>  > ${c.title!''} </option>
+		 			 	</#list>
+		    		  </select>
+			       </li>
       	</ul>
       </form>
      </div>
@@ -136,10 +145,8 @@
 	        <td  height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>年龄 </strong></td>
 	        <td  height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>性别</strong></td>
         </#if>
-        <td  height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>手机</strong></td>
-        <td  height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>邮箱</strong></td>
-        <td  height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>评审人</strong></td>
-        <td  height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>评审状态</strong></td>
+        <td  height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>技术评审状态</strong></td>
+        <td  height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>推荐状态</strong></td>
          
          <!-- hr角色隐藏吧列太多 -->
         <#if Session[Const.SESSION_USER_KEY].type!=AccountType.HR.getCode()>
@@ -191,16 +198,6 @@
 	    </#if>
 	    
 	   
-	     
-	    
-	      <td align="center" class="hui">${c.phone!''}</td>
-        <td align="center" class="hui">
-        	 ${c.emal!''}
-        </td>
-        
-	     <td align="center" class="hui">
-	    	    ${c.technicianAuditPersonName!'无'}
-	    </td>
 	    
 	     <td align="center" class="hui">
 	       <#if c.auditTypeId?? &&  c.auditTypeId==JlAuditType.NO_SELECT_AUDIT_PERSON.getCode()>
@@ -223,8 +220,17 @@
 	       	  	${JlAuditType.get(c.auditTypeId).getTitle()}
 	       	  </span>
 	       </#if>
-	       
 	    </td>
+	    
+	    
+		<td align="center" class="hui">
+			<#if c.auditTypeId?? &&  c.auditTypeId==JlAuditType.AUDIT_OK.getCode()>
+	   			<#if c.recommendFlowStatus??>
+	   			  ${JlFlowType.get(c.recommendFlowStatus).getTitle()}
+	            </#if>
+			</#if>
+		</td>
+	    
 	     <!-- hr角色隐藏吧列太多 -->
         <#if Session[Const.SESSION_USER_KEY].type!=AccountType.HR.getCode()>
 			<td align="center" class="hui">
@@ -240,7 +246,7 @@
 	    </td>
 	   
 	    
-		<td align="center" class="hui" style="width:300px;">
+		<td align="left" class="hui" style="width:350px;">
 	    	<div class="btn-group">
 	    	  <#if subject.isPermitted("zpJlInfo:detail")>
 			   <button type="button" class="btn btn-default"  onclick="jlInfo.toDetail('${c.jlId}')">详情</button>
@@ -255,6 +261,14 @@
       		  	  <#if c.jlFilePath??>
       		   		<button type="button" class="btn btn-default"  onclick="jlInfo.downJl('${ApplicationConst.UPLOAD_JL_URL}${c.jlFilePath}')">下载</button>
       		 	  </#if>
+      		 	</#if>
+      		 	
+      		 	<#if subject.isPermitted("zpRecommendFlowInfo:list")>
+		      		 	<#if c.auditTypeId?? &&  c.auditTypeId==JlAuditType.AUDIT_OK.getCode()>
+			   					<#if c.recommendFlowStatus??>
+      		   						<button type="button" class="btn btn-default"  onclick="recommendflow.tolist(${c.jlId})">查看流程</button>
+			            		</#if>
+							</#if>
       		 	</#if>
       		 </div>
 	     </td>
@@ -335,8 +349,7 @@
 
 
 
-
-
+<script src="/js/recommendflow.js"></script>
 <script>
 	common.initLeftMenuSelected(jlInfo.left_menu_selected_id);
 </script>

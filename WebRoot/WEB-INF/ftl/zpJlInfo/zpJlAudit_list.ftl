@@ -86,11 +86,21 @@
 			       </li>
 			       
 			        <li style="width:15%">
-			       	<span class="classify">评审状态：</span>
+			       	<span class="classify">技术评审状态：</span>
 			    	<select id="auditTypeId" name="auditTypeId">
 		    		 <option value="" > 请选择 </option>
 		    		    <#list JlAuditType.values() as c>
 		    		 		 <option value="${c.code}" <#if  auditTypeId?? && auditTypeId!=""> <#if auditTypeId?number==c.code> selected </#if> </#if>  > ${c.title!''} </option>
+		 			 	</#list>
+		    		  </select>
+			       </li>
+			       
+			        <li style="width:15%">
+			       	<span class="classify">推荐状态：</span>
+			    	<select id="recommendFlowStatus" name="recommendFlowStatus">
+		    		 <option value="" > 请选择 </option>
+		    		    <#list JlFlowType.values() as c>
+		    		 		 <option value="${c.code}" <#if  recommendFlowStatus?? && recommendFlowStatus!=""> <#if recommendFlowStatus?number==c.code> selected </#if> </#if>  > ${c.title!''} </option>
 		 			 	</#list>
 		    		  </select>
 			       </li>
@@ -112,7 +122,7 @@
 			<input type="checkbox" style="vertical-align:middle " onclick="if(this.checked){$('.check').attr('checked',true)}else $('.check').attr('checked',false)  ">
 		</td>
         <td  height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>姓名</strong></td>
-        <td  height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>评审状态</strong></td>
+        <td  height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>技术评审状态</strong></td>
          
          <#if Session[Const.SESSION_USER_KEY].type!=AccountType.TECHICAL_AUDIT.getCode()>
 	      	<td  height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>评审人</strong></td>
@@ -126,6 +136,8 @@
         <td  height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>最高学历</strong></td>
         <td  height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>猎人</strong></td>
         <td  height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>录入时间</strong></td>
+        <td  height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>推荐状态</strong></td>
+        
         <td  height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>操 作</strong></td>
        </tr>
        <#list pager.data as c>
@@ -195,22 +207,27 @@
         	${c.inPersonName!''}
 	    </td>
 	   
+	 
+		
 	    <td align="center" class="hui">
 	    	     <#if c.inTime??>
         			 ${c.inTime?string("yyyy-MM-dd HH:mm:ss")}
  				</#if>
 	    </td>
-	   
+	     <td align="center" class="hui">
+			<#if c.auditTypeId?? &&  c.auditTypeId==JlAuditType.AUDIT_OK.getCode()>
+	   			<#if c.recommendFlowStatus??>
+	   			  ${JlFlowType.get(c.recommendFlowStatus).getTitle()}
+	            </#if>
+			</#if>
+		</td>
 	    
 		<td align="left" class="hui" style="width:300px;">
 	    	<div class="btn-group">
       		    <#if subject.isPermitted("zpJobMatchingInfo:add")>
       		   		<button type="button" class="btn btn-default"  onclick="jlInfo.matchJob('${c.jlId!""}');">匹配职位</button>
       		   	</#if>
-	   			<#if subject.isPermitted("zpJlInfo:toAuditJlDetail")>
-      		   		 	&nbsp;&nbsp;&nbsp;&nbsp;
-      		   		<button type="button" class="btn btn-default"  onclick="jlInfo.toAuditJlDetail('${c.jlId!""}');">个人信息</button>
-	     		</#if>
+	   			
 	     		&nbsp;&nbsp;&nbsp;&nbsp;
 	     		
 	     		 <#if subject.isPermitted("zpJlInfo:auditOk")>
@@ -222,6 +239,14 @@
 		       	  		</#if>
 		       	 	</#if>
 		       	 </#if>
+		       	 
+		       	<#if subject.isPermitted("zpRecommendFlowInfo:list")>
+		      		 	<#if c.auditTypeId?? &&  c.auditTypeId==JlAuditType.AUDIT_OK.getCode()>
+			   					<#if c.recommendFlowStatus??>
+      		   						<button type="button" class="btn btn-default"  onclick="recommendflow.tolist(${c.jlId})">查看流程</button>
+			            		</#if>
+							</#if>
+      		 	</#if>
 	     		
       		 </div>
 	     </td>
@@ -276,8 +301,6 @@
      	 </tr>
        <tr>
         <td align="center" class="hui1" >
-	        <input type="radio" class="radio" class="radio validate[required]" name="audit_type"  value="${JlAuditType.AUDIT_OK.getCode()}" /> ${JlAuditType.AUDIT_OK.getTitle()} 
-        	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         	<input type="radio" class="radio" class="radio validate[required]" name="audit_type" value="${JlAuditType.AUDIT_NO_PASS.getCode()}" /> ${JlAuditType.AUDIT_NO_PASS.getTitle()} 
         </td>
       </tr>
@@ -301,6 +324,7 @@
 
 
 <script src="/js/zpJlAudit.js"></script>
+<script src="/js/recommendflow.js"></script>
 
 <script>
 	common.initLeftMenuSelected(jlInfo.left_menu_selected_id);

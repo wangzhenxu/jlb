@@ -1,188 +1,100 @@
-
-
-  	<#include "../include/comm_jlb_macro.ftl"/>
 <html>
 	<head>
-	<title>网站后台管理系统-${pageTitle!''}管理</title>
-	<@gmc_common_js "select" />
+	<title>网站后台管理系统-推荐流程管理</title>
+	<#include "../include/bootstrap.ftl"/>
+	<#include "../include/pager.ftl">
+	<script src="/js/source/jquery.validationEngine.js"></script>
+	<script src="/js/source/jquery.validationEngine.min.js"></script>
+	<link href="/js/source/validationEngine.jquery.css" rel="stylesheet" type="text/css" />
+    <script src="/js/hiAlert/jquery.alert.js"></script>
+    <script type="text/javascript" src="http://www.loiot.com/c/ckeditor/ckeditor.js"></script>			
+	<link href="/css/alert.css" rel="stylesheet" type="text/css" />
+	<style type="text/css">
+		body {
+			background-image: url(/images/erji_22.jpg);
+			background-repeat: repeat-x;
+			}
+	</style>
 </head>
 	<body>
 	<div class="right">
     <div class="location">
-     <div class="location01">您现在的位置是：首页 &gt; <strong class="m_title"></strong></div>
+     <div class="location01">您现在的位置是：首页 &gt; <strong>推荐流程管理</strong></div>
     </div>
     <div class="sort">
-     <div class="sort1 m_title" ></div>
+     <div class="sort1">推荐流程管理</div>
      <div class="query">
-  	
-	<form id="queryForm" >
-	<ul>
-			 <li style="width:22%">
-		       	<span class="classify">公司名称：</span>
-		    	<input name="name" type="text"   class="input"  id="name" value=""/>
-		      </li>
-			       <li style="width:15%">
-			       	<span class="classify">公司职位：</span>
-			    	<select id="companyJobId" name="companyJobId">
-			    		 <option value="" > 请选择 </option>
-			    		    <#list DictionaryUtil.getTypes(DictionaryType.COMPANY_INDUSTRY.getCode()) as c>
-			    		 		 <option value="${c.dictionaryId}" <#if  companyJobId?? && companyJobId!="" > <#if companyJobId?number==c.dictionaryId> selected </#if> </#if>  > ${c.showName!''} </option>
-			 			 	</#list>
-			    	</select>
-			       </li>
-			      
-			      
-			      
-		    <li style="width:5%"><a href="javascript:void(0)">
-  		 		<button type="button" class="btn btn-default" id="queryBtn" >查&nbsp;询</button>
-       		</li>
-      </ul>
+ 		<form id="queryForm" >
       
-      	<ul>
-				       
-				       
-				       <li style="width:15%">
-				       	<span class="classify">hr通知状态：</span>
-				    	<select id="hrNoticeStatus" name="hrNoticeStatus">
-			    		 <option value="" > 请选择 </option>
-			    		    <#list DictionaryUtil.getTypes(DictionaryType.COMPANY_INDUSTRY.getCode()) as c>
-			    		 		 <option value="${c.dictionaryId}" <#if  hrNoticeStatus?? && hrNoticeStatus!="" > <#if hrNoticeStatus?number==c.dictionaryId> selected </#if> </#if>  > ${c.showName!''} </option>
-			 			 	</#list>
-			    		  </select>
-				       </li>
-				       
-				       <li style="width:15%">
-				       	<span class="classify">是否去面试：</span>
-				    	<select id="hunterGotoInterviewStatus" name="hunterGotoInterviewStatus">
-			    		 <option value="" > 请选择 </option>
-			    		    <#list DictionaryUtil.getTypes(DictionaryType.COMPANY_INDUSTRY.getCode()) as c>
-			    		 		 <option value="${c.dictionaryId}" <#if  hunterGotoInterviewStatus?? && hunterGotoInterviewStatus!="" > <#if hunterGotoInterviewStatus?number==c.dictionaryId> selected </#if> </#if>  > ${c.showName!''} </option>
-			 			 	</#list>
-			    		  </select>
-				       </li>
-				      
-				       <li style="width:15%">
-				       	<span class="classify">流程状态：</span>
-				    	<select id="flowStatus" name="flowStatus">
-			    		 <option value="" > 请选择 </option>
-			    		    <#list DictionaryUtil.getTypes(DictionaryType.COMPANY_INDUSTRY.getCode()) as c>
-			    		 		 <option value="${c.dictionaryId}" <#if  flowStatus?? && flowStatus!="" > <#if flowStatus?number==c.dictionaryId> selected </#if> </#if>  > ${c.showName!''} </option>
-			 			 	</#list>
-			    		  </select>
-				       </li>
-				      
-      	</ul>
-  </form>
+      </form>
      </div>
     </div>
     <div class="form">
-      <#if subject.isPermitted("zpJlInfo:list")>  <#--zpRecommendFlowInfo:add  -->
-    		<div class="btn-group">
-			  <button type="button" class="btn btn-default"  onclick="recommendflow.toAdd();">增加流程</button>
-	      	</div>
+      <#if subject.isPermitted("zpCompanyInfo:add")>
+	      <div class="btn-group">
+	      </div>
      </#if>
      <div class="form2">
-     
-<table width="100%"  border="1" align="left" cellpadding="0" cellspacing="0" bordercolor="#ffffff" style="border-collapse:collapse">
-      <tr class="lan">
-      
-        <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>公司职位</strong></td>
-        <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>简历</strong></td>
-        <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>匹配</strong></td>
-        <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>技术审核人</strong></td>
-        <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>技术评审时间</strong></td>
-        <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>技术评审状态</strong></td>
-        <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>流程状态</strong></td>
-        <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>操 作</strong></td>
-       </tr>
-       <#list pager.data as c>
-       <tr>
-       
-	 	  <td align="center" class="hui">
-	 	  <#if c.companyJobId??>
-	 	    	${DictionaryUtil.getName(c.companyJobId)} 
-	 	  </#if>
-	 	   </td>
-	 	  <td align="center" class="hui">
-	 	  <#if c.jlId??>
-	 	    	${DictionaryUtil.getName(c.jlId)} 
-	 	  </#if>
-	 	   </td>
-	 	  <td align="center" class="hui">
-	 	  <#if c.matchId??>
-	 	    	${DictionaryUtil.getName(c.matchId)} 
-	 	  </#if>
-	 	   </td>
-	 	  <td align="center" class="hui">
-	 	  <#if c.technicianAuditPerson??>
-	 	    	${DictionaryUtil.getName(c.technicianAuditPerson)} 
-	 	  </#if>
-	 	   </td>
-		 <td align="center" class="hui">
-    			 <#if c.technicianAuditTime??>
-	        	 	 ${c.technicianAuditTime?string("yyyy-MM-dd")}
-	 		 	 </#if>
-	 	 </td>
-		  <td align="center" class="hui">${c.technicianAuditStatus!''}</td>
-	 	 
-	 	 
-		
-		 
-		 
-	 	  <td align="center" class="hui">
-	 	  <#if c.flowStatus??>
-	 	    	${DictionaryUtil.getName(c.flowStatus)} 
-	 	  </#if>
-	 	   </td>
-		 <td align="center" class="hui" style="width:300px;"  >
-	       		<div class="btn-group">
-      			<#if subject.isPermitted("zpJlInfo:list")>   <#--zpRecommendFlowInfo:detail  -->
-				  <button type="button" class="btn btn-default"  onclick="recommendflow.toDetail('${c.auditId}')">详情</button>
-				 </#if>
-				 
-      			<#if subject.isPermitted("zpJlInfo:list")>  <#--zpRecommendFlowInfo:edit  -->
-				  <button type="button" class="btn btn-default"  onclick="recommendflow.toEdit('${c.auditId}')">修改</button>
-				 </#if>
-				 
-      			<#if subject.isPermitted("zpJlInfo:list")>  <#--zpRecommendFlowInfo:disableAndEnabled  -->
-				  <#if c.isDelete??>
-				  	<button type="button" class="btn btn-default"  onclick=recommendflow.modifyDeleteStatus('${c.auditId}', '${c.isDelete!""}' );>
-				  	 	<#if c.isDelete==PauseStartType.START.getCode()> 暂停 </#if>
-				  	 	<#if c.isDelete==PauseStartType.PAUSE.getCode()> 启用 </#if>
-				  </button>	
-				  </#if>
-				 	</#if>
-				 
-				  <button type="button" class="btn btn-default"  onclick="recommendflow.toAddJob('${c.auditId}')">发布职位</button>
-	      		</div>
-        </td>
-       </tr>
-       </#list>
-       <tr>
-     	 <td colspan="10" valign="middle" class="d">
-     	 
-      			<#if subject.isPermitted("zpJlInfo:list")>  <#--zpRecommendFlowInfo:delete  -->
-     	 	 <div class="btn-group" style="display:none;">
-			   <button type="button" class="btn btn-default"  onclick="javascipt:void(0);">删除</button>
-      	 	 </div>
-				</#if>
-     	 	
-     	 </td>
-       </tr>
-      </table>
-     
-     </div>
-     <@pageBar   pager=pager url="/zpRecommendFlowInfo/list.action?jsonParam=${jsonParam!''}" join="&"> </@pageBar> 
     
+     <table class="table_style03">
+    <tbody><tr>
+        <th width="9%">公司名称</th>
+        <th width="11%">职位名称</th>
+        <th width="11%">求职者</th>
+        <th width="15%">技术审核人</th>
+        <th width="16%">技术评审时间</th>
+        <th width="15%">状态</th>
+        <th width="16%">操作</th>
+    </tr>
+    
+      <#list pager.data as c>
+	       <tr>
+	       
+		 	  <td align="center" class="hui">
+		 	 	${c.companyName!''}
+		 	   </td>
+		 	  <td align="center" class="hui">
+		 	  	${c.companyJobName!''}
+		 	   </td>
+		 	  <td align="center" class="hui">
+		 	 		${c.jlName!''}
+		 	   </td>
+		 	     <td align="center" class="hui">
+		 	 		${c.technicianAuditPersonName!''}
+		 	   </td>
+			 <td align="center" class="hui">
+	    			 <#if c.technicianAuditTime??>
+		        	 	 ${c.technicianAuditTime?string("yyyy-MM-dd HH:mm:ss")}
+		 		 	 </#if>
+		 	 </td>
+		 	  <td align="center" class="hui">
+		 	   <#if c.flowStatus??>
+         			${RecommendFlowType.get(c.flowStatus).getTitle()}
+        		</#if>
+		 	 </td>
+			 <td align="center" class="hui" style="width:300px;"  >
+		       		<div class="btn-group">
+	      			<#if subject.isPermitted("zpJlInfo:list")>   <#--zpRecommendFlowInfo:detail  -->
+					  <button type="button" class="btn btn-default"  onclick="recommendflow.toDetail('${c.auditId}')">详情</button>
+					 </#if>
+					 
+		      		</div>
+	        </td>
+	       </tr>
+	       </#list>
+</tbody></table>
+    
+     </div>
+	 <#-- 分页栏 -->
+     <@pageBar pager=pager url="/zpCompanyInfo/list.action?jsonParam=${jsonParam!''}" join="&"></@pageBar>
     </div>
    </div>
   <!-- 弹窗 结束 -->
 	<#include "../include/deleteConfirmModal.ftl">
+	
     <script src="/js/recommendflow.js"></script>
     <script>
-		recommendflow.initPage();
-	</script>
+    	recommendflow.initPage();
+    </script>
 </html>
-
-
 

@@ -61,7 +61,7 @@ public class ZpJlInfo  implements java.io.Serializable{
 	    
 		private List<ZpJlJobLevels> zpJlJobLevels; //职位列表
 
-
+	    private Integer recommendFlowStatus; //推荐流程状态
 
 	public ZpJlInfo(){
 	}

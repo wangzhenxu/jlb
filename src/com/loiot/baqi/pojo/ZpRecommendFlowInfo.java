@@ -25,7 +25,7 @@ public class ZpRecommendFlowInfo  implements java.io.Serializable{
 	    private java.util.Date technicianAuditTime;  //技术评审时间 db_column: technician_audit_time 
 	    private Integer technicianAuditStatus;  //技术评审状态 db_column: technician_audit_status 
 	    private java.lang.Long enterpriseDockingPerson;  //企业对接人 db_column: enterprise_docking_person 
-	    private java.lang.Long enterpriseDockingStatus;  //企业对接状态 db_column: enterprise_docking_status 
+	    private java.lang.Integer enterpriseDockingStatus;  //企业对接状态 db_column: enterprise_docking_status 
 	    private java.util.Date enterpriseDockingTime;  //企业对接人反馈时间 db_column: enterprise_docking_time 
 	    private long enterpriseReplyStatus;  //企业反馈状态 db_column: enterprise_reply_status 
 	    private java.lang.String enterpriseReplyContent;  //企业反馈内容 db_column: enterprise_reply_content 

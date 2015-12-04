@@ -72,9 +72,27 @@ public class ZpRecommendFlowInfoController {
     @RequestMapping(value = "/list")
     public String list(@RequestParam(value = "pi", defaultValue = "0") int pageIndex,
     		@RequestParam(value = "jsonParam", defaultValue = "{}") String jsonParam,
-    	ZpRecommendFlowInfo p, ModelMap model)throws Exception {
+    		ZpRecommendFlowInfo p, ModelMap model)throws Exception {
     	HashMap<String,Object> paramMap=this.getParaMap(jsonParam, model);
     	paramMap.put("qtype", "like");
+    	if(!StringUtils.isBlank(String.valueOf(p.getJlId()))){
+    		paramMap.put("jlId", p.getJlId());
+    		model.put("jlId", p.getJlId());
+    	}
+    	//用户数据过滤
+    	//技术评审
+    	if(UserSessionUtils.getAccountType()==AccountType.TECHICAL_AUDIT.getCode() ){
+    		paramMap.put("technicianAuditPerson", UserSessionUtils.getAccount().getAccountId());
+    	}else 
+    	//hr
+		if(UserSessionUtils.getAccountType()==AccountType.HR.getCode() ){
+    		paramMap.put("jlInPerson", UserSessionUtils.getAccount().getAccountId());
+    	}
+    	
+    	if(p.getFlowStatus()!=null){
+    		paramMap.put("flowStatus", p.getFlowStatus());
+    		model.put("flowStatus",p.getFlowStatus());
+    	}
     	//用户数据过滤
     	/*
     	if(UserSessionUtils.getAccountType()==AccountType.HR.getCode() || UserSessionUtils.getAccountType()==AccountType.JOB_HUNTER.getCode() ){
@@ -351,8 +369,31 @@ public class ZpRecommendFlowInfoController {
     	if(id==null){
     		return URLConst.ERROR_URL;
     	}
-    	//model.put("p", zpRecommendFlowInfoService.getZpRecommendFlowInfoById(id));
-    	 model.put("pid",  id);
+    	this.pmap.clear();
+    	this.pmap.put("auditId", id);
+    	//技术评审
+    	if(UserSessionUtils.getAccountType()==AccountType.TECHICAL_AUDIT.getCode() ){
+    		pmap.put("technicianAuditPerson", UserSessionUtils.getAccount().getAccountId());
+    	}else 
+    	//hr
+		if(UserSessionUtils.getAccountType()==AccountType.HR.getCode() ){
+			pmap.put("jlInPerson", UserSessionUtils.getAccount().getAccountId());
+    	}
+    	//企业对接人
+		if(UserSessionUtils.getAccountType()==AccountType.COMPANY_INTERFACER.getCode() ){
+			pmap.put("enterpriseInterfacePerson", UserSessionUtils.getAccount().getAccountId());
+    	}
+		//电话顾问
+		if(UserSessionUtils.getAccountType()==AccountType.HEAD_HUNTING_MANAGER.getCode() ){
+			pmap.put("headhunterInterfacePerson", UserSessionUtils.getAccount().getAccountId());
+		}
+    	
+    	ZpRecommendFlowInfo p = zpRecommendFlowInfoService.getZpRecommendFlowInfo(pmap);
+    	if(p==null){
+    		return URLConst.ERROR_URL;
+    	}
+    	model.put("p", p);
+    	model.put("pid",  id);
     	return "/recommendflow/recommendflow_add";
     }
 

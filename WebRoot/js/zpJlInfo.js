@@ -55,6 +55,8 @@ var jlInfo ={
 		inPersion : $("#inPersion"), //录入人
 		inPersonName : $("#inPersonName"), //录入人
 		jlContent2 :$("#jlContent2"),
+		hellpPersonId :$("#hellpPersonId"),
+
 		
 		oldFilePath : $("#oldFilePath"), //原来的文件路径
 		//页面初始化

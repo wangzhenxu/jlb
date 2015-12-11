@@ -199,12 +199,16 @@ var companyJob = {
 	//初始化添加页面
 	initAddPage : function (){
 		var self = this;
+		 self.fckDesc1=common.fckInit("desc1");
+		 self.fckDesc2= common.fckInit("desc2");
 		self.address.blur();
 		self.addform.attr("action",self.addUrl);
 	},
 	//初始化详情页面数据
 	initDetailPage : function(){
 		   var self = this;
+		   self.fckDesc1=common.fckInit("desc1");
+		   self.fckDesc2= common.fckInit("desc2");
 			self.getById(self.jobId.val(),function (result){
 				if (result.s > 0) {
 					self.setForm(result.data);
@@ -435,7 +439,9 @@ var companyJob = {
 		var self = this;
 		if(!self.checkkeywordExits(value)){
 			var lable = '<button type="button" style="margin-left:10px;" class="btn btn-small" ondblclick="$(this).remove();">'+value+'</button>';
-			self.keyWordLable.append(lable);
+			if(self.keyWordLable.length>0){
+				self.keyWordLable.append(lable);
+			}
 		}
 	},
 	checkkeywordExits:function(keyword){

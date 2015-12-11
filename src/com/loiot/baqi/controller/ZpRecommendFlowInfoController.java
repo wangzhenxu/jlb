@@ -122,7 +122,7 @@ public class ZpRecommendFlowInfoController {
     	}
     	if(p.getFlowStatus()!=null){
     		paramMap.put("flowStatus", p.getFlowStatus());
-    		model.put("flowStatus",p.getFlowStatus());
+    		model.put("flowStatus",String.valueOf(p.getFlowStatus()));
     	}
     	//用户数据过滤
     	/*
@@ -154,7 +154,7 @@ public class ZpRecommendFlowInfoController {
     	}
     	if(p.getFlowStatus()!=null){
     		paramMap.put("flowStatus", p.getFlowStatus());
-    		model.put("flowStatus",p.getFlowStatus());
+    		model.put("flowStatus",String.valueOf(p.getFlowStatus()));
     	}
     	//用户数据过滤
     	/*
@@ -183,10 +183,12 @@ public class ZpRecommendFlowInfoController {
     		Object val = entry.getValue();
     		if(key.toString().equals("name")){
     			newParamMap.put("nameT", val);
-    		}else{
+    		}else
+    		if(String.valueOf(val).length()>0){
     			newParamMap.put(String.valueOf(key), val);
+    			model.put(String.valueOf(key), val);
+        		
     		}
-    		model.put(String.valueOf(key), val);
 		}
 		return newParamMap;
     }

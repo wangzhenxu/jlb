@@ -84,7 +84,7 @@ public class ZpRecommendFlowInfoService{
 
         // 构造一个分页器
         Pager<ZpRecommendFlowInfo> pager = new Pager<ZpRecommendFlowInfo>(totalResults, pageIndex);
-
+        //pager.setPageSize(5);
         // 查询推荐流程列表
         List<ZpRecommendFlowInfo> zpRecommendFlowInfoList = zpRecommendFlowInfoDao.queryZpRecommendFlowInfoList(pMap, pager.getSkipResults(),
                 pager.getMaxResults());

@@ -12,25 +12,45 @@
             <div class="location">
                 <div class="location01">您现在的位置是：首页 &gt; 顾问对接管理 &gt; <strong>顾问对接列表</strong></div>
             </div>
-            <div class="sort" style="display:none;">
-                <div class="sort1">规则设定</div>
+            <div class="sort">
+                <div class="sort1">顾问对接列表</div>
                 <div class="query">
-                    <ul>
-                        <li><span class="classify">公众帐号：</span>
-                            <input id="mpcount" type="hidden" value="7">
-                                <select id="mp">
-                                        
-                                </select>
-
-                           </li>
-
-
-	                    <li><span class="classify">规则名称：</span>
-	                        <input name="" type="text" id="rulename" class="input" value="">
-	                        
-	                    </li>
-                        <li><a href="javascript:void(0);" class="but0"><img src="/images/erji_06.jpg" width="64" height="26"></a></li>
-                    </ul>
+                   <form id="queryForm" >
+ 			<ul>
+        	<li style="width:22%">
+		       	<span class="classify">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;求职者：</span>
+		    	<input name="jlName" type="text"   class="input"  id="jlName" value="${jlName!''}"/>
+		      </li>
+		      <li style="width:22%">
+		       	<span class="classify">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;公司名称：</span>
+		    	<input name="companyName" type="text"   class="input"  id="name" value="${companyName!''}"/>
+		      </li>
+			        <li style="width:15%">
+				       	<span class="classify">职位：</span>
+				    	<select id="jobPositionId" name="jobPositionId">
+			    		 <option value="" > 请选择 </option>
+			    		    <#list DictionaryUtil.getTypes(DictionaryType.JOB_POSITION.getCode()) as c>
+			    		 		 <option value="${c.dictionaryId}" <#if  jobPositionId?? && jobPositionId!=''> <#if jobPositionId?number==c.dictionaryId> selected </#if> </#if>  > ${c.showName!''} </option>
+			 			 	</#list>
+			    		  </select>
+				       </li>
+				   
+				    <li style="width:25%;display:none;" >
+				       	<span class="classify">流程状态：</span>
+				    	<select id="flowStatus" name="flowStatus">
+			    		 <option value="" > 请选择 </option>
+			    		    <#list RecommendFlowType.values() as c>
+			    		 		 <option value="${c.code}" <#if  flowStatus?? && flowStatus!=''> <#if flowStatus?number==c.code> selected </#if> </#if>  > ${c.title!''} </option>
+			 			 	</#list>
+			    		  </select>
+				   </li> 
+				     
+			       
+				      <li style="width:5%"><a href="javascript:void(0)">
+  				 		<button type="button" class="btn btn-default" id="queryBtn">查&nbsp;询</button>
+       				</a></li>
+      </ul>
+        </form>
                 </div>
             </div>
 
@@ -38,10 +58,6 @@
                 <div class="form2">
                     <table class="table_style03">
                         <tbody><tr>
-                            <th colspan="6"><div class="zidong" style="display:none;">
-                                <div class="gzzh">公众帐号：<span id="mpname">zhangsf001</span></div>
-                                <div class="huifu"></div>
-                            </div></th>
                         </tr>
                     </tbody></table>
                     <div class="sort2">
@@ -51,9 +67,9 @@
                                     <div class="biantop">
                                         <ul>
                                             <li   <#if flowStatus??> <#else> class="list" </#if>  ><a href="/zpRecommendFlowInfo/headhunterInterfaceList.action" class="pdtrule">全部</a></li>
-                                            <li   <#if flowStatus?? && flowStatus==RecommendFlowType.COMPANY_INVITATION_INTERVIEW.getCode()> class="list" </#if>   ><a href="/zpRecommendFlowInfo/headhunterInterfaceList.action?flowStatus=${RecommendFlowType.COMPANY_INVITATION_INTERVIEW.getCode()}" class="pdtrule">待通知</a></li>
-                                            <li   <#if flowStatus?? && flowStatus==RecommendFlowType.WAIT_JOBHUNTER_GOTO_INTERVIEW.getCode()> class="list" </#if>   ><a href="/zpRecommendFlowInfo/headhunterInterfaceList.action?flowStatus=${RecommendFlowType.WAIT_JOBHUNTER_GOTO_INTERVIEW.getCode()}" class="followrule">同意去面试</a></li>
-                                            <li   <#if flowStatus?? && flowStatus==RecommendFlowType.HUNTER_ALREAD_GOTO_INTERVIEW.getCode()> class="list" </#if>   ><a href="/zpRecommendFlowInfo/headhunterInterfaceList.action?flowStatus=${RecommendFlowType.HUNTER_ALREAD_GOTO_INTERVIEW.getCode()}" class="followrule">已面试</a></li>
+                                            <li   <#if flowStatus?? && flowStatus!='' && flowStatus?number==RecommendFlowType.COMPANY_INVITATION_INTERVIEW.getCode()> class="list" </#if>   ><a href="/zpRecommendFlowInfo/headhunterInterfaceList.action?flowStatus=${RecommendFlowType.COMPANY_INVITATION_INTERVIEW.getCode()}" class="pdtrule">待通知</a></li>
+                                            <li   <#if flowStatus?? && flowStatus!='' && flowStatus?number==RecommendFlowType.WAIT_JOBHUNTER_GOTO_INTERVIEW.getCode()> class="list" </#if>   ><a href="/zpRecommendFlowInfo/headhunterInterfaceList.action?flowStatus=${RecommendFlowType.WAIT_JOBHUNTER_GOTO_INTERVIEW.getCode()}" class="followrule">同意去面试</a></li>
+                                            <li   <#if flowStatus?? && flowStatus!='' && flowStatus?number==RecommendFlowType.HUNTER_ALREAD_GOTO_INTERVIEW.getCode()> class="list" </#if>   ><a href="/zpRecommendFlowInfo/headhunterInterfaceList.action?flowStatus=${RecommendFlowType.HUNTER_ALREAD_GOTO_INTERVIEW.getCode()}" class="followrule">已面试</a></li>
                                             
                                         </ul>
                                     </div>
@@ -227,6 +243,7 @@
     <script src="/js/headhunterInterface.js"></script>
       <script>
     	common.initLeftMenuSelected("headhunterInterface_list");
+    	headhunterInterface.initPage();
     </script>
    </body>
 </html>

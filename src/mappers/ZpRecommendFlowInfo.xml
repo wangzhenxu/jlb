@@ -710,19 +710,30 @@
 				        	<if test="inPerson != null and inPerson !='' ">
 				        		AND rfi.in_person=#{inPerson} 
 				        	</if>
-				        <if test="hunterInterviewStatus != null">
+				        <if test="hunterInterviewStatus != null and hunter_interview_status!=''">
 			        		AND hunter_interview_status=#{hunterInterviewStatus}
 			        	</if>
 			        	<if test="hunterInterviewOperatorTime != null">
 			        		AND hunter_interview_operator_time=#{hunterInterviewOperatorTime}
 			        	</if>
-			        	<if test="hunterInerviewReplayContent != null">
+			        	<if test="hunterInerviewReplayContent != null" >
 			        		AND hunter_inerview_replay_content=#{hunterInerviewReplayContent}
 			        	</if>
 			        	
-			        	<if test="jlInPerson != null">
+			        	<if test="jlInPerson != null and jlInPerson != '' ">
 			        		AND ji.in_person=#{jlInPerson}
 			        	</if>
+			        	
+			        	<if test="jobPositionId != null and jobPositionId != ''">
+			        		AND cji.typeId=#{jobPositionId}
+			        	</if>
+			        	<if test="companyName != null and companyName!=''">
+			        		AND ci.name  like '%${companyName}%' 
+			        	</if>
+			        	<if test="jlName != null and jlName!=''">
+			        		AND ji.name like '%${jlName}%' 
+			        	</if>
+			        	
 					
 					<if test="ids !=null">
 				         AND rfi.audit_id IN

@@ -12,8 +12,10 @@
 <script src="/js/ajaxfileupload.js"></script>
 <script src="/js/my97/WdatePicker.js" type="text/javascript" > </script>
 <script type="text/javascript" src="/js/ckeditor/ckeditor.js"></script>
- 
-
+<style type="text/css"> 
+.title_DQ{width:153px; color:#ffffff; font-weight: 700;background:url(/images/title_DQ.png) no-repeat left}
+.number{ color:#ffffff;font-weight: 700; float:right; padding-right:35px}
+</style>
 <form id="addform" name="form"  method="post" enctype="multipart/form-data">
 
 <!-- 右侧 开始 -->
@@ -23,21 +25,25 @@
     </div>
     <div class="nav">
      <div class="basic">
-	 <div class="basic01" style="width:300px;" >技术评审  
-	 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  
-	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	  求职者: <span style="color:red;">  ${p.jlName!''}</span>   </div>
+     	 <div class="basic01 title_DQ" ><span class="number">01</span>技术评审</div>
+     	 <div class="basic01" style="width:300px;">
+     	 
+     	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  
+	 		 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		  求职者: <span style="color:red;">  ${p.jlName!''}</span>  
+     	 </div>
 	</div>
+	
      <div class="query1" style="width:100%;">
        <table width="100%" border="0" align="left">
          <tbody>
          
          <tr>
-           <td align="right" class="hui1">技术评审人：</td>
-           <td align="left" valign="middle">
+           <td width="100" align="right" class="hui1">技术评审人：</td>
+           <td width="300" align="left" valign="middle">
 				${p.technicianAuditPersonName!''}
            </td>
-            <td align="right" class="hui1">评审时间：</td>
+            <td width="200" align="right" class="hui1">评审时间：</td>
            	<td align="left" valign="middle">
            		<#if p.technicianAuditTime??>
         		 	${p.technicianAuditTime?string("yyyy-MM-dd HH:mm:ss")}
@@ -57,7 +63,7 @@
      
      
     <div class="basic">
-	 <div class="basic01" >企业对接</div>
+	 <div class="basic01 title_DQ" ><span class="number">02</span>企业对接  </div>
 	</div>
 	
 	<div class="query1" style="width:100%;">
@@ -66,12 +72,12 @@
          
          
           <tr>
-           <td align="right" class="hui1">企业对接人：</td>
-           <td align="left" valign="middle">
+           <td width="100" align="right" class="hui1">企业对接人：</td>
+           <td width="300" align="left" valign="middle">
 				${p.enterpriseInterfacePersonName!''}
            </td>
-            <td align="right" class="hui1">推送简历时间：</td>
-           	<td align="left" valign="middle">
+            <td width="200" align="right" class="hui1">推送简历时间：</td>
+           	<td align="left" valign="middle">4353
           		<#if p.enterpriseDockingTime??>
         		 	${p.enterpriseDockingTime?string("yyyy-MM-dd HH:mm:ss")}
  				</#if>
@@ -117,7 +123,7 @@
      
      
     <div class="basic">
-	 <div class="basic01" >猎头顾问对接</div>
+        <div class="basic01 title_DQ" ><span class="number">03</span>猎头顾问对接</div>
 	</div>
 	
 	<div class="query1" style="width:100%;">
@@ -125,12 +131,12 @@
          <tbody>
          
           <tr>
-           <td align="right" class="hui1">猎头顾问：</td>
-           <td align="left" valign="middle">
+           <td width="100" align="right" class="hui1">猎头顾问：</td>
+           <td width="300" align="left" valign="middle">
 				${p.headhunterInterfacePersonName!''}
            </td>
-            <td align="right" class="hui1">通知面试时间：</td>
-           	<td align="left" valign="middle">
+            <td width="200" align="right" class="hui1" >通知面试时间：</td>
+           	<td  align="left" valign="middle">2015-12-07 10:48:54
           		<#if p.hrNoticeTime??>
         		 	${p.hrNoticeTime?string("yyyy-MM-dd HH:mm:ss")}
  				</#if>
@@ -170,7 +176,7 @@
          </tr>
          
           <tr>
-            <td align="right" class="hui1">面试结果</td>
+            <td align="right" class="hui1">面试结果：</td>
            	<td align="left" valign="middle">
           		<#if p.hunterInterviewStatus??>
            			<#if p.hunterInterviewStatus==RecommendFlowType.HUNTER_INTERVIEW_PASS.getCode()>
@@ -181,7 +187,7 @@
            			</#if>
            		</#if>
            </td>
-           <td align="right" class="hui1">反馈时间</td>
+           <td align="right" class="hui1">反馈时间：</td>
            	<td align="left" valign="middle">
           		<#if p.hunterInterviewOperatorTime??>
         		 	${p.hunterInterviewOperatorTime?string("yyyy-MM-dd HH:mm:ss")}
@@ -213,4 +219,6 @@
 <#include "../include/deleteConfirmModal.ftl">
 <script>
 	$("textarea").attr("readonly",true);
+	 common.initLeftMenuSelected("zpRecommendFlowInfo_list");
+	
 </script>

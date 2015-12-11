@@ -32,6 +32,7 @@ import com.loiot.baqi.status.ResumeMatchingRegexpType;
 import com.loiot.baqi.utils.IdcardUtils;
 import com.loiot.baqi.utils.JLBUtils;
 import com.loiot.baqi.utils.RegexpUtils;
+import com.loiot.baqi.utils.UserSessionUtils;
 import com.loiot.baqi.utils.WordUtils;
 import com.loiot.baqi.pojo.ZpDictionaryInfo;
 import com.loiot.baqi.pojo.ZpJlExpandInfo;
@@ -100,6 +101,9 @@ public class ZpJlInfoService{
      	p1.setJlFilePath(p.getJlFilePath());
      	p1.setJlContent(p.getJlContent());
      	p1.setAuditTypeId((int)JlAuditType.NO_SELECT_AUDIT_PERSON.getCode());
+     	if(p.getHellpPersonId()!=null){
+         	p1.setHellpPersonId(UserSessionUtils.getAccount().getAccountId());
+     	}
         zpJlExpandInfoDao.addZpJlExpandInfo(p1);
         
         this.addLevel(jobIds, p.getJlId());

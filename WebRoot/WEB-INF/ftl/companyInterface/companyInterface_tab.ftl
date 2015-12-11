@@ -48,7 +48,7 @@
  </#if>
  
  
- <#if flowStatus?? && flowStatus==RecommendFlowType.WAIT_RECOMMEND_COMPANY.getCode()>
+ <#if flowStatus?? && flowStatus!='' && flowStatus?number==RecommendFlowType.WAIT_RECOMMEND_COMPANY.getCode()>
  <table class="table_style03">
     <tbody><tr>
         <th width="9%">公司名称</th>
@@ -81,9 +81,10 @@
 		 		 	 </#if>
 		 	 </td>
 		 	  <td align="center" class="hui">
-		 	   <#if c.flowStatus??>
+		 	  <#if c.flowStatus??>
          			${RecommendFlowType.get(c.flowStatus).getTitle()}
         		</#if>
+		 	 
 		 	 </td>
 			 <td align="center" class="hui" style="width:300px;"  >
 		       		<div class="btn-group">
@@ -97,7 +98,7 @@
  </#if>
  
  
- <#if flowStatus?? && flowStatus==RecommendFlowType.ALREADY_RECOMMEND_COMPANY.getCode()>
+ <#if flowStatus?? && flowStatus!='' && flowStatus?number==RecommendFlowType.ALREADY_RECOMMEND_COMPANY.getCode()>
  <table class="table_style03">
     <tbody><tr>
         <th width="9%">公司名称</th>

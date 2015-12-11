@@ -25,6 +25,8 @@
 <input type="hidden" name="jobPositionLevelIds" id="jobPositionLevelIds" />
 <input type="hidden" name="coordX" id="coordX" />
 <input type="hidden" name="coordY" id="coordY" />
+<input type="hidden" name="hellpPersonId" id="hellpPersonId" value=${RequestParameters["hellpPersonId"]!0} />
+
 
 
 

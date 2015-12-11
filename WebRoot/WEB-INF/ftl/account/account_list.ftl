@@ -105,7 +105,7 @@
         <td width="10%" height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>评审状态</strong></td>
         <td width="10%" height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>创建时间</strong></td>
         <td width="10%" height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>最后登陆时间</strong></td>
-        <td width="24%" align="center" valign="middle" background="/images/erji_22.jpg"><strong>操 作</strong></td>
+        <td width="30%" align="center" valign="middle" background="/images/erji_22.jpg"><strong>操 作</strong></td>
        </tr>
        <#list pager.data as account>
 	       <tr>
@@ -148,13 +148,13 @@
 	 			</#if>
 	        </td>
 	        
-	        <td align="center" class="hui">
+	        <td align="left" class="hui" >
 	        	<a href="javascript:toViewAccount(${account.accountId});"> 查看</a>&nbsp;&nbsp; 
 				<#if subject.isPermitted("account:edit")>
 	        		<a href="javascript:toEditAccount(${account.accountId});">修改</a> &nbsp;&nbsp;
 	        	</#if>
 				<#if subject.isPermitted("account:delete222")>
-	        		<a href="javascript:deleteaccount(${account.accountId})">删除</a>
+	        		<a href="javascript:deleteaccount(${account.accountId})">删除</a> &nbsp;&nbsp;
 	        	</#if>
 	        	<#if subject.isPermitted("account:disableAndEnabled")>
 	        	 <#if account.isDelete??>
@@ -164,6 +164,10 @@
 				  	</a>	
 				  </#if>
 			  	</#if>
+			  	
+			  	<#if account.type==AccountType.HR.getCode()>
+			  		 &nbsp;&nbsp;<a href="/zpJlInfo/toAdd.action?hellpPersonId=${account.accountId}">待传简历</a>&nbsp;&nbsp; 
+        	    </#if>
 	        </td>
 	       </tr>
        </#list>

@@ -53,7 +53,8 @@ public class ZpJlInfo  implements java.io.Serializable{
 	    private java.lang.String technicianAuditPersonName;  //创建技术评审名称 
 	    private java.util.Date technicianAuditTime;  //创建技术评审时间 db_column: technician_audit_time 
 	    private java.lang.Integer auditTypeId;  //评审状态 db_column: audit_type_id 
-
+	    private Long hellpPersonId; //帮助上传简历人
+	    private java.lang.String hellpPersonName; //帮助上传简历人名称
 	    private java.lang.String inPersonName;   
 
 	    private java.lang.String coordX;  //坐标x db_column: coord_x 

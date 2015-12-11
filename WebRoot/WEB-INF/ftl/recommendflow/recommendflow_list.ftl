@@ -25,8 +25,41 @@
      <div class="sort1">推荐流程管理</div>
      <div class="query">
  		<form id="queryForm" >
-      
-      </form>
+ 			<ul>
+        	<li style="width:22%">
+		       	<span class="classify">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;求职者：</span>
+		    	<input name="jlName" type="text"   class="input"  id="jlName" value="${jlName!''}"/>
+		      </li>
+		      <li style="width:22%">
+		       	<span class="classify">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;公司名称：</span>
+		    	<input name="companyName" type="text"   class="input"  id="name" value="${companyName!''}"/>
+		      </li>
+			        <li style="width:15%">
+				       	<span class="classify">职位：</span>
+				    	<select id="jobPositionId" name="jobPositionId">
+			    		 <option value="" > 请选择 </option>
+			    		    <#list DictionaryUtil.getTypes(DictionaryType.JOB_POSITION.getCode()) as c>
+			    		 		 <option value="${c.dictionaryId}" <#if  jobPositionId?? && jobPositionId!=''> <#if jobPositionId?number==c.dictionaryId> selected </#if> </#if>  > ${c.showName!''} </option>
+			 			 	</#list>
+			    		  </select>
+				       </li>
+				   
+				    <li style="width:25%">
+				       	<span class="classify">流程状态：</span>
+				    	<select id="flowStatus" name="flowStatus">
+			    		 <option value="" > 请选择 </option>
+			    		    <#list RecommendFlowType.values() as c>
+			    		 		 <option value="${c.code}" <#if  flowStatus?? && flowStatus!=''> <#if flowStatus?number==c.code> selected </#if> </#if>  > ${c.title!''} </option>
+			 			 	</#list>
+			    		  </select>
+				   </li> 
+				     
+			       
+				      <li style="width:5%"><a href="javascript:void(0)">
+  				 		<button type="button" class="btn btn-default" onclick="recommendflow.query();">查&nbsp;询</button>
+       				</a></li>
+      </ul>
+        </form>
      </div>
     </div>
     <div class="form">
@@ -86,7 +119,7 @@
     
      </div>
 	 <#-- 分页栏 -->
-     <@pageBar pager=pager url="/zpCompanyInfo/list.action?jsonParam=${jsonParam!''}" join="&"></@pageBar>
+     <@pageBar pager=pager url="/zpRecommendFlowInfo/list.action?jsonParam=${jsonParam!''}" join="&"></@pageBar>
     </div>
    </div>
   <!-- 弹窗 结束 -->

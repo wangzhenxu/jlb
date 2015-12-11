@@ -1,7 +1,7 @@
 //推荐流程
 var companyInterface = {
 	//请求url
-	listUrl:"/zpRecommendFlowInfo/list.action", //列表地址
+	listUrl:"/zpRecommendFlowInfo/companyInterfaceList.action", //列表地址
 	toAddUrl:"/zpRecommendFlowInfo/toAdd.action", //去添加页面地址
 	addUrl:"/zpRecommendFlowInfo/add.action", //添加地址
 	toEditUrl:"/zpRecommendFlowInfo/toEdit.action?id=", //去修改页面地址
@@ -65,7 +65,7 @@ var companyInterface = {
 	initPage : function (){
 		var self = this;
 		self.currPage = common.getCurrPageFlag();
-		common.initLeftMenuSelected(self.left_menu_selected_id);
+		//common.initLeftMenuSelected(self.left_menu_selected_id);
 
 		//初始化标题
 		common.initPageTitle(self._title_val,self.m_title);
@@ -76,18 +76,11 @@ var companyInterface = {
 				self.add();
 			});
 		}
+		self.currPage="list";
 		if(self.currPage=="list"){
 			self.initSeletePage();
-		}else
-		if(self.currPage=="edit"){
-			self.initEditPage();
-		} else 
-		if(self.currPage=="add"){
-			self.initAddPage();
-		}else 
-		if(self.currPage=="detail"){
-			self.initDetailPage();
 		}
+		
 	},
 	initSeletePage : function (){
 		var self =this;

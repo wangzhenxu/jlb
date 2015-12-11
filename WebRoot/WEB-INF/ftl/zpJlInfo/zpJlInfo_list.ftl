@@ -27,10 +27,10 @@
      <div class="query">	
      <form id="queryForm" >
      <ul>
-			 <li style="width:22%">
-		       	<span class="classify">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;姓名：</span>
-		    	<input name="name" type="text"   class="input"  id="name" value="${name!''}"/>
-		      </li>
+				 <li style="width:22%">
+			       	<span class="classify">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;姓名：</span>
+			    	<input name="name" type="text"   class="input"  id="name" value="${name!''}"/>
+			      </li>
 			        <li style="width:15%">
 				       	<span class="classify">职位：</span>
 				    	<select id="jobPositionId" name="jobPositionId">
@@ -114,6 +114,16 @@
 		 			 	</#list>
 		    		  </select>
 			       </li>
+			       <li style="width:15%">
+			       	<span class="classify">待传简历：</span>
+	       	   		<select id="hellpPersonId" name="hellpPersonId">
+		    		 	<option value="" > 请选择 </option>
+		    		    <#list JlHelpType.values() as c>
+		    		 		 <option value="${c.code}" <#if  hellpPersonId?? && hellpPersonId!=""> <#if hellpPersonId?number==c.code> selected </#if> </#if>  > ${c.title!''} </option>
+		 			 	</#list>
+		    		 </select>
+	       		   </li>
+	       			
       	</ul>
       </form>
      </div>
@@ -152,6 +162,7 @@
         <#if Session[Const.SESSION_USER_KEY].type!=AccountType.HR.getCode()>
         	<td  height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>录入人</strong></td>
         </#if>
+        <td  height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>待传人</strong></td>
         <td  height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>录入时间</strong></td>
         <td  height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>操 作</strong></td>
        </tr>
@@ -238,7 +249,13 @@
 			</td>
        </#if>
 	     
-	    
+	     <td align="center" class="hui">
+	    	     <#if c.hellpPersonId??>
+        			 ${c.hellpPersonName}
+        			 <#else>
+        			 自上传
+ 				</#if>
+	    </td>
 	    <td align="center" class="hui">
 	    	     <#if c.inTime??>
         			 ${c.inTime?string("yyyy-MM-dd HH:mm:ss")}

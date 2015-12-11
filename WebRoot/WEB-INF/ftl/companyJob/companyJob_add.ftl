@@ -201,6 +201,8 @@
            </td>
          </tr>
          
+         <!-- hr和求求职者 是看不到标签的 -->
+        <#if Session[Const.SESSION_USER_KEY].type!=AccountType.HR.getCode() && Session[Const.SESSION_USER_KEY].type!=AccountType.JOB_HUNTER.getCode()>
          <tr>
            <td  align="right" class="hui1 buhuan">关键字标签：</td>
            <td align="left" valign="middle" colspan="2" id="keyWordLable">
@@ -230,6 +232,7 @@
            		   </td>
          	</tr>
 	     </#if>
+	   </#if>
          
          </table>
      </div>

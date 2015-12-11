@@ -92,8 +92,11 @@ public class ZpJlInfoController {
     public String list(@RequestParam(value = "pi", defaultValue = "0") int pageIndex,
     		@RequestParam(value = "jsonParam", defaultValue = "{}") String jsonParam,
     	ZpJlInfo p, ModelMap model)throws Exception {
-    	
     	HashMap<String,Object> paramMap=this.getParaMap(jsonParam, model);
+    	if(paramMap.get("hellpPersonId")!=null){
+    		paramMap.put("hellpPersonIdT",paramMap.get("hellpPersonId") );
+    		paramMap.remove("hellpPersonId");
+    	}
     	paramMap.put("qtype", "like");
     	//用户数据过滤
     	if(UserSessionUtils.getAccountType()==AccountType.HR.getCode() || UserSessionUtils.getAccountType()==AccountType.JOB_HUNTER.getCode() ||  UserSessionUtils.getAccountType()==AccountType.TECHICAL_AUDIT.getCode()){
@@ -156,7 +159,12 @@ public class ZpJlInfoController {
     	try {
     		Account account = (Account) session.getAttribute(Const.SESSION_USER_KEY);
     		p.setInTime(new Date());
-    		p.setInPerson(account.getAccountId());
+    		
+    		if(p.getHellpPersonId()!=null){
+    			p.setInPerson(p.getHellpPersonId());
+    		}else {
+        		p.setInPerson(account.getAccountId());
+    		}
     		String jobStartTimeT = request.getParameter("jobStartTimeT");
     		if(!StringUtils.isBlank(jobStartTimeT)){
     			Date jobStartTime =DateUtil.toDate(jobStartTimeT+"-01");

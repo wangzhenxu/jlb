@@ -13,6 +13,8 @@
 	        	<result  column="technician_audit_time" property="technicianAuditTime" />
 	        	<result  column="audit_type_id" property="auditTypeId" />
 	        	<result column="recommend_flow_status" property="recommendFlowStatus"/>
+	        	<result column="hellp_person_id" property="hellpPersonId"/>
+	        	
 	</resultMap>
 	
 	<resultMap type="JlAuditPersonList" id="JlAuditPersonListMap">
@@ -33,7 +35,8 @@
 						 		jei.technician_audit_person,
 						 		jei.technician_audit_time,
 						 		jei.audit_type_id,
-						 		jei.recommend_flow_status
+						 		jei.recommend_flow_status,
+						 		jei.hellp_person_id
 		FROM
 			zp_jl_expand_info  jei
 		<where>
@@ -59,6 +62,10 @@
 				        	</if>
 				        	<if test="auditTypeId != null and auditTypeId !='' ">
 				        		AND jei.audit_type_id=#{auditTypeId} 
+				        	</if>
+				        	
+				        	<if test="hellpPersonId != null and hellpPersonId !='' ">
+				        		AND jei.hellp_person_id=#{auditTypeId} 
 				        	</if>
 					
 					<if test="ids !=null">
@@ -111,6 +118,9 @@
 				        	<if test="auditTypeId != null and auditTypeId !=''">
 				        		AND jei.audit_type_id=#{auditTypeId} 
 				        	</if>
+							<if test="hellpPersonId != null and hellpPersonId !='' ">
+				        		AND jei.hellp_person_id=#{auditTypeId} 
+				        	</if>
 				<if test="ids !=null">
 				         AND jei.jl_expand_id IN
 						    <foreach  item="item" collection="ids"  index="index" open="(" separator="," close=")"> 
@@ -146,6 +156,9 @@
 		        	<if test="recommendFlowStatus != null">
 		        		recommend_flow_status,
 		        	</if>
+		        	<if test="hellpPersonId != null">
+		        		hellp_person_id,
+		        	</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			        	<if test="jlId != null">
@@ -168,6 +181,9 @@
 			        	</if>
 			        	<if test="recommendFlowStatus != null">
 			        			#{recommendFlowStatus},
+		        		</if>
+		        		<if test="hellpPersonId != null">
+			        			#{hellpPersonId},
 		        		</if>
 		</trim>
 	</insert>
@@ -197,6 +213,9 @@
 			        	<if test="recommendFlowStatus != null">
 			        		recommend_flow_status=#{recommendFlowStatus},
 			        	</if>
+			        	<if test="hellpPersonId != null">
+			        		hellp_person_id=#{hellpPersonId},
+			        	</if>
 		</trim>
 		WHERE jl_expand_id=#{jlExpandId}
 	</update>
@@ -225,6 +244,9 @@
 			        	</if>
 			        	<if test="recommendFlowStatus != null">
 			        		recommend_flow_status=#{recommendFlowStatus},
+			        	</if>
+			        	<if test="hellpPersonId != null">
+			        		hellp_person_id=#{hellpPersonId},
 			        	</if>
 		</trim>
 		WHERE  1=1
@@ -279,7 +301,9 @@
 						 		jei.technician_audit_person,
 						 		jei.technician_audit_time,
 						 		jei.audit_type_id,
-						 		jei.recommend_flow_status
+						 		jei.recommend_flow_status,
+						 		jei.hellp_person_id
+						 		
 		FROM
 			zp_jl_expand_info  jei
 		WHERE 

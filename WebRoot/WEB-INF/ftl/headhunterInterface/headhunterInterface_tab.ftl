@@ -50,7 +50,7 @@
  </#if>
  
  <!--已通知-->
- <#if flowStatus?? && flowStatus==RecommendFlowType.COMPANY_INVITATION_INTERVIEW.getCode()>
+ <#if flowStatus?? && flowStatus!='' && flowStatus?number==RecommendFlowType.COMPANY_INVITATION_INTERVIEW.getCode()>
  <table class="table_style03">
     <tbody><tr>
         <th width="9%">公司名称</th>
@@ -101,7 +101,7 @@
  </#if>
  
  <!-已推荐到企业待企业回复- -->
- <#if flowStatus?? && flowStatus==RecommendFlowType.ALREADY_RECOMMEND_COMPANY.getCode()>
+ <#if flowStatus?? && flowStatus!='' && flowStatus?number==RecommendFlowType.ALREADY_RECOMMEND_COMPANY.getCode()>
  <table class="table_style03">
     <tbody><tr>
         <th width="9%">公司名称</th>
@@ -149,7 +149,7 @@
  </#if>
  
  <!--同意去面试- -->
- <#if flowStatus?? && flowStatus==RecommendFlowType.WAIT_JOBHUNTER_GOTO_INTERVIEW.getCode()>
+ <#if flowStatus?? && flowStatus!='' && flowStatus?number==RecommendFlowType.WAIT_JOBHUNTER_GOTO_INTERVIEW.getCode()>
  <table class="table_style03">
     <tbody><tr>
         <th width="9%">公司名称</th>
@@ -197,7 +197,7 @@
  </#if>
  
   <!--已面试- -->
- <#if flowStatus?? && flowStatus==RecommendFlowType.HUNTER_ALREAD_GOTO_INTERVIEW.getCode()>
+ <#if flowStatus?? && flowStatus!='' && flowStatus?number==RecommendFlowType.HUNTER_ALREAD_GOTO_INTERVIEW.getCode()>
  <table class="table_style03">
     <tbody><tr>
         <th width="9%">公司名称</th>

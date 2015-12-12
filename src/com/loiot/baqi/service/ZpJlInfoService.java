@@ -388,27 +388,5 @@ public class ZpJlInfoService{
          
 		return bean;
 	}
-    
-    public void nodifyTechnologyAuditJob() throws Exception{
-    	HashMap<String, Object> pMap = new HashMap<String, Object>();
-    	pMap.put("auditTypeId", JlAuditType.WAIT_AUDIT.getCode());
-    	List<HashMap<String, Object>> list = zpJlExpandInfoDao.queryNotAuditJl(pMap);
-    	if(list!=null && list.size()>0){
-    		for(HashMap<String,Object> map : list){
-    			int jlcount=Integer.parseInt(String.valueOf(map.get("jlcount")));
-    			String nickname=String.valueOf(map.get("nickname"));
-    			String email=String.valueOf(map.get("email"));
-    			 if(email!=null && StringUtil.isEmail(email) ){
-    				 SimpleEmailVo vo = new SimpleEmailVo();
-        			 vo.addEmail(email);
-                     vo.setTitle("憬仪评审通知");
-                     vo.setContent(ApplicationConst.getMessage("10101", nickname,String.valueOf(jlcount)));
-                     emailClient.send(vo);
-                     Thread.sleep(10000);
-                     log.info("发送时间："+DateUtil.toString(DateUtil.getNow(), DateUtil.DEFAULT_LONG_FORMAT));
-    			 }
-    		}
-    	}
-    }
 	
 }

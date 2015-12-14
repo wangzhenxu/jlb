@@ -125,6 +125,15 @@ public class ZpJlInfoService{
             
             this.addLevel(jobIds, p.getJlId());
         }
+       //更新文件上传内容
+       if(!StringUtil.isBlank(p.getJlFilePath())){
+    	   HashMap<String,Object> pMap = new HashMap();
+    	   pMap.put("qtype", "one");
+    	   pMap.put("jlId", p.getJlId());
+    	   pMap.put("jlFilePath", p.getJlFilePath());
+    	   this.zpJlExpandInfoDao.updateZpJlExpandInfo(pMap);
+       } 
+     
         
     }
     

@@ -224,9 +224,7 @@ public class ZpJlInfoController {
 	    p.setJlContent(jlContent);
 	    //FileUtil.copyFile(ApplicationConst.UPLOAD_JL_PATH+jlFilePath,ApplicationConst.UPLOAD_JL_PATH+newFileDir );
 	    p.setJlFilePath(newFileDir.substring(1));
-	    
 	    OSSUtils.uploadFile(newFileDir.substring(1), ApplicationConst.UPLOAD_JL_PATH+jlFilePath,fileName);
-	    FileUtil.deleteFile(ApplicationConst.UPLOAD_JL_PATH+jlFilePath);
     }
 
     /**
@@ -281,8 +279,6 @@ public class ZpJlInfoController {
     	//修改简历文件
     	if(!StringUtil.isBlank(p.getJlFilePath())){
     		String oldFilePath = request.getParameter("oldFilePath");
-    		//删除原来的文件
-    		//FileUtil.deleteFile(ApplicationConst.UPLOAD_JL_PATH+oldFilePath);
     		OSSUtils.deleteObject(oldFilePath);
     		this.genNewFile(p);
     	}

@@ -41,6 +41,7 @@ import com.loiot.baqi.status.AccountType;
 import com.loiot.baqi.status.DictionaryType;
 import com.loiot.baqi.status.JlAuditType;
 import com.loiot.baqi.status.PauseStartType;
+import com.loiot.baqi.utils.OSSUtils;
 import com.loiot.baqi.utils.UserSessionUtils;
 import com.loiot.baqi.utils.WordUtils;
 import com.loiot.baqi.vo.JlAuditPersonList;
@@ -221,9 +222,11 @@ public class ZpJlInfoController {
 	   // String fileContent = FileUtil.readFileToString();
 	    String jlContent = WordUtils.getWordText(ApplicationConst.UPLOAD_JL_PATH+jlFilePath, ApplicationConst.UPLOAD_JL_PATH+jlFilePath);
 	    p.setJlContent(jlContent);
-	    //FileUtil.moveFile("C:/Users/Administrator/git/jlb/WebRoot/upfile/temp/2015-07-03.doc",ApplicationConst.UPLOAD_JL_PATH+newFileDir );
-	    FileUtil.copyFile(ApplicationConst.UPLOAD_JL_PATH+jlFilePath,ApplicationConst.UPLOAD_JL_PATH+newFileDir );
+	    //FileUtil.copyFile(ApplicationConst.UPLOAD_JL_PATH+jlFilePath,ApplicationConst.UPLOAD_JL_PATH+newFileDir );
 	    p.setJlFilePath(newFileDir.substring(1));
+	    
+	    OSSUtils.uploadFile(newFileDir.substring(1), ApplicationConst.UPLOAD_JL_PATH+jlFilePath,fileName);
+	    FileUtil.deleteFile(ApplicationConst.UPLOAD_JL_PATH+jlFilePath);
     }
 
     /**
@@ -279,7 +282,8 @@ public class ZpJlInfoController {
     	if(!StringUtil.isBlank(p.getJlFilePath())){
     		String oldFilePath = request.getParameter("oldFilePath");
     		//删除原来的文件
-    		FileUtil.deleteFile(ApplicationConst.UPLOAD_JL_PATH+oldFilePath);
+    		//FileUtil.deleteFile(ApplicationConst.UPLOAD_JL_PATH+oldFilePath);
+    		OSSUtils.deleteObject(oldFilePath);
     		this.genNewFile(p);
     	}
     		

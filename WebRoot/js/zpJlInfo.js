@@ -12,6 +12,8 @@ var jlInfo ={
 		getAuditPersonsUrl:"/zpJlInfo/getAuditPersons.action", //获取评审列表
 		assignAuditPersonUrl:"/zpJlInfo/assignAuditPerson.action", //设置评审人
 		checkJlCountUrl : "/zpJlInfo/checkJlCount.action",
+		downloadFileUrl : "/download/file.action",
+
 		
 
 
@@ -413,8 +415,10 @@ var jlInfo ={
 			}
 		});
 	},
-	downJl : function (path){
-		window.open(path);
+	downJl : function (id,type){
+		var self = this;
+		location=self.downloadFileUrl+"?id="+id+"&type="+type;
+		//window.open(self.downloadFileUrl+"?id="+id+"&type="+type);
 	},
 	
 	selectAuditPerson: function(){

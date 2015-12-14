@@ -276,7 +276,7 @@
       		    </#if>
       		    <#if subject.isPermitted("zpJlInfo:down")>
       		  	  <#if c.jlFilePath??>
-      		   		<button type="button" class="btn btn-default"  onclick="jlInfo.downJl('${ApplicationConst.UPLOAD_JL_URL}${c.jlFilePath}')">下载</button>
+      		   		<button type="button" class="btn btn-default"  onclick="jlInfo.downJl(${c.jlId},'${DownloadType.JL.getCode()}')">下载</button>
       		 	  </#if>
       		 	</#if>
       		 	

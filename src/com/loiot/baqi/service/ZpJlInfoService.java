@@ -253,6 +253,8 @@ public class ZpJlInfoService{
     	if(content.length()<10){
     		throw  new java.lang.ClassNotFoundException();
     	}
+    	
+    	
     	//bean.setJlContent(content);
     	Matcher matcher=null;
     	String regexpStr=null;
@@ -262,6 +264,9 @@ public class ZpJlInfoService{
     	String idcard = "exits";
     	String birthdate="exits";
     	RegexpUtils instance = RegexpUtils.getInstance();
+    	
+    	//分析文件名的职位
+    	this.matchJobPosition(fileName, bean);
     	
     	matchs = instance.matchGroupB(getJlRegexp(ResumeMatchingRegexpType.ID_CARD_REGEXP.getTitle()), content);
     	//身份证
@@ -397,5 +402,15 @@ public class ZpJlInfoService{
          
 		return bean;
 	}
+    
+    public void matchJobPosition(String fileName,ZpJlInfo bean){
+    	List<ZpDictionaryInfo> positions = DictionaryUtil.getTypes(DictionaryType.JOB_POSITION.getCode());
+    	for(ZpDictionaryInfo info : positions){
+    		if(fileName.toLowerCase().indexOf(info.getName().toLowerCase())!=-1){
+    			bean.setJobPositionId(info.getDictionaryId());
+    			break;
+    		}
+    	}
+    }
 	
 }

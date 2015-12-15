@@ -369,6 +369,11 @@ var jlInfo ={
 			var new1 = new Date(obj.birthday).format("yyyy-MM");
 			$("#birthday").val(new1);
 		}
+		
+		if(obj.jobPositionId && obj.jobPositionId>0){
+			$("input[name=jobPositionId][value="+obj.jobPositionId+"]").attr("checked",true);
+		}
+		
 		if(obj.educationId && obj.educationId>0){
 			$("input[name=educationId][value="+obj.educationId+"]").attr("checked",true);
 		}

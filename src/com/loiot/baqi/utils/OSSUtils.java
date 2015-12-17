@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.HashMap;
 
 import com.aliyun.oss.ClientException;
 import com.aliyun.oss.OSSClient;
@@ -19,37 +20,28 @@ public class OSSUtils {
 	
 	  // 使用默认的OSS服务器地址创建OSSClient对象。
     public static OSSClient client = new OSSClient(ApplicationConst.ALIYUN_OSS_ACCESS_ENDPOINT,ApplicationConst.ALIYUN_OSS_ACCESS_ID, ApplicationConst.ALIYUN_OSS_ACCESS_KEY);
-    public static String bucketName="jlb"; 
     
     
-    public  static void uploadFile(String key, String filename)
+    public  static void uploadFile(String key, String filePath,String fileName)
             throws OSSException, ClientException, FileNotFoundException {
-        File file = new File(filename);
+        File file = new File(filePath);
         
-        //ensureBucket(client, bucketName);
-        //setBucketPublicReadable(client, bucketName);
+       // ensureBucket(client, ApplicationConst.ALIYUN_OSS_ACCESS_BOCKETNAME);
+       // setBucketPublicReadable(client, ApplicationConst.ALIYUN_OSS_ACCESS_BOCKETNAME);
 
         ObjectMetadata objectMeta = new ObjectMetadata();
         objectMeta.setContentLength(file.length());
+        HashMap<String,String> map = new HashMap<String,String>();
+        map.put("filename", fileName);
+        objectMeta.setUserMetadata(map);
         // 可以在metadata中标记文件类型
-        objectMeta.setContentType("image/jpeg");
+        objectMeta.setContentType(getContentType(fileName));
 
         InputStream input = new FileInputStream(file);
-        client.putObject("jlb2015", key, input, objectMeta);
+        client.putObject(ApplicationConst.ALIYUN_OSS_ACCESS_BOCKETNAME, key, input, objectMeta);
     }
 	
-    private static void uploadFile(OSSClient client, String bucketName, String key, String filename)
-            throws OSSException, ClientException, FileNotFoundException {
-        File file = new File(filename);
-
-        ObjectMetadata objectMeta = new ObjectMetadata();
-        objectMeta.setContentLength(file.length());
-        // 可以在metadata中标记文件类型
-        objectMeta.setContentType("image/jpeg");
-
-        InputStream input = new FileInputStream(file);
-        client.putObject(bucketName, key, input, objectMeta);
-    }
+    
     
     // 创建Bucket.
     private static void ensureBucket(OSSClient client, String bucketName)
@@ -79,9 +71,25 @@ public class OSSUtils {
     // 下载文件
     public static OSSObject getObject(String key)
             throws OSSException, ClientException {
-        OSSObject obj = client.getObject(new GetObjectRequest("jlb2015", key));
+        OSSObject obj = client.getObject(new GetObjectRequest(ApplicationConst.ALIYUN_OSS_ACCESS_BOCKETNAME, key));
         return obj;
         //InputStream input = obj.getObjectContent();
+    }
+    
+    public static  String getContentType(String name){
+    	String conentType="";
+    	String suffix = name.substring(name.lastIndexOf("."));
+    	if(suffix.toLowerCase().equals(".docx") || suffix.toLowerCase().equals(".doc")){
+    		conentType= "application/msword";
+    	}
+    	return conentType;
+    }
+    
+    // 删除文件
+    public static void deleteObject(String key)
+            throws OSSException, ClientException {
+           client.deleteObject(ApplicationConst.ALIYUN_OSS_ACCESS_BOCKETNAME, key);
+           //InputStream input = obj.getObjectContent();
     }
 
 }

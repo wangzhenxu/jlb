@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.loiot.baqi.constant.Const;
+import com.loiot.baqi.constant.URLConst;
 import com.loiot.baqi.controller.response.AjaxResponse;
 import com.loiot.baqi.controller.response.Pager;
 import com.loiot.baqi.pojo.ZpCompanyInfo;
@@ -61,17 +62,18 @@ public class DownloadController {
      * @param pbId
      */
     @RequestMapping(value = "/file",method = RequestMethod.GET)
-    public void downLoad(HttpServletResponse response,
+    public String downLoad(HttpServletResponse response,
     		@RequestParam(value="id",required=true) long id,
     		@RequestParam(value="type",required=true) int type){
             
     	try {
 			downloadService.download(response, id, type);
 		} catch (Exception e) {
-			
+			return URLConst.ERROR_URL;
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
+    	return null;
     }
     
 }

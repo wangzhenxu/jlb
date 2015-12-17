@@ -1,6 +1,8 @@
 package com.loiot.baqi.service;
 
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.aliyun.oss.model.OSSObject;
+import com.aliyun.oss.model.ObjectMetadata;
 import com.loiot.baqi.controller.response.Pager;
 import com.loiot.baqi.dao.AccountExpandInfoDao;
 import com.loiot.baqi.dao.ZpJlInfoDao;
@@ -59,17 +62,20 @@ public class DownloadService{
       if(UserSessionUtils.getAccount().getType()== AccountType.ADMIN.getCode() || UserSessionUtils.getAccount().getType()== AccountType.COMPANY_INTERFACER.getCode() || UserSessionUtils.getAccount().getType()== AccountType.HEAD_HUNTING_MANAGER.getCode()  ){
     	  ZpJlInfo jl = this.zpJlInfoDao.getZpJlInfoById(id);
     	  OSSObject obj = OSSUtils.getObject(jl.getJlFilePath());
-    	  
-    	  response.setCharacterEncoding("UTF-8");
-          response.setHeader("Content-Disposition", "attachment; filename="+ java.net.URLEncoder.encode("王建.doc", "UTF-8"));
-          response.setContentType("application/msword;charset=UTF-8");
-          // 解决ie6下，保存错误问题
-          response.setHeader("Pragma", "public");
-          response.setHeader("Cache-Control", "public");
-          
-          IOUtils.write(IOUtils.toByteArray(obj.getObjectContent()), response.getOutputStream());
-
+    	  ObjectMetadata metadate = obj.getObjectMetadata();
+    	  this.writeFile(response, metadate.getUserMetadata().get("filename"), obj.getObjectContent(),metadate.getContentType());
       }
 	}
+    
+    public void writeFile(HttpServletResponse response,String fileName,InputStream inputStream,String contentType ) throws IOException{
+    	response.setCharacterEncoding("UTF-8");
+        response.setHeader("Content-Disposition", "attachment; filename="+ java.net.URLEncoder.encode(fileName, "UTF-8"));
+        //response.setContentType("application/msword;charset=UTF-8");
+        response.setContentType(contentType+";charset=UTF-8");
+        // 解决ie6下，保存错误问题
+        response.setHeader("Pragma", "public");
+        response.setHeader("Cache-Control", "public");
+        IOUtils.write(IOUtils.toByteArray(inputStream), response.getOutputStream());
+    }
     
 }

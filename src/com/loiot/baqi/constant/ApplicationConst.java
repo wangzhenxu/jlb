@@ -52,6 +52,21 @@ public class ApplicationConst {
     
     //技术评审，允许匹配率
     public static final int ALLOW_KEYWORDPERCENT=Integer.parseInt(appBundle.getString("company.job.allow.keywordpercent"));
+    
+    //OSS bocketname
+    public static final String ALIYUN_OSS_ACCESS_BOCKETNAME=appBundle.getString("aliyun.oss.access.bucketname");
+
+    //oss endpoint
+    public static final String ALIYUN_OSS_ACCESS_ENDPOINT=appBundle.getString("aliyun.oss.access.endpoint");
+
+    //oss accessid
+    public static final String ALIYUN_OSS_ACCESS_ID=appBundle.getString("aliyun.oss.access.id");
+
+    //oss accesskey
+    public static final String ALIYUN_OSS_ACCESS_KEY=appBundle.getString("aliyun.oss.access.key");
+
+    
+    
 
     public static String getMessage(String code,String... values) {
 	  String messvalue = messageBundle.getString(code);

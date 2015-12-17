@@ -12,6 +12,8 @@
 <script src="/js/ajaxfileupload.js"></script>
 <script src="/js/my97/WdatePicker.js" type="text/javascript" > </script>
 <script type="text/javascript" src="/js/ckeditor/ckeditor.js"></script>
+<script type="text/javascript" src="/js/dropzone.js"></script>
+
  
 
 <form id="addform" name="form"  method="post" enctype="multipart/form-data">
@@ -59,6 +61,17 @@
           </td>
           <td  clospan="2" ></td>
          </tr>
+         
+         
+         
+          <tr>
+           <td  align="right" class="hui1"><span class="red">*</span>测试文件上传：</td>
+           <td  align="left" valign="middle" colspan="3">
+              <div id="dropz" style="width:300px;height:300px;"></div>
+           </td>
+          
+         </tr>
+         
          
          <tr>
            <td  align="right" class="hui1"><span class="red">*</span>姓名：</td>
@@ -214,4 +227,12 @@
 <script src="/js/zpJlInfo.js"></script>
 <script>
 	jlInfo.initPage();
+</script>
+<script>
+    $("#dropz").dropzone({
+        url: "handle-upload.php",
+        maxFiles: 10,
+        maxFilesize: 512,
+        acceptedFiles: ".js,.obj,.dae"
+    });
 </script>

@@ -26,8 +26,8 @@ public class OSSUtils {
             throws OSSException, ClientException, FileNotFoundException {
         File file = new File(filePath);
         
-       // ensureBucket(client, ApplicationConst.ALIYUN_OSS_ACCESS_BOCKETNAME);
-       // setBucketPublicReadable(client, ApplicationConst.ALIYUN_OSS_ACCESS_BOCKETNAME);
+        //ensureBucket(client, ApplicationConst.ALIYUN_OSS_ACCESS_BOCKETNAME);
+        //setBucketPublicReadable(client, ApplicationConst.ALIYUN_OSS_ACCESS_BOCKETNAME);
 
         ObjectMetadata objectMeta = new ObjectMetadata();
         objectMeta.setContentLength(file.length());

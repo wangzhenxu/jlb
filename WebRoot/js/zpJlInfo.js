@@ -61,6 +61,11 @@ var jlInfo ={
 
 		
 		oldFilePath : $("#oldFilePath"), //原来的文件路径
+		m_title : $(".m_title"),//页面标题
+		_title_val : "简历",
+
+		
+		
 		//页面初始化
 		initPage : function (){
 			var self = this;

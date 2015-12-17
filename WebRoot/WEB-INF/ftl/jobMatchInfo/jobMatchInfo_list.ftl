@@ -126,8 +126,8 @@
        
        
         <td align="center" class="hui">${c.jlName!''}</td>
-        <td align="center" class="hui" title="${c.name!''}">${c.companyName!''}</td>
-        <td align="center" class="hui" title="${c.address!''}">${c.jobName!''}</td>
+        <td align="center" class="hui" title="${c.companyName!''}">${c.companyName!''}</td>
+        <td align="center" class="hui" title="${c.jobName!''}"><a href="/zpCompanyJobInfo/toView.action?id=${c.jobId}" target="_blank">${c.jobName!''}</a></td>
         <td align="center" class="hui">
       	 <#if c.jobPositionId??>
         	${DictionaryUtil.getName(c.jobPositionId)}

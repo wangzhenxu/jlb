@@ -132,8 +132,12 @@
     </div>
     <div class="anniu">
 	  	<div class="btn-group">
-	  	   <#if subject.isPermitted("accountExpandInfo:edit")> 
+	  	   <#if subject.isPermitted("accountExpandInfo:editAll")> 
 	  			  <button type="button" class="btn btn-default" id="addBtn">保 &nbsp;存</button>
+	  		 <#else>
+	  		 	<#if subject.isPermitted("accountExpandInfo:edit")> 
+	  			   <button type="button" class="btn btn-default" id="addBtn">保 &nbsp;存</button>
+	  		   </#if>
 	  	   </#if>
       	</div>
     </div>
@@ -145,6 +149,6 @@
 <script>
 	accountExpandInfo.initPage();
 	var accountType="${Session[Const.SESSION_USER_KEY].type}";
-	
+	var accountIdT="${Session[Const.SESSION_USER_KEY].accountId}";
 </script>
 

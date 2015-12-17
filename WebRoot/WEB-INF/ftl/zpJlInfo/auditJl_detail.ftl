@@ -55,15 +55,64 @@
               
               
                 </div>
-                <div class="tab-pane active" id="B">
+      <div class="tab-pane active" id="B">
                  
                  
     
     <div class="nav" >
      
-	  <input type="hidden" name="PDesc" id="PDesc">
-	  <input type="hidden" name="techPara" id="techPara">
-	  <input type="hidden" name="install" id="install">
+     
+     
+     <div class="query1" style="width:96%;">
+       <table width="100%" border="0">
+       <tr >
+        <td align="left" class="hui1"> 公司：</td>
+        <td align="left" valign="middle" class="hui">
+            	<#if jobInfo??>
+            		 <a href="/zpCompanyInfo/toView.action?id=${jobInfo.companyId}" target="_blank">${jobInfo.companyName!''}</a>
+            	</#if>
+        </td>
+        </tr>
+        
+        <tr >
+        <td align="left" class="hui1"> 职位：</td>
+        <td align="left" valign="middle" class="hui">
+            	<#if jobInfo??>
+            	    <a href="/zpCompanyJobInfo/toView.action?id=${jobInfo.jobId}" target="_blank"> ${jobInfo.name!''}</a>
+            	</#if>
+        </td>
+        </tr>
+        
+       
+        <tr >
+        <td align="left" class="hui1"> 职位描述：</td>
+        <td align="left" valign="middle">
+         	<pre style="font-size: 15px;white-space: pre-wrap;word-wrap: break-word;" >
+            	<#if jobInfo??>
+            		 ${jobInfo.desc!''}
+            	</#if>
+            </pre>
+        </td>
+        </tr>
+        
+        <#if jobInfo?? && jobInfo.moreDesc!=''>
+        <tr>
+        <td align="left" class="hui1">更多描述：</td>
+        <td align="left" valign="middle">
+         	<pre  style="font-size: 15px;white-space: pre-wrap;word-wrap: break-word;" >
+            		 ${jobInfo.moreDesc!''}
+            </pre>
+        </td>
+        </tr>
+        </#if>
+         </tbody>
+         </table>
+         </td>
+         </tr>
+         </table>
+     </div>
+	  
+	  
      <div class="query1" style="width:96%;">
        <table class="pipei" width="100%" border="0">
         <tr >
@@ -102,9 +151,6 @@
           <td align="left"  class="hui">${matchInfo.keywordPercent!'0'}%</td>
           
          </tr>
-         
-         
-       
          </tbody>
          </table>
          </td>

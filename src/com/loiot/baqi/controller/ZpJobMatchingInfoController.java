@@ -277,6 +277,7 @@ public class ZpJobMatchingInfoController {
     	if(UserSessionUtils.getAccountType()==AccountType.ADMIN.getCode() ){
     		pmap.put("matchId", id);
     	}else {
+    		pmap.put("matchId", id);
     		pmap.put("inPerson", UserSessionUtils.getAccount().getAccountId());
     	}
     	List<ZpJobMatchingInfo> list = this.zpJobMatchingInfoService.queryZpJobMatchingInfoList(pmap);
@@ -287,7 +288,8 @@ public class ZpJobMatchingInfoController {
 		ZpJlInfo jlInfo = this.zpJlInfoService.getZpJlInfoById(match.getJlId());
 		ZpCompanyJobInfo jobInfo = this.zpCompanyJobInfoService.getZpCompanyJobInfoById(match.getJobId());
 		jlInfo.setJlContent(zpJobMatchingInfoService.getJlContent(match,jlInfo.getJlContent()));
-    	model.put("p", jlInfo);
+    	model.put("jobInfo", jobInfo);
+		model.put("p", jlInfo);
     	
     	List<MatchInfo> matchList = zpJobMatchingInfoService.DealPaseJLMatchInfo(match, jlInfo,jobInfo);
     	model.put("matchList", matchList);

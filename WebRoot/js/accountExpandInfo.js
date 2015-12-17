@@ -122,6 +122,12 @@ var accountExpandInfo = {
 					}else {
 						
 					}
+					
+					//如果只有看的权限
+					if(result.data.accountId!=accountIdT){
+						self.addBtn.hide();
+					}
+					
 					self.addBtn.html("修&nbsp改");
 					self.addBtn.unbind("click").click(function(){
 						self.toEdit(self.expandId.val());

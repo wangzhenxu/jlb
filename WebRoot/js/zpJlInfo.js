@@ -12,6 +12,8 @@ var jlInfo ={
 		getAuditPersonsUrl:"/zpJlInfo/getAuditPersons.action", //获取评审列表
 		assignAuditPersonUrl:"/zpJlInfo/assignAuditPerson.action", //设置评审人
 		checkJlCountUrl : "/zpJlInfo/checkJlCount.action",
+		downloadFileUrl : "/download/file.action",
+
 		
 
 
@@ -367,6 +369,11 @@ var jlInfo ={
 			var new1 = new Date(obj.birthday).format("yyyy-MM");
 			$("#birthday").val(new1);
 		}
+		
+		if(obj.jobPositionId && obj.jobPositionId>0){
+			$("input[name=jobPositionId][value="+obj.jobPositionId+"]").attr("checked",true);
+		}
+		
 		if(obj.educationId && obj.educationId>0){
 			$("input[name=educationId][value="+obj.educationId+"]").attr("checked",true);
 		}
@@ -413,8 +420,10 @@ var jlInfo ={
 			}
 		});
 	},
-	downJl : function (path){
-		window.open(path);
+	downJl : function (id,type){
+		var self = this;
+		location=self.downloadFileUrl+"?id="+id+"&type="+type;
+		//window.open(self.downloadFileUrl+"?id="+id+"&type="+type);
 	},
 	
 	selectAuditPerson: function(){

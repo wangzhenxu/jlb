@@ -66,13 +66,15 @@ var companyJob = {
 	 address : 	$("#address"), //工作地点
 	 fckDesc1 : "",
 	 fckDesc2:"",
-	 
+	 _title_val : "职位",
+	 m_title : $(".m_title"),//页面标题
 	 //页面初始化
 	 initPage : function (){
 			var self = this;
 			self.currPage = common.getCurrPageFlag();
 			//初始化标题
-			common.initPageTitle();
+			//初始化标题
+			common.initPageTitle(self._title_val,self.m_title);
 			common.initLeftMenuSelected(self.left_menu_selected_id);
 			//列表页面
 			if(self.currPage!="list"){

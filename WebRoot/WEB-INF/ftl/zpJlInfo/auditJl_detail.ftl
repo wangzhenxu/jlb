@@ -64,29 +64,37 @@
      
      
      <div class="query1" style="width:96%;">
-       <table width="100%" border="0">
+       <table width="100%" class="pipei" border="0" >
+        <tr >
+        <td class="TL"> &nbsp;</td>
+        <td class="P_title TC">公司职位信息</td>
+        <td class="TR"> &nbsp;</td>
+        </tr>
+        </table>
+         <table width="100%" class="pipei" id="table3"  border="0" style="background:#e5e9ec; border:1px solid #bfc7ca;border-top:none;">
        <tr >
-        <td align="left" class="hui1"> 公司：</td>
-        <td align="left" valign="middle" class="hui">
-            	<#if jobInfo??>
+       
+        <td align="center" class="P_title2" height="34" style="width:150px"  > <strong>公司：</strong></td>
+        <td align="center" class="P_title2" height="34" style="text-align:left">
+            	<strong><#if jobInfo??>
             		 <a href="/zpCompanyInfo/toView.action?id=${jobInfo.companyId}" target="_blank">${jobInfo.companyName!''}</a>
-            	</#if>
+            	</#if></strong>
         </td>
         </tr>
         
         <tr >
-        <td align="left" class="hui1"> 职位：</td>
-        <td align="left" valign="middle" class="hui">
-            	<#if jobInfo??>
+        <td align="left" class="hui1" style="border-bottom:1px solid #bfc7ca;letter-spacing: 3px;text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);"> <strong>职位：</strong></td>
+        <td align="left" valign="middle"    class="P_title2" style="text-align:left; background:none; border-bottom:1px solid #bfc7ca">
+            	 <strong><#if jobInfo??>
             	    <a href="/zpCompanyJobInfo/toView.action?id=${jobInfo.jobId}" target="_blank"> ${jobInfo.name!''}</a>
-            	</#if>
+            	</#if></strong>
         </td>
         </tr>
         
        
         <tr >
-        <td align="left" class="hui1"> 职位描述：</td>
-        <td align="left" valign="middle">
+        <td align="left" class="hui1" style="letter-spacing: 3px;text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);"> <strong>职位描述：</strong></td>
+        <td align="left" valign="middle" style="text-align:left; padding:10px 10px 0 0">
          	<pre style="font-size: 15px;white-space: pre-wrap;word-wrap: break-word;" >
             	<#if jobInfo??>
             		 ${jobInfo.desc!''}
@@ -98,7 +106,7 @@
         <#if jobInfo?? && jobInfo.moreDesc!=''>
         <tr>
         <td align="left" class="hui1">更多描述：</td>
-        <td align="left" valign="middle">
+        <td align="left" valign="middle" >
          	<pre  style="font-size: 15px;white-space: pre-wrap;word-wrap: break-word;" >
             		 ${jobInfo.moreDesc!''}
             </pre>
@@ -295,7 +303,7 @@
   </#if>		
 </script>
 <script Language="Javascript">
-for (j=1;j<3 ;j++) {
+for (j=1;j<4 ;j++) {
 	var cobj=document.getElementById("table"+j).rows;
 	for (i=0;i< cobj.length ;i++) {
 	(i%2==0)?(cobj[i].style.background = "#f6f4f4"):(cobj[i].style.background = "#fcfbfb");

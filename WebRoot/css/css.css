@@ -58,6 +58,9 @@ img{border:none}
 .lan{color:#0771db; line-height:36px;}
 .lan1{color:#0771db; line-height:18px;}
 .hui{color:#848484; line-height:28px;}
+.hui{border:1px solid #ffffff}
+.d{border:1px solid #ffffff}
+.lan td{border:1px solid #ffffff}
 .hui a{color:#0000FF; text-decoration:underline}
 .manu {pading:3px; margin:10px; text-align:center; float:right; display:inline}
 .manu a {border:#eee 1px solid; padding:2px 0px 2px 5px;margin:2px; text-decoration:none; color:#036cb4}

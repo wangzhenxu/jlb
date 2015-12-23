@@ -23,6 +23,9 @@ import com.loiot.baqi.constant.Const;
 import com.loiot.baqi.controller.response.AjaxResponse;
 import com.loiot.baqi.controller.response.Pager;
 import com.loiot.baqi.service.*;
+import com.loiot.baqi.status.AccountType;
+import com.loiot.baqi.status.PauseStartType;
+import com.loiot.baqi.utils.UserSessionUtils;
 import com.loiot.commons.message.util.JsonUtil;
 import com.loiot.commons.utils.DateUtil;
 import com.timeloit.pojo.Account;
@@ -69,6 +72,10 @@ public class ZpCompanyInfoController {
 		}
     	
     	paramMap.put("qtype", "like");
+    	
+    	if(UserSessionUtils.getAccountType()!=AccountType.ADMIN.getCode() ){
+    		paramMap.put("isDelete", PauseStartType.START.getCode());
+    	}
     	/*pMap.put("name", p.getName());
     	pMap.put("scaleId", p.getScaleId());
     	pMap.put("financingLevelId", p.getFinancingLevelId());
@@ -78,7 +85,7 @@ public class ZpCompanyInfoController {
     	
     	
 
-        Pager<ZpCompanyInfo> pager = zpCompanyInfoService.queryZpCompanyInfoListPage(paramMap, pageIndex);
+       Pager<ZpCompanyInfo> pager = zpCompanyInfoService.queryZpCompanyInfoListPage(paramMap, pageIndex);
        model.put("pager", pager);
        /*  model.put("name", p.getName());
         model.put("scaleId", p.getScaleId());

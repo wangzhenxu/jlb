@@ -53,7 +53,7 @@ function menuClick(){
 				<a class="MenuLevel4 editPassword"  <#if Session[Const.SESSION_USER_KEY].iphone?? && Session[Const.SESSION_USER_KEY].iphone?length gt 0> href="/accountExpandInfo/toView.action?id=${Session[Const.SESSION_USER_KEY].expandId}" <#else>  href="/accountExpandInfo/toEdit.action?id=${Session[Const.SESSION_USER_KEY].expandId}" </#if>      > <img src="/images/bullet_sarrow.gif"/> &nbsp;&nbsp;<span id="accountExpandInfo_list">个人信息</span></a>
 		</#if>
 		
-		<#if subject.isPermitted("accountExpandInfo:list") && Session[Const.SESSION_USER_KEY].type!=AccountType.TECHICAL_AUDIT.getCode() && Session[Const.SESSION_USER_KEY].type!=AccountType.JOB_HUNTER.getCode() && Session[Const.SESSION_USER_KEY].type!=AccountType.HR.getCode()>
+		<#if subject.isPermitted("accountExpandInfo:list") && (Session[Const.SESSION_USER_KEY].type==AccountType.SALARY_MANAGER.getCode() ||  Session[Const.SESSION_USER_KEY].type==AccountType.ADMIN.getCode()) >
 		    <a class="MenuLevel4 accountManage" href="/accountExpandInfo/list.action" > <img src="/images/bullet_sarrow.gif"/> &nbsp;&nbsp;<span id="accountExpandInfo_list_all">用户扩展信息</span></a>
 		</#if>
       	

@@ -376,6 +376,10 @@
 		WHERE match_id=#{matchId}
 	</update>
 
+
+	<delete id="batchDeleteMatchRecod">
+		delete from zp_job_matching_info where match_id not in( select match_id from zp_recommend_flow_info zr where jl_id=#{jlId} ) and in_person=#{inPerson}
+	</delete>
 	<!-- 删除  职位匹配信息 -->
 	<delete id="deleteZpJobMatchingInfo">
 		DELETE FROM zp_job_matching_info 

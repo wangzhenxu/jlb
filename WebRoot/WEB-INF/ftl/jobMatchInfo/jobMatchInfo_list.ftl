@@ -102,10 +102,8 @@
         <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>姓名</strong></td>
         <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>公司名称</strong></td>
         <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>职位名称</strong></td>
-        <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>职位类型</strong></td>
-        <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>职位级别</strong></td>
         <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>薪水要求</strong></td>
-         <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>学历</strong></td>
+        <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>学历</strong></td>
          <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>专业</strong></td>
         <td height="37" align="center" valign="middle" background="/images/erji_22.jpg" style="display:none;"><strong>英语等级</strong></td>
         <td height="37" align="center" valign="middle" background="/images/erji_22.jpg" style="display:none;"><strong>性别</strong></td>
@@ -128,16 +126,6 @@
         <td align="center" class="hui">${c.jlName!''}</td>
         <td align="center" class="hui" title="${c.companyName!''}">${c.companyName!''}</td>
         <td align="center" class="hui" title="${c.jobName!''}"><a href="/zpCompanyJobInfo/toView.action?id=${c.jobId}" target="_blank">${c.jobName!''}</a></td>
-        <td align="center" class="hui">
-      	 <#if c.jobPositionId??>
-        	${DictionaryUtil.getName(c.jobPositionId)}
-        </#if>
-        </td>
-        <td align="center" class="hui">
-      	  <#if c.jobPositionLevelIdStatus??> 
-	    		${JobMatchType.get(c.jobPositionLevelIdStatus).getTitle()}
-    	  </#if>
-        </td>
         <td align="center" class="hui">
 	        <#if c.salaryRequireIdStatus??> 
 	    		${JobMatchType.get(c.salaryRequireIdStatus).getTitle()}
@@ -231,7 +219,15 @@
    			 </#list>
    			 
    			<button type="button" class="btn btn-default"  title="已匹配关键字：${match} &#10;未匹配关键字：${noMatch}">关键字</button>
-      	 	<button  style="margin-left:10px;" type="button" class="btn btn-default" onclick="jobMatchInfo.toMatchJlDetail('${c.matchId}');">详情</button>
+      	 	<button  style="margin-left:10px;" type="button" class="btn btn-default" onclick="jobMatchInfo.toMatchJlDetail('${c.matchId}');">
+      	     <#if Session[Const.SESSION_USER_KEY].type==AccountType.TECHICAL_AUDIT.getCode() || Session[Const.SESSION_USER_KEY].type==AccountType.ADMIN.getCode()>
+          		请评审
+          	  <#else>
+          		详情
+             </#if>
+      	 		
+      	 	
+      	 	</button>
       	 	 </div>
         </td>
          		

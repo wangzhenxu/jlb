@@ -13,7 +13,7 @@
                 <div class="location01">您现在的位置是：首页 &gt; 企业对接管理 &gt; <strong>企业对接列表</strong></div>
             </div>
             <div class="sort" style="">
-                <div class="sort1">规则设定</div>
+                <div class="sort1">企业对接列表</div>
                 <div class="query">
                  		<form id="queryForm" >
                 

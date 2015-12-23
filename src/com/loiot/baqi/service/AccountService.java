@@ -127,6 +127,7 @@ public class AccountService {
         expandInfo.setInPerson(account.getAccountId());
         expandInfo.setInTime(account.getInTime());
         expandInfo.setAuditPositionId(account.getAuditPositionId());
+        expandInfo.setQq(account.getQq());
         
         //如果是选择技术评审类型，需要添加，技术评审开启状态
         if(account.getType()==AccountType.TECHICAL_AUDIT.getCode()){

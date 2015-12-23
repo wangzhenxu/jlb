@@ -489,7 +489,6 @@ var jlInfo ={
 	//评审
 	audit : function (jlId,name){
 		var self =this
-		$("[name='audit_type']").attr("checked",false);
 		$("#audit_name").html(name);
 		common.openModal("auditModal");
 		$("#audit_ok_btn").unbind("click").click(function(){

@@ -101,7 +101,7 @@ public class ZpJlInfoService{
      	p1.setJlFilePath(p.getJlFilePath());
      	p1.setJlContent(p.getJlContent());
      	p1.setAuditTypeId((int)JlAuditType.NO_SELECT_AUDIT_PERSON.getCode());
-     	if(p.getHellpPersonId()!=null){
+     	if(p.getHellpPersonId()!=null && p.getHellpPersonId()!=0){
          	p1.setHellpPersonId(UserSessionUtils.getAccount().getAccountId());
      	}
         zpJlExpandInfoDao.addZpJlExpandInfo(p1);

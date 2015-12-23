@@ -42,6 +42,8 @@ var accountExpandInfo = {
 	isAcceptAudit : $("#isAcceptAudit"), //是否接受评审
 	currMoney : $("#currMoney"), //当前余额
 	inPersonName : $("#inPersonName"),
+	qq : $("#qq"),
+
 	//页面初始化
 	initPage : function (){
 		var self = this;
@@ -108,6 +110,10 @@ var accountExpandInfo = {
 	initAddPage : function (){
 		var self = this;
 		self.addform.attr("action",self.addUrl);
+		self.qq.blur(function(){
+		 	self.qqBlur();
+	   });
+		
 	},
 	//初始化详情页面数据
 	initDetailPage : function(){
@@ -191,6 +197,9 @@ var accountExpandInfo = {
 			}
 		});
 		self.addform.attr("action",self.editUrl);
+		self.qq.blur(function(){
+		 	self.qqBlur();
+	   });
    },
    //根据id查询信息
    getById : function (id,callBack){
@@ -243,6 +252,8 @@ var accountExpandInfo = {
 		self.nickName.val(obj.nickName); //昵称
 		self.iphone.val(obj.iphone); //手机
 		self.email.val(obj.email); //邮箱
+		self.qq.val(obj.qq); //qq
+
 		$("input[name='sexId'][value='"+obj.sexId+"']").attr("checked",true); //性别id
 		$("input[name='paymentTypeId'][value='"+obj.paymentTypeId+"']").attr("checked",true); //支付方式
 		self.paymentCode.val(obj.paymentCode); //支付内容
@@ -263,5 +274,18 @@ var accountExpandInfo = {
 		$("input[name='isAcceptAudit'][value='"+obj.isAcceptAudit+"']").attr("checked",true); //是否接受评审
 		self.currMoney.val(obj.currMoney); //当前余额
 		self.inPersonName.html(obj.inPersonName);
+   },
+   
+   qqBlur : function (){
+	   var self =this;
+	   var patrn=/^[0-9]{1,11}$/;    
+	   if (!patrn.exec(self.qq.val())) return false
+	   if(self.currPage=="edit" &&   self.email.val().length>0){
+		  return;  
+	   } 
+	   self.email.val(self.qq.val()+"@qq.com");
+	   /*if(self.email.val().length>0 && self.email.val().indexOf("@qq.com")!=-1){
+		   self.qq.val(self.email.val().replace("@qq.com",""));
+	   }*/
    }
 }

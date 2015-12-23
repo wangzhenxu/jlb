@@ -56,19 +56,32 @@
            </td>
          </tr>
          
+         
+         
+         
           <tr>
-           <td  align="right" class="hui1"><span class="red">*</span>手机：</td>
+          
+           <td  align="right" class="hui1"><span class="red">*</span>qq号：</td>
            <td  align="left" valign="middle">
-          	 <input name="iphone" id="iphone" type="text" class="input validate[required,custom[phone]]">
-           </td>
+          	 	<input name="qq" id="qq" type="text"  maxlength="11" class="input validate[required,custom[number],maxSize[11],minSize[6]]">
+			</td>
+			
            <td  align="right" class="hui1"><span class="red">*</span>邮箱：</td>
            <td  align="left" valign="middle">
-          	 	<input name="email" id="email" type="text" class="input validate[custom[email]]">
-          	 	 <span class="hui1">&nbsp;常用的邮件哦</span>
-			</td>
+          	 	<input name="email" id="email" type="text" class="input validate[required,custom[email]]">
+          	 	 <span class="hui1">&nbsp;接收邮件(常用的哦)</span>
+		   </td>
+		   
+		  
          </tr>
          
         
+          <tr>
+           <td  align="right" class="hui1"><span class="red">*</span>手机：</td>
+           <td  align="left" valign="middle" colspan="3">
+          	 <input name="iphone" id="iphone" type="text" class="input validate[required,custom[phone]]">
+           </td>
+         </tr>
          
            <tr>
            <td  align="right" class="hui1"><span class="red">*</span>支付方式：</td>

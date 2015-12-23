@@ -138,7 +138,7 @@
 		    left join account a on a.account_id = cji.in_person
 		    
 		<where>
-							1=1  AND ci.is_delete=1
+							1=1  
 		
 							<if test="qtype != null and qtype=='like'">
 									<if test="name != null and name !='' ">
@@ -252,6 +252,14 @@
 									 ${item} 
 							</foreach>
 			        </if>
+			        
+			         <if test="notJobIds !=null">
+				         AND cji.job_id NOT IN
+						    <foreach  item="item" collection="notJobIds"  index="index" open="(" separator="," close=")"> 
+									 ${item} 
+							</foreach>
+			        </if>
+			        
 		</where>
 		ORDER BY cji.job_id desc 
 		<if test="skipResults!=null">
@@ -268,7 +276,7 @@
 			zp_company_job_info cji
 		   INNER JOIN  zp_company_info ci ON cji.company_id =  ci.company_id 
 		<where>
-							1=1  AND ci.is_delete=1
+							1=1  
 							<if test="qtype != null and qtype=='like'">
 									<if test="name != null and name !='' ">
 						        		AND ci.name like '%${name}' 

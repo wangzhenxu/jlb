@@ -158,13 +158,12 @@ public class ZpJlInfoController {
     public Object addZpJlInfo(ZpJlInfo p,HttpSession session,HttpServletRequest request,@RequestParam(value="ui-upload-input") CommonsMultipartFile file 
     		) {
     	try {
-    		Account account = (Account) session.getAttribute(Const.SESSION_USER_KEY);
-    		p.setInTime(new Date());
     		
-    		if(p.getHellpPersonId()!=null){
+    		p.setInTime(new Date());
+    		if(p.getHellpPersonId()!=null && p.getHellpPersonId()!=0){
     			p.setInPerson(p.getHellpPersonId());
     		}else {
-        		p.setInPerson(account.getAccountId());
+        		p.setInPerson(UserSessionUtils.getAccount().getAccountId());
     		}
     		String jobStartTimeT = request.getParameter("jobStartTimeT");
     		if(!StringUtils.isBlank(jobStartTimeT)){

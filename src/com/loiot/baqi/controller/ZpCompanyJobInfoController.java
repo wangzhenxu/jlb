@@ -73,6 +73,12 @@ public class ZpCompanyJobInfoController {
     	} else{
         	pMap.put("typeId",p.getTypeId());
     	}
+    	if(UserSessionUtils.getAccountType()!=AccountType.ADMIN.getCode() ){
+    		pMap.put("isDelete", PauseStartType.START.getCode());
+    	}
+
+    	
+    	
     	
     	//如果是hr 或求职者，就需要查询出添加3个以上关键字的职位
     	if(UserSessionUtils.getAccountType()==AccountType.HR.getCode() || UserSessionUtils.getAccountType()==AccountType.JOB_HUNTER.getCode() ){

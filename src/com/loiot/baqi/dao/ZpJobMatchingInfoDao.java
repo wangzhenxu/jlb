@@ -56,6 +56,16 @@ public class ZpJobMatchingInfoDao extends SqlSessionDaoSupport{
         getSqlSession().delete("ZpJobMatchingInfo.deleteZpJobMatchingInfo", p);
     }
     
+    
+    /**
+     *批量  职位匹配信息
+     * 
+     * @param id 主键
+     */
+    public void batchDeleteMatchRecod(ZpJobMatchingInfo p)throws Exception {
+        getSqlSession().delete("ZpJobMatchingInfo.batchDeleteMatchRecod", p);
+    }
+    
     /**
      * 获得  职位匹配信息
      * 

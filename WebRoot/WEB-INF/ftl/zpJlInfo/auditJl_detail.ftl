@@ -12,7 +12,7 @@
  <script type="text/javascript" src="/js/ckeditor/ckeditor.js"></script>			
 <style type="text/css">
 .pipei{ }
-.pipei td{text-align:center;color:#000000}
+.pipei td{height:30px;text-align:center;color:#000000}
 .pipei .TL{width:14px;height:34px; background:url(../images/pipei_bg_TL.png) no-repeat LEFT top;}
 .pipei .TC{height:30px; background:url(../images/pipei_bg_TC.jpg) repeat-x top;}
 .pipei .TR{width:14px;height:34px; background:url(../images/pipei_bg_TR.png) no-repeat RIGHT top;}
@@ -21,21 +21,21 @@
 </style>
 
 <!-- 右侧 开始 -->
-<div class="right" style="displa2y:none;">
+<div class="right"  >
   <ul class="nav nav-tabs" style="padding:20px 0 0 10px" >
-                <li class="active"><a href="#B" data-toggle="tab">匹配信息</a></li>
+                <li class="active"><a href="#B" data-toggle="tab">匹配信息11111</a></li>
                 <li class=""><a href="#A" data-toggle="tab">个人信息</a></li>
                 <li class=""><a href="#C" data-toggle="tab">评审信息</a></li>
               </ul>
   <div class="bs-docs-example" >
-            <div class="tabbable tabs-left">
-              <div class="tab-content">
-              	  <div class="tab-pane" id="A">
+            <div class="tabbable tabs-left" >
+              <div class="tab-content" >&nbsp;
+              	  <div class="tab-pane" id="A" >
             
             
              
     <div class="nav" >
-     <div class="query1">
+     <div class="query1" >
        <table width="100%" border="0" align="left">
           <tr style="" class="">
            <td  align="left" valign="middle">
@@ -128,9 +128,9 @@
         <td class="P_title TC">已匹配</td>
         <td class="TR"> &nbsp;</td>
         </tr>
-        <tr>
-        <td colspan="3" style="padding:0;" cellspacing="0" cellpadding="0">
-        <table id="table1" style="background:#e5e9ec; border:1px solid #bfc7ca;border-top:none;"  width="100%" border="0" cellspacing="0" cellpadding="0">
+        </table>
+       
+        <table class="pipei" id="table1" style="background:#e5e9ec; border:1px solid #bfc7ca;border-top:none;"  width="100%" border="0" cellspacing="0" cellpadding="0">
           <tr >
         <td width="25%" height="34"  class="P_title2"  align="left" valign="middle"><strong>标题</strong></td>
        	<td  height="34"  class="P_title2"  align="left" valign="middle" ><strong>公司要求</strong></td>
@@ -140,30 +140,28 @@
        <#list matchList as c>
        	  <#if c.status==JobMatchType.ALREADY_MATCH.getCode()>
          <tr>
-          <td align="left"  class="hui">${c.cloumnName!''}</td>
-          <td align="left"  class="hui">${c.companyRequireName!''}</td>
-          <td align="left"  class="hui">${c.jobSeekerInfo!''}</td>
+          <td align="left"  >${c.cloumnName!''}</td>
+          <td align="left"  >${c.companyRequireName!''}</td>
+          <td align="left"  >${c.jobSeekerInfo!''}</td>
          </tr>
          </#if>
           </#list>
           
          <tr>
-          <td align="left" class="hui">关键字</td>
-          <td align="left"  class="hui">
+          <td align="left" >关键字</td>
+          <td align="left"  >
           	 <#list matchInfo.keys as c>
           	 	 <#if c.isMatch==MatchKeywordType.ALREADY_MATCH.getCode()>
 				 	${c.keyword!''} 
 				 </#if>	
           	 </#list>
           </td>
-          <td align="left"  class="hui">${matchInfo.keywordPercent!'0'}%</td>
+          <td align="left"  >${matchInfo.keywordPercent!'0'}%</td>
           
          </tr>
          </tbody>
          </table>
-         </td>
-         </tr>
-         </table>
+        
      </div>
      
      <div class="query1" style="width:96%;">
@@ -174,9 +172,9 @@
         <td class="P_title TC">未匹配</td>
         <td class="TR"> &nbsp;</td>
         </tr>
-        <tr>
-        <td colspan="3" style="padding:0;">
-        <table id="table2" style="background:#e5e9ec; border:1px solid #bfc7ca;border-top:none;"  width="100%" border="0" cellspacing="0" cellpadding="0">
+        </table>
+        
+        <table id="table2" class="pipei" style="background:#e5e9ec; border:1px solid #bfc7ca;border-top:none;"  width="100%" border="0" cellspacing="0" cellpadding="0">
         <tbody>
           <tr >
         <td width="25%" class="P_title2"  height="34"  align="left" valign="middle"><strong>标题</strong></td>
@@ -187,9 +185,9 @@
        <#list matchList as c>
        	  <#if c.status==JobMatchType.UNMATCH.getCode()>
          <tr>
-          <td align="left"  class="hui" >${c.cloumnName!''}</td>
-          <td align="left" class="hui">${c.companyRequireName!''}</td>
-          <td align="left"  class="hui">
+          <td align="left"   >${c.cloumnName!''}</td>
+          <td align="left" >${c.companyRequireName!''}</td>
+          <td align="left"  >
            	<#if c.jobSeekerInfo?? && c.jobSeekerInfo?length gt 0>
           		${c.jobSeekerInfo!''}
           		<#else>
@@ -202,23 +200,21 @@
         
         
         <tr>
-          <td align="left"  class="hui">关键字</td>
-          <td align="left" class="hui" >
+          <td align="left"  >关键字</td>
+          <td align="left"  >
           	 <#list matchInfo.keys as c>
           	 	 <#if c.isMatch==MatchKeywordType.UNMATCH.getCode()>
 				 	${c.keyword!''}
 				 </#if>	
           	 </#list>
           </td>
-           <td align="left"  class="hui"></td>
+           <td align="left"  ></td>
          </tr>
         
          </tbody>
         
         </table>
-        </td>
-        </tr>
-        </table>
+       
          
      </div>
     </div>

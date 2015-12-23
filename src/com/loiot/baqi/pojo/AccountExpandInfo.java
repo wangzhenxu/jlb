@@ -34,6 +34,7 @@ public class AccountExpandInfo  implements java.io.Serializable{
 	    private java.lang.Double currMoney;  //当前余额 db_column: curr_money 
 
 	  private java.lang.String inPersonName;
+	   private String qq;
 
 	public AccountExpandInfo(){
 	}

@@ -21,7 +21,9 @@
 	        	<result  column="idcard" property="idcard" />
 	        	<result  column="is_accept_audit" property="isAcceptAudit" />
 	        	<result  column="curr_money" property="currMoney" />
-			<result  column="inPersonName" property="inPersonName" />
+				<result  column="inPersonName" property="inPersonName" />
+				<result  column="qq" property="qq" />
+			
 	</resultMap>
 	
 	<!-- 查询 个人信息列表 -->
@@ -93,6 +95,9 @@
 		        	<if test="currMoney != null">
 		        		curr_money,
 		        	</if>
+		        	<if test="qq != null">
+		        		qq,
+		        	</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			        	<if test="accountId != null">
@@ -139,6 +144,9 @@
 			        	</if>
 			        	<if test="currMoney != null">
 			        		#{currMoney},
+			        	</if>
+			        	<if test="qq != null">
+			        		#{qq},
 			        	</if>
 		</trim>
 	</insert>
@@ -198,6 +206,9 @@
 			        	</if>
 			        	<if test="currMoney != null">
 			        		curr_money=#{currMoney},
+			        	</if>
+			        	<if test="qq != null">
+			        		qq=#{qq},
 			        	</if>
 		</trim>
 		WHERE expand_id=#{expandId}
@@ -325,6 +336,9 @@
 				        	<if test="currMoney != null and currMoney !='' ">
 				        		AND ei.curr_money=#{currMoney} 
 				        	</if>
+				        	<if test="qq != null and qq !='' ">
+				        		AND ei.qq=#{qq} 
+				        	</if>
 					
 					<if test="ids !=null">
 				         AND ei.expand_id IN
@@ -353,7 +367,8 @@
 						 		ei.idcard,
 						 		ei.is_accept_audit,
 						 		ei.curr_money
-								,a.username as inPersonName
+								,a.username as inPersonName,
+								ei.qq
 	</sql>
 
 </mapper>

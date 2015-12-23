@@ -57,7 +57,7 @@ var jobMatchInfo = {
 	toAdd : function (){
 		location.href=this.toAddUrl;
 	},
-	toMatchJlDetail(id){
+	toMatchJlDetail:function(id){
 		location.href=this.showMatchJlDetailUrl+id;
 	},
 	//职位匹配信息 添加 

@@ -336,6 +336,23 @@ public class ZpRecommendFlowInfoService{
         		   this.zpRecommendFlowInfoDao.addZpRecommendFlowInfo(newP);
         		   //更新流程状态
         		   this.updateJlExpandFlowStatus(p.getJlId(),null, JlFlowType.PROCEED.getCode());
+        		   
+        		   new Thread(){ 
+                    	  @Override 
+                    	  public void run() { 
+                    		  String nickname=account.getNickName();
+                    	       String email=account.getEmail();
+                    	        if(email!=null && StringUtil.isEmail(email) ){
+                    	         SimpleEmailVo vo = new SimpleEmailVo();
+                    	            vo.addEmail(email);
+                    	                     vo.setTitle("憬仪通知");
+                    	                     vo.setContent(ApplicationConst.getMessage("10102", nickname,String.valueOf("1")));
+                    	                     emailClient.send(vo);
+                    	                     log.info("发送时间："+DateUtil.toString(DateUtil.getNow(), DateUtil.DEFAULT_LONG_FORMAT));
+                    	        }
+                    	  } 
+                        }.start();
+            
             }
      		// 添加成功
      		return AjaxResponse.OK;

@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.loiot.baqi.pojo.*;
 import com.loiot.baqi.constant.Const;
+import com.loiot.baqi.constant.URLConst;
 import com.loiot.baqi.controller.response.AjaxResponse;
 import com.loiot.baqi.controller.response.Pager;
 import com.loiot.baqi.service.*;
@@ -78,6 +79,10 @@ public class AccountExpandInfoController {
 		if (subject.isPermitted("zpJlInfo:list")) {
 			
 		}*/
+    	if(UserSessionUtils.getAccountType()==AccountType.ADMIN.getCode()|| UserSessionUtils.getAccountType()==AccountType.HEAD_HUNTING_MANAGER.getCode() || UserSessionUtils.getAccountType()==AccountType.SALARY_MANAGER.getCode() ){
+    	} else {
+    		return URLConst.ERROR_URL;
+    	}
     	HashMap<String,Object> paramMap=this.getParaMap(jsonParam, model);
     	paramMap.put("qtype", "like");
         Pager<AccountExpandInfo> pager = accountExpandInfoService.queryAccountExpandInfoListPage(paramMap , pageIndex);

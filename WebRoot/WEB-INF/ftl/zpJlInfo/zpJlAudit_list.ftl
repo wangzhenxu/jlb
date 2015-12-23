@@ -90,7 +90,9 @@
 			    	<select id="auditTypeId" name="auditTypeId">
 		    		 <option value="" > 请选择 </option>
 		    		    <#list JlAuditType.values() as c>
+		    		      <#if JlAuditType.NO_SELECT_AUDIT_PERSON.getCode()!=c.code>
 		    		 		 <option value="${c.code}" <#if  auditTypeId?? && auditTypeId!=""> <#if auditTypeId?number==c.code> selected </#if> </#if>  > ${c.title!''} </option>
+		 			 	  </#if>
 		 			 	</#list>
 		    		  </select>
 			       </li>
@@ -233,7 +235,7 @@
 	     		 <#if subject.isPermitted("zpJlInfo:auditOk")>
 		     		 <#if c.auditTypeId??>
 		       	  		<#if JlAuditType.WAIT_AUDIT.getCode()==c.auditTypeId>
-		       	  				<button type="button"  class="btn btn-default" onclick="jlInfo.audit('${c.jlId!""}','${c.name!""}');" >请评审</button>
+		       	  				<button type="button"  class="btn btn-default" onclick="jlInfo.audit('${c.jlId!""}','${c.name!""}');" >未通过</button>
 	       	  			<#else>
 		       	  				<button type="button"  class="btn btn-default disabled" >已评审</button>
 		       	  		</#if>
@@ -289,7 +291,7 @@
 <div id="auditModal" class="modal fade xin1">
 <div class="xin1">
   <div class="xin1_1">
-   <div class="whitea">评审简历</div>
+   <div class="whitea">确定未通过？</div>
    <div class="close"><img data-dismiss="modal" src="/images/xinjian_03.gif" width="18" height="18"/></div>
   </div>
   <div class="caidan">
@@ -300,8 +302,8 @@
 	        <td align="left" class="hui1"  >求职者：<span id="audit_name"></span></td>
      	 </tr>
        <tr>
-        <td align="center" class="hui1" >
-        	<input type="radio" class="radio" class="radio validate[required]" name="audit_type" value="${JlAuditType.AUDIT_NO_PASS.getCode()}" /> ${JlAuditType.AUDIT_NO_PASS.getTitle()} 
+        <td align="center" class="hui1" style="display:none;">
+        	<input type="radio" class="radio"  checked="checked" name="audit_type" value="${JlAuditType.AUDIT_NO_PASS.getCode()}" /> ${JlAuditType.AUDIT_NO_PASS.getTitle()} 
         </td>
       </tr>
       </table>

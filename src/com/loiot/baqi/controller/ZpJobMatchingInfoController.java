@@ -82,6 +82,7 @@ public class ZpJobMatchingInfoController {
     	 ModelMap model) {
     	HashMap<String,Object> pMap = new HashMap<String, Object>();
     	pMap.put("jlId", jlId);
+    	pMap.put("inPerson", UserSessionUtils.getAccount().getAccountId());
     	try {
 			int count = this.zpJobMatchingInfoService.getZpJobMatchingInfoListCount(pMap);
 			if(count>0){
@@ -294,6 +295,7 @@ public class ZpJobMatchingInfoController {
     	List<MatchInfo> matchList = zpJobMatchingInfoService.DealPaseJLMatchInfo(match, jlInfo,jobInfo);
     	model.put("matchList", matchList);
     	model.put("matchInfo", match);
+    	
     	
     	//查询评审信息
     	HashMap<String,Object> auditMap = new HashMap<String,Object>();

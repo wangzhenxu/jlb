@@ -21,6 +21,7 @@ import com.loiot.baqi.dao.ZpCompanyJobInfoDao;
 import com.loiot.baqi.dao.ZpJlInfoDao;
 import com.loiot.baqi.dao.ZpJobMatchingInfoDao;
 import com.loiot.baqi.dao.ZpJobMatchingKeysDao;
+import com.loiot.baqi.dao.ZpRecommendFlowInfoDao;
 import com.loiot.baqi.service.ZpJobMatchingInfoService;
 import com.loiot.baqi.status.DictionaryType;
 import com.loiot.baqi.status.JobMatchType;
@@ -38,6 +39,7 @@ import com.loiot.baqi.pojo.ZpJlInfo;
 import com.loiot.baqi.pojo.ZpJlJobLevels;
 import com.loiot.baqi.pojo.ZpJobMatchingInfo;
 import com.loiot.baqi.pojo.ZpJobMatchingKeys;
+import com.loiot.baqi.pojo.ZpRecommendFlowInfo;
 import com.loiot.commons.message.util.JsonUtil;
 import com.loiot.commons.utils.DateUtil;
 import com.loiot.commons.utils.HttpUtil;
@@ -68,6 +70,9 @@ public class ZpJobMatchingInfoService{
     
     @Resource
 	private ZpJobMatchingKeysDao zpJobMatchingKeysDao;
+    
+    @Resource
+  	private ZpRecommendFlowInfoDao zpRecommendFlowInfoDao;
 	
 	
 	 /**
@@ -216,7 +221,8 @@ public class ZpJobMatchingInfoService{
     public void batchDeleteMatchRecod(Long jlId) throws Exception{
     	ZpJobMatchingInfo  p = new ZpJobMatchingInfo();
     	p.setJlId(jlId);
-    	zpJobMatchingInfoDao.deleteZpJobMatchingInfo(p);
+    	p.setInPerson(UserSessionUtils.getAccount().getAccountId());
+    	zpJobMatchingInfoDao.batchDeleteMatchRecod(p);
     }
     
     
@@ -228,14 +234,16 @@ public class ZpJobMatchingInfoService{
     	HashMap<String, Object> pMap  = new  HashMap<String, Object>();
     	pMap.put("typeId", jl.getJobPositionId());
     	pMap.put("keywordStatus", ApplicationConst.ALLOW_JOB_KEYWORD_SIZE);
-
-    	
     	if(jl.getZpJlJobLevels()!=null){
     		List<Long> ids = getIds(jl.getZpJlJobLevels());
     		pMap.put("ids",ids);
     	}
     	pMap.put("isDelete",PauseStartType.START.getCode());
     	
+    	List<Long> jobIds = getJobIds(jlId);
+    	if(jobIds!=null){
+        	pMap.put("notJobIds",jobIds);
+    	}
     	List<ZpCompanyJobInfo> JobList = this.zpCompanyJobInfoDao.queryZpCompanyJobInfoList(pMap);
     	 matchJob(jl, JobList);
     }
@@ -251,6 +259,26 @@ public class ZpJobMatchingInfoService{
         	idsList = new ArrayList<Long>();
         	for (ZpJlJobLevels b : list) {
             	idsList.add(b.getJobLevelId());
+            }
+        }
+        return idsList;
+    }
+    
+    
+    /**
+     * 查询职位id集合
+     * @return
+     * @throws Exception 
+     */
+    public List<Long> getJobIds(Long jlId) throws Exception {
+    	HashMap<String, Object> pMap = new HashMap<String, Object>();
+    	pMap.put("jlId", jlId);    	
+    	List<ZpRecommendFlowInfo> list = this.zpRecommendFlowInfoDao.queryZpRecommendFlowInfoList(pMap);
+    	List<Long> idsList = null;
+        if(list!=null && list.size()>0) {
+        	idsList = new ArrayList<Long>();
+        	for (ZpRecommendFlowInfo b : list) {
+            	idsList.add(b.getCompanyJobId());
             }
         }
         return idsList;
@@ -464,7 +492,7 @@ public class ZpJobMatchingInfoService{
 			if(jlMoneyS!=null){
 				 Long startMoney = JLBUtils.getJlExpectedYearWan(jlMoneyS,0);
 				 startMatchFlag="nomatch";
-				 if(moneyS<=startMoney){
+				 if(moneyS<=startMoney && moneyE>=moneyS){
 					 startMatchFlag="match";
 				 }
 			}
@@ -475,14 +503,14 @@ public class ZpJobMatchingInfoService{
 			if(jlMoneyE!=null){
 				endMatchFlag="nomatch";
 				 Long endMoney = JLBUtils.getJlExpectedYearWan(jlMoneyE,1);
-				 if(moneyE>=endMoney){
+				 if(moneyS<=endMoney && moneyE>=endMoney){
 					 endMatchFlag="match";
 				 }
 			}
 		}
 		
 		if(moneyS!=null && moneyE!=null){
-			if(startMatchFlag.equals("match") &&  endMatchFlag.equals("match")){
+			if(startMatchFlag.equals("match") ||  endMatchFlag.equals("match")){
 				resultMatchFlag="match"; 
 			} else {
 				resultMatchFlag="nomatch";
@@ -583,6 +611,7 @@ public class ZpJobMatchingInfoService{
 	    	ZpJobMatchingKeys delKeyBean = new ZpJobMatchingKeys();
 	    	delKeyBean.setJlId(jl.getJlId());
 	    	delKeyBean.setJobId(keys.get(0).getJobId());
+	    	delKeyBean.setInPerson(UserSessionUtils.getAccount().getAccountId());
 	        this.zpJobMatchingKeysDao.deleteZpJobMatchingKeys(delKeyBean);
     	}
     	int matchCount = 0;
@@ -610,15 +639,18 @@ public class ZpJobMatchingInfoService{
     }
     
     public String getJlContent(ZpJobMatchingInfo match,String jlContent){
-    	String newJlContent = "";
+    	//String newJlContent = "";
     	RegexpUtils ru = RegexpUtils.getInstance();
     	for(int i=0;i<match.getKeys().size();i++){
     		ZpJobMatchingKeys key = match.getKeys().get(i);
     		if(key.getIsMatch()==MatchKeywordType.ALREADY_MATCH.getCode()){
-    			newJlContent=ru.replace(jlContent, key.getKeyword(), "<span class='red'>"+key.getKeyword()+"</span>");
+    			jlContent=ru.replace(jlContent, key.getKeyword(), "<span class='red'>"+key.getKeyword()+"</span>");
     		}
-    	}
-    	return newJlContent;
+    	} 
+    	/*if (match.getKeys()==null  || match.getKeys().size()==0){
+    		jlContent=jlContent;
+    	}*/
+    	return jlContent;
     }
     
     

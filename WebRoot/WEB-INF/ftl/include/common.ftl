@@ -5,6 +5,7 @@
 <script src="/js/common.js"></script> 
 <script src="/js/hiAlert/jquery.alert.js"></script>
 <script src="/js/jquery/jquery.placeholder.js"></script>
+<script src="/js/suggestInfo.js"></script>
 
 
 <link href="/css/alert.css" rel="stylesheet" type="text/css" />

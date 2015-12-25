@@ -30,7 +30,10 @@ function menuClick(){
   <div class="head"><img src="/images/erji_01.jpg" /></div>
   <div class="position">
    <div class="position01">欢迎您,<span class="org">${Session[Const.SESSION_USER_KEY].username}</span>,今天是${.now}</div>
-   <div class="position02"><img src="/images/hy_06.jpg" style="vertical-align:middle"/>&nbsp;<a href="/logout.action" id="logoutBtn">退出登录</a></div>
+  
+     <div class="position02"><img src="/images/hy_06.jpg" style="vertical-align:middle"/>&nbsp;<a href="javascript:suggestInfo.toAddSuggestInfo();" >提建议和bug</a></div>
+  
+     <div class="position02"><img src="/images/hy_06.jpg" style="vertical-align:middle"/>&nbsp;<a href="/logout.action" id="logoutBtn">退出登录</a></div>
   </div>
   
   <div class="main">    
@@ -163,6 +166,9 @@ function menuClick(){
   		disableOperator();
   </#if>
   </script>
+  
+  
+<div id="suggestModal" class="pop_sure modal hide fade"></div>
 </body>
 </html>
 

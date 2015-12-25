@@ -36,6 +36,7 @@
 	   	<typeAlias type="com.loiot.baqi.vo.JlAuditPersonList" alias="JlAuditPersonList" />
 		<typeAlias type="com.loiot.baqi.pojo.TaskScheduleJob" alias="TaskScheduleJob" />
 		<typeAlias type="com.loiot.baqi.pojo.ZpRecommendFlowInfo" alias="ZpRecommendFlowInfo" />
+		<typeAlias type="com.loiot.baqi.pojo.TgSuggestBugInfo" alias="TgSuggestBugInfo" />
 		
 		
 		

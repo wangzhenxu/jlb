@@ -30,8 +30,10 @@ import com.loiot.baqi.controller.response.AjaxResponse;
 import com.loiot.baqi.controller.response.Pager;
 import com.loiot.baqi.service.*;
 import com.loiot.baqi.status.AccountType;
+import com.loiot.baqi.status.ProjectType;
 import com.loiot.commons.message.util.JsonUtil;
 import com.timeloit.pojo.Account;
+import com.loiot.baqi.utils.ClientInfo;
 import com.loiot.baqi.utils.UserSessionUtils;
 
 
@@ -125,16 +127,25 @@ public class TgSuggestBugInfoController {
     @ResponseBody
     public Object addTgSuggestBugInfo(TgSuggestBugInfo p,HttpSession session,HttpServletRequest request) {
     	try {
-            Account account = (Account) session.getAttribute(Const.SESSION_USER_KEY);
-    		//验证唯一性
-            pmap.clear();
-          /*  pmap.put("name", p.getName());
-        	int result=tgSuggestBugInfoService.getTgSuggestBugInfoListCount(pmap);
-        	if(result>0){
-		        return NAME_EXIST;
-			}
-        	p.setInDatetime(new Date());
-    		p.setInPerson(account.getUsername());*/
+    		
+    		String sugTitle = request.getParameter("sug_title");
+    		String sugContent = request.getParameter("sug_content");
+    		Integer sugType = Integer.parseInt(request.getParameter("sug_type"));
+    		p.setTitle(sugTitle);
+    		p.setContent(sugContent);
+    		p.setSugType(sugType);
+    		String retUrl = request.getHeader("Referer");
+    		p.setAddress("北京");
+    		p.setCurrentUrl(retUrl);
+    		p.setProjectType((int)ProjectType.JLB.getCode());
+    		p.setInPerson(UserSessionUtils.getAccount().getAccountId());
+    		p.setAccountType(UserSessionUtils.getAccountType());
+    		p.setInTime(new Date());
+    		ClientInfo cinfo = new ClientInfo(request.getHeader("user-agent"));    		
+    		
+    		p.setAgent(cinfo.getExplorerName()+" "+cinfo.getExplorerVer());
+    		p.setUserOs(cinfo.getOSName()+" " + cinfo.getOSVer());
+    		
     		tgSuggestBugInfoService.addTgSuggestBugInfo(p);
     		// 添加成功
     		return AjaxResponse.OK;

@@ -26,6 +26,8 @@ public class TgSuggestBugInfo  implements java.io.Serializable{
 	    private Integer operationType;  //操作类型 db_column: operation_type 
 	    private java.lang.Long inPerson;  //录入人 db_column: in_person 
 	    private java.util.Date inTime;  //录入时间 db_column: in_time 
+        private Integer accountType;//用户类型
+	    private Integer sugType;  //类型 
 
 	  private java.lang.String inPersonName;
 

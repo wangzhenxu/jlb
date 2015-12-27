@@ -7,10 +7,6 @@ var suggestInfo = {
 	m_title : $(".m_title"),//页面标题
 	_title_val : "建议",
 	
-	addform : jQuery("#addform"), //添加form
-	queryfrom :jQuery("#queryForm"), //查询form
-	addBtn : $("#addBtn"),//添加按钮
-	queryBtn : $("#queryBtn"),//查询按钮
 	left_menu_selected_id : "tgSuggestBugInfo_list",   //左侧菜单选择id
 	suggestModalId : "suggestModal",
 
@@ -42,8 +38,37 @@ var suggestInfo = {
 		            	 return -($(this).width()/2);
 		             }
 			}
+			
 		);
+			self.initAdd();
 		});
+	},
+	
+	initAdd:function (){
+		var self =this;
+		self.editor = KindEditor.create('textarea[name="sug_content_edit"]',{
+		allowPreviewEmoticons : false,
+		allowImageUpload : false,
+		items : [
+				'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline',
+				'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
+				'insertunorderedlist', '|', 'emoticons', 'image', 'link']
+		});
+		$(".ke-container-default").css({"width":"475px"});
+		self.addBtn = $("#addSuggestInfo");
+		self.addform=$("#saveSuggestForm");
+		
+		self.addform.attr("action",self.addUrl);
+		
+		self.suggestModal.on('hidden.bs.modal', function (e) {
+			self.addform.validationEngine("hide");
+	    });
+		
+		self.addBtn.click(function (){
+			self.add();
+		});
+		
+		
 	},
 	
 	//建议 添加 
@@ -53,28 +78,28 @@ var suggestInfo = {
 			if(!b){
 				return false;
 			}
+			if(self.editor.isEmpty()){
+				common.alert("内容不允许为空!");
+				return;
+			}
+			$("#sug_content").val(self.editor.html());
 			//$("#desc").val(CKEDITOR.instances.desc1.getData());
 			//$("#moreDesc").val(CKEDITOR.instances.desc2.getData());
-			if(self.currPage=="edit"){
-				   common.openModal("delete_sure","确定修改信息吗？");
-				   $("#delete_sure_a").click(function(){
-					   self.ajaxSubmitForm();
-				   });
-			} else {
-					self.ajaxSubmitForm();
-		    }
+		
+			self.ajaxSubmitForm();
+		
 	},
 	//提交表单
 	ajaxSubmitForm  : function (){
 		var self = this;
 		self.addform.ajaxSubmit(function(resp) {
 			if (resp.s > 0) {
-				location.href=self.listUrl;
+				common.alert("感谢你的建议，我们会越做越好的！");
+				setTimeout(function(){
+					$("#cancelAddSuggestInfo").click();
+				},1000); 
 			} else {
-				//唯一判断
-				if(resp.s==-100) {
-					 $("#name").validationEngine("showPrompt",resp.d,"error");
-				}
+				common.alert(resp.d);
 			}
 		});	
 	}

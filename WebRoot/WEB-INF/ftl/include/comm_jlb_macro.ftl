@@ -1,3 +1,4 @@
+<#setting number_format="#">
 <#macro gmc_common_js  from="">
 	<#include "../include/bootstrap.ftl"/>
 

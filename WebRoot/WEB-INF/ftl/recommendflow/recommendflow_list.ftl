@@ -31,7 +31,7 @@
 		    	<input name="jlName" type="text"   class="input"  id="jlName" value="${jlName!''}"/>
 		      </li>
 		      <li style="width:22%">
-		       	<span class="classify">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;公司名称：</span>
+		       	<span class="classify">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;公司名：</span>
 		    	<input name="companyName" type="text"   class="input"  id="name" value="${companyName!''}"/>
 		      </li>
 			        <li style="width:15%">

@@ -15,7 +15,6 @@
 
 
 <link href="/css/alert.css" rel="stylesheet" type="text/css" />
-
 <#macro gmc_common_js  from="">
 	<#if from="add">
  		<script type="text/javascript" src="/js/source/c_jquery.validationEngine.js"></script>

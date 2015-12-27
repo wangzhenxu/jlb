@@ -48,7 +48,11 @@ var suggestInfo = {
 		var self =this;
 		self.editor = KindEditor.create('textarea[name="sug_content_edit"]',{
 		allowPreviewEmoticons : false,
-		allowImageUpload : false,
+		allowUpload : true, //允许上传图片
+		allowFileManager : true,
+
+        allowImageUpload : true, 
+	    imageUploadJson: '/file/upload.json',
 		items : [
 				'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline',
 				'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',

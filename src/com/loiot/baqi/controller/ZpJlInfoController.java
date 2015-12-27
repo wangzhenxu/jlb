@@ -578,7 +578,7 @@ public class ZpJlInfoController {
     	}else 
     	//管理员
     	if(UserSessionUtils.getAccountType()==AccountType.ADMIN.getCode() ){
-    		pmap.put("technicianAuditPerson", UserSessionUtils.getAccount().getAccountId());
+    		//pmap.put("technicianAuditPerson", UserSessionUtils.getAccount().getAccountId());
     		this.zpJlExpandInfoService.updateZpJlExpandInfo(pmap);
     	}
     	return "redirect:/zpJlInfo/auditList.action";

@@ -219,7 +219,7 @@
    			 </#list>
    			 
    			<button type="button" class="btn btn-default"  title="已匹配关键字：${match} &#10;未匹配关键字：${noMatch}">关键字</button>
-      	 	<button  style="margin-left:10px;" type="button" class="btn btn-default" onclick="jobMatchInfo.toMatchJlDetail('${c.matchId}');">
+      	 	<button  style="margin-left:10px;" type="button" class="btn btn-default" onclick="jobMatchInfo.toMatchJlDetail(${c.matchId});">
       	     <#if Session[Const.SESSION_USER_KEY].type==AccountType.TECHICAL_AUDIT.getCode() || Session[Const.SESSION_USER_KEY].type==AccountType.ADMIN.getCode()>
           		请评审
           	  <#else>

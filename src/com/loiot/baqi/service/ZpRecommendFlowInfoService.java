@@ -271,7 +271,7 @@ public class ZpRecommendFlowInfoService{
     public AjaxResponse AddFlow(ZpRecommendFlowInfo p,int flowType){
     	//技术评审，通过
     	if(RecommendFlowType.WAIT_RECOMMEND_COMPANY.getCode()==flowType){
-    		return this.technicianAudit(p);
+    		//return this.technicianAudit(p);
     	} else
 		//将简历推荐到企业（更新状态）
     	if(RecommendFlowType.ALREADY_RECOMMEND_COMPANY.getCode()==flowType){

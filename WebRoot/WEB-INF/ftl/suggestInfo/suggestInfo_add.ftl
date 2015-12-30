@@ -27,7 +27,7 @@
 					        <td  class="hui1" align="center" colspan="2" >
 					                请输入你的建议与bug
 					         </br>
-					        <textarea  style="width:300px;height:200px;visibility:hidden;"  name="sug_content_edit" id="sug_content_edit"></textarea>
+					        <textarea  style="width:300px;height:400px;visibility:hidden;"  name="sug_content_edit" id="sug_content_edit"></textarea>
 					        	
 					        </td>
 					      

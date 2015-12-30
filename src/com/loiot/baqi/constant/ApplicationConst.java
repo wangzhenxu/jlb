@@ -65,6 +65,9 @@ public class ApplicationConst {
     //oss accesskey
     public static final String ALIYUN_OSS_ACCESS_KEY=appBundle.getString("aliyun.oss.access.key");
 
+    //访问地址
+    public static final String ALIYUN_OSS_ACCESS_DOMAIN=appBundle.getString("aliyun.oss.access.domain");
+
     
     
 

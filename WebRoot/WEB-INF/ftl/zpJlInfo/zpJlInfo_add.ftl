@@ -67,7 +67,7 @@
            </td>
           <td align="right" class="hui1"><span class="red">*</span>手机：</td>
           <td  align="left" valign="middle">
-          	 <input name="phone" id="phone" type="text" class="input validate[required,custom[phone]]">
+          	 <input name="phone" id="phone" type="text" class="input validate[required,custom[phone]]" maxlength="11">
           </td>
          </tr>
          

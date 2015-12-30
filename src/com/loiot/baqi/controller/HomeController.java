@@ -30,7 +30,9 @@ public class HomeController {
 	@RequestMapping(value = "/welcome")
 	public String welcome() {
 		Subject subject = SecurityUtils.getSubject();
-		
+		if(subject.isPermitted("accountExpandInfo:edit")){
+			System.out.println("aaaaaaaaa");
+		}
 		//没有补充个人信息
 		if(StringUtils.isBlank(UserSessionUtils.getAccount().getIphone()) && UserSessionUtils.getAccountType()!=AccountType.ADMIN.getCode()){
 			return "redirect:/accountExpandInfo/toEdit.action?id="+UserSessionUtils.getAccount().getExpandId();

@@ -23,7 +23,7 @@
 <!-- 右侧 开始 -->
 <div class="right"  >
   <ul class="nav nav-tabs" style="padding:20px 0 0 10px" >
-                <li class="active"><a href="#B" data-toggle="tab">匹配信息11111</a></li>
+                <li class="active"><a href="#B" data-toggle="tab">匹配信息</a></li>
                 <li class=""><a href="#A" data-toggle="tab">个人信息</a></li>
                 <li class=""><a href="#C" data-toggle="tab">评审信息</a></li>
               </ul>

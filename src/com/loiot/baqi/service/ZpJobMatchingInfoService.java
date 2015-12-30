@@ -364,7 +364,7 @@ public class ZpJobMatchingInfoService{
     		//匹配职位关键字
     		if(job.getKeys()!=null) {
     			dealMatchKeys(job.getKeys(),jl, matchBean);
-    		}
+    		} 
     	
     		//matchBean.setJobPositionIdStatus((int)JobMatchType.NO_SETTING_CONDITION.getCode());
     		
@@ -604,6 +604,9 @@ public class ZpJobMatchingInfoService{
     
     //处理匹配关键字
     public void dealMatchKeys(List<ZpCompanyJobDemandKeys> keys,ZpJlInfo jl,ZpJobMatchingInfo matchBean) throws Exception{
+    	if(keys.size()==0){
+			throw new Exception("职位关键字数据丢了jobId=" + matchBean.getJobId()); 
+		}
     	matchBean.setKeywordCount(keys.size());
     	
     	//先删除，以前匹配的关键字

@@ -4,7 +4,12 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.Date;
 import java.util.HashMap;
+
+import org.apache.commons.fileupload.disk.DiskFileItem;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import com.aliyun.oss.ClientException;
 import com.aliyun.oss.OSSClient;
@@ -15,13 +20,24 @@ import com.aliyun.oss.model.GetObjectRequest;
 import com.aliyun.oss.model.OSSObject;
 import com.aliyun.oss.model.ObjectMetadata;
 import com.loiot.baqi.constant.ApplicationConst;
+import com.loiot.commons.utils.DateUtil;
 
 public class OSSUtils {
 	
 	  // 使用默认的OSS服务器地址创建OSSClient对象。
     public static OSSClient client = new OSSClient(ApplicationConst.ALIYUN_OSS_ACCESS_ENDPOINT,ApplicationConst.ALIYUN_OSS_ACCESS_ID, ApplicationConst.ALIYUN_OSS_ACCESS_KEY);
     
-    
+    /**
+     * key jl/java/2015/12/28/sadfsafsdf-java-004.doc
+ filePath  C:/Users/Administrator/git/jlb/WebRoot/upfile/temp/个人简历 - 杨培.doc
+	 file  个人简历 - 杨培.doc
+     * @param key
+     * @param filePath
+     * @param fileName
+     * @throws OSSException
+     * @throws ClientException
+     * @throws FileNotFoundException
+     */
     public  static void uploadFile(String key, String filePath,String fileName)
             throws OSSException, ClientException, FileNotFoundException {
         File file = new File(filePath);
@@ -39,6 +55,24 @@ public class OSSUtils {
 
         InputStream input = new FileInputStream(file);
         client.putObject(ApplicationConst.ALIYUN_OSS_ACCESS_BOCKETNAME, key, input, objectMeta);
+    }
+    
+   
+    
+    
+    
+   
+    public  static String uploadFile(String fileDirectPrefix, MultipartFile multipartFile)
+            throws OSSException, ClientException, FileNotFoundException {
+    	 String fileName =  multipartFile.getOriginalFilename();  
+    	 String directoryName = OSSUtils.generateFileDirectoryName();
+         String newFileName = OSSUtils.generateFileName(fileName);
+         
+         CommonsMultipartFile cf= (CommonsMultipartFile)multipartFile; //这个myfile是MultipartFile的
+         DiskFileItem fi = (DiskFileItem)cf.getFileItem(); 
+         File file = fi.getStoreLocation();
+         uploadFile(fileDirectPrefix+directoryName+newFileName, file.getAbsolutePath(), newFileName);
+         return ApplicationConst.ALIYUN_OSS_ACCESS_DOMAIN+fileDirectPrefix+directoryName+newFileName;
     }
 	
     
@@ -81,7 +115,17 @@ public class OSSUtils {
     	String suffix = name.substring(name.lastIndexOf("."));
     	if(suffix.toLowerCase().equals(".docx") || suffix.toLowerCase().equals(".doc")){
     		conentType= "application/msword";
+    	} else 
+		if(suffix.toLowerCase().equals(".gif")){
+    		conentType= "image/gif";
+    	}else 
+		if(suffix.toLowerCase().equals(".jpeg") || suffix.toLowerCase().equals(".jpg") ){
+    		conentType= "image/gif";
+    	}else 
+		if(suffix.toLowerCase().equals(".png")){
+    		conentType= "image/png";
     	}
+    	
     	return conentType;
     }
     
@@ -91,5 +135,17 @@ public class OSSUtils {
            client.deleteObject(ApplicationConst.ALIYUN_OSS_ACCESS_BOCKETNAME, key);
            //InputStream input = obj.getObjectContent();
     }
+    
+    public static String generateFileDirectoryName(){
+    	 Date currDate = new Date();
+    	 String dirName =DateUtil.getYear(currDate)+ "/"+DateUtil.getMonth(currDate)+"/"+DateUtil.getDay(currDate)+"/";
+    	 return dirName;
+    }
+    
+    public static String generateFileName(String fileName){
+    	return DateUtil.toString(new Date(), DateUtil.FILE_FORMAT)+"_"+fileName;
+    }
+    
+    
 
 }

@@ -72,7 +72,7 @@ var jlInfo ={
 			self.currPage = common.getCurrPageFlag();
 			common.initLeftMenuSelected(self.left_menu_selected_id);
 			self.addform.validationEngine({scroll:false});
-			self.addBtn.click(function(){
+			self.addBtn.unbind("click").click(function(){
 				self.add();
 			});
 			//初始化标题
@@ -165,7 +165,7 @@ var jlInfo ={
 				//设置坐标信息
 				if(self.currPage=="edit"){
 					   common.openModal("delete_sure","确定修改信息吗？");
-					   $("#delete_sure_a").click(function(){
+					   $("#delete_sure_a").unbind("click").click(function(){
 						   self.ajaxSubmitForm();
 					   });
 				} else {
@@ -221,7 +221,7 @@ var jlInfo ={
 	   toDelete : function(id){
 		   var self = this;
 		   common.openModal("delete_sure","确定删除吗？");
-		   $("#delete_sure_a").click(function(){
+		   $("#delete_sure_a").unbind("click").click(function(){
 			  location.href= self.deleteUrl+id; 
 		   });
 	   },
@@ -238,7 +238,7 @@ var jlInfo ={
 			   delTitle="确定启用吗？";
 		   }	   
 		   common.openModal("delete_sure",delTitle);
-		   $("#delete_sure_a").click(function(){
+		   $("#delete_sure_a").unbind("click").click(function(){
 			  location.href= self.modifyDeleteStatusUrl+"?id="+id+"&deleteStatus="+status; 
 		   });
 	   },

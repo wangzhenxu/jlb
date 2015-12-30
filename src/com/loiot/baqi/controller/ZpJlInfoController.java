@@ -265,16 +265,6 @@ public class ZpJlInfoController {
             	return this.NAME_EXIST;
             }
     	}
-    	if(UserSessionUtils.getAccountType()!=AccountType.ADMIN.getCode() ){
-     		pmap.put("startTimeT", DateUtil.getCurrDateStartTime(new Date()));
-        	pmap.put("endTimeT", DateUtil.getCurrDateEndTime(new Date()));
-        	pmap.put("inPerson", UserSessionUtils.getAccount().getAccountId());
-        	pmap.put("jobPositionId", p.getJobPositionId());
-        	int count = this.zpJlInfoService.getZpJlInfoListCount(pmap);
-        	if(count>=3){
-        	    return new AjaxResponse(-2, "每个职位最多上传3个优质简历");
-        	}    		
-     	}
     	//修改简历文件
     	if(!StringUtil.isBlank(p.getJlFilePath())){
     		String oldFilePath = request.getParameter("oldFilePath");

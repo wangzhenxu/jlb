@@ -31,6 +31,12 @@ public class DateUtil {
 	 * 默认日期格式，"yyyy-MM"。
 	 */
 	public final static String DEFAULT_YM_FORMAT = "yyyy-MM";
+	
+	
+	/**
+	 * 默认日期格式，"y"。
+	 */
+	public final static String FILE_FORMAT = "yyyy_MM_dd_HH_mm_ss";
 
 	/**
 	 * 返回当前时间。

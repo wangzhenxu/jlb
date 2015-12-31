@@ -15,9 +15,6 @@ import com.loiot.baqi.controller.response.Pager;
 import com.loiot.baqi.dao.TgSuggestBugInfoDao;
 import com.loiot.baqi.service.TgSuggestBugInfoService;
 import com.loiot.baqi.pojo.TgSuggestBugInfo;
-import com.loiot.baqi.pojo.ZpJlJobLevels;
-
-
 /**
  * 建议 逻辑类。
  * 

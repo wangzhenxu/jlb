@@ -11,7 +11,9 @@
 		<pattern>/netinfo.jsp</pattern>
 		<pattern>/upload.action*</pattern>
 		 <pattern>/zpJlInfo/paseWord.action*</pattern> 
-		 <pattern>/tgSuggestBugInfo/toAdd.action*</pattern> 
+		 <pattern>/tgSuggestBugInfo/toAdd.action*</pattern>
+		 <pattern>/tgAccount/to*.action</pattern>
+		  
 	</excludes>
 
 	<decorator name="main" page="newMain.ftl">

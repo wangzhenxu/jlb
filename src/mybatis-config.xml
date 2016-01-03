@@ -38,6 +38,10 @@
 		<typeAlias type="com.loiot.baqi.pojo.ZpRecommendFlowInfo" alias="ZpRecommendFlowInfo" />
 		<typeAlias type="com.loiot.baqi.pojo.TgSuggestBugInfo" alias="TgSuggestBugInfo" />
 		
+		<typeAlias type="com.timeloit.pojo.TgAccount" alias="TgAccount" />
+		<typeAlias type="com.loiot.baqi.pojo.TgAccountExpandInfo" alias="TgAccountExpandInfo" />
+		
+		
 		
 		
 		

@@ -19,10 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.aliyun.oss.model.OSSObject;
 import com.aliyun.oss.model.ObjectMetadata;
-import com.loiot.baqi.controller.response.Pager;
-import com.loiot.baqi.dao.AccountExpandInfoDao;
 import com.loiot.baqi.dao.ZpJlInfoDao;
-import com.loiot.baqi.service.AccountExpandInfoService;
 import com.loiot.baqi.status.AccountType;
 import com.loiot.baqi.status.DownloadType;
 import com.loiot.baqi.utils.OSSUtils;

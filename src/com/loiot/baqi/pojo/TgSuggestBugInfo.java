@@ -23,7 +23,7 @@ public class TgSuggestBugInfo  implements java.io.Serializable{
 	    private java.lang.String address;  //用户所在地 db_column: address 
 	    private java.lang.String agent;  //浏览器类型和版本 db_column: agent 
 	    private java.lang.String userOs;  //用户使用的操作系统 db_column: user_os 
-	    private Integer operationType;  //操作类型 db_column: operation_type 
+	    private Long operationType;  //操作类型 db_column: operation_type 
 	    private java.lang.Long inPerson;  //录入人 db_column: in_person 
 	    private java.util.Date inTime;  //录入时间 db_column: in_time 
         private Integer accountType;//用户类型

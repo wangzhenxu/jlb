@@ -55,7 +55,7 @@
     </div>
     <div class="form">
     	<div class="form1">
-      		<#if subject.isPermitted("role:add")>
+      		<#if subject.isPermitted("tgRole:add")>
       			<a href="javascript:initAdd();"><img src="/images/addjs.jpg" border="0" /></a>
       		</#if>
       	</div>
@@ -73,10 +73,10 @@
 	        <td align="center" class="hui">${role.roleName}</td>
 	        <td align="center" class="hui">
 	        	<a href="javascript:initView(${role.roleId});"> 查看</a>&nbsp;&nbsp;
-      			<#if subject.isPermitted("role:edit")>
+      			<#if subject.isPermitted("tgRole:edit")>
 	        		<a href="javascript:initEdit(${role.roleId});">修改</a> &nbsp;&nbsp;
 	        	</#if>
-      			<#if subject.isPermitted("role:delete")>
+      			<#if subject.isPermitted("tgRole:delete")>
       				<a href="javascript:deleterole(${role.roleId})"> 删除</a>
 	        	</#if>
 	        </td>
@@ -103,5 +103,8 @@ href="javascript:void(0)"  data-dismiss="modal"><span>取消</span></a></li>
     </ul>
 </div>
 <!-- 弹窗 结束 -->
+ <script>
+  common.initLeftMenuSelected("tgRole_list");
+  </script>
 </body>
 </html>

@@ -70,7 +70,7 @@
 				<select id="accountLevel" name="accountLevel" >
 			    	<option value="" > 请选择 </option>
 			    	<#list TgAccountLevelType.values() as c>
-			    	    <option value="${c.code}"  <#if accountLevel??> <#if accountLevel?number==c.code> selected </#if> </#if>   > ${c.title} </option>
+			    	    <option value="${c.code}"  <#if accountLevel?? && accountLevel!=''> <#if accountLevel?number==c.code> selected </#if> </#if>   > ${c.title} </option>
 			 		</#list>
 			    </select>
          </li>
@@ -91,7 +91,7 @@
      </div>
     </div>
     <div class="form">
-	<#if subject.isPermitted("account:add")>
+	<#if subject.isPermitted("tgAccount:add")>
  		<div class="form1"><a href="javascript:toAddAccount();"><img src="/images/user.jpg" border="0" /></a></div>
  	</#if>
      <div class="form2">
@@ -150,13 +150,10 @@
 	        
 	        <td align="left" class="hui" >
 	        	<a href="javascript:toViewAccount(${account.accountId});"> 查看</a>&nbsp;&nbsp; 
-				<#if subject.isPermitted("account:edit")>
+				<#if subject.isPermitted("tgAccount:edit")>
 	        		<a href="javascript:toEditAccount(${account.accountId});">修改</a> &nbsp;&nbsp;
 	        	</#if>
-				<#if subject.isPermitted("account:delete222")>
-	        		<a href="javascript:deleteaccount(${account.accountId})">删除</a> &nbsp;&nbsp;
-	        	</#if>
-	        	<#if subject.isPermitted("account:disableAndEnabled")>
+	        	<#if subject.isPermitted("tgAccount:disableAndEnabled")>
 	        	 <#if account.isDelete??>
 	        	 	<a href=javascript:modifyDeleteStatus('${account.accountId}','${account.isDelete!""}') >
 				  	 	<#if account.isDelete==PauseStartType.START.getCode()> 停用 </#if>
@@ -192,5 +189,8 @@ href="javascript:void(0)"  data-dismiss="modal"><span>取消</span></a></li>
 
  <!-- 弹窗 结束 -->
   <#include "../include/deleteConfirmModal.ftl">
+  <script>
+  common.initLeftMenuSelected("tgAccount_list");
+  </script>
 </body>
 </html>

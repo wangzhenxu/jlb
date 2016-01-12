@@ -87,7 +87,7 @@ public class TgAccountExpandInfoController {
         Pager<TgAccountExpandInfo> pager = tgAccountExpandInfoService.queryAccountExpandInfoListPage(paramMap , pageIndex);
         model.put("pager", pager);
         model.put("jsonParam", jsonParam);
-        return "/accountExpandInfo/accountExpandInfo_list";
+        return "/tgAccountExpandInfo/accountExpandInfo_list";
     }
     
     /**
@@ -123,7 +123,7 @@ public class TgAccountExpandInfoController {
     @RequestMapping(value = "/toAdd")
     public String toAddAccountExpandInfo(ModelMap model) {
         
-        return "/accountexpandInfo/accountexpandInfo_add";
+        return "/tgAccountExpandInfo/accountexpandInfo_add";
     }
 
     /**
@@ -167,7 +167,7 @@ public class TgAccountExpandInfoController {
     public String toEditAccountExpandInfo(@RequestParam(value = "id", required = true) java.lang.Long id, ModelMap model)throws Exception {
         //model.put("p", tgAccountExpandInfoService.getAccountExpandInfoById(id));
     	model.put("pid",  id);
-        return "/accountExpandInfo/accountExpandInfo_add";
+        return "/tgAccountExpandInfo/accountExpandInfo_add";
     }
 
     /**
@@ -225,7 +225,7 @@ public class TgAccountExpandInfoController {
     public String toViewAccountExpandInfo(@RequestParam(value = "id", required = true) java.lang.Long id, ModelMap model)throws Exception {
         //model.put("p", tgAccountExpandInfoService.getAccountExpandInfoById(id));
     	 model.put("pid",  id);
-    	return "/accountexpandInfo/accountexpandInfo_add";
+    	return "/tgAccountExpandInfo/accountexpandInfo_add";
     }
 
     /**
@@ -237,7 +237,7 @@ public class TgAccountExpandInfoController {
     public String deleteAccountExpandInfo(@RequestParam(value = "id", required = true) java.lang.Long id,HttpServletRequest request)throws Exception {
     	tgAccountExpandInfoService.deleteAccountExpandInfo(id);
         String s = request.getHeader("Referer");
-        String redirectStr = s.substring(s.indexOf("/accountExpandInfo/"), s.length());
+        String redirectStr = s.substring(s.indexOf("/tgAccountExpandInfo/"), s.length());
         return "redirect:"+redirectStr;
     }
     
@@ -298,7 +298,7 @@ public class TgAccountExpandInfoController {
     	//p.setIsDelete(isDelete);
     	tgAccountExpandInfoService.updateAccountExpandInfo(p);
         String s = request.getHeader("Referer");
-        String redirectStr = s.substring(s.indexOf("/accountExpandInfo/"), s.length());
+        String redirectStr = s.substring(s.indexOf("/tgAccountExpandInfo/"), s.length());
         return "redirect:"+redirectStr;
     }
     

@@ -105,17 +105,7 @@
            </td>
          </tr>
          
-          <#if Session[Const.SESSION_USER_KEY].type==AccountType.TECHICAL_AUDIT.getCode()>
-         <tr>
-           <td  align="right" class="hui1">状态：</td>
-           <td  align="left" valign="middle" colspan="3">
-          		<#list DictionaryUtil.getTypes(DictionaryType.ACCEPT_AUDIT.getCode()) as c>
-	          	 	<input class="radio" name="isAcceptAudit" id="isAcceptAudit" type="radio" value="${c.dictionaryId}" > ${c.showName!''} 
-	          	 </#list>
-	          	 <span class="hui1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;（忙的时候可以暂停哦）</span>
-           </td>
-         </tr>
-         </#if>
+         
          
           <tr>
            <td  align="right" class="hui1">当前余额：</td>
@@ -145,10 +135,10 @@
     </div>
     <div class="anniu">
 	  	<div class="btn-group">
-	  	   <#if subject.isPermitted("accountExpandInfo:editAll")> 
+	  	   <#if subject.isPermitted("tgAccountExpandInfo:editAll")> 
 	  			  <button type="button" class="btn btn-default" id="addBtn">保 &nbsp;存</button>
 	  		 <#else>
-	  		 	<#if subject.isPermitted("accountExpandInfo:edit")> 
+	  		 	<#if subject.isPermitted("tgAccountExpandInfo:edit")> 
 	  			   <button type="button" class="btn btn-default" id="addBtn">保 &nbsp;存</button>
 	  		   </#if>
 	  	   </#if>
@@ -158,7 +148,7 @@
 <!-- 右侧 结束 -->
 </form>
 <#include "../include/deleteConfirmModal.ftl">
-<script src="/js/accountExpandInfo.js"></script>
+<script src="/js/tgAccountExpandInfo.js"></script>
 <script>
 	accountExpandInfo.initPage();
 	var accountType="${Session[Const.SESSION_USER_KEY].type}";

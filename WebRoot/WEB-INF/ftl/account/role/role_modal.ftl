@@ -90,6 +90,45 @@
         </li>
         
         
+        
+         <#-- 推广后台角色 -->
+        <li>
+         <div class="top">
+          <strong><input type="checkbox" class="tgRoleManagement-parent" id="tgRoleManagement" value="101300" style=" vertical-align:middle" /><label for="roleManagement">&nbsp;推广后台角色</label></strong>
+         </div>
+         <div class="top1">
+          <input type="checkbox" class="tgRoleManagement-child" id="tgRoleManagementAdd" value="101301" style=" vertical-align:middle" /><label for="tgRoleManagementAdd">&nbsp;添加角色</label>
+          <input type="checkbox" class="tgRoleManagement-child" id="tgRoleManagementDelete" value="101302" style=" vertical-align:middle" /><label for="tgRoleManagementDelete">&nbsp;删除角色</label>
+          <input type="checkbox" class="tgRoleManagement-child" id="tgRoleManagementEdit" value="101303" style=" vertical-align:middle" /><label for="tgRoleManagementEdit">&nbsp;修改角色</label>
+         </div>
+        </li>
+        <#--  推广后台账号 -->
+        <li>
+         <div class="top">
+          <strong><input type="checkbox" class="tgAccountInfo-parent" id="tgAccountInfo" value="102400" style=" vertical-align:middle" /><label for="tgAccountInfo">&nbsp; 推广后台账号</label></strong>
+         </div>
+         <div class="top1">
+          <input type="checkbox" class="tgAccountInfo-child" id="tgAccountInfoAdd" value="102401" style=" vertical-align:middle" /><label for="tgAccountInfoAdd">&nbsp;添加账号</label>
+          <input type="checkbox" class="tgAccountInfo-child" id="tgAccountInfoDelete" value="102402" style=" vertical-align:middle" /><label for="tgAccountInfoDelete">&nbsp;删除账号</label>
+          <input type="checkbox" class="tgAccountInfo-child" id="tgAccountInfoEdit" value="102403" style=" vertical-align:middle" /><label for="tgAccountInfoEdit">&nbsp;修改账号</label>
+          <input type="checkbox" class="tgAccountInfo-child" id="tgAccountInfoDisableAndEnabled" value="102404" style=" vertical-align:middle" /><label for="tgAccountInfoDisableAndEnabled">&nbsp;停用启用账号</label>
+          
+         </div>
+        </li>
+        
+         <#-- 推广账号扩展信息 -->
+        <li>
+         <div class="top">
+          <strong><input type="checkbox" class="tgAccountExpandInfo-parent" id="tgAccountExpandInfo" value="103500" style=" vertical-align:middle" /><label for="tgAccountExpandInfo">&nbsp;推广账号扩展信息</label></strong>
+         </div>
+         <div class="top1">
+          <input type="checkbox" class="tgAccountExpandInfo-child" id="tgAccountExpandInfoEdit" value="103501" style=" vertical-align:middle" /><label for="tgAccountExpandInfoEdit">&nbsp;修改自己个人信息</label>
+          <input type="checkbox" class="tgAccountExpandInfo-child" id="tgAccountExpandInfoDetail" value="103502" style=" vertical-align:middle" /><label for="tgAccountExpandInfoDetail">&nbsp;个人信息详情</label>
+          <input type="checkbox" class="tgAccountExpandInfo-child" id="tgAccountExpandInfoEitAll" value="103503" style=" vertical-align:middle" /><label for="tgAccountExpandInfoEitAll">&nbsp;修改所有个人信息</label>
+         </div>
+        </li>
+        
+        
        </ul>
       </div>
       <div class="limits2_1">

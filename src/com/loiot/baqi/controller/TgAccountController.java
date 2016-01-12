@@ -72,8 +72,6 @@ public class TgAccountController {
     	Pager<TgAccount> pager = tgAccountService.getAccountListPage(paramMap, pageIndex);
     	model.put("pager", pager);
         model.put("jsonParam", jsonParam);
-        
-        model.put("menuClass", "accountManage");
         return "/tgAccount/account_list";
     }
     

@@ -25,12 +25,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.loiot.baqi.pojo.*;
 import com.loiot.baqi.constant.Const;
+import com.loiot.baqi.constant.DictionaryUtil;
 import com.loiot.baqi.constant.URLConst;
 import com.loiot.baqi.controller.response.AjaxResponse;
 import com.loiot.baqi.controller.response.Pager;
 import com.loiot.baqi.service.*;
 import com.loiot.baqi.status.AccountType;
+import com.loiot.baqi.status.DictionaryType;
 import com.loiot.baqi.status.ProjectType;
+import com.loiot.baqi.status.tgsystem.SuggestType;
 import com.loiot.commons.message.util.JsonUtil;
 import com.timeloit.pojo.Account;
 import com.loiot.baqi.utils.ClientInfo;
@@ -141,8 +144,17 @@ public class TgSuggestBugInfoController {
     		p.setInPerson(UserSessionUtils.getAccount().getAccountId());
     		p.setAccountType(UserSessionUtils.getAccountType());
     		p.setInTime(new Date());
-    		ClientInfo cinfo = new ClientInfo(request.getHeader("user-agent"));    		
+    		Long operationType=null;
+    		if(sugType.intValue() ==(int)SuggestType.SUGGEST.getCode()){
+    			operationType = DictionaryUtil.getCode((int)DictionaryType.SUGGEST_OPERATOR_STATUS.getCode(), "未操作");
+    		}else 
+    		if(sugType.intValue() ==(int)SuggestType.BUG.getCode()){
+    			operationType = DictionaryUtil.getCode((int)DictionaryType.BUG_OPERATOR_STATUS.getCode(), "未操作");
+    		}
+    		p.setOperationType(operationType);
     		
+    		//客户端信息
+    		ClientInfo cinfo = new ClientInfo(request.getHeader("user-agent"));    		
     		p.setAgent(cinfo.getExplorerName()+" "+cinfo.getExplorerVer());
     		p.setUserOs(cinfo.getOSName()+" " + cinfo.getOSVer());
     		

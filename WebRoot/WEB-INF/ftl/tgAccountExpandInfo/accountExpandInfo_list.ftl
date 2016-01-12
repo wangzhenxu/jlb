@@ -44,15 +44,7 @@
 		    	<input name="name" type="text"   class="input"  id="name" value=""/>
 		      </li>
 			     
-			       <li style="width:15%">
-			       	<span class="classify">评审职位：</span>
-			    	<select id="auditPositionId" name="auditPositionId">
-			    		 <option value="" > 请选择 </option>
-			    		    <#list DictionaryUtil.getTypes(DictionaryType.JOB_POSITION.getCode()) as c>
-			    		 		 <option value="${c.dictionaryId}" <#if  auditPositionId?? && auditPositionId!="" > <#if auditPositionId?number==c.dictionaryId> selected </#if> </#if>  > ${c.showName!''} </option>
-			 			 	</#list>
-			    	</select>
-			       </li>
+			      
 			       <li style="width:15%">
 			       	<span class="classify">性别：</span>
 			    	<select id="sexId" name="sexId">
@@ -76,19 +68,7 @@
        		</li>
       </ul>
       
-      	<ul>
-      	 	<li style="width:22%" style="visibility: hidden;">
-		    </li>
-				       <li style="width:15%">
-				       	<span class="classify">评审状态：</span>
-				    	<select id="isAcceptAudit" name="isAcceptAudit">
-			    		 <option value="" > 请选择 </option>
-			    		    <#list DictionaryUtil.getTypes(DictionaryType.ACCEPT_AUDIT.getCode()) as c>
-			    		 		 <option value="${c.dictionaryId}" <#if  isAcceptAudit?? && isAcceptAudit!="" > <#if isAcceptAudit?number==c.dictionaryId> selected </#if> </#if>  > ${c.showName!''} </option>
-			 			 	</#list>
-			    		  </select>
-				       </li>
-      	</ul>
+      	
   </form>
      </div>
     </div>
@@ -108,12 +88,10 @@
         <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>手机</strong></td>
         <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>邮箱</strong></td>
         <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>性别</strong></td>
-        <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>评审职位</strong></td>
         <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>支付方式</strong></td>
         <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>支付号码</strong></td>
         <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>录入时间</strong></td>
         <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>身份证</strong></td>
-        <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>是否接受评审</strong></td>
         <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>当前余额</strong></td>
         <td height="37" align="center" valign="middle" background="/images/erji_22.jpg"><strong>操 作</strong></td>
        </tr>
@@ -137,11 +115,7 @@
 	 	       ${DictionaryUtil.getName(c.sexId)} 
 	 	  </#if>
 	 	   </td>
-	 	    <td align="center" class="hui">
-	 	  <#if c.auditPositionId??>
-	 	       ${DictionaryUtil.getName(c.auditPositionId)} 
-	 	  </#if>
-	 	   </td>
+	 	  
 	 	  <td align="center" class="hui">
 	 	  <#if c.paymentTypeId??>
 	 	       ${DictionaryUtil.getName(c.paymentTypeId)} 
@@ -156,20 +130,16 @@
 	 	 
 		 
 		  <td align="center" class="hui">${c.idcard!''}</td>
-	 	  <td align="center" class="hui">
-	 	  <#if c.isAcceptAudit??>
-	 	       ${DictionaryUtil.getName(c.isAcceptAudit)} 
-	 	  </#if>
-	 	   </td>
+	 	  
 		  <td align="center" class="hui">${c.currMoney!"0"}元</td>
         
 		 <td align="center" class="hui" style="width:300px;"  >
 	       		<div class="btn-group">
-      			<#if subject.isPermitted("accountExpandInfo:detail")>   <#--  -->
+      			<#if subject.isPermitted("tgAccountExpandInfo:detail")>   <#--  -->
 				  <button type="button" class="btn btn-default"  onclick="accountExpandInfo.toDetail('${c.expandId}')">详情</button>
 				 </#if>
 				 
-      			<#if subject.isPermitted("accountExpandInfo:editAll")>  <#--  -->
+      			<#if subject.isPermitted("tgAccountExpandInfo:editAll")>  <#--  -->
 				  <button type="button" class="btn btn-default"  onclick="accountExpandInfo.toEdit('${c.expandId}')">修改</button>
 				 </#if>
 				 
@@ -190,7 +160,7 @@
        </tr>
       </table>
      </div>
-     <@pageBar   pager=pager url="/accountExpandInfo/list.action?jsonParam=${jsonParam!''}" join="&"> </@pageBar> 
+     <@pageBar   pager=pager url="/tgAccountExpandInfo/list.action?jsonParam=${jsonParam!''}" join="&"> </@pageBar> 
     
     </div>
    </div>
@@ -199,7 +169,7 @@
     <script src="/js/tgAccountExpandInfo.js"></script>
     <script>
 		accountExpandInfo.initPage();
-	    common.initLeftMenuSelected("accountExpandInfo_list_all");
+	    common.initLeftMenuSelected("tgAccountExpandInfo_list_all");
 	     $("#accountExpandInfo_list").removeClass("MenuLevel5");
 	</script>
 </html>

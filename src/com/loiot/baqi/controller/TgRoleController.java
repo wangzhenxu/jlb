@@ -47,12 +47,10 @@ public class TgRoleController {
     @RequestMapping(value = "/list")
     public String list(@RequestParam(value = "pi", defaultValue = "0") int pageIndex,
             @RequestParam(value = "roleName", defaultValue = "") String roleName, ModelMap model) {
-
         // 查询角色
         Pager<Role> pager = tgRoleService.getRoleListPage(roleName, pageIndex);
         model.put("pager", pager);
         model.put("roleName", roleName);
-        model.put("menuClass", "accountRole");
         return "/tgAccount/role/role_list";
     }
 

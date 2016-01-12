@@ -66,7 +66,7 @@ public class FileUploadController {
                         //OSSUtils.uploadFile(directoryName+newFileName, filePath, newFileName);
                         String fileUrl = OSSUtils.uploadFile("kindEditor/", file);
                        
-                        this.printScript(response, "{\"error\":0 ,\"url\" : \""+fileUrl+"\" }");
+                        this.printScript(response, "{\"error\":1 ,\"url\" : \""+fileUrl+"\" }");
                         return null;
                     }  
                 }  
@@ -156,9 +156,12 @@ public class FileUploadController {
      * @param str
      */
     public static void printScript(HttpServletResponse response, String str) {
+    	System.out.println("json:---"+str);
         response.setContentType("application/json;charset='utf-8'");
         response.setCharacterEncoding("utf-8");
         response.setHeader("charset", "utf-8");
+        /*response.setHeader( "Pragma", "no-cache" );
+        response.setDateHeader("Expires", 0); */
         PrintWriter pw = null;
         try {
             pw = response.getWriter();

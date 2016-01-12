@@ -154,31 +154,16 @@ function menuClick(){
      <#assign d=menuClass!="accountRole"&&menuClass!="accountManage"&&menuClass!="editPassword"&&menuClass!="customerManage"&&menuClass!="projectManage" &&menuClass!="customerAccountRole" >
      <div class="MenuLevel1"> 推广帐号管理 <span><img src="/images/<#if d>2<#else>1</#if>.gif" border="0"/></span></div>
      <div class="<#if d>SubMenuLayerHidden</#if> SubMenu">
-   	    <#if subject.isPermitted("role:list")>
-      		<a class="MenuLevel4 accountRole" href="/tgAccount/role/list.action"><img src="/images/bullet_sarrow.gif"/> &nbsp;&nbsp;<span <#if menuClass="accountRole">class="MenuLevel5"</#if>>后台角色</span></a>
+   	    <#if subject.isPermitted("tgRole:list")>
+      		<a class="MenuLevel4 tgAccountRole" href="/tgAccount/role/list.action"><img src="/images/bullet_sarrow.gif"/> &nbsp;&nbsp;<span id="tgRole_list" >后台角色</span></a>
       	</#if>
-		<#if subject.isPermitted("account:list")>
-		    <a class="MenuLevel4 accountManage" href="/tgAccount/list.action" > <img src="/images/bullet_sarrow.gif"/> &nbsp;&nbsp;<span <#if menuClass="accountManage">class="MenuLevel5"</#if>>后台帐号</span></a>
+		<#if subject.isPermitted("tgAccount:list")>
+		    <a class="MenuLevel4" href="/tgAccount/list.action" > <img src="/images/bullet_sarrow.gif"/> &nbsp;&nbsp;<span id="tgAccount_list">后台帐号</span></a>
 		</#if>
 		
-		<#if subject.isPermitted("accountExpandInfo:edit")>
-				<a class="MenuLevel4 editPassword"  
-					 <#if Session[Const.SESSION_USER_KEY].iphone?? 
-					  && Session[Const.SESSION_USER_KEY].iphone?length gt 0> 
-					  href="/tgAccountExpandInfo/toView.action?id=${Session[Const.SESSION_USER_KEY].expandId}" 
-					  <#else>  
-					  href="/tgAccountExpandInfo/toEdit.action?id=${Session[Const.SESSION_USER_KEY].expandId}" 
-					</#if>   > 
-					<img src="/images/bullet_sarrow.gif"/> 
-					&nbsp;&nbsp;<span id="accountExpandInfo_list">个人信息</span>
-			   </a>
+		<#if subject.isPermitted("tgAccountExpandInfo:list") && (Session[Const.SESSION_USER_KEY].type==AccountType.ADMIN.getCode()) >
+		    <a class="MenuLevel4 accountManage" href="/tgAccountExpandInfo/list.action" > <img src="/images/bullet_sarrow.gif"/> &nbsp;&nbsp;<span id="tgAccountExpandInfo_list_all">用户扩展信息</span></a>
 		</#if>
-		
-		<#if subject.isPermitted("accountExpandInfo:list") && (Session[Const.SESSION_USER_KEY].type==AccountType.SALARY_MANAGER.getCode() ||  Session[Const.SESSION_USER_KEY].type==AccountType.ADMIN.getCode()) >
-		    <a class="MenuLevel4 accountManage" href="/tgAccountExpandInfo/list.action" > <img src="/images/bullet_sarrow.gif"/> &nbsp;&nbsp;<span id="accountExpandInfo_list_all">用户扩展信息</span></a>
-		</#if>
-      	
-      	<a class="MenuLevel4 editPassword" href="/password.action"> <img src="/images/bullet_sarrow.gif"/> &nbsp;&nbsp;<span id="editPassword">修改密码</span></a>
      </div>
      
     </div>

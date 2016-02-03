@@ -22,6 +22,7 @@
 		<property name="filterChainDefinitions">
 			<value>
 				/restapi.amap.com/**=anon
+			    /zpRecommendExportInfo/show.action*=anon
 				/account/toAddAccount.action = perms["account:add"]
 				/account/add.action = perms["account:add"]
 				/account/delete.action = perms["account:delete"]

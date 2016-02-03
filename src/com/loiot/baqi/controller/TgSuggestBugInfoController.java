@@ -264,7 +264,7 @@ public class TgSuggestBugInfoController {
 		}
     }
     
-    /**
+        /**
      * ajax 根据id查询实体bean
      * @return
      */

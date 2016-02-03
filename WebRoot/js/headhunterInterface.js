@@ -75,7 +75,7 @@ var headhunterInterface = {
 		self.currPage="list";
 		if(self.currPage!="list"){
 			self.addform.validationEngine({scroll:false});
-			self.addBtn.click(function(){
+			self.addBtn.unbind("click").click(function(){
 				self.add();
 			});
 		}
@@ -87,7 +87,7 @@ var headhunterInterface = {
 	initSeletePage : function (){
 		var self =this;
 		self.queryfrom.validationEngine({scroll:false});
-		self.queryBtn.click(function(){
+		self.queryBtn.unbind("click").click(function(){
 			self.query();
 		});
     },
@@ -162,7 +162,7 @@ var headhunterInterface = {
 			//$("#moreDesc").val(CKEDITOR.instances.desc2.getData());
 			if(self.currPage=="edit"){
 				   common.openModal("delete_sure","确定修改信息吗？");
-				   $("#delete_sure_a").click(function(){
+				   $("#delete_sure_a").unbind("click").click(function(){
 					   self.ajaxSubmitForm();
 				   });
 			} else {
@@ -227,7 +227,7 @@ var headhunterInterface = {
    toDelete : function(id){
 	   var self = this;
 	   common.openModal("delete_sure","确定删除吗？");
-	   $("#delete_sure_a").click(function(){
+	   $("#delete_sure_a").unbind("click").click(function(){
 		  location.href= self.deleteUrl+id; 
 	   });
    },
@@ -244,7 +244,7 @@ var headhunterInterface = {
 		   delTitle="确定启用吗？";
 	   }	   
 	   common.openModal("delete_sure",delTitle);
-	   $("#delete_sure_a").click(function(){
+	   $("#delete_sure_a").unbind("click").click(function(){
 		  location.href= self.modifyDeleteStatusUrl+"?id="+id+"&deleteStatus="+status; 
 	   });
    },
@@ -339,7 +339,7 @@ var headhunterInterface = {
 	   var self = this;
 	   self.addform.validationEngine({scroll:false});
 	   self.addform.attr("action",self.addAuditUrl);
-		self.addBtn.click(function(){
+		self.addBtn.unbind("click").click(function(){
 			var b = self.addform.validationEngine('validate');
 			if(!b){
 				return false;
@@ -370,7 +370,7 @@ var headhunterInterface = {
             	 return -($(this).width()/2);
              }
 		});
-		 $("#addAuditBtn").unbind("click").click(function(){
+		 $("#addAuditBtn").unbind("click").unbind("click").click(function(){
 			var hrNoticeStatus=$("#hrNoticeStatus :selected").val();
 			var hrNoticeFeedbackContent = $("#hrNoticeFeedbackContent").val();
 			if(hrNoticeStatus==""){
@@ -382,7 +382,7 @@ var headhunterInterface = {
 				return;
 			}
 			common.openModal("delete_sure","确定无误吗？");
-		    $("#delete_sure_a").click(function(){
+		    $("#delete_sure_a").unbind("click").click(function(){
 				self.headhunterNotifyFeedback(auditId,hrNoticeStatus,hrNoticeFeedbackContent);
 		    });
 		});
@@ -402,7 +402,7 @@ var headhunterInterface = {
 	recommandJlToCompany : function(auditId){
 	   var self = this;
 	   common.openModal("delete_sure","确定已经推荐过去了？");
-	   $("#delete_sure_a").click(function(){
+	   $("#delete_sure_a").unbind("click").click(function(){
 			location=self.recommandJlToCompanyUrl+"?auditId="+auditId;
 	   });
 	},
@@ -430,7 +430,7 @@ var headhunterInterface = {
 				return;
 			}
 			common.openModal("delete_sure","确定无误吗？");
-		    $("#delete_sure_a").click(function(){
+		    $("#delete_sure_a").unbind("click").click(function(){
 				self.isGotoInterviewFeedback(auditId,hunterGotoInterviewStatus.val(),hunterReplayContent);
 		    });
 		});
@@ -471,7 +471,7 @@ var headhunterInterface = {
 				return;
 			}
 			common.openModal("delete_sure","确定无误吗？");
-		    $("#delete_sure_a").click(function(){
+		    $("#delete_sure_a").unbind("click").click(function(){
 				self.interviewerFeedback(auditId,hunterInterviewStatus.val(),hunterInerviewReplayContent);
 		    });
 		});

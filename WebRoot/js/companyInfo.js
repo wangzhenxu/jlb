@@ -57,7 +57,7 @@ var companyInfo = {
 			filebrowserUploadUrl:'/upload.action'
 		});
 		jQuery("#addform").validationEngine({scroll:false});
-		$("#addBtn").click(function(){
+		$("#addBtn").unbind("click").click(function(){
 			self.add();
 		});
 		//初始化标题
@@ -121,7 +121,7 @@ var companyInfo = {
 			
 			if(self.currPage=="edit"){
 			   common.openModal("delete_sure","确定修改信息吗？");
-			   $("#delete_sure_a").click(function(){
+			   $("#delete_sure_a").unbind("click").click(function(){
 				   self.ajaxSubmitForm();
 			   });
 			} else {
@@ -190,7 +190,7 @@ var companyInfo = {
    toDelete : function(id){
 	   var self = this;
 	   common.openModal("delete_sure","确定删除吗？");
-	   $("#delete_sure_a").click(function(){
+	   $("#delete_sure_a").unbind("click").click(function(){
 		  location.href= self.deleteUrl+id; 
 	   });
    },
@@ -206,7 +206,7 @@ var companyInfo = {
 		   delTitle="确定启用吗？职位也会开启哦";
 	   }	   
 	   common.openModal("delete_sure",delTitle);
-	   $("#delete_sure_a").click(function(){
+	   $("#delete_sure_a").unbind("click").click(function(){
 		  location.href= self.modifyDeleteStatusUrl+"?id="+id+"&deleteStatus="+status; 
 	   });
    },

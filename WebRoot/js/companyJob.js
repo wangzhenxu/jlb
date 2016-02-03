@@ -79,7 +79,7 @@ var companyJob = {
 			//列表页面
 			if(self.currPage!="list"){
 				self.addform.validationEngine({scroll:false});
-				self.addBtn.click(function(){
+				self.addBtn.unbind("click").click(function(){
 					self.add();
 				});
 			}
@@ -101,7 +101,7 @@ var companyJob = {
 		initSeletePage : function (){
 			var self =this;
 			self.queryfrom.validationEngine({scroll:false});
-			self.queryBtn.click(function(){
+			self.queryBtn.unbind("click").click(function(){
 				self.query();
 			});
 	    },
@@ -184,11 +184,11 @@ var companyJob = {
 			if(self.currPage=="edit"){
 				   common.openModal("delete_sure","确定修改信息吗？");
 				   //确认
-				   $("#delete_sure_a").click(function(){
+				   $("#delete_sure_a").unbind("click").click(function(){
 					   self.ajaxSubmitForm();
 				   });
 				   /*//取消
-				   $("#delete_cancle_a").click(function(){
+				   $("#delete_cancle_a").unbind("click").click(function(){
 					   common.dealMoneyWanSmall(self.expectedYearMoneyStart);
 					   common.dealMoneyWanSmall(self.expectedYearMoneyEnd);
 					   self.ajaxSubmitForm();
@@ -278,7 +278,7 @@ var companyJob = {
 	   toDelete : function(id){
 		   var self = this;
 		   common.openModal("delete_sure","确定删除吗？");
-		   $("#delete_sure_a").click(function(){
+		   $("#delete_sure_a").unbind("click").click(function(){
 			  location.href= self.deleteUrl+id; 
 		   });
 	   },
@@ -294,7 +294,7 @@ var companyJob = {
 			   delTitle="确定启用吗?";
 		   }	   
 		   common.openModal("delete_sure",delTitle);
-		   $("#delete_sure_a").click(function(){
+		   $("#delete_sure_a").unbind("click").click(function(){
 			  location.href= self.modifyDeleteStatusUrl+"?id="+id+"&deleteStatus="+status; 
 		   });
 	   },

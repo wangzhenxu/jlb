@@ -207,8 +207,12 @@
      
     </div>
     <div class="anniu">
+      <#if (Session[Const.SESSION_USER_KEY].type==AccountType.ADMIN.getCode() || Session[Const.SESSION_USER_KEY].type==AccountType.HEAD_HUNTING_MANAGER.getCode() )>
+             <button style="margin-left:30px;" type="button" class="btn btn-default" onclick="window.open('/zpRecommendExportInfo/export.action?id=${p.companyJobId}')">职位导出</button>
+      </#if>
+      
       <#if (Session[Const.SESSION_USER_KEY].type==AccountType.ADMIN.getCode() || Session[Const.SESSION_USER_KEY].type==AccountType.TECHICAL_AUDIT.getCode() )>
-    	<button type="button" class="btn btn-default" onclick="window.open('${p.jlFilePath}')">简历下载</button>
+    	<button style="margin-left:30px;" type="button" class="btn btn-default" onclick="window.open('${p.jlFilePath}')">简历下载</button>
       </#if>
       
 	 	<button style="margin-left:30px;" type="button" class="btn btn-default" onclick="location.href='/zpRecommendFlowInfo/list.action'">返&nbsp; 回</button>
@@ -220,5 +224,4 @@
 <script>
 	$("textarea").attr("readonly",true);
 	 common.initLeftMenuSelected("zpRecommendFlowInfo_list");
-	
 </script>

@@ -493,6 +493,4 @@ public class ZpRecommendFlowInfoController {
 		}
     	return AjaxResponse.OK(null);
     }
-    
-
 }

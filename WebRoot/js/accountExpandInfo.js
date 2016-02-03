@@ -55,7 +55,7 @@ var accountExpandInfo = {
 		//列表页面
 		if(self.currPage!="list"){
 			self.addform.validationEngine({scroll:false});
-			self.addBtn.click(function(){
+			self.addBtn.unbind("click").click(function(){
 				self.add();
 			});
 		}
@@ -75,7 +75,7 @@ var accountExpandInfo = {
 	initSeletePage : function (){
 		var self =this;
 		self.queryfrom.validationEngine({scroll:false});
-		self.queryBtn.click(function(){
+		self.queryBtn.unbind("click").click(function(){
 			self.query();
 		});
     },
@@ -160,7 +160,7 @@ var accountExpandInfo = {
 			//$("#moreDesc").val(CKEDITOR.instances.desc2.getData());
 			if(self.currPage=="edit"){
 				   common.openModal("delete_sure","确定修改信息吗？");
-				   $("#delete_sure_a").click(function(){
+				   $("#delete_sure_a").unbind("click").click(function(){
 					   self.ajaxSubmitForm();
 				   });
 			} else {
@@ -216,7 +216,7 @@ var accountExpandInfo = {
    toDelete : function(id){
 	   var self = this;
 	   common.openModal("delete_sure","确定删除吗？");
-	   $("#delete_sure_a").click(function(){
+	   $("#delete_sure_a").unbind("click").click(function(){
 		  location.href= self.deleteUrl+id; 
 	   });
    },
@@ -233,7 +233,7 @@ var accountExpandInfo = {
 		   delTitle="确定启用吗？";
 	   }	   
 	   common.openModal("delete_sure",delTitle);
-	   $("#delete_sure_a").click(function(){
+	   $("#delete_sure_a").unbind("click").click(function(){
 		  location.href= self.modifyDeleteStatusUrl+"?id="+id+"&deleteStatus="+status; 
 	   });
    },

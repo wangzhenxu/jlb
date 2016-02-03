@@ -411,11 +411,11 @@ var jlInfo ={
 				if (resp.s == -100) {
 					common.openModal("match_job_pop","已经匹配过了");
 					//查看匹配结果
-					$("#selete_match_btn").click(function (){
+					$("#selete_match_btn").unbind("click").click(function (){
 						location.href="/zpJobMatchingInfo/list.action?jlId="+jlId;
 					});
 					//重新匹配职位
-					$("#match_job_btn").click(function (){
+					$("#match_job_btn").unbind("click").click(function (){
 						location.href="/zpJobMatchingInfo/match.action?jlId="+jlId;
 					});
 				}

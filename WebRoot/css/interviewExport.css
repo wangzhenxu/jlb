@@ -1,0 +1,20 @@
+@charset "utf-8";
+/* CSS Document */
+body,html,img,ul,li{margin:0;padding:0; border:0}
+body{ background: url(../../images/bg_header.png) no-repeat center top #1E2431;margin:0;padding:0 ; font-family:'微软雅黑'; }
+.title{width:810px; margin:70px auto 0 auto; padding:40px 0 40px 190px;font-size:40px; font-weight:bold; text-align:left; color:#FFFFFF;  background:url(../images/bg_T.png) no-repeat -5px -5px; border-bottom:1px solid #294155 }
+.fenge{width:1000px;height:30px; margin: 4px auto 0 auto;border-top:1px solid #2E4D63}
+.fenge2{width:1000px;height:30px; margin: 40px auto 0 auto;border-top:1px dashed #2E4D63}
+.title_02{width:1000px; height:70px; color:#FFFFFF;font-size:28px; margin:0 auto;font-style: italic}
+.stars{padding-top:20px;}
+.content{width:1000px; height:auto; margin:0 auto; }
+.text {width:400px; float:left; margin:30px 40px 20px 0;border-top:#344959 1px solid;list-style-type:none;}
+.text li{height:50px; color:#84DFF0; background:url(../images/point_li.png) no-repeat left; padding-left:17px; font-size:14px; font-weight:bold; line-height:50px;border-bottom:#344959  1px solid}
+.title_03{width:1000px;height:40px; color:#FFFFFF;font-size:28px; margin:50px auto 0 auto;font-style: italic;border-bottom:1px solid #294155}
+.title_en{font-size:20px;color:#EAAF2D}
+.title_04{width:990px;height:20px; float:left; margin:30px auto 5px auto; font-size:16px;color:#EAAF2D}
+.box {width:1000px; padding-left:70px; float:left; list-style-type:none;}
+.box li{height:auto; color:#70828E; font-size:14px; font-weight:bold; line-height:30px;font-style: italic;}
+.gift{width:145px;height:200px; margin-left:80px; text-align:center; float:left}
+.gift img{ margin:5px; border:5px solid #294155; text-align:center; float:left}
+.gift .title_g{width:145px;height:30px; color:#84DFF0; float:left; padding-top:20px; font-size:14px;}

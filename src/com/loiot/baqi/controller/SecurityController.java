@@ -25,13 +25,16 @@ import com.loiot.baqi.constant.Const;
 import com.loiot.baqi.constant.URLConst;
 import com.loiot.baqi.controller.response.AjaxResponse;
 import com.loiot.baqi.pojo.AccountExpandInfo;
+import com.loiot.baqi.pojo.ZpDictionaryInfo;
 import com.loiot.baqi.security.shiro.AccountNotExistException;
 import com.loiot.baqi.security.shiro.PasswordWrongException;
 import com.loiot.baqi.service.AccountExpandInfoService;
 import com.loiot.baqi.service.AccountService;
 import com.loiot.baqi.service.ZpDictionaryInfoService;
 import com.loiot.baqi.utils.IndexInfoSingleTon;
+import com.loiot.baqi.utils.JsonUtils;
 import com.loiot.baqi.utils.MD5Util;
+import com.loiot.commons.utils.FileUtil;
 import com.timeloit.pojo.Account;
 
 /**
@@ -130,8 +133,13 @@ public class SecurityController {
         }
         subject.getSession().setAttribute(Const.SHIRO_SESSION_USER_KEY, account);
         IndexInfoSingleTon indexInfo = IndexInfoSingleTon.getInstance();
+        List<ZpDictionaryInfo> dictList = zpDictionaryInfoService.queryZpDictionaryInfoList(new HashMap());
+        
+        System.out.println("dictList:"+ JsonUtils.toJson(dictList));
+        FileUtil.writeStringToFile("d:\\dictList.txt", JsonUtils.toJson(dictList));
+        
 		Map<String, List> infoMap = indexInfo.getIndexInfoMap();  //  得到Map集合
-		infoMap.put(Const.SESSION_DICTIONARYS_KEY, zpDictionaryInfoService.queryZpDictionaryInfoList(new HashMap()));
+		infoMap.put(Const.SESSION_DICTIONARYS_KEY,dictList );
         return AjaxResponse.OK;
     }
 

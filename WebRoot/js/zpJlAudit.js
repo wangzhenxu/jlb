@@ -62,7 +62,7 @@ var jlInfo ={
 			self.currPage = common.getCurrPageFlag();
 			common.initLeftMenuSelected(self.left_menu_selected_id);
 			self.addform.validationEngine({scroll:false});
-			self.addBtn.click(function(){
+			self.addBtn.unbind("click").click(function(){
 				self.add();
 			});
 			//初始化标题
@@ -157,7 +157,7 @@ var jlInfo ={
 				//$("#moreDesc").val(CKEDITOR.instances.desc2.getData());
 				if(self.currPage=="edit"){
 					   common.openModal("delete_sure","确定修改信息吗？");
-					   $("#delete_sure_a").click(function(){
+					   $("#delete_sure_a").unbind("click").click(function(){
 						   self.ajaxSubmitForm();
 					   });
 				} else {
@@ -212,7 +212,7 @@ var jlInfo ={
 	   toDelete : function(id){
 		   var self = this;
 		   common.openModal("delete_sure","确定删除吗？");
-		   $("#delete_sure_a").click(function(){
+		   $("#delete_sure_a").unbind("click").click(function(){
 			  location.href= self.deleteUrl+id; 
 		   });
 	   },
@@ -229,7 +229,7 @@ var jlInfo ={
 			   delTitle="确定启用吗？";
 		   }	   
 		   common.openModal("delete_sure",delTitle);
-		   $("#delete_sure_a").click(function(){
+		   $("#delete_sure_a").unbind("click").click(function(){
 			  location.href= self.modifyDeleteStatusUrl+"?id="+id+"&deleteStatus="+status; 
 		   });
 	   },
@@ -394,11 +394,11 @@ var jlInfo ={
 				if (resp.s == -100) {
 					common.openModal("match_job_pop","已经匹配过了");
 					//查看匹配结果
-					$("#selete_match_btn").click(function (){
+					$("#selete_match_btn").unbind("click").click(function (){
 						location.href="/zpJobMatchingInfo/list.action?jlId="+jlId;
 					});
 					//重新匹配职位
-					$("#match_job_btn").click(function (){
+					$("#match_job_btn").unbind("click").click(function (){
 						location.href="/zpJobMatchingInfo/match.action?jlId="+jlId;
 					});
 				}

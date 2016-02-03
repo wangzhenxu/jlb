@@ -45,7 +45,7 @@ var jobMatchInfo = {
 	//初始化添加页面
 	initAddPage : function (){
 		jQuery("#addform").validationEngine({scroll:false});
-		$("#addBtn").click(function(){
+		$("#addBtn").unbind("click").click(function(){
 			jobMatchInfo.add();
 		});
 	},

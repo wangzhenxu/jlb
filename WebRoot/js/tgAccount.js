@@ -74,8 +74,8 @@ function addAccount() {
 	$("[name=retryPassword]").blur();
 	$("[name=retryPassword]").blur();
 	$("[name=type]").blur();
-	if($("[name=type]:checked").val()==2 || $("[name=type]:checked").val()==1){
-		if($("#accountLevel").val()==""){
+	if($("#saveAccountForm [name=type]:checked").val()==2 || $("#saveAccountForm [name=type]:checked").val()==1){
+		if($("#saveAccountForm #accountLevel").val()==""){
 			common.alert("请选职位级别");
 			return;
 		}

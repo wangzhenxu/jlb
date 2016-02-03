@@ -10,9 +10,10 @@
 		<pattern>/account/to*.action</pattern>
 		<pattern>/netinfo.jsp</pattern>
 		<pattern>/upload.action*</pattern>
-		 <pattern>/zpJlInfo/paseWord.action*</pattern> 
-		 <pattern>/tgSuggestBugInfo/toAdd.action*</pattern>
-		 <pattern>/tgAccount/to*.action</pattern>
+		<pattern>/zpJlInfo/paseWord.action*</pattern> 
+		<pattern>/tgSuggestBugInfo/toAdd.action*</pattern>
+		<pattern>/tgAccount/to*.action</pattern>
+		<pattern>/zpRecommendExportInfo/show.action*</pattern>
 		  
 	</excludes>
 

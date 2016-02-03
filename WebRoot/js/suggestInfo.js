@@ -67,7 +67,7 @@ var suggestInfo = {
 			self.addform.validationEngine("hide");
 	    });
 		
-		self.addBtn.click(function (){
+		self.addBtn.unbind("click").click(function (){
 			self.add();
 		});
 		
@@ -99,7 +99,7 @@ var suggestInfo = {
 			if (resp.s > 0) {
 				common.alert("感谢你的建议，我们会越做越好的！");
 				setTimeout(function(){
-					$("#cancelAddSuggestInfo").click();
+					$("#cancelAddSuggestInfo").unbind("click").click();
 				},1000); 
 			} else {
 				common.alert(resp.d);
